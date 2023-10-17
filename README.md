@@ -38,6 +38,7 @@ For example:
 + A tile that once reached shows the surrounding ones with a bigger radius than normal, or scans tiles in cardinal lines until a wall is met
 + A tile that alters any of the player stats randomly
 + A tile called "crawler" that when stepped on crawls in all surrounding tiles using dfs with a fixed depth limit
++ A tile that show a circular perimeter which approximately surrounds the area of ​​the map where the player's objective is. 
 + Etc...
 
 ## Player stats

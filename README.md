@@ -55,8 +55,3 @@ Implementation of the ability to choose the size of the game map.
 + Easily modularized and decomposable problem.  
 + A good balance between originality and complexity of creation.  
 + Good chance of meeting deadlines and guaranteeing a good final product.  
-
-## The cons of choosing this project
-+ Multiplayer management.  
-+ Creating patterns for map tiles and tokens.  
-+ Create a good GUI  

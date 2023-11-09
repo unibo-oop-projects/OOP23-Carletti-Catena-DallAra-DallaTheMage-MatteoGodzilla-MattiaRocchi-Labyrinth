@@ -56,12 +56,14 @@ For example:
 + Speed: measured in #tiles per turn, dictates how much the player can move in a single turn. All players start at 1, but can be increased over time 
 + Height/Recon: measured in #tiles, is used when calculating the area of tiles that should reveal around the player
 * Luck: changes how many tiles around the player will be special ones/won't have walls blocking the player (debating on it)
+* (Single player) Strength: Multiply damage for each attack by +0.5x.
+* (Single player) Endurance: Increase HP by +25.
 * (Single player) Equipment / spells. 
 * (Single player) Inventory. 
 
 ## Extra
-Implementation of the ability to choose the size of the game map. 
-Implementation of the ability to choose the map (example: cemetery, undergrounds, dark woods), modify mobs and tiles pattern. 
+* Implementation of the ability to choose the size of the game map. 
+* Implementation of the ability to choose the map (example: cemetery, undergrounds, dark woods), modify mobs and tiles pattern. 
 
 ## The pros of choosing this project 
 + It's a very flexible project because it allows us to add new rules and features at will without too much added complexity.  

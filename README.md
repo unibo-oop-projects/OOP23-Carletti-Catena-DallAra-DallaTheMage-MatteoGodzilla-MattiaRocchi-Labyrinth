@@ -19,7 +19,7 @@ Generic meme example:
 "Goofy must capture the "homing pigeon" but to do so he will need a rifle."
 
 ## First idea: Objective briefing cards 
-# (Multiplayer, more ironic) 
+### Multiplayer, more ironic
 + **Objective**: The loan shark  
     "That bastard beat my brother, teach him a lesson!"  
     Requirements:                                       
@@ -31,7 +31,7 @@ Generic meme example:
      Requirements:                                       
      (shotgun)  
 
-# (Single player, more epic) 
+### Single player, more epic
 + **Objective**: Balhazak
      "The Darkness will come, your people will fall.
       Prepare yourself for the arrival."                   

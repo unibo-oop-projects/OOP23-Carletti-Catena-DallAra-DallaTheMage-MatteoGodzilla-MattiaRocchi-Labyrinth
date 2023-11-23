@@ -15,14 +15,14 @@ Labyrinth è un gioco scritto in java dove più giocatori esplorano un labirinto
     - Menu Iniziale per configurare il labirinto
     - Loader basato sulla configurazione (inizializzazione labirinto e obiettivi)
 + Rendering del gioco (parte grafica) (super rocchi)
-+ Gestione Mondo
++ Gestione Mondo (matteo)
     - Gestione del Labirinto (ovvero shift delle tessere)
     - Gestione delle sorgenti
-+ Gestione input
++ Gestione input (carletto)
     - Gestione turni dei giocatori
     - Gestione movi
     - Gestione dadi movimento
-+ Sistema obiettivi
++ Sistema obiettivi (matteo)
     - Bacheca
 
 # Inizializzazione

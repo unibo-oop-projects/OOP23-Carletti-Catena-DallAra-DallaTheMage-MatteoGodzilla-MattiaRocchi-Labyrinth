@@ -11,10 +11,10 @@ Labyrinth è un gioco scritto in java dove più giocatori esplorano un labirinto
 - CONSEGUENTE DEFINIZIONE DELLE FUNZIONALITA' OPZIONALI.
 
 # Macro componenti
-+ Inizializzazione
++ Inizializzazione (dalla)
     - Menu Iniziale per configurare il labirinto
     - Loader basato sulla configurazione (inizializzazione labirinto e obiettivi)
-+ Rendering del gioco (parte grafica)
++ Rendering del gioco (parte grafica) (super rocchi)
 + Gestione Mondo
     - Gestione del Labirinto (ovvero shift delle tessere)
     - Gestione delle sorgenti

@@ -1,21 +1,45 @@
 # UML
+Gestione mondo + sistema obiettivi
 [Link alla documentazione](https://mermaid.js.org/syntax/classDiagram.html)
 ```mermaid
 classDiagram
+    World *-- Player
+    World *-- AbstractTile
+    World *-- Objective
+
     AbstractTile <|-- NormalTile
-    AbstractTile <|-- MaterialTile
+    AbstractTile <|-- OneTimeMaterialTile
+    AbstractTile <|-- MaterialSourceTile
 
     Objective *-- Requirement
-    Requirement *-- Material
+    Requirement <|-- MaterialRequirement
 
-    Game .. GameConfig
-    Loader .. GameConfig
-    Menu .. GameConfig
+    MaterialRequirement -- Material
+    OneTimeMaterialTile -- Material
+    MaterialSourceTile -- Material
+    Player -- Material
 
-    World *-- Player
-    World *-- Objective
-    World *-- AbstractTile
-    Player *-- Material
+    class World{
+        width: int
+        height: int
+        matrix: List~List~AbstractTiles~~
+        objectives: List~Objective~
+        players: List~Player~
+        sources: List~MaterialSourceTile~
+
+        + canShiftColumn(int column): boolean
+        + canShiftRow(int row): boolean
+        + shiftRowRight(int row): void
+        + shiftRowLeft(int row): void
+        + shiftColumnUpwards(int row): void
+        + shiftColumnDownwards(int row): void
+        + rotateTileClockwise(int row, int column): void
+        + rotateTileCounterClockwise(int row, int column): void
+        + getObjective(int index): Objective
+        + assignObjective(Objective o, Player p): void
+        + redeemObjective(Objective o): void
+
+    }
 
     class AbstractTile{
         <<Abstract>>
@@ -23,35 +47,48 @@ classDiagram
         openBelow: boolean
         openRight: boolean
         openLeft:  boolean
+        revealed: boolean
 
-        # void onStep()
-        # void onReveal()
+        # onStep(): void
+        # onReveal(): void
     }
 
     class NormalTile{
-        + void onStep()
-        + void onReveal()
+        + onStep(): void
+        + onReveal(): void
     }
 
-    class MaterialTile{
+    class OneTimeMaterialTile{
         materialType: Material
         materialCount: int
+        + onStep(): void
     }
 
-    class Player{
-        resources: Map~Material-int~
+    class MaterialSourceTile{
+        materialType: Material
+        materialCount: int
+        + onStep(): void
+        + onTurnRefresh(): void
     }
 
     class Objective{
         name: String
-        icon: ImageTBD
+        icon: Image?
         dependsOn: List~Requirement~
-        + isFulfilled() boolean
+        assignedPlayer: Optional~Player~
+        + isFulfilled(): boolean
+        + isAssigned(): boolean
     }
 
     class Requirement {
+        <<Interface>>
+        + isFulfilled(Player p): boolean
+    }
+
+    class MaterialRequirement {
         material:Material
         materialCount:int
+        + isFulfilled(Player p): boolean
     }
 
     class Material{
@@ -61,46 +98,19 @@ classDiagram
         etc
     }
 
-
-    class GameConfig{
-        width: int
-        height: int
+    class Player{
+        row: int
+        column: int
+        points: int
+        inventory: Map~Material~Int~
+        assignedObjective: Optional~Objective~
     }
 
-
-    class Game{
-        + createGame(GameConfig config) void
-        + runGameLoop()
-    }
-
-
-    class Menu{
-
-    }
-
-
-    class World{
-        matrix: List~List~AbstractTile~~
-        players: List~Player~
-        Objectives: List~Objective~
-    }
-
-
-    class Loader{
-
-    }
-
-
-    class Input{
-
-    }
 ```
 
-# Note
-* `GameConfig`: Struct per contenere i parametri per creare il labirinto
-* `Game`: Gestisce il loop principale di gioco
-* `World`: Contiene tutto lo stato del labirinto
-* `Loader`: Responsabile del caricamento delle risorse da file
-* `Input`: Legge gli input da tastiera per il gioco
-* `Menu`: Gestisce tutto il menu iniziale del gioco
-* Le classi che non sono collegate con World sono volutamente poco descritte in modo da lasciare la maggior libertà durante lo sviluppo. Quello che è descritto nel grafico ritengo sia il minimo necessario per iniziare a sviluppare il gioco
+## Note
+* `World` è l'unico luogo dove oggetti di tipo `Objective` devono essere effettivamente contenuti, nelle altre posizioni ci deve essere sempre esclusivamente un riferimento
+* `Player.assignedObjective` e `Objective.assignedPlayer` si puntano a vicenda
+
+## Idee
+* qualcosa che ruba l'obiettivo di un altro giocatore

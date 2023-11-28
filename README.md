@@ -2,28 +2,28 @@ Labyrinth è un gioco scritto in java dove più giocatori esplorano un labirinto
 
 # OBIETTIVI DELLA CALL
 - [x] DEFINIZIONE E FINALIZZAZIONE CARATTERE DEL GIOCO (STILE e MECCANICHE).
-- INDIVIDUAZIONE E DIVISIONE DEL DOMINIO.
+- [x] INDIVIDUAZIONE E DIVISIONE DEL DOMINIO.
 - [x] GRAFICAZIONE BOZZA DIAGRAMMA UML.
-- CONSEGUENTE RIMOZIONE SURPLUS.
+- [x] DEFINIRE QUALI SARANNO LE FUNZIONALITA' OBBLIGATORIE.
+- [x] CONSEGUENTE RIMOZIONE SURPLUS.
 - SCELTA ARCHITETTURALE.
 - PROPOSTE SUI PATTERN DA UTILIZZARE.
-- DEFINIRE QUALI SARANNO LE FUNZIONALITA' OBBLIGATORIE.
-- CONSEGUENTE DEFINIZIONE DELLE FUNZIONALITA' OPZIONALI.
 
 # Macro componenti
-+ Inizializzazione (dalla)
++ [dalla] Inizializzazione
     - Menu Iniziale per configurare il labirinto
     - Loader basato sulla configurazione (inizializzazione labirinto e obiettivi)
-+ Rendering del gioco (parte grafica) (super rocchi)
-+ Gestione Mondo (matteo)
++ [rocchi] Rendering del gioco (parte grafica)
++ [matteo] Gestione Mondo
     - Gestione del Labirinto (ovvero shift delle tessere)
     - Gestione delle sorgenti
-+ Gestione input (carletto)
++ [carletto] Gestione input
     - Gestione turni dei giocatori
     - Gestione movi
     - Gestione dadi movimento
-+ Sistema obiettivi (matteo)
++ [matteo] Sistema obiettivi
     - Bacheca
++ [dalla/rocchi/carletto] Gestione giocatori controllati dal computer
 
 # Inizializzazione
 ## Numero di giocatori?
@@ -41,7 +41,8 @@ L'unico modo per ottenere punti è creare questi oggetti e una volta che un ogge
 La componente di strategia sta nella scelta di quali oggetti craftare, per cui il giocatore può scegliere un obiettivo facile ma che dà poco, oppure un obiettivo difficile ma con un gran reward di punteggio.
 Quando le tessere vengono scoperte, queste possono contenere materiali di tipologia e quantità random. Ci sono delle sorgenti fisse nella mappa che danno una singola tipologia di materiale
 Gli obiettivi sono nascosti fino a che un giocatore non entra nella bacheca, poi rimangono sempre visibili.
-Il primo giocatore che arriva alla bacheca riceve un reward a scelta tra punti grezzi oppure materiali, così che il primo giocatore possa scegliere cosa conviene in quel momento.
+Il primo giocatore che arriva alla bacheca riceve un reward a scelta tra punti grezzi oppure tipologia di materiali da ricevere, così che il primo giocatore possa scegliere cosa conviene in quel momento.
+La quantità di materiali dati sono ~70/75% delle richieste degli obiettivi.
 
 ## Durata del gioco?
 target è di ~1h, finisce quando un giocatore raggiunge un threshold di punteggio **(basato su vari fattori).** La soglia deve essere decisamente inferiore alla somma totale dei punteggi possibili che si possono fare nella partita.
@@ -51,8 +52,8 @@ Il gioco darà comunque una stima del tempo di gioco in base alla quantità e di
 * Variante: finire quanto tutti gli obiettivi sono stati fatti
 
 ## Quanti obiettivi attivi può un giocatore avere in un momento qualsiasi della partita?
-Un giocatore per poter craftare/eseguire un obiettivo lo deve prima trattenere dalla bacheca, poi può anche riscattarlo nello stesso turno.
-Una volta che un obiettivo è stato trattenuto, gli altri giocatori non possono completare quella quest, neache se hanno tutti i requisiti necessari
+Gli obiettivi si trovano nella bacheca, visibili a tutti.
+Da quel punto i giocatori dovranno cercare di essere i primi a completare quell'obiettivo. Non c'è una selezione esplicita di quale giocatore deve completare quale obiettivo.
 
 ## Come sono strutturati i turni?
 Il giocatore si può spostare di una quantità di tessere >= 1
@@ -94,6 +95,5 @@ Solo tastiera
 ## Ci sono requisiti particolari ?
 No, basiamo i controlli su lettere, frecce direzionali, enter e escape
 
-# Funzionalità opzionali
-Aggiungere networking per collegare più client assieme
-Temi diversi per il labirinto
+# I Reward in bacheca sono prima o dopo?
+- Quando il giocatore sceglie di ottenere materiali, non sceglie direttamente la tipologia da ottenere, ma viene stabilito in modo casuale preferendo i materiali che il giocatore ha di meno

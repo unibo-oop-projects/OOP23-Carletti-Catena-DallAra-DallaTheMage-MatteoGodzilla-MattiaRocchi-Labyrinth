@@ -1,6 +1,7 @@
 # UML
 Gestione mondo + sistema obiettivi
 [Link alla documentazione](https://mermaid.js.org/syntax/classDiagram.html)
+
 ```mermaid
 classDiagram
     World *-- Player
@@ -75,7 +76,7 @@ classDiagram
         name: String
         icon: Image?
         dependsOn: List~Requirement~
-        assignedPlayer: Optional~Player~
+        fulfilledBy: Optional~Player~
         + isFulfilled(): boolean
         + isAssigned(): boolean
     }
@@ -103,14 +104,8 @@ classDiagram
         column: int
         points: int
         inventory: Map~Material~Int~
-        assignedObjective: Optional~Objective~
     }
-
 ```
 
 ## Note
 * `World` è l'unico luogo dove oggetti di tipo `Objective` devono essere effettivamente contenuti, nelle altre posizioni ci deve essere sempre esclusivamente un riferimento
-* `Player.assignedObjective` e `Objective.assignedPlayer` si puntano a vicenda
-
-## Idee
-* qualcosa che ruba l'obiettivo di un altro giocatore

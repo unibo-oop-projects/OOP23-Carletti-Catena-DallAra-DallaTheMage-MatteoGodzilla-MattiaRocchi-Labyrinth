@@ -1,0 +1,46 @@
+Email dei componenti:
+
+*
+    lorenzo.carletti3@studio.unibo.it
+    matteo.catena3@studio.unibo.it
+    mattia.rocchi2@studio.unibo.it
+
+Il gruppo si pone come progetto quello di realizzare un gioco ispirato da "Labirinto Magico" di Ravensburger, dove i giocatori si ritrovano in un labirinto mutevole e devono cercare di completare obiettivi.
+
+A differenza del gioco da tavola originale, gli obiettivi saranno comuni a tutti i giocatori e raccolti in un unico luogo nella mappa (denominata "bacheca"), accessibile da tutti i giocatori. Ogni obiettivo avrà delle richieste sotto forma di materiali, che i giocatori potranno raccogliere nel resto del labirinto.
+
+Funzionalità ritenute obbligatorie per il gioco:
+
+    Gestione multiplayer da 2 a 4 giocatori nello stesso client di gioco
+    Generazione casuale del labirinto, con dimensione fissa
+    Possibilità di spostare righe, colonne e rotazione di tessere
+    Materiali, con annessa raccolta da parte dei giocatori
+    Gestione delle richieste degli obiettivi, con annessa gestione della bacheca
+    Rendering del gioco attraverso la libreria JavaFX
+
+
+Funzionalità facoltative :
+
+    Possibilità di connettere più client di gioco assieme, attraverso la rete
+    Giocatori controllati dal computer
+    Dimensione del labirinto configurabile dall'utente
+    Regolazione della difficoltà generale della partita
+
+
+Sfide principali di questo progetto:
+
+    Generazione del labirinto in modo tale da non bloccare eccessivamente i giocatori
+    Visualizzazione grafica di tutti gli elementi di gioco
+    Bilanciamento della difficoltà di gioco
+    Utilizzo di git come base per la collaborazione
+
+
+Suddivisione del lavoro:
+
+    Carletti Lorenzo: Gestione degli input da tastiera e del movimento dei giocatori
+    Catena Matteo: Gestione del labirinto dopo la generazione + sistema obiettivi
+    Dall'ara Lorenzo: Generazione del labirinto e caricamento degli obiettivi da file
+    Rocchi Mattia: Visualizzazione grafica del gioco
+
+
+

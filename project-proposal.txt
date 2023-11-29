@@ -1,8 +1,7 @@
 Email dei componenti:
-
-*
     lorenzo.carletti3@studio.unibo.it
     matteo.catena3@studio.unibo.it
+    lorenzo.dallara2@studio.unibo.it
     mattia.rocchi2@studio.unibo.it
 
 Il gruppo si pone come progetto quello di realizzare un gioco ispirato da "Labirinto Magico" di Ravensburger, dove i giocatori si ritrovano in un labirinto mutevole e devono cercare di completare obiettivi.

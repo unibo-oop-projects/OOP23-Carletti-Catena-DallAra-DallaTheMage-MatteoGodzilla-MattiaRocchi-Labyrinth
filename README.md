@@ -1,29 +1,10 @@
 Labyrinth è un gioco scritto in java dove più giocatori esplorano un labirinto.
 
-# OBIETTIVI DELLA CALL
-- [x] DEFINIZIONE E FINALIZZAZIONE CARATTERE DEL GIOCO (STILE e MECCANICHE).
-- [x] INDIVIDUAZIONE E DIVISIONE DEL DOMINIO.
-- [x] GRAFICAZIONE BOZZA DIAGRAMMA UML.
-- [x] DEFINIRE QUALI SARANNO LE FUNZIONALITA' OBBLIGATORIE.
-- [x] CONSEGUENTE RIMOZIONE SURPLUS.
-- SCELTA ARCHITETTURALE.
-- PROPOSTE SUI PATTERN DA UTILIZZARE.
-
 # Macro componenti
-+ [dalla] Inizializzazione
-    - Menu Iniziale per configurare il labirinto
-    - Loader basato sulla configurazione (inizializzazione labirinto e obiettivi)
-+ [rocchi] Rendering del gioco (parte grafica)
-+ [matteo] Gestione Mondo
-    - Gestione del Labirinto (ovvero shift delle tessere)
-    - Gestione delle sorgenti
-+ [carletto] Gestione input
-    - Gestione turni dei giocatori
-    - Gestione movi
-    - Gestione dadi movimento
-+ [matteo] Sistema obiettivi
-    - Bacheca
-+ [dalla/rocchi/carletto] Gestione giocatori controllati dal computer
++ [Carletti] Gestione dei turni di gioco e dei giocatori
++ [Catena] Menù principale, Sorgenti e bonus nel labirinto
++ [Dall'Ara] Generazione e manipolazione del labirinto + grafica
++ [Rocchi] Caricamento informazioni da file, obiettivi e  gilda
 
 # Inizializzazione
 ## Numero di giocatori?

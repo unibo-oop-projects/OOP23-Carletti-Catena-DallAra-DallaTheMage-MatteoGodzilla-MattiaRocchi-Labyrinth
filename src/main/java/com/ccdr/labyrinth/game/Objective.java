@@ -1,0 +1,47 @@
+package com.ccdr.labyrinth.game;
+
+import java.io.InputStream;
+import java.util.Random;
+import java.util.Set;
+
+import com.ccdr.labyrinth.Material;
+
+public class Objective implements Loadable<Objective> {
+    
+    private final int MIN_REQUIRED = 1;
+    private final int MAX_REQUIRED = 9;
+    private Item item;
+    private Random quantityGenerator = new Random();
+
+    
+    public void setRandomRequiredQuantities(Set<Material> materialsToSet) {
+        for(Material material : materialsToSet) {
+            switch (material) {
+                case WOOD:
+                    item.getRequiredMaterials().setRequiredWood(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED)); 
+                case COAL:
+                    item.getRequiredMaterials().setRequiredCoal(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
+                case IRON:
+                    item.getRequiredMaterials().setRequiredIron(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
+                case COPPER:
+                    item.getRequiredMaterials().setRequiredCopper(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
+                case DIAMOND:
+                    item.getRequiredMaterials().setRequiredDiamond(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
+                case SILK:
+                    item.getRequiredMaterials().setRequiredSilk(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
+            }
+        }  
+    }
+     
+    @Override
+    public Objective LoadOne(InputStream file) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'LoadOne'");
+    }
+
+    @Override
+    public Set<Objective> LoadMany(InputStream file) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'LoadMany'");
+    }
+}

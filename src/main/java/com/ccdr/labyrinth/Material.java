@@ -6,5 +6,5 @@ public enum Material {
     IRON,
     COPPER,
     DIAMOND,
-    STRING
+    SILK
 }

@@ -1,23 +1,31 @@
 package com.ccdr.labyrinth.game;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.ccdr.labyrinth.engine.Engine;
+import com.ccdr.labyrinth.engine.Executor;
 
-public class GameController {
-    private GameConfig config;
-    private List<GameView> views = new ArrayList<>();
+//this is the class responsible for controlling the entire game
+public class GameController implements Executor{
+    private Engine engine;
+    private int frames;
+    private int framesToSwitch = 100;
 
-    //this is the class responsible for controlling the entire game
-    public void start(GameConfig config){
-        this.config = config;
+    @Override
+    public void onEnable(Engine engine) {
+        this.engine = engine;
+        System.out.println("ENABLED GAME");
+        frames = 0;
     }
-
+    @Override
     public void update(double deltaTimeInSeconds) {
         //game loop
-        System.out.println("UPDATE " + 1.0/deltaTimeInSeconds);
+        System.out.println("GAME UPDATE " + 1.0/deltaTimeInSeconds);
+        frames++;
+        if(frames > framesToSwitch){
+            engine.changeExecutor(Executor.ID.MENU);
+        }
     }
-
-    public void attach(GameView gameView) {
-        views.add(gameView);
+    @Override
+    public void onDisable() {
+        System.out.println("DISABLED GAME");
     }
 }

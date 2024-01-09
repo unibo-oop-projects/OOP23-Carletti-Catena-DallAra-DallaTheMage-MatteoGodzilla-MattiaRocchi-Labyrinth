@@ -1,4 +1,4 @@
-package com.ccdr.labyrinth.game;
+package com.ccdr.labyrinth.game.loader;
 
 public class MaterialBag {
    

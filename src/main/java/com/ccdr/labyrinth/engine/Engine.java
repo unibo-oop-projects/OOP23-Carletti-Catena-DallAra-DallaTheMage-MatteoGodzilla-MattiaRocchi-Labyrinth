@@ -5,45 +5,56 @@ import java.util.HashMap;
 
 public class Engine {
     private static final double ONE_SECOND_IN_NANOS = 1e9;
-    private static final double FRAMERATE = 120;
 
     private Map<Executor.ID,Executor> executors = new HashMap<>();
     private Executor.ID activeExecutor;
 
+    private double framerate;
+    private volatile boolean running;
+
+    public Engine(double requestedFramerate){
+        this.framerate = requestedFramerate;
+    }
+
     public void start(){
+        this.running = true;
         double lastTick = System.nanoTime();
         double lastFrame = lastTick;
         double timeElapsed = 0;
-        while(true){
+        while(this.running){
             double currentTick = System.nanoTime();
             double deltaTick = currentTick - lastTick;
             timeElapsed += deltaTick;
 
-            if(timeElapsed > ONE_SECOND_IN_NANOS / FRAMERATE){
+            if(timeElapsed > ONE_SECOND_IN_NANOS / framerate){
                 double newFrame = System.nanoTime();
                 double deltaTimeInSeconds = (newFrame - lastFrame) / ONE_SECOND_IN_NANOS;
 
-                executors.get(activeExecutor).update(deltaTimeInSeconds);
+                this.executors.get(activeExecutor).update(deltaTimeInSeconds);
 
                 lastFrame = newFrame;
-                timeElapsed -= ONE_SECOND_IN_NANOS / FRAMERATE;
+                timeElapsed -= ONE_SECOND_IN_NANOS / framerate;
             }
 
             lastTick = currentTick;
         }
     }
 
+    public void stop(){
+        this.running = false;
+    }
+
     public void changeExecutor(Executor.ID id){
-        if(activeExecutor != null){
-            executors.get(activeExecutor).onDisable();
+        if(this.activeExecutor != null){
+            executors.get(this.activeExecutor).onDisable();
         }
-        activeExecutor = id;
-        if(activeExecutor != null){
-            executors.get(activeExecutor).onEnable(this);
+        this.activeExecutor = id;
+        if(this.activeExecutor != null){
+            executors.get(this.activeExecutor).onEnable(this);
         }
     }
 
     public void bindExecutor(Executor.ID id, Executor exec){
-        executors.put(id, exec);
+        this.executors.put(id, exec);
     }
 }

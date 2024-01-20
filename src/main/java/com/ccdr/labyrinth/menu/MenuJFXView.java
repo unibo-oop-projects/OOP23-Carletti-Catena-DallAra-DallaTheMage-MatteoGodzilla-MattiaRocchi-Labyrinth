@@ -34,4 +34,9 @@ public class MenuJFXView implements MenuView {
     @Override
     public void onDisable() {}
 
+    public void routeEvents(MenuInputAdapter adapter){
+        this.scene.setOnKeyPressed(adapter::onKeyPressed);
+        this.scene.setOnKeyReleased(adapter::onKeyReleased);
+    }
+
 }

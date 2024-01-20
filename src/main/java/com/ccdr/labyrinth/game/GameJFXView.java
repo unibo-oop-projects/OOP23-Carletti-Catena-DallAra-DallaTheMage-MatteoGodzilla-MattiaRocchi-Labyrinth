@@ -45,4 +45,8 @@ public class GameJFXView implements GameView {
 
     }
 
+    public void routeEvents(GameInputAdapter adapter){
+        this.scene.setOnKeyPressed(adapter::onKeyPressed);
+        this.scene.setOnKeyReleased(adapter::onKeyReleased);
+    }
 }

@@ -44,6 +44,7 @@ public class Engine {
         this.running = false;
     }
 
+    //this might need syncronized, since it gets called from multiple threads
     public void changeExecutor(Executor.ID id){
         if(this.activeExecutor != null){
             executors.get(this.activeExecutor).onDisable();

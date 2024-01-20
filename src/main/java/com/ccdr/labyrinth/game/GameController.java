@@ -8,17 +8,12 @@ import java.util.Set;
 
 //this is the class responsible for controlling the entire game
 public class GameController implements Executor{
-    private Engine engine;
-    private int frames;
-    private int framesToSwitch = 3*120;
-
     private Set<GameView> views = new HashSet<>();
+    private Engine engine;
 
     @Override
     public void onEnable(Engine engine) {
         this.engine = engine;
-        this.frames = 0;
-
         for (GameView gameView : views) {
             gameView.onEnable();
         }
@@ -31,12 +26,6 @@ public class GameController implements Executor{
         for (GameView gameView : views) {
             gameView.draw(framerate);
         }
-
-        //TODO: temporary until once menu is more implemented
-        this.frames++;
-        if(this.frames > this.framesToSwitch){
-            this.engine.changeExecutor(Executor.ID.MENU);
-        }
     }
     @Override
     public void onDisable() {
@@ -47,5 +36,11 @@ public class GameController implements Executor{
 
     public void addView(GameView view){
         this.views.add(view);
+    }
+
+    //input methods
+    //note: this method gets called from the javafx application thread
+    public void switchToMenu(){
+        this.engine.changeExecutor(ID.MENU);
     }
 }

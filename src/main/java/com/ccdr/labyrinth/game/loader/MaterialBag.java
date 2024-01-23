@@ -1,11 +1,11 @@
 package com.ccdr.labyrinth.game.loader;
 
 public class MaterialBag {
-   
+
     private int requiredDiamond, requiredCoal;
     private int requiredCopper, requiredIron;
     private int requiredSilk, requiredWood;
-   
+
     public void setRequiredDiamond(int requiredDiamond) {
         this.requiredDiamond = requiredDiamond;
     }
@@ -30,27 +30,27 @@ public class MaterialBag {
         this.requiredWood = requiredWood;
     }
 
-    
+
     public int getRequiredDiamond() {
         return requiredDiamond;
     }
-    
+
     public int getRequiredCoal() {
         return requiredCoal;
     }
-    
+
     public int getRequiredCopper() {
         return requiredCopper;
     }
-    
+
     public int getRequiredIron() {
         return requiredIron;
     }
-    
+
     public int getRequiredSilk() {
         return requiredSilk;
     }
-    
+
     public int getRequiredWood() {
         return requiredWood;
     }

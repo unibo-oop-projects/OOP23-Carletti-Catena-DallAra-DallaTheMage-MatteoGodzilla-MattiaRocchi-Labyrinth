@@ -31,7 +31,7 @@ public class TileCreatorFactoryImpl implements TileCreatorFactory {
 
             @Override
             public Tile generateRandomPattern() {
-                Random seed = new Random(); 
+                Random seed = new Random();
                 int ways = seed.nextInt(1, 5);
                 int rotations = seed.nextInt(0, 4);
                 Tile pattern = new StandardTile();
@@ -44,7 +44,7 @@ public class TileCreatorFactoryImpl implements TileCreatorFactory {
                         pattern.setPattern(Map.of(Direction.UP, true, Direction.RIGHT, true, Direction.DOWN, true, Direction.LEFT, false));
                     case 4:
                         pattern.setPattern(Map.of(Direction.UP, true, Direction.RIGHT, true, Direction.DOWN, true, Direction.LEFT, true));
-                    default: 
+                    default:
                         pattern.setPattern(Map.of(Direction.UP, false, Direction.RIGHT, false, Direction.DOWN, false, Direction.LEFT, false));
                 }
                 while(rotations-- > 0) {
@@ -52,7 +52,7 @@ public class TileCreatorFactoryImpl implements TileCreatorFactory {
                 }
                 return pattern;
             }
-        }; 
+        };
     }
 
 
@@ -79,15 +79,15 @@ public class TileCreatorFactoryImpl implements TileCreatorFactory {
                 generatedTile.setPattern(generateRandomPattern().getPattern());
                 return generatedTile;
             }
-            
+
+            //TODO:need to understand what this does ~ Matteo
             private Material pickMaterial(int sourceRequested) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'pickMaterial'");
+                return Material.WOOD;
             }
 
             @Override
             public Tile generateRandomPattern() {
-                Random seed = new Random(); 
+                Random seed = new Random();
                 int ways = seed.nextInt(1, 5);
                 int rotations = seed.nextInt(0, 4);
                 Tile pattern = new SourceTile();
@@ -100,7 +100,7 @@ public class TileCreatorFactoryImpl implements TileCreatorFactory {
                         pattern.setPattern(Map.of(Direction.UP, true, Direction.RIGHT, true, Direction.DOWN, true, Direction.LEFT, false));
                     case 4:
                         pattern.setPattern(Map.of(Direction.UP, true, Direction.RIGHT, true, Direction.DOWN, true, Direction.LEFT, true));
-                    default: 
+                    default:
                         pattern.setPattern(Map.of(Direction.UP, false, Direction.RIGHT, false, Direction.DOWN, false, Direction.LEFT, false));
                 }
                 while(rotations-- > 0) {
@@ -116,5 +116,5 @@ public class TileCreatorFactoryImpl implements TileCreatorFactory {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'guild'");
     }
-    
+
 }

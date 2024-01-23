@@ -1,18 +1,23 @@
 package com.ccdr.labyrinth.menu;
 
+import com.ccdr.labyrinth.game.GameController;
+
 import javafx.scene.input.KeyEvent;
 
 public class MenuInputAdapter {
-    private MenuController controller;
+    private MenuController menuController;
+    private GameController gameController;
 
-    public MenuInputAdapter(MenuController controller){
-        this.controller = controller;
+    public MenuInputAdapter(MenuController controller, GameController gameController){
+        this.menuController = controller;
+        this.gameController = gameController;
     }
 
     public void onKeyPressed(KeyEvent event){
         switch(event.getCode()){
             case SPACE:
-                controller.switchToGame();
+                menuController.switchToGame();
+                gameController.init(menuController.getConfig());
                 break;
             default:
                 break;

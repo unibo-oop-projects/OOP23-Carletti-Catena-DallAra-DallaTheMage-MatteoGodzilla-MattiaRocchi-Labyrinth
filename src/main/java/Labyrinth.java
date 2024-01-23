@@ -19,19 +19,19 @@ public class Labyrinth {
         new Thread(()->{
             //Makes sure the JavaFX environment is set up, in the case where the application below hasn´t started yet
             Platform.startup(()->{});
-            //setting up the main menu
-            MenuController menuController = new MenuController();
-            MenuJFXView menuView = new MenuJFXView();
-            menuController.addView(menuView);
-            MenuInputAdapter menuInput = new MenuInputAdapter(menuController);
-            menuView.routeEvents(menuInput);
-
             //setting up the actual game
             GameController gameController = new GameController();
             GameJFXView gameView = new GameJFXView();
             gameController.addView(gameView);
             GameInputAdapter gameInput = new GameInputAdapter(gameController);
             gameView.routeEvents(gameInput);
+
+            //setting up the main menu
+            MenuController menuController = new MenuController();
+            MenuJFXView menuView = new MenuJFXView();
+            menuController.addView(menuView);
+            MenuInputAdapter menuInput = new MenuInputAdapter(menuController,gameController);
+            menuView.routeEvents(menuInput);
 
             Engine engine = new Engine(120);
             engine.bindExecutor(Executor.ID.MENU, menuController);

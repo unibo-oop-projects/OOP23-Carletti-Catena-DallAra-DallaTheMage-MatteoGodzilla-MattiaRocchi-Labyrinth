@@ -6,7 +6,7 @@ import java.util.Set;
 import com.ccdr.labyrinth.Material;
 
 public class Objective  {
-    
+
     private final int MIN_REQUIRED = 1;
     private final int MAX_REQUIRED = 9;
     private Item item;
@@ -16,7 +16,7 @@ public class Objective  {
         for(Material material : materialsToSet) {
             switch (material) {
                 case WOOD:
-                    item.getRequiredMaterials().setRequiredWood(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED)); 
+                    item.getRequiredMaterials().setRequiredWood(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
                 case COAL:
                     item.getRequiredMaterials().setRequiredCoal(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
                 case IRON:
@@ -28,6 +28,6 @@ public class Objective  {
                 case SILK:
                     item.getRequiredMaterials().setRequiredSilk(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
             }
-        }  
+        }
     }
 }

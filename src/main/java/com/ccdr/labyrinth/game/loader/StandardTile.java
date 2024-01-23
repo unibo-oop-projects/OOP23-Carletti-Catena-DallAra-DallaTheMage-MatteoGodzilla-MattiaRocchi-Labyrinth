@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class StandardTile implements Tile {
     private TileType type;
     private Map<Direction, Boolean> pattern = new HashMap<>();
-    
+
     @Override
     public TileType getType() {
         return type;

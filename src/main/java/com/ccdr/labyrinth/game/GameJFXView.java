@@ -1,6 +1,7 @@
 package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.JFXStage;
+import com.ccdr.labyrinth.game.loader.Board;
 
 import javafx.application.Platform;
 import javafx.geometry.VPos;
@@ -41,12 +42,17 @@ public class GameJFXView implements GameView {
 
     //Left empty, for now
     @Override
-    public void onDisable() {
-
-    }
+    public void onDisable() {}
 
     public void routeEvents(GameInputAdapter adapter){
         this.scene.setOnKeyPressed(adapter::onKeyPressed);
         this.scene.setOnKeyReleased(adapter::onKeyReleased);
+    }
+
+    @Override
+    public void drawBoard(Board board) {
+        Platform.runLater(()->{
+            //TODO: fill with actual code to draw the board
+        });
     }
 }

@@ -7,15 +7,13 @@ import com.ccdr.labyrinth.game.loader.Board;
 import com.ccdr.labyrinth.game.loader.GameBoard;
 
 public class GameLoader {
-    private GameConfig config;
-    private Board gameBoard = new GameBoard();
-
-    public Board generateTiles() {
+    public static Board generateTiles(GameConfig config) {
+        Board gameBoard = new GameBoard();
         int toGenerate = config.getLabyrinthHeight()*config.getLabyrinthWidth()-config.getSourceTiles()-config.getGuildNum();
         gameBoard.setHeight(config.getLabyrinthHeight());
         gameBoard.setWidth(config.getLabyrinthWidth());
         gameBoard.remap(new TileCreatorFactoryImpl().source().generateMany(config.getSourceTiles()));
         gameBoard.remap(new TileCreatorFactoryImpl().normal().generateMany(toGenerate));
         return gameBoard;
-    }  
+    }
 }

@@ -2,6 +2,7 @@ package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
+import com.ccdr.labyrinth.game.loader.Board;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 public class GameController implements Executor{
     private Set<GameView> views = new HashSet<>();
     private Engine engine;
+    private Board board;
 
     @Override
     public void onEnable(Engine engine) {
@@ -18,13 +20,18 @@ public class GameController implements Executor{
             gameView.onEnable();
         }
     }
+
+    public void init(GameConfig config){
+        this.board = GameLoader.generateTiles(config);
+    }
+
     @Override
     public void update(double deltaTimeInSeconds) {
         //game loop
-        //System.out.println("GAME UPDATE " + 1.0/deltaTimeInSeconds);
         double framerate = 1.0/deltaTimeInSeconds;
         for (GameView gameView : views) {
             gameView.draw(framerate);
+            gameView.drawBoard(this.board);
         }
     }
     @Override

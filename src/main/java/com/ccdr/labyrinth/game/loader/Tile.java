@@ -14,5 +14,5 @@ public interface Tile {
     Map<Direction, Boolean> getPattern();
 
     void rotate();
-    
+
 }

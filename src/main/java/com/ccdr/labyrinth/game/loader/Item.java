@@ -5,9 +5,7 @@ import com.ccdr.labyrinth.Material;
 
 import java.util.Set;
 
-
 public class Item {
-    
     private String name;
     private Category category;
     private Set<Material> requiredMaterialTypes;

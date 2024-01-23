@@ -3,10 +3,16 @@ package com.ccdr.labyrinth.game.loader;
 import java.util.Map;
 
 public interface Tile {
-    boolean isMovable();
     boolean isOpen(Direction access);
-    boolean getPath(Direction way);
-    void setPattern(Map<Integer, Boolean> readedPattern);
-    Map<Integer, Boolean> getPattern();
+
+    void setPattern(Map<Direction, Boolean> readedPattern);
+
+    void setType(TileType type);
+
+    TileType getType();
+
+    Map<Direction, Boolean> getPattern();
+
     void rotate();
+    
 }

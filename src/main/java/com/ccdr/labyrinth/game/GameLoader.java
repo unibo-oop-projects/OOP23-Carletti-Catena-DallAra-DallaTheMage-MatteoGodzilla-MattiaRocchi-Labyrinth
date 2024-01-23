@@ -1,21 +1,21 @@
 package com.ccdr.labyrinth.game;
 
-import java.util.Map;
-
 // TODO - OBJECTIVES MANAGEMENT COMPONENT
 //import com.ccdr.labyrinth.game.loader.Objective;
-import com.ccdr.labyrinth.game.loader.Tile;
-import com.ccdr.labyrinth.game.loader.TileCreator;
-import com.ccdr.labyrinth.game.loader.Coordinate;
+import com.ccdr.labyrinth.game.loader.TileCreatorFactoryImpl;
+import com.ccdr.labyrinth.game.loader.Board;
+import com.ccdr.labyrinth.game.loader.GameBoard;
 
 public class GameLoader {
-    //private final int OBJECTIVES_NUM = 10;
-    private final int LABYRINTH_HEIGHT = 30;
-    private final int LABYRINTH_WIDTH = 30;
-    private final int SPECIAL_TILES = 8;
-    
-    public Map<Coordinate, Tile> generateTiles() {
-        TileCreator tileCreator = new TileCreator();
-        return tileCreator.generate( LABYRINTH_HEIGHT, LABYRINTH_WIDTH, SPECIAL_TILES);
-    }
+    private GameConfig config;
+    private Board gameBoard = new GameBoard();
+
+    public Board generateTiles() {
+        int toGenerate = config.getLabyrinthHeight()*config.getLabyrinthWidth()-config.getSourceTiles()-config.getGuildNum();
+        gameBoard.setHeight(config.getLabyrinthHeight());
+        gameBoard.setWidth(config.getLabyrinthWidth());
+        gameBoard.remap(new TileCreatorFactoryImpl().source().generateMany(config.getSourceTiles()));
+        gameBoard.remap(new TileCreatorFactoryImpl().normal().generateMany(toGenerate));
+        return gameBoard;
+    }  
 }

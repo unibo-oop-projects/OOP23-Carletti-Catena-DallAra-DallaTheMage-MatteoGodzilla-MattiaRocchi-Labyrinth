@@ -3,8 +3,6 @@ package com.ccdr.labyrinth.game.loader;
 import com.ccdr.labyrinth.Category;
 import com.ccdr.labyrinth.Material;
 
-import java.io.InputStream;
-import java.util.HashSet;
 import java.util.Set;
 
 

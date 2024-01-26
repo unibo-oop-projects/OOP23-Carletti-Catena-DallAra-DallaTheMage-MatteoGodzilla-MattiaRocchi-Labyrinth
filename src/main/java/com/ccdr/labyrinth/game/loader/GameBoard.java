@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import com.ccdr.labyrinth.game.Board;
+
 public class GameBoard implements Board {
     private Map<Coordinate, Tile> map = new HashMap<>();
-    private int height, width;
+    private int height, width; 
 
     @Override
     public int getHeight() {
@@ -56,21 +58,22 @@ public class GameBoard implements Board {
 
     // TODO: CAN BE A GOOD IDEA MAKE THIS METHOD VOID AND SIMPLY UPDATE THE MAP
     @Override
-    public Map<Coordinate, Tile> shiftRow(int row) {
+    public Map<Coordinate, Tile> shiftRow(int row, int movement) {
         Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
-        for(index = 0; index < this.width; index++) {
-            pointer = new Coordinate(row, index);
-            shiftedPointer = new Coordinate(row, getNext(index, this.width));
-            shifted.put(shiftedPointer, this.map.get(pointer));
+        while(movement-- > 0) {
+            for(index = 0; index < this.width; index++) {
+                pointer = new Coordinate(row, index);
+                shiftedPointer = new Coordinate(row, getNext(index, this.width));
+                shifted.put(shiftedPointer, this.map.get(pointer));
+            }
+            for(index = 0; index < this.width; index++) {
+                pointer = new Coordinate(row, index);
+                this.map.replace(pointer, shifted.get(pointer));
+            }
         }
-
-        for(index = 0; index < this.width; index++) {
-            pointer = new Coordinate(row, index);
-            this.map.replace(pointer, shifted.get(pointer));
-        }
-
+       
         return Map.copyOf(this.map);
     }
 
@@ -84,21 +87,22 @@ public class GameBoard implements Board {
 
     // TODO: CAN BE A GOOD IDEA MAKE THIS METHOD VOID AND SIMPLY UPDATE THE MAP
     @Override
-    public Map<Coordinate, Tile> shiftColumn(int column) {
+    public Map<Coordinate, Tile> shiftColumn(int column, int movement) {
         Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
-        for(index = 0; index < this.width; index++) {
-            pointer = new Coordinate(index, column );
-            shiftedPointer = new Coordinate(getNext(index, this.height), column);
-            shifted.put(shiftedPointer, this.map.get(pointer));
+        while(movement-- > 0) {
+            for(index = 0; index < this.width; index++) {
+                pointer = new Coordinate(index, column );
+                shiftedPointer = new Coordinate(getNext(index, this.height), column);
+                shifted.put(shiftedPointer, this.map.get(pointer));
+            }
+            for(index = 0; index < this.width; index++) {
+                pointer = new Coordinate(index, column);
+                this.map.replace(pointer, shifted.get(pointer));
+            }
         }
-
-        for(index = 0; index < this.width; index++) {
-            pointer = new Coordinate(index, column);
-            this.map.replace(pointer, shifted.get(pointer));
-        }
-
+        
         return Map.copyOf(this.map);
     }
 }

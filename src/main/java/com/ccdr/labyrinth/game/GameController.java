@@ -2,7 +2,6 @@ package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
-import com.ccdr.labyrinth.game.loader.Board;
 
 import java.util.HashSet;
 import java.util.Set;

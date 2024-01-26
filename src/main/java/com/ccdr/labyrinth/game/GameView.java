@@ -1,7 +1,5 @@
 package com.ccdr.labyrinth.game;
 
-import com.ccdr.labyrinth.game.loader.Board;
-
 public interface GameView {
     void onEnable();
 

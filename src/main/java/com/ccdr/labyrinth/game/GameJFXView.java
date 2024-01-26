@@ -1,7 +1,6 @@
 package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.JFXStage;
-import com.ccdr.labyrinth.game.loader.Board;
 
 import javafx.application.Platform;
 import javafx.geometry.VPos;

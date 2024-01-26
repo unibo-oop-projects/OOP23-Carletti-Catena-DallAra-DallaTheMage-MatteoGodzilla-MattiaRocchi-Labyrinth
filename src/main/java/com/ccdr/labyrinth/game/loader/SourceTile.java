@@ -4,34 +4,30 @@ import com.ccdr.labyrinth.Material;
 
 public class SourceTile extends StandardTile {
     private final int MAX_CHARGE = 10;
-    private Material assignedMaterial;
-    private int material;
+    private final Material assignedMaterial;
+    private int materialQuantity;
 
-    public int getMaterial() {
-        return material;
+    public SourceTile(Material assignedMaterial) {
+        this.assignedMaterial = assignedMaterial;
     }
 
-    public void setMaterial(int material) {
-        this.material = material;
+    public int getQuantity() {
+        return materialQuantity;
     }
 
     public Material getAssignedMaterial() {
         return assignedMaterial;
     }
 
-    public void setAssignedMaterial(Material assignedMaterial) {
-        this.assignedMaterial = assignedMaterial;
-    }
-
     public void accumulate() {
-        if(material < MAX_CHARGE) {
-            material++;
+        if(materialQuantity < MAX_CHARGE) {
+            materialQuantity++;
         }
     }
 
     public int collect() {
-        int collected = this.material;
-        this.material = 0;
+        int collected = this.materialQuantity;
+        this.materialQuantity = 0;
         return collected;
     }
 }

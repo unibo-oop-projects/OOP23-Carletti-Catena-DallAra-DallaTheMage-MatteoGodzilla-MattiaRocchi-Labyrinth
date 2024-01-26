@@ -3,9 +3,10 @@ package com.ccdr.labyrinth.game.loader;
 import java.util.Map;
 
 public interface TileCreator {
-    public Map<Integer, Tile> generateMany(int quantity);
+    
+    public Map<Integer, Tile> generateTiles(int normalQuantity, int sourceQuantity);
 
-    public Tile generateOne();
+    public Tile generateNormal();
 
-    public Tile generateRandomPattern();
+    public Tile generateSource();
 }

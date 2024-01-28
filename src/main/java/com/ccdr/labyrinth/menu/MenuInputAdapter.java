@@ -15,10 +15,23 @@ public class MenuInputAdapter {
 
     public void onKeyPressed(KeyEvent event){
         switch(event.getCode()){
-            case SPACE:
-                menuController.switchToGame();
-                gameController.init(menuController.getConfig());
+            case UP:
+                menuController.moveUp();
                 break;
+            case DOWN:
+                menuController.moveDown();
+                break;
+            case ENTER:
+                menuController.select();
+                break;
+            case ESCAPE:
+            case BACK_SPACE:
+                menuController.back();
+                break;
+            //case SPACE:
+            //    menuController.switchToGame();
+            //    gameController.init(menuController.getConfig());
+            //    break;
             default:
                 break;
         }

@@ -10,7 +10,6 @@ public class GameInputAdapter {
     }
 
     public void onKeyPressed(KeyEvent event){
-        System.out.println(Thread.currentThread());
         switch(event.getCode()){
             case UP:
                 break;

@@ -43,7 +43,7 @@ public class GameJFXView implements GameView {
     @Override
     public void onDisable() {}
 
-    public void routeEvents(GameInputAdapter adapter){
+    public void routeKeyboardEvents(GameInputAdapter adapter){
         this.scene.setOnKeyPressed(adapter::onKeyPressed);
         this.scene.setOnKeyReleased(adapter::onKeyReleased);
     }

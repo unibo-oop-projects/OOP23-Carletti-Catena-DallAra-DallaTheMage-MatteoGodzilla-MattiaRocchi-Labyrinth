@@ -1,16 +1,14 @@
 package com.ccdr.labyrinth.menu;
 
-import com.ccdr.labyrinth.game.GameController;
+import com.ccdr.labyrinth.jfx.JFXInputSource;
 
 import javafx.scene.input.KeyEvent;
 
-public class MenuInputAdapter {
+public class MenuInputAdapter implements JFXInputSource.Receiver{
     private MenuController menuController;
-    private GameController gameController;
 
-    public MenuInputAdapter(MenuController controller, GameController gameController){
+    public MenuInputAdapter(MenuController controller){
         this.menuController = controller;
-        this.gameController = gameController;
     }
 
     public void onKeyPressed(KeyEvent event){
@@ -28,10 +26,6 @@ public class MenuInputAdapter {
             case BACK_SPACE:
                 menuController.back();
                 break;
-            //case SPACE:
-            //    menuController.switchToGame();
-            //    gameController.init(menuController.getConfig());
-            //    break;
             default:
                 break;
         }

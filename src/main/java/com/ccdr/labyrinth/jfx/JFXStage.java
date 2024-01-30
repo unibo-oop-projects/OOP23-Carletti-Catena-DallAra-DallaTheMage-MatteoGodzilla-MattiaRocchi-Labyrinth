@@ -1,4 +1,4 @@
-package com.ccdr.labyrinth;
+package com.ccdr.labyrinth.jfx;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -14,15 +14,14 @@ import javafx.stage.Stage;
  * The second option was chosen in this case.
  */
 public class JFXStage extends Application {
-    public static final int WINDOW_WIDTH=300;
-    public static final int WINDOW_HEIGHT=300;
+    public static final int WINDOW_WIDTH=800;
+    public static final int WINDOW_HEIGHT=600;
 
     private static Stage stage;
     private static Set<Runnable> onCloseCallbacks = new HashSet<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //System.out.println("--------JFX APP START-------");
         stage = primaryStage;
         stage.setTitle("Labyrinth");
         stage.setWidth(WINDOW_WIDTH);

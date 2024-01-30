@@ -8,7 +8,7 @@ import com.ccdr.labyrinth.game.Board;
 
 public class GameBoard implements Board {
     private Map<Coordinate, Tile> map = new HashMap<>();
-    private int height, width; 
+    private int height, width;
 
     @Override
     public int getHeight() {
@@ -62,7 +62,7 @@ public class GameBoard implements Board {
                 this.map.replace(pointer, shifted.get(pointer));
             }
         }
-       
+
         return Map.copyOf(this.map);
     }
 
@@ -91,7 +91,7 @@ public class GameBoard implements Board {
                 this.map.replace(pointer, shifted.get(pointer));
             }
         }
-        
+
         return Map.copyOf(this.map);
     }
 }

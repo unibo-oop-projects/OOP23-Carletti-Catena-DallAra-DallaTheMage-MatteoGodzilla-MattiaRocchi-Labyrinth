@@ -1,10 +1,10 @@
-import com.ccdr.labyrinth.JFXStage;
 import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.engine.Executor.ID;
 import com.ccdr.labyrinth.game.GameController;
 import com.ccdr.labyrinth.game.GameInputAdapter;
 import com.ccdr.labyrinth.game.GameJFXView;
+import com.ccdr.labyrinth.jfx.JFXStage;
 import com.ccdr.labyrinth.menu.MenuController;
 import com.ccdr.labyrinth.menu.MenuInputAdapter;
 import com.ccdr.labyrinth.menu.MenuJFXView;
@@ -32,7 +32,7 @@ public class Labyrinth {
             MenuController menuController = new MenuController();
             MenuJFXView menuView = new MenuJFXView();
             menuController.addView(menuView);
-            MenuInputAdapter menuInput = new MenuInputAdapter(menuController,gameController);
+            MenuInputAdapter menuInput = new MenuInputAdapter(menuController);
             menuView.routeKeyboardEvents(menuInput);
 
             menuController.onPlay(config ->{

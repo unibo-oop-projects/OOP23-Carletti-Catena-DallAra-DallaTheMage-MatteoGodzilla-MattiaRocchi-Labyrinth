@@ -1,6 +1,7 @@
 package com.ccdr.labyrinth.game;
 
-import com.ccdr.labyrinth.JFXStage;
+import com.ccdr.labyrinth.jfx.JFXInputSource;
+import com.ccdr.labyrinth.jfx.JFXStage;
 
 import javafx.application.Platform;
 import javafx.geometry.VPos;
@@ -11,7 +12,7 @@ import javafx.scene.paint.Color;
 
 //This class is invoked from the controller thread, so *every* draw call MUST be wrapped into
 //a `Platform.runLater` call.
-public class GameJFXView implements GameView {
+public class GameJFXView implements GameView, JFXInputSource {
     private Scene scene;
     private Canvas canvas;
 
@@ -38,20 +39,22 @@ public class GameJFXView implements GameView {
             context2d.fillText("FPS:"+framerate, 0, 0);
         });
     }
-
-    //Left empty, for now
-    @Override
-    public void onDisable() {}
-
-    public void routeKeyboardEvents(GameInputAdapter adapter){
-        this.scene.setOnKeyPressed(adapter::onKeyPressed);
-        this.scene.setOnKeyReleased(adapter::onKeyReleased);
-    }
-
+    
     @Override
     public void drawBoard(Board board) {
         Platform.runLater(()->{
             //TODO: fill with actual code to draw the board
         });
     }
+
+    //Left empty, for now
+    @Override
+    public void onDisable() {}
+
+    @Override
+    public void routeKeyboardEvents(Receiver adapter){
+        this.scene.setOnKeyPressed(adapter::onKeyPressed);
+        this.scene.setOnKeyReleased(adapter::onKeyReleased);
+    }
+
 }

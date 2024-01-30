@@ -1,8 +1,10 @@
 package com.ccdr.labyrinth.game;
 
+import com.ccdr.labyrinth.jfx.JFXInputSource;
+
 import javafx.scene.input.KeyEvent;
 
-public class GameInputAdapter {
+public class GameInputAdapter implements JFXInputSource.Receiver {
     private GameController controller;
 
     public GameInputAdapter(GameController controller){

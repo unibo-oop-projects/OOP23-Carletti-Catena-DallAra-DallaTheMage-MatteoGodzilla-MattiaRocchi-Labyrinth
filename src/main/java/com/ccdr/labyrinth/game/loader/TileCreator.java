@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface TileCreator {
     
-    public Map<Integer, Tile> generateTiles(int normalQuantity, int sourceQuantity);
+    public Map<Coordinate, Tile> generateTiles(int height, int width, int sourceQuantity);
 
 }

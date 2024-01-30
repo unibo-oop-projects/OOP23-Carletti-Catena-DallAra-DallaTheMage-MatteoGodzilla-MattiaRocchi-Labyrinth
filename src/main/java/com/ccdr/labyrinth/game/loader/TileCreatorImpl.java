@@ -6,37 +6,32 @@ import java.util.Random;
 
 import com.ccdr.labyrinth.Material;
 
-/*TODO: IT MAY BE A GOOD IDEA MAKE TILECREATOR AN UTILITY CLASS WITH STATIC METHOD
-* POSSIBLE REFACTORIZATION IN TILE GENERATION STRATEGY.
-*/
+/*TODO: IT MAY BE A GOOD IDEA MAKE TILECREATOR AN UTILITY CLASS WITH STATIC METHOD*/
 public class TileCreatorImpl implements TileCreator {
 
         private Map<Integer, Material> materials = new HashMap<>();
 
         @Override
-        public Map<Integer, Tile> generateTiles(int normalQuantity, int sourceQuantity) {
-            Map<Integer, Tile> tiles = new HashMap<>();
+        public Map<Coordinate, Tile> generateTiles(int height, int width, int sourceQuantity) {
+            Map<Coordinate, Tile> tiles = new HashMap<>();
+            int normalQuantity = height*width-sourceQuantity-1;
             sourceQuantity += normalQuantity;
             this.setupMaterialsList(sourceQuantity);
-            tiles.put(0, this.generateGuild());
+            tiles.put(generateRandomCoordinate(tiles, height, width), this.generateGuild()); //FIXME:CHANGE TO PREDETERMINED POSITION
             while(sourceQuantity-- > normalQuantity) {
-                tiles.put(sourceQuantity, this.generateSource());
+                tiles.put(generateRandomCoordinate(tiles, height, width), this.generateSource()); //FIXME:CHANGE TO PREDETERMINED POSITION
             }
             while(normalQuantity-- > 0) {
-                tiles.put(normalQuantity, this.generateNormal());
+                Tile generatedTile = new StandardTile();
+                generatedTile.setPattern(this.generateRandomPattern().getPattern());
+                tiles.put(generateRandomCoordinate(tiles, height, width), generatedTile);
             }
             return Map.copyOf(tiles);
         }
 
-        private Tile generateNormal() {
-            Tile generatedTile = new StandardTile();
-            generatedTile.setPattern(this.generateRandomPattern().getPattern());
-            return generatedTile;
-        }
-
         private Tile generateGuild() {
             Tile generatedTile = new StandardTile();
-            //generatedTile.setType(TileType.GUILD);
+            //FIXME:generatedTile.setType(TileType.GUILD);
             return generatedTile;
         }
 
@@ -57,6 +52,15 @@ public class TileCreatorImpl implements TileCreator {
             }
         }
 
+        private Coordinate generateRandomCoordinate(Map<Coordinate, Tile> board, int height, int width) {
+            Random rng = new Random();
+                Coordinate coordinate;
+                do { 
+                    coordinate = new Coordinate(rng.nextInt(0, height), rng.nextInt(0, width));
+                } while(board.containsKey(coordinate));
+                return coordinate;
+        }
+    
         private Tile generateRandomPattern() {
             Random seed = new Random();
             int ways = seed.nextInt(1, 5);

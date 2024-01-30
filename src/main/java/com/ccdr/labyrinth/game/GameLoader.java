@@ -8,10 +8,9 @@ import com.ccdr.labyrinth.game.loader.GameBoard;
 public class GameLoader {
     public static Board generateTiles(GameConfig config) {
         Board gameBoard = new GameBoard();
-        int toGenerate = config.getLabyrinthHeight()*config.getLabyrinthWidth()-config.getSourceTiles()-config.getGuildNum();
         gameBoard.setHeight(config.getLabyrinthHeight());
         gameBoard.setWidth(config.getLabyrinthWidth());
-        gameBoard.remap(new TileCreatorImpl().generateTiles(toGenerate, config.getSourceTiles()));
+        gameBoard.setMap(new TileCreatorImpl().generateTiles(config.getLabyrinthHeight(), config.getLabyrinthWidth(), config.getSourceTiles()));
         return gameBoard;
     }
 }

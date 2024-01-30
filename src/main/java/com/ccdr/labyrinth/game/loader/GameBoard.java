@@ -45,17 +45,6 @@ public class GameBoard implements Board {
         map.put(coordinate, tile);
     }
 
-    public void remap(Map<Integer, Tile> generated) {
-        Random rng = new Random();
-        for(Tile t : generated.values()) {
-            Coordinate coordinate;
-            do {
-                coordinate = new Coordinate(rng.nextInt(0, this.height), rng.nextInt(0, this.width));
-            } while(this.map.containsKey(coordinate));
-            this.insertTile(coordinate, t);
-        }
-    }
-
     // TODO: CAN BE A GOOD IDEA MAKE THIS METHOD VOID AND SIMPLY UPDATE THE MAP
     @Override
     public Map<Coordinate, Tile> shiftRow(int row, int movement) {

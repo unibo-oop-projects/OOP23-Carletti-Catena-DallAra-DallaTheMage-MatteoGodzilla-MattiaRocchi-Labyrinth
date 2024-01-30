@@ -21,8 +21,6 @@ public interface Board {
 
     void insertTile(Coordinate coordinate, Tile tile);
 
-    void remap(Map<Integer, Tile> generated);
-
     Map<Coordinate, Tile> shiftRow(int row, int movement);
 
     Map<Coordinate, Tile> shiftColumn(int column, int movement);

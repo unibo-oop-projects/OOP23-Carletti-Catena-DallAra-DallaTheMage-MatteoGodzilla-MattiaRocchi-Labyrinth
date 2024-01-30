@@ -6,7 +6,4 @@ public interface TileCreator {
     
     public Map<Integer, Tile> generateTiles(int normalQuantity, int sourceQuantity);
 
-    public Tile generateNormal();
-
-    public Tile generateSource();
 }

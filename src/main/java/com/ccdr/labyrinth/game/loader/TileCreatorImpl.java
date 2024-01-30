@@ -6,44 +6,45 @@ import java.util.Random;
 
 import com.ccdr.labyrinth.Material;
 
-
-public class TileCreatorImpl implements TileCreator{
+/*TODO: IT MAY BE A GOOD IDEA MAKE TILECREATOR AN UTILITY CLASS WITH STATIC METHOD*/
+public class TileCreatorImpl implements TileCreator {
 
         private Map<Integer, Material> materials = new HashMap<>();
 
         @Override
-        public Tile generateNormal() {
+        public Map<Integer, Tile> generateTiles(int normalQuantity, int sourceQuantity) {
+            Map<Integer, Tile> tiles = new HashMap<>();
+            int threshold = normalQuantity;
+            sourceQuantity += normalQuantity;
+            this.setupMaterialsList(sourceQuantity);
+            tiles.put(0, this.generateGuild());
+            while(normalQuantity-- > 0) {
+                tiles.put(normalQuantity, this.generateNormal());
+            }
+            while(sourceQuantity-- > threshold) {
+                tiles.put(sourceQuantity, this.generateSource());
+            }
+            return Map.copyOf(tiles);
+        }
+
+        private Tile generateNormal() {
             Tile generatedTile = new StandardTile();
             generatedTile.setType(TileType.NORMAL);
             generatedTile.setPattern(generateRandomPattern().getPattern());
             return generatedTile;
         }
 
-        public Tile generateGuild() {
+        private Tile generateGuild() {
             Tile generatedTile = new StandardTile();
             generatedTile.setType(TileType.GUILD);
             return generatedTile;
         }
 
-        @Override
-        public Tile generateSource() {
+        private Tile generateSource() {
             Tile generatedTile = new SourceTile(materials.remove(materials.size()-1));
             generatedTile.setType(TileType.SOURCE);
-            generatedTile.setPattern(generateRandomPattern().getPattern());
+            generatedTile.setPattern(this.generateRandomPattern().getPattern());
             return generatedTile;
-        }
-
-        @Override
-        public Map<Integer, Tile> generateTiles(int normalQuantity, int sourceQuantity) {
-            Map<Integer, Tile> tiles = new HashMap<>();
-            setupMaterialsList(sourceQuantity);
-            while(normalQuantity-- > 0) {
-                tiles.put(normalQuantity, this.generateNormal());
-            }
-            while(sourceQuantity-- > 0) {
-                tiles.put(sourceQuantity, this.generateSource());
-            }
-            return Map.copyOf(tiles);
         }
 
         private void setupMaterialsList(int sourceQuantity) {
@@ -56,6 +57,7 @@ public class TileCreatorImpl implements TileCreator{
                 }
             }
         }
+
         private Tile generateRandomPattern() {
             Random seed = new Random();
             int ways = seed.nextInt(1, 5);

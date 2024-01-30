@@ -9,6 +9,7 @@ public class SourceTile extends StandardTile {
 
     public SourceTile(Material assignedMaterial) {
         this.assignedMaterial = assignedMaterial;
+        super.setType(TileType.SOURCE);
     }
 
     public int getQuantity() {

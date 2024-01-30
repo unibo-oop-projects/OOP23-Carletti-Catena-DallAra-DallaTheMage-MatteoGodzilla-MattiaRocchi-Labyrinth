@@ -10,8 +10,6 @@ public interface Tile {
 
     void setPattern(Map<Direction, Boolean> readedPattern);
 
-    void setType(TileType type);
-
     TileType getType();
 
     Map<Direction, Boolean> getPattern();

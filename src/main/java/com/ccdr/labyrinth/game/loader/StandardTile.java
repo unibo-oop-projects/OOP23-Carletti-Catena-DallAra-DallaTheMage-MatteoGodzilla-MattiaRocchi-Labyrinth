@@ -7,13 +7,16 @@ public class StandardTile implements Tile {
     private TileType type;
     private Map<Direction, Boolean> pattern = new HashMap<>();
 
+    public StandardTile() {
+        this.type = TileType.NORMAL;
+    }
+    
     @Override
     public TileType getType() {
         return type;
     }
 
-    @Override
-    public void setType(TileType type) {
+    protected void setType(TileType type) {
         this.type = type;
     }
 

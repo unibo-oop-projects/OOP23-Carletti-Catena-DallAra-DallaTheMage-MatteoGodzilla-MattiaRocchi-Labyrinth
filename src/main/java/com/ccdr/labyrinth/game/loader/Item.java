@@ -8,6 +8,7 @@ import java.util.Set;
 public class Item {
     private String name;
     private Category category;
+    private Material material;
     private Set<Material> requiredMaterialTypes;
     private MaterialBag requiredMaterials;
 
@@ -17,6 +18,10 @@ public class Item {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
     public void setRequiredMaterialTypes(Set<Material> requiredMaterialTypes) {

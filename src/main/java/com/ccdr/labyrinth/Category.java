@@ -5,5 +5,5 @@ public enum Category {
     WEAPON,
     ARMOR,
     JEWEL,
-    TOOL
+    TOOL;
 }

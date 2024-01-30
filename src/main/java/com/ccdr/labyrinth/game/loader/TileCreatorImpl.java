@@ -19,6 +19,12 @@ public class TileCreatorImpl implements TileCreator{
             return generatedTile;
         }
 
+        public Tile generateGuild() {
+            Tile generatedTile = new StandardTile();
+            generatedTile.setType(TileType.GUILD);
+            return generatedTile;
+        }
+
         @Override
         public Tile generateSource() {
             Tile generatedTile = new SourceTile(materials.remove(materials.size()-1));

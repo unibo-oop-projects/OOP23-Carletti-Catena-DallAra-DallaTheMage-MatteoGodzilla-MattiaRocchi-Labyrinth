@@ -2,15 +2,22 @@ package com.ccdr.labyrinth.menu;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 import java.util.function.Consumer;
 
 import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.GameConfig;
+import com.ccdr.labyrinth.menu.tree.MenuChoiceElement;
 import com.ccdr.labyrinth.menu.tree.MenuElement;
 import com.ccdr.labyrinth.menu.tree.MenuListElement;
+import com.ccdr.labyrinth.menu.tree.MenuRootElement;
 import com.ccdr.labyrinth.menu.tree.MenuTextElement;
 
+/**
+ * Main class responsible for controlling the menu.
+ * This class doesn't have any direct reference to the game controller
+ */
 public class MenuController implements Executor {
     private GameConfig config = new GameConfig();
     private Set<MenuView> views = new HashSet<>();
@@ -55,16 +62,26 @@ public class MenuController implements Executor {
     //functions related to menu movement
 
     private MenuElement createMenuStructure() {
-        return new MenuListElement("Labyrinth",
+        return new MenuRootElement("Labyrinth",
             new MenuTextElement("Play", ()-> onPlay.accept(config)),
             new MenuListElement("Configuration",
-                new MenuTextElement("Players", null),
-                new MenuTextElement("Width", null),
-                new MenuTextElement("Height", null)
+                new MenuChoiceElement<>("Width", 0, List.of(1,2,3), this::handleWidth),
+                new MenuChoiceElement<>("Players", 0, List.of(1,2,3,4), this::setPlayers)
             ),
+            new MenuTextElement("How to play", null)
+                .setDescription("..."),
             new MenuTextElement("Credits", ()-> System.out.println("Chosen Credits")),
             new MenuTextElement("Exit", ()-> onExit.run())
+                .setDescription("Are you sure you want to close the game?")
         );
+    }
+
+    private void handleWidth(Integer width){
+        System.out.println(width);
+    }
+
+    private void setPlayers(Integer players){
+        this.config.setPlayerCount(players);
     }
 
     public void moveUp() {

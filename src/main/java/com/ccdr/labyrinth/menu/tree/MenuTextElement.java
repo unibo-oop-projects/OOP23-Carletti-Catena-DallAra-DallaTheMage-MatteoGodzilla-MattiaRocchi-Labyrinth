@@ -4,10 +4,16 @@ package com.ccdr.labyrinth.menu.tree;
 //it runs the runnable provided in the constructor once selected
 public class MenuTextElement extends MenuElement {
     private Runnable action;
+    private String description;
 
     public MenuTextElement(String text, Runnable action){
         super(text);
         this.action = action;
+    }
+
+    public MenuTextElement setDescription(String description){
+        this.description = description;
+        return this;
     }
 
     @Override
@@ -27,6 +33,10 @@ public class MenuTextElement extends MenuElement {
     @Override
     public String toString() {
         return getName();
+    }
+
+    public String getDescription(){
+        return this.description;
     }
 
 }

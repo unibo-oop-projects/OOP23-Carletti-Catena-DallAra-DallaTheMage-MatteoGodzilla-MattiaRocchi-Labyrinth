@@ -1,10 +1,8 @@
 package com.ccdr.labyrinth.menu.tree;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 
-public class MenuListElement extends MenuElement implements Iterable<MenuElement>{
+public class MenuListElement extends MenuElement{
     private List<MenuElement> children = new ArrayList<>();
     private int index = 0;
 
@@ -45,18 +43,10 @@ public class MenuListElement extends MenuElement implements Iterable<MenuElement
 
     @Override
     public String toString() {
-        String result = "{List:";
-        result += this.index;
-        result += ", [";
-        for (MenuElement child : children) {
-            result += child.toString();
-        }
-        result += "]}";
-        return result;
+        return this.getName();
     }
 
-    @Override
-    public Iterator<MenuElement> iterator() {
-        return this.children.iterator();
+    public List<MenuElement> getElements(){
+        return Collections.unmodifiableList(this.children);
     }
 }

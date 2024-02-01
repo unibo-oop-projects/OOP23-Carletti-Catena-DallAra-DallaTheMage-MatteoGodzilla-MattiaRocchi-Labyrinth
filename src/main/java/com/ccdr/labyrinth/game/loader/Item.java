@@ -24,6 +24,14 @@ public class Item {
         this.material = material;
     }
 
+    public Category getCategory() {
+        return this.category;
+    }
+
+    public Material getMaterial() {
+        return this.material;
+    }
+
     public void setRequiredMaterialTypes(Set<Material> requiredMaterialTypes) {
         this.requiredMaterialTypes = requiredMaterialTypes;
     }

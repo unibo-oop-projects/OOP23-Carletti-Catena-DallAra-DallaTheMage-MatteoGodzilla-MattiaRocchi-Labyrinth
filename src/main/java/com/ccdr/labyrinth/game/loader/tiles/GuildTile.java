@@ -1,4 +1,5 @@
 package com.ccdr.labyrinth.game.loader.tiles;
+import com.ccdr.labyrinth.game.loader.GetMissions;
 import com.ccdr.labyrinth.game.loader.Guild;
 import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.Category;

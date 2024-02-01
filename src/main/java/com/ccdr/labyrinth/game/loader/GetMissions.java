@@ -1,5 +1,6 @@
 package com.ccdr.labyrinth.game.loader;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import com.ccdr.labyrinth.Category;
 import com.ccdr.labyrinth.Material;
 
 public class GetMissions {
-    private final int MIN_REQUIRED = 1;
+    private final int MIN_REQUIRED = 3;
     private final int MAX_REQUIRED = 9;
     private int value = 0;
     private Item item;
@@ -15,15 +16,22 @@ public class GetMissions {
     private Material[] material = Material.values();
     private Random quantityGenerator = new Random();
 
-    public void setTypeItem(){
+    public void setTypeMatItem(){
         value = quantityGenerator.nextInt(0,4);
         item.setCategory(category[value]);
-    }
-
-    public void setMatItem(){
         value = quantityGenerator.nextInt(0,4);
         item.setMaterial(material[value]);
     }
+
+    public boolean control(List<Item> missions){
+        for(Item mission : missions){
+            if(mission.equals(item) ){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public void setRandomRequiredQuantities(Set<Material> materialsToSet) {
         for(Material material : materialsToSet) {

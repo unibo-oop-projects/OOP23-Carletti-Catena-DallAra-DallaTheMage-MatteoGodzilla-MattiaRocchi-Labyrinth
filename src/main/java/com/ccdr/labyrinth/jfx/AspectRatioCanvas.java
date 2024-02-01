@@ -8,6 +8,7 @@ public class AspectRatioCanvas extends Canvas {
     private double ratio;
 
     public AspectRatioCanvas(double targetWidth, double targetHeight){
+        super(targetWidth, targetHeight);
         this.ratio = targetWidth/targetHeight;
         JFXStage.getStage().widthProperty().addListener((observable, oldVal, newVal) -> handleChange());
         JFXStage.getStage().heightProperty().addListener((observable, oldVal, newVal) -> handleChange());

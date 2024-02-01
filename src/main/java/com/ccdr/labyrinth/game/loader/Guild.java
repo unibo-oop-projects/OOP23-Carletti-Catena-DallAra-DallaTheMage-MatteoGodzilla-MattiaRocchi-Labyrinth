@@ -1,5 +1,7 @@
 package com.ccdr.labyrinth.game.loader;
 
+import com.ccdr.labyrinth.game.loader.tiles.TileType;
+
 import java.util.List;
 
 public interface Guild {

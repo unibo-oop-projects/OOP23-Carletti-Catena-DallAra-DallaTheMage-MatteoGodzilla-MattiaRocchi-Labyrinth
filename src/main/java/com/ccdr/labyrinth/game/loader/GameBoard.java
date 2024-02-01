@@ -1,10 +1,10 @@
 package com.ccdr.labyrinth.game.loader;
 
+import com.ccdr.labyrinth.game.Board;
+import com.ccdr.labyrinth.game.loader.tiles.Tile;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-
-import com.ccdr.labyrinth.game.Board;
 
 public class GameBoard implements Board {
     private Map<Coordinate, Tile> map = new HashMap<>();
@@ -45,9 +45,8 @@ public class GameBoard implements Board {
         map.put(coordinate, tile);
     }
 
-    // TODO: CAN BE A GOOD IDEA MAKE THIS METHOD VOID AND SIMPLY UPDATE THE MAP
     @Override
-    public Map<Coordinate, Tile> shiftRow(int row, int movement) {
+    public void shiftRow(int row, int movement) {
         Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
@@ -62,8 +61,6 @@ public class GameBoard implements Board {
                 this.map.replace(pointer, shifted.get(pointer));
             }
         }
-
-        return Map.copyOf(this.map);
     }
 
     private int getNext(int actual, int size) {
@@ -74,9 +71,8 @@ public class GameBoard implements Board {
        }
     }
 
-    // TODO: CAN BE A GOOD IDEA MAKE THIS METHOD VOID AND SIMPLY UPDATE THE MAP
     @Override
-    public Map<Coordinate, Tile> shiftColumn(int column, int movement) {
+    public void shiftColumn(int column, int movement) {
         Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
@@ -91,7 +87,5 @@ public class GameBoard implements Board {
                 this.map.replace(pointer, shifted.get(pointer));
             }
         }
-
-        return Map.copyOf(this.map);
     }
 }

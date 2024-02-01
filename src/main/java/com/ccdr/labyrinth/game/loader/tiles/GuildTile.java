@@ -1,13 +1,16 @@
-package com.ccdr.labyrinth.game.loader;
+package com.ccdr.labyrinth.game.loader.tiles;
+import com.ccdr.labyrinth.game.loader.Guild;
+import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.Category;
 import com.ccdr.labyrinth.Material;
+
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /*FIXME: MAKE GUILDTILE IMPLEMENTS TILE INTERFACE OR EXTENDS STANDARDTILE CLASS*/
-public class GuildTile implements Guild {
+public class GuildTile extends GenericTile implements Guild {
 
     private TileType type;
     public List<Item> missions;
@@ -31,6 +34,18 @@ public class GuildTile implements Guild {
     @Override
     public void add_missions(Item mission) {
        missions.add(mission);
+    }
+
+    @Override
+    public void onEnter() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onEnter'");
+    }
+
+    @Override
+    public void onExit() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onExit'");
     }
     
 }

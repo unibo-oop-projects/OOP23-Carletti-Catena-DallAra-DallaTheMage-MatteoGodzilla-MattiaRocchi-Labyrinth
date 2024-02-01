@@ -1,8 +1,7 @@
-package com.ccdr.labyrinth.game.loader;
+package com.ccdr.labyrinth.game.loader.tiles;
 
 public enum TileType {
     NORMAL,
-    PLAYER,
     SOURCE,
     GUILD
 }

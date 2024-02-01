@@ -1,9 +1,9 @@
 package com.ccdr.labyrinth.game;
 
-import java.util.Map;
-
 import com.ccdr.labyrinth.game.loader.Coordinate;
-import com.ccdr.labyrinth.game.loader.Tile;
+import com.ccdr.labyrinth.game.loader.tiles.Tile;
+
+import java.util.Map;
 
 public interface Board {
 
@@ -21,8 +21,8 @@ public interface Board {
 
     void insertTile(Coordinate coordinate, Tile tile);
 
-    Map<Coordinate, Tile> shiftRow(int row, int movement);
+    void shiftRow(int row, int movement);
 
-    Map<Coordinate, Tile> shiftColumn(int column, int movement);
+    void shiftColumn(int column, int movement);
 
 }

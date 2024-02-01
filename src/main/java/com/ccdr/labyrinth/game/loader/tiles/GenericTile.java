@@ -1,23 +1,22 @@
-package com.ccdr.labyrinth.game.loader;
+package com.ccdr.labyrinth.game.loader.tiles;
 
 import java.util.Map;
+
+import com.ccdr.labyrinth.game.loader.Direction;
+
 import java.util.HashMap;
 
-public class StandardTile implements Tile {
+public abstract class GenericTile implements Tile {
     private TileType type;
     private Map<Direction, Boolean> pattern = new HashMap<>();
 
-    public StandardTile() {
-        this.type = TileType.NORMAL;
+    protected void setType(TileType type) {
+        this.type = type;
     }
     
     @Override
     public TileType getType() {
         return type;
-    }
-
-    protected void setType(TileType type) {
-        this.type = type;
     }
 
     @Override
@@ -37,6 +36,7 @@ public class StandardTile implements Tile {
         return Map.copyOf(pattern);
     }
 
+    /*TODO: DIRECTION ITERATOR IMPLEMENTATION*/
     @Override
     public void rotate() {
         Map<Direction, Boolean> rotated = new HashMap<>();
@@ -45,4 +45,5 @@ public class StandardTile implements Tile {
         }
         this.setPattern(rotated);
     }
+    
 }

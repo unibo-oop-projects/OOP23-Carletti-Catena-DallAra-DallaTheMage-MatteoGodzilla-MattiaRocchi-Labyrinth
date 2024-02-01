@@ -7,7 +7,7 @@ import com.ccdr.labyrinth.game.loader.Coordinate;
 
 public interface Player {
     /**
-     * Move the player of one tile forward
+     * Move the player of one tile up
      * @param coord the coordinate of the player
      */
     void moveUp(Coordinate coord);
@@ -25,7 +25,7 @@ public interface Player {
     void moveLeft(Coordinate coord);
 
     /**
-     * Move the player one tile back
+     * Move the player one tile down
      * @param coord the coordinate of the player
      */
     void moveDown(Coordinate coord);

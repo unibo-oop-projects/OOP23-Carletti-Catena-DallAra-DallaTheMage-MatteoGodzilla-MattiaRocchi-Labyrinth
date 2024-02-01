@@ -13,18 +13,19 @@ public class GameInputAdapter implements JFXInputSource.Receiver {
 
     public void onKeyPressed(KeyEvent event){
         switch(event.getCode()){
-            case UP:
+            case W:
+                this.controller.movePlayerUp();
                 break;
-            case DOWN:
+            case D:
+                this.controller.movePlayerRight();
                 break;
-            case LEFT:
+            case A:
+                this.controller.movePlayerLeft();
                 break;
-            case RIGHT:
+            case S:
+                this.controller.movePlayerDown();
                 break;
             case ENTER:
-                break;
-            case TAB:
-                controller.switchToMenu();
                 break;
             default:
                 break;

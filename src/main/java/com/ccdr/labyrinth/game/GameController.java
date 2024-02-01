@@ -2,6 +2,8 @@ package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
+import com.ccdr.labyrinth.game.loader.Coordinate;
+import com.ccdr.labyrinth.game.player.Player;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +13,7 @@ public class GameController implements Executor{
     private Set<GameView> views = new HashSet<>();
     private Engine engine;
     private Board board;
+    private Player player;
 
     @Override
     public void onEnable(Engine engine) {
@@ -48,5 +51,21 @@ public class GameController implements Executor{
     //note: this method gets called from the javafx application thread
     public void switchToMenu(){
         this.engine.changeExecutor(ID.MENU);
+    }
+
+    public void movePlayerUp() {
+        this.player.moveUp(new Coordinate(player.getRow(), player.getColumn()));
+    }
+
+    public void movePlayerRight() {
+        this.player.moveRight(new Coordinate(player.getRow(), player.getColumn()));
+    }
+
+    public void movePlayerLeft() {
+        this.player.moveLeft(new Coordinate(player.getRow(), player.getColumn()));
+    }
+
+    public void movePlayerDown() {
+        this.player.moveDown(new Coordinate(player.getRow(), player.getColumn()));
     }
 }

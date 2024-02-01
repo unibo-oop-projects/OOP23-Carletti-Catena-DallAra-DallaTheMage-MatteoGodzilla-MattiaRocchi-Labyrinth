@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -23,6 +24,14 @@ import javafx.scene.text.TextAlignment;
 public class MenuJFXView implements MenuView, JFXInputSource {
     private Scene scene;
     private AspectRatioCanvas canvas;
+    //variables used for resizing text elements
+    private double baseFontSize;
+    private double listFontSize;
+    private double descriptionFontSize;
+    private double hintFontSize;
+    private double headerFontSize;
+    private double padding;
+
 
     public MenuJFXView(){
         this.canvas = new AspectRatioCanvas(JFXStage.WINDOW_WIDTH, JFXStage.WINDOW_HEIGHT);
@@ -41,60 +50,82 @@ public class MenuJFXView implements MenuView, JFXInputSource {
     @Override
     public void draw(MenuElement element) {
         Platform.runLater(()->{
-            var context = this.canvas.getGraphicsContext2D();
-            double y = 0;
-            double fontSize = this.canvas.getHeight() / 10;
-            context.setFont(Font.font(fontSize));
-            context.setFill(Color.BLACK);
-            context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
-            context.setTextBaseline(VPos.TOP);
-            context.setTextAlign(TextAlignment.CENTER);
-            context.setFill(Color.WHITESMOKE);
-            context.fillText(element.getName(), this.canvas.getWidth()/2, 0);
-            y += fontSize;
-
+            GraphicsContext context = this.canvas.getGraphicsContext2D();
+            recalculateFontSizes();
+            drawHeader(context, element);
             if(element instanceof MenuListElement){
-                // draw the list elements below (only the name, not everything else)
-                MenuListElement listElement = (MenuListElement)element;
-                double listFontSize = fontSize*2/3;
-                context.setTextAlign(TextAlignment.LEFT);
-                context.setFont(Font.font(listFontSize));
-                double startY = y;
-                if(element instanceof MenuRootElement){
-                    startY = this.canvas.getHeight() - listElement.getElements().size() * listFontSize - fontSize;
-                    y = startY;
-                }
-                for (MenuElement child : listElement.getElements()) {
-                    context.fillText(child.toString(), fontSize, y);
-                    y += listFontSize;
-                }
-                context.fillText(">", 0, startY + listElement.getIndex() * listFontSize);
-            }
-            else if(element instanceof MenuTextElement){
-                //draw additional description at the bottom
-                MenuTextElement textElement = (MenuTextElement)element;
-                double descriptionFontSize = fontSize/2;
-                context.setTextAlign(TextAlignment.CENTER);
-                context.setFont(Font.font(descriptionFontSize));
-                context.fillText(textElement.getDescription(), this.canvas.getWidth()/2, y+descriptionFontSize);
+                drawList(context,(MenuListElement)element);
+            } else if(element instanceof MenuTextElement){
+                drawText(context,(MenuTextElement)element);
             } else if(element instanceof MenuChoiceElement){
-                //draw choices like as if they were in a list like MenuListElement
-                MenuChoiceElement choiceElement = (MenuChoiceElement)element;
-                double listFontSize = fontSize*2/3;
-                context.setTextAlign(TextAlignment.LEFT);
-                context.setFont(Font.font(listFontSize));
-                for(Object choice : choiceElement.getChoices()){
-                    context.fillText(choice.toString(), fontSize, y);
-                    y += listFontSize;
-                }
-                context.fillText(">", 0, fontSize + choiceElement.getIndex()*listFontSize);
+                drawChoice(context, (MenuChoiceElement)element);
             }
-            //draw tooltip at the bottom
-            context.setFont(Font.font(fontSize/3));
-            context.setTextBaseline(VPos.BOTTOM);
-            context.setTextAlign(TextAlignment.CENTER);
-            context.fillText("Enter: Confirm | Up/Down: Move cursor | Esc/Backspace: Go back", this.canvas.getWidth()/2, this.canvas.getHeight());
+            drawHint(context);
         });
+    }
+
+    //all these functions below are called from the JFX thread, so they don't need Platform.runLater
+    private void recalculateFontSizes() {
+        this.baseFontSize = this.canvas.getHeight() / 10;
+        this.headerFontSize = this.baseFontSize;
+        this.listFontSize = this.baseFontSize*2/3;
+        this.descriptionFontSize = this.baseFontSize/2;
+        this.hintFontSize = this.baseFontSize/3;
+        this.padding = this.baseFontSize*0.1;
+    }
+
+    private void drawHeader(GraphicsContext context,MenuElement element){
+        context.setFont(Font.font(this.headerFontSize));
+        context.setFill(Color.BLACK);
+        context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
+        context.setTextBaseline(VPos.TOP);
+        context.setTextAlign(TextAlignment.CENTER);
+        context.setFill(Color.WHITESMOKE);
+        context.fillText(element.getName(), this.canvas.getWidth()/2, 0);
+    }
+
+    private void drawList(GraphicsContext context, MenuListElement listElement){
+        // draw the list elements below (only the name, not everything else)
+        context.setTextAlign(TextAlignment.LEFT);
+        context.setFont(Font.font(listFontSize));
+        double startY = this.headerFontSize;
+        double y = startY;
+        if(listElement instanceof MenuRootElement){
+            startY = this.canvas.getHeight() - listElement.getElements().size() * this.listFontSize - this.hintFontSize - this.padding * 2;
+            y = startY;
+        }
+        for (MenuElement child : listElement.getElements()) {
+            context.fillText(child.toString(), this.listFontSize + this.padding , y);
+            y += this.listFontSize;
+        }
+        context.fillText(">", this.padding, startY + listElement.getIndex() * this.listFontSize);
+    }
+
+    private void drawChoice(GraphicsContext context, MenuChoiceElement choiceElement){
+        //draw choices like as if they were in a list like MenuListElement
+        context.setTextAlign(TextAlignment.LEFT);
+        context.setFont(Font.font(this.listFontSize));
+        double y = this.headerFontSize;
+        for(Object choice : choiceElement.getChoices()){
+            context.fillText(choice.toString(), this.listFontSize + this.padding, y);
+            y += this.listFontSize;
+        }
+        context.fillText(">", this.padding, this.headerFontSize + choiceElement.getIndex()*this.listFontSize);
+    }
+
+    private void drawText(GraphicsContext context, MenuTextElement textElement){
+        //draw additional description at the bottom
+        context.setTextAlign(TextAlignment.CENTER);
+        context.setFont(Font.font(descriptionFontSize));
+        context.fillText(textElement.getDescription(), this.canvas.getWidth()/2, this.baseFontSize + descriptionFontSize);
+    }
+
+    private void drawHint(GraphicsContext context){
+        //draw tooltip at the bottom
+        context.setFont(Font.font(this.hintFontSize));
+        context.setTextBaseline(VPos.BOTTOM);
+        context.setTextAlign(TextAlignment.CENTER);
+        context.fillText("Enter: Confirm | Up/Down: Move cursor | Esc/Backspace: Go back", this.canvas.getWidth()/2, this.canvas.getHeight());
     }
 
     //this is left empty, for now

@@ -3,6 +3,12 @@ package com.ccdr.labyrinth.engine;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * This class is responsible for managing and running the main game loop.
+ * The {@link Executor} interface defines what kind of classes can be executed from the engine.
+ * By design executors must be bounded to an Executor ID, and only one executor can be running.
+ * @see Executor
+ */
 public class Engine {
     private static final double ONE_SECOND_IN_NANOS = 1e9;
 

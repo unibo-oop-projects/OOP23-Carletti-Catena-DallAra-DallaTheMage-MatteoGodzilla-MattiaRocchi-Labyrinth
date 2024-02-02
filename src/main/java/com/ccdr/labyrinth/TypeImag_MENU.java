@@ -5,8 +5,8 @@ import java.util.PrimitiveIterator;
 import javafx.scene.image.Image;
 
 public enum TypeImag_MENU {
-    ICON("file:Images/Menu/Icon.png"),
-    TEXT("file:Images/Menu/Text.png");
+    ICON("menu/Icon.png"),
+    TEXT("menu/Text.png");
 
     private String path;
     private Image picture;

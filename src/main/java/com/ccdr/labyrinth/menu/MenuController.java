@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.GameConfig;
+import com.ccdr.labyrinth.menu.tree.MenuButtonElement;
 import com.ccdr.labyrinth.menu.tree.MenuChoiceElement;
 import com.ccdr.labyrinth.menu.tree.MenuElement;
 import com.ccdr.labyrinth.menu.tree.MenuListElement;
@@ -63,7 +64,7 @@ public class MenuController implements Executor {
 
     private MenuElement createMenuStructure() {
         return new MenuRootElement("Labyrinth",
-            new MenuTextElement("Play", ()-> onPlay.accept(config)),
+            new MenuButtonElement("Play", ()-> onPlay.accept(config)),
             new MenuListElement("Configuration",
                 new MenuChoiceElement<>("Width", 0, List.of(1,2,3), this::handleWidth),
                 new MenuChoiceElement<>("Players", 0, List.of(1,2,3,4), this::setPlayers)
@@ -92,6 +93,7 @@ public class MenuController implements Executor {
     }
     public void select() {
         current = current.nextState();
+        current.immediate();
     }
     public void back() {
         if(current.getParent() != null){

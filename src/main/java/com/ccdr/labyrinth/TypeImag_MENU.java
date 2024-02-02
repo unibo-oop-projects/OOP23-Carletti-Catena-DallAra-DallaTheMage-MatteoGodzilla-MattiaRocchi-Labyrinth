@@ -10,7 +10,7 @@ public enum TypeImag_MENU {
 
     private String path;
     private Image picture;
-    
+
     private TypeImag_MENU(String path){
         this.path = path;
         this.picture = new Image(path, 0, 0, true, true);

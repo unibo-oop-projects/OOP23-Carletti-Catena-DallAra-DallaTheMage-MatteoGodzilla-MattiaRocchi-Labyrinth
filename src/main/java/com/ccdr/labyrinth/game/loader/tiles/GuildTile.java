@@ -19,7 +19,8 @@ public class GuildTile extends GenericTile implements Guild {
     private boolean control;
 
     private GuildTile(){
-        for(int i = 0; i </*Player in game*/ *2; i++){
+        //TODO: missing reference to player count
+        for(int i = 0; i </*Player in game*/ 2; i++){
             GetMissions.setTypeMatItem();
             control = GetMissions.control(missions);
             GetMissions.setTypeMatItem();
@@ -64,5 +65,5 @@ public class GuildTile extends GenericTile implements Guild {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'onExit'");
     }
-    
+
 }

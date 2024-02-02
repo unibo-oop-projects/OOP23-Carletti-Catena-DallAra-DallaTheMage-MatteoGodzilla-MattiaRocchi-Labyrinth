@@ -49,4 +49,8 @@ public class MenuListElement extends MenuElement{
     public List<MenuElement> getElements(){
         return Collections.unmodifiableList(this.children);
     }
+
+    //MenuListElement does not require to do anything immediate
+    @Override
+    public void immediate() {}
 }

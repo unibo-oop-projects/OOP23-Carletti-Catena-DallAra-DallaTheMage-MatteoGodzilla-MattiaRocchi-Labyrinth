@@ -1,5 +1,6 @@
 package com.ccdr.labyrinth.menu;
 
+import com.ccdr.labyrinth.TypeImag_MENU;
 import com.ccdr.labyrinth.jfx.AspectRatioCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
@@ -14,6 +15,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -52,8 +54,13 @@ public class MenuJFXView implements MenuView, JFXInputSource {
         Platform.runLater(()->{
             GraphicsContext context = this.canvas.getGraphicsContext2D();
             recalculateFontSizes();
+            context.setFill(Color.gray(0.1));
+            context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
             drawHeader(context, element);
             if(element instanceof MenuListElement){
+                if(element instanceof MenuRootElement){
+                    drawLogo(context);
+                }
                 drawList(context,(MenuListElement)element);
             } else if(element instanceof MenuTextElement){
                 drawText(context,(MenuTextElement)element);
@@ -62,6 +69,11 @@ public class MenuJFXView implements MenuView, JFXInputSource {
             }
             drawHint(context);
         });
+    }
+
+    private void drawLogo(GraphicsContext context) {
+        Image image = TypeImag_MENU.ICON.getImage();
+        context.drawImage(image, 0, 0);
     }
 
     //all these functions below are called from the JFX thread, so they don't need Platform.runLater
@@ -76,8 +88,6 @@ public class MenuJFXView implements MenuView, JFXInputSource {
 
     private void drawHeader(GraphicsContext context,MenuElement element){
         context.setFont(Font.font(this.headerFontSize));
-        context.setFill(Color.BLACK);
-        context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
         context.setTextBaseline(VPos.TOP);
         context.setTextAlign(TextAlignment.CENTER);
         context.setFill(Color.WHITESMOKE);

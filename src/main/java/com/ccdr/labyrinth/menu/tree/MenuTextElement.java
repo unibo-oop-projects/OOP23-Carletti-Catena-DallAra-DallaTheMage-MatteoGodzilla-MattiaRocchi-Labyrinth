@@ -39,4 +39,8 @@ public class MenuTextElement extends MenuElement {
         return this.description;
     }
 
+    //MenuTextElement does not need to do anything immediate
+    @Override
+    public void immediate() {}
+
 }

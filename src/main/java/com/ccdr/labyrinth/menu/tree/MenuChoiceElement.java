@@ -55,4 +55,8 @@ public class MenuChoiceElement<T> extends MenuElement{
     public String toString() {
         return this.getName() + ":" + this.values.get(chosenIndex).toString();
     }
+
+    //MenuChoiceElement does not require to do anything immediate
+    @Override
+    public void immediate() {}
 }

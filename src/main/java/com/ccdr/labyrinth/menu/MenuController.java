@@ -66,14 +66,13 @@ public class MenuController implements Executor {
         return new MenuRootElement("Labyrinth",
             new MenuButtonElement("Play", ()-> onPlay.accept(config)),
             new MenuListElement("Configuration",
-                new MenuChoiceElement<>("Width", 0, List.of(1,2,3), this::handleWidth),
-                new MenuChoiceElement<>("Players", 0, List.of(1,2,3,4), this::setPlayers)
+                new MenuChoiceElement<>("Players", 0, List.of(1,2,3,4), this::setPlayers),
+                new MenuChoiceElement<>("Width", 0, List.of(1,2,3), this::handleWidth)
             ),
-            new MenuTextElement("How to play", null)
-                .setDescription("..."),
-            new MenuTextElement("Credits", ()-> System.out.println("Chosen Credits")),
-            new MenuTextElement("Exit", ()-> onExit.run())
-                .setDescription("Are you sure you want to close the game?")
+            new MenuTextElement("How to play", ""),
+            new MenuTextElement("Credits", ""),
+            new MenuTextElement("Exit", "Are you sure you want to close the game?")
+                .setAction(()-> onExit.run())
         );
     }
 

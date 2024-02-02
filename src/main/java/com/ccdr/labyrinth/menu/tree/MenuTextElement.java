@@ -6,13 +6,13 @@ public class MenuTextElement extends MenuElement {
     private Runnable action;
     private String description;
 
-    public MenuTextElement(String text, Runnable action){
+    public MenuTextElement(String text, String description){
         super(text);
-        this.action = action;
+        this.description = description;
     }
 
-    public MenuTextElement setDescription(String description){
-        this.description = description;
+    public MenuTextElement setAction(Runnable action){
+        this.action = action;
         return this;
     }
 

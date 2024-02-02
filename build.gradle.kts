@@ -13,12 +13,18 @@ plugins {
      */
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.danilopianini.gradle-java-qa") version "1.28.0"
-    id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
 repositories {
     mavenCentral()
 }
+
+val javaFXModules = listOf(
+    "base",
+    "controls",
+    "fxml",
+    "graphics"
+)
 
 val supportedPlatforms = listOf("linux", "mac", "win") // All required for OOP
 
@@ -29,6 +35,14 @@ dependencies {
     // Example library: Guava. Add what you need (and remove Guava if you don't use it)
     // implementation("com.google.guava:guava:28.1-jre")
 
+    // JavaFX: comment out if you do not need them
+    val javaFxVersion = 21
+    for (platform in supportedPlatforms) {
+        for (module in javaFXModules) {
+            implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
+        }
+    }
+
     val jUnitVersion = "5.10.1"
     // JUnit API and testing engine
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
@@ -37,16 +51,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.json/json
     implementation("org.json:json:20231013")
 
-}
-
-javafx{
-    version = "21.0.2"
-    modules = listOf(
-        "javafx.base",
-        "javafx.controls",
-        "javafx.fxml",
-        "javafx.graphics"
-    )
 }
 
 tasks.withType<Test> {

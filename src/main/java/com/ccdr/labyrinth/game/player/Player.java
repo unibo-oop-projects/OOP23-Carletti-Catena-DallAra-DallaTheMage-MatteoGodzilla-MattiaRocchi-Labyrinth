@@ -1,7 +1,5 @@
 package com.ccdr.labyrinth.game.player;
 
-import java.util.List;
-
 import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.game.loader.Coordinate;
 
@@ -31,18 +29,6 @@ public interface Player {
     void moveDown(Coordinate coord);
 
     /**
-     * Draw the players on the board
-     * @param players the list of players to draw
-     */
-    void drawPlayersOnBoard(List<Player> players);
-
-    /**
-     * Draw the players statistics
-     * @param players the list of players to draw
-     */
-    void drawPlayersStats(List<Player> players);
-
-    /**
      * Increase the quantity of a specified material
      * @param material the material to increase
      * @param amount the quantity to increase
@@ -62,24 +48,6 @@ public interface Player {
      * @return the quantity of a specified material
      */
     int getQuantityMaterial(Material material);
-
-    /**
-     * Gives a single player
-     * @return a player
-     */
-    Player getPlayer();
-
-    /**
-     * Gives the value of row of a player
-     * @return the row's value of a player
-     */
-    int getRow();
-
-    /**
-     * Gives the value of column of a player
-     * @return the column's value of a player
-     */
-    int getColumn();
 
     /**
      * Increase the value of points

@@ -4,6 +4,7 @@ import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.loader.Coordinate;
 import com.ccdr.labyrinth.game.player.Player;
+import com.ccdr.labyrinth.game.player.PlayersManager;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +14,7 @@ public class GameController implements Executor{
     private Set<GameView> views = new HashSet<>();
     private Engine engine;
     private Board board;
+    private PlayersManager playerManager;
     private Player player;
 
     @Override
@@ -54,18 +56,18 @@ public class GameController implements Executor{
     }
 
     public void movePlayerUp() {
-        this.player.moveUp(new Coordinate(player.getRow(), player.getColumn()));
+        this.player.moveUp(new Coordinate(playerManager.getRow(), playerManager.getColumn()));
     }
 
     public void movePlayerRight() {
-        this.player.moveRight(new Coordinate(player.getRow(), player.getColumn()));
+        this.player.moveRight(new Coordinate(playerManager.getRow(), playerManager.getColumn()));
     }
 
     public void movePlayerLeft() {
-        this.player.moveLeft(new Coordinate(player.getRow(), player.getColumn()));
+        this.player.moveLeft(new Coordinate(playerManager.getRow(), playerManager.getColumn()));
     }
 
     public void movePlayerDown() {
-        this.player.moveDown(new Coordinate(player.getRow(), player.getColumn()));
+        this.player.moveDown(new Coordinate(playerManager.getRow(), playerManager.getColumn()));
     }
 }

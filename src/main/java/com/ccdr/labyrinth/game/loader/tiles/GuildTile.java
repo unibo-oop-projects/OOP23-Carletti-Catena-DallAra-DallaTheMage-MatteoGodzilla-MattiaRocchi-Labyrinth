@@ -2,6 +2,7 @@ package com.ccdr.labyrinth.game.loader.tiles;
 import com.ccdr.labyrinth.game.loader.GetMissions;
 import com.ccdr.labyrinth.game.loader.Guild;
 import com.ccdr.labyrinth.game.loader.Item;
+import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.Category;
 import com.ccdr.labyrinth.Material;
 
@@ -15,6 +16,21 @@ public class GuildTile extends GenericTile implements Guild {
 
     private TileType type;
     public List<Item> missions;
+    private boolean control;
+
+    private GuildTile(){
+        for(int i = 0; i </*Player in game*/ *2; i++){
+            GetMissions.setTypeMatItem();
+            control = GetMissions.control(missions);
+            GetMissions.setTypeMatItem();
+            if(!control){
+                i--;
+            }
+            else{
+                missions.add(GetMissions.Get_mis());
+            }
+        }
+    }
 
     @Override
     public TileType getType() {

@@ -5,8 +5,11 @@ import java.util.PrimitiveIterator;
 import javafx.scene.image.Image;
 
 public enum TypeImag_MENU {
-    ICON("menu/Icon.png"),
-    TEXT("menu/Text.png");
+    //path is redirected through src/main/resources
+    //if the file could not be found, jfx will throw an exception
+    //(it doesn't do that when you use the 'file:' protocol)
+    ICON("/menu/Icon.png");
+    //TEXT("/menu/Text.png");
 
     private String path;
     private Image picture;

@@ -18,6 +18,7 @@ public class Labyrinth {
     public static void main(String[] args) throws InterruptedException {
         new Thread(()->{
             //Makes sure the JavaFX environment is set up, in the case where the application below hasn´t started yet
+            //System.out.println(System.getProperty("java.class.path"));
             Platform.startup(()->{});
             Engine engine = new Engine(120);
 

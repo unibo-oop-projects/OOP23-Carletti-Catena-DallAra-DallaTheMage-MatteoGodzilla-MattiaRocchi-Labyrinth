@@ -8,15 +8,15 @@ import java.util.HashMap;
 /* end temporary imports */
 
 public class GameConfig {
-    private final int GUILD_NUMBER = 1;
-    private int playerCount;
+    private final int GUILDNUMBER = 1;
+    private static int playerCount;
     private int objectivesNum= 10;
     private int labyrinthHeight = 30;
     private int labyrinthWidth = 30;
     private int sourceTiles = 8; // change to percentage of source based on labyrinth dimensions
        
     public int getGuildNum() {
-        return GUILD_NUMBER;
+        return GUILDNUMBER;
     }
  
     public int getObjectivesNum() {
@@ -51,7 +51,7 @@ public class GameConfig {
         this.sourceTiles = sourceTiles;
     }
 
-    public int getPlayerCount() {
+    public static int getPlayerCount() {
         return playerCount;
     }
 

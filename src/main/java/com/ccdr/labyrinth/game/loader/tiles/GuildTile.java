@@ -1,4 +1,6 @@
 package com.ccdr.labyrinth.game.loader.tiles;
+import com.ccdr.labyrinth.game.GameConfig;
+import com.ccdr.labyrinth.game.GameController;
 import com.ccdr.labyrinth.game.loader.GetMissions;
 import com.ccdr.labyrinth.game.loader.Guild;
 import com.ccdr.labyrinth.game.loader.Item;
@@ -20,7 +22,7 @@ public class GuildTile extends GenericTile implements Guild {
 
     private GuildTile(){
         //TODO: missing reference to player count
-        for(int i = 0; i </*Player in game*/ 2; i++){
+        for(int i = 0; i < GameConfig.getPlayerCount() ; i++){
             GetMissions.setTypeMatItem();
             control = GetMissions.control(missions);
             GetMissions.setTypeMatItem();

@@ -1,5 +1,8 @@
 package com.ccdr.labyrinth.game;
 
+import java.util.List;
+
+import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
 
@@ -44,6 +47,20 @@ public class GameJFXView implements GameView, JFXInputSource {
     public void drawBoard(Board board) {
         Platform.runLater(()->{
             //TODO: fill with actual code to draw the board
+        });
+    }
+
+    @Override
+    public void drawPlayersOnBoard(List<Player> players) {
+        Platform.runLater(() -> {
+            //TODO: insert code to draw players on board
+        });
+    }
+
+    @Override
+    public void drawPlayersStats(List<Player> players) {
+        Platform.runLater(() -> {
+            //TODO: insert code to draw players statistics
         });
     }
 

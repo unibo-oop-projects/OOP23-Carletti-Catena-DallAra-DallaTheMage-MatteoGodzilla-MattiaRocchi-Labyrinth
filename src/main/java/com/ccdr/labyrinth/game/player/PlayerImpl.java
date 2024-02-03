@@ -9,7 +9,7 @@ import com.ccdr.labyrinth.game.loader.Coordinate;
 public class PlayerImpl implements Player{
 
     private final Map<Material, Integer> playerInventory = new HashMap<>();
-    //private PlayersManager player;
+    private Coordinate coord;
     private int points = 0;
 
     public PlayerImpl() {
@@ -19,30 +19,23 @@ public class PlayerImpl implements Player{
     }
     
     @Override
-    public void moveUp(Coordinate coord) {
-        //ATTENZIONE: controllo su isOpen() è true (sempre variabile Tile), cioè posso andarci sopra altrimenti non mi sposto
-        //Qui va chiamato onExit() su variabile di tipo Tile dalla casella da cui esco
-        //IMPORTANTE!!! Metodo per trasformare da coord a oggetto Tile
-        //Sposto il player una tile in avanti (rows-1, column)
-        //Qui va chiamato onEnter() su variabile di tipo Tile dalla casella in cui entro dopo lo spostamento
+    public void moveUp() {
+        this.coord = new Coordinate(this.coord.row()-1, this.coord.column());
     }
 
     @Override
-    public void moveRight(Coordinate coord) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'moveRight'");
+    public void moveRight() {
+        this.coord = new Coordinate(this.coord.row(), this.coord.column()+1);
     }
 
     @Override
-    public void moveLeft(Coordinate coord) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'moveLeft'");
+    public void moveLeft() {
+        this.coord = new Coordinate(this.coord.row(), this.coord.column()-1);
     }
 
     @Override
-    public void moveDown(Coordinate coord) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'moveDown'");
+    public void moveDown() {
+        this.coord = new Coordinate(this.coord.row()+1, this.coord.column());
     }
 
     @Override
@@ -70,6 +63,16 @@ public class PlayerImpl implements Player{
     @Override
     public int getPoints() {
         return this.points;
+    }
+
+    @Override
+    public int getRow() {
+        return this.coord.row();
+    }
+
+    @Override
+    public int getColumn() {
+        return this.coord.column();
     }
 
 }

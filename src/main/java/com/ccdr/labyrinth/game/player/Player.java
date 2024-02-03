@@ -1,32 +1,27 @@
 package com.ccdr.labyrinth.game.player;
 
 import com.ccdr.labyrinth.Material;
-import com.ccdr.labyrinth.game.loader.Coordinate;
 
 public interface Player {
     /**
      * Move the player of one tile up
-     * @param coord the coordinate of the player
      */
-    void moveUp(Coordinate coord);
+    void moveUp();
 
     /**
      * Move the player one tile to the right
-     * @param coord the coordinate of the player
      */
-    void moveRight(Coordinate coord);
+    void moveRight();
 
     /**
      * Move the player one tile to the left
-     * @param coord the coordinate of the player
      */
-    void moveLeft(Coordinate coord);
+    void moveLeft();
 
     /**
      * Move the player one tile down
-     * @param coord the coordinate of the player
      */
-    void moveDown(Coordinate coord);
+    void moveDown();
 
     /**
      * Increase the quantity of a specified material
@@ -60,4 +55,16 @@ public interface Player {
      * @return the points' value
      */
     int getPoints();
+
+    /**
+     * Gives the value of row of a player
+     * @return the row's value of a player
+     */
+    int getRow();
+
+    /**
+     * Gives the value of column of a player
+     * @return the column's value of a player
+     */
+    int getColumn();
 }

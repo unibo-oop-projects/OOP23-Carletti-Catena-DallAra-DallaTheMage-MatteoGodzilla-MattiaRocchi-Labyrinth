@@ -28,7 +28,7 @@ public class GuildTile extends GenericTile implements Guild {
                 i--;
             }
             else{
-                missions.add(GetMissions.Get_mis());
+                missions.add(GetMissions.getMis());
             }
         }
     }
@@ -50,7 +50,7 @@ public class GuildTile extends GenericTile implements Guild {
     }
 
     @Override
-    public void add_missions(Item mission) {
+    public void addMissions(Item mission) {
        missions.add(mission);
     }
 

@@ -11,29 +11,29 @@ public class GetMissions {
     private final int MIN_REQUIRED = 3;
     private final int MAX_REQUIRED = 9;
     private static int material_temp = 0;
-    private static int id_cat = 0;
-    private static int id_mat = 0;
+    private static int idCat = 0;
+    private static int idMat = 0;
     private static Item item;
     private static Category[] category = Category.values();
     private static Material[] material = Material.values();
     private static Random quantityGenerator = new Random();
-    private static int[] mat_select;
+    private static int[] matSelect;
 
     public static void setTypeMatItem(){
-        id_cat = quantityGenerator.nextInt(0,4);
-        item.setCategory(category[id_cat]);
+        idCat = quantityGenerator.nextInt(0,4);
+        item.setCategory(category[idCat]);
         if(material_temp == 2){
-            id_mat = quantityGenerator.nextInt(0,6);
-            for(int i = 0; i<mat_select.length; i++){
-                if(id_mat == mat_select[i]){
+            idMat = quantityGenerator.nextInt(0,6);
+            for(int i = 0; i<matSelect.length; i++){
+                if(idMat == matSelect[i]){
                     setTypeMatItem();
                     break;
                 }
             }
             material_temp = 0;
         }
-        item.setMaterial(material[id_mat]);
-        mat_select[id_mat] = id_mat;
+        item.setMaterial(material[idMat]);
+        matSelect[idMat] = idMat;
         material_temp++;
     }
 
@@ -70,7 +70,7 @@ public class GetMissions {
         }
     }
 
-    public static Item Get_mis(){
+    public static Item getMis(){
         return item;
     }
 }

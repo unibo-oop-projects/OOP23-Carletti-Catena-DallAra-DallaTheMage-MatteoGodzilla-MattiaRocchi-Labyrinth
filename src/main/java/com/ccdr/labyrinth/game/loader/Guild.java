@@ -12,6 +12,6 @@ public interface Guild {
 
     TileType getType();
     
-    void add_missions(Item mission);
+    void addMissions(Item mission);
 
 }

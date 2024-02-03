@@ -4,15 +4,15 @@ import java.util.PrimitiveIterator;
 
 import javafx.scene.image.Image;
 
-public enum TypeImag_GAME {
-    WALL("file:Images/Game/Wall.png"),
-    PATHVERTICAL("file:Images/Game/Path_Vertical.png"),
-    PATHHORIZONTAL("file:Images/Game/Path_Horizontal.png");
+public enum TypeImagGAME {
+    WALL("/Game/Wall.png"),
+    PATHVERTICAL("/Game/PathVertical.png"),
+    PATHHORIZONTAL("/Game/PathHorizontal.png");
 
     private String path;
     private Image picture;
     
-    private TypeImag_GAME(String path){
+    private TypeImagGAME(String path){
         this.path = path;
         this.picture = new Image(path, 0, 0, true, true);
     }

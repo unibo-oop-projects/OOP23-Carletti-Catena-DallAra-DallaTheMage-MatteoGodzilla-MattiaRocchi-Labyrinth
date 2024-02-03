@@ -20,9 +20,9 @@ public class GuildTile extends GenericTile implements Guild {
     public List<Item> missions;
     private boolean control;
 
-    private GuildTile(){
+    public GuildTile(int nPlayer){
         //TODO: missing reference to player count
-        for(int i = 0; i < GameConfig.getPlayerCount() ; i++){
+        for(int i = 0; i < nPlayer; i++){
             GetMissions.setTypeMatItem();
             control = GetMissions.control(missions);
             GetMissions.setTypeMatItem();

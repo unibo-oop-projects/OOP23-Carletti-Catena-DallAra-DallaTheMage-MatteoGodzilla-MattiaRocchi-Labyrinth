@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class GameConfig {
     private final int GUILDNUMBER = 1;
-    private static int playerCount;
+    public int playerCount;
     private int objectivesNum= 10;
     private int labyrinthHeight = 30;
     private int labyrinthWidth = 30;
@@ -51,7 +51,7 @@ public class GameConfig {
         this.sourceTiles = sourceTiles;
     }
 
-    public static int getPlayerCount() {
+    public int getPlayerCount() {
         return playerCount;
     }
 

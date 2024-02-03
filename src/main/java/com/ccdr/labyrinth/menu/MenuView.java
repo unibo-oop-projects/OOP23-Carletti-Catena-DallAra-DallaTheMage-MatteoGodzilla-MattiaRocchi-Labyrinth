@@ -7,5 +7,7 @@ public interface MenuView {
 
     void draw(MenuElement element);
 
+    void changed(MenuElement element);
+
     void onDisable();
 }

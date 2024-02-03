@@ -37,7 +37,7 @@ public class MenuListElement extends MenuElement{
         menuElement.setParent(this);
     }
 
-    public double getIndex() {
+    public int getIndex() {
         return this.index;
     }
 

@@ -14,11 +14,11 @@ public class GameConfig {
     private int labyrinthHeight = 30;
     private int labyrinthWidth = 30;
     private int sourceTiles = 8; // change to percentage of source based on labyrinth dimensions
-       
+
     public int getGuildNum() {
         return GUILDNUMBER;
     }
- 
+
     public int getObjectivesNum() {
         return objectivesNum;
     }

@@ -38,6 +38,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
     private double descriptionFontSize;
     private double hintFontSize;
     private double headerFontSize;
+    private double logoSize;
     private double padding;
     // variable used for animation
     private double startIndex = 0;
@@ -55,7 +56,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
     public void onEnable() {
         Platform.runLater(() -> {
             JFXStage.getStage().setScene(this.scene);
-            //index indicator transition
+            // index indicator transition
             this.indexArrow = new Transition() {
                 {
                     setCycleDuration(Duration.seconds(0.1));
@@ -112,6 +113,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
     // Platform.runLater
     private void recalculateFontSizes() {
         this.baseFontSize = this.canvas.getHeight() / 10;
+        this.logoSize = this.baseFontSize * 3 / 2;
         this.headerFontSize = this.baseFontSize;
         this.listFontSize = this.baseFontSize * 2 / 3;
         this.descriptionFontSize = this.baseFontSize / 2;
@@ -120,15 +122,18 @@ public class MenuJFXView implements MenuView, JFXInputSource {
     }
 
     private void drawLogo(GraphicsContext context) {
-        Image image = TypeImagMENU.ICON.getImage();
-        context.drawImage(image, 0, 0);
+        Image image = TypeImagMENU.LOGO.getImage();
+        double logoWidth = this.logoSize * image.getWidth() / image.getHeight();
+        double xPos = this.canvas.getWidth() / 2 - logoWidth / 2;
+        xPos -= logoWidth * 0.1;
+        context.drawImage(image, xPos, this.padding, logoWidth, this.logoSize);
     }
 
     private void drawHeader(GraphicsContext context, MenuElement element) {
         context.setFont(Font.font(this.headerFontSize));
         context.setTextBaseline(VPos.TOP);
         context.setTextAlign(TextAlignment.CENTER);
-        context.setFill(Color.WHITESMOKE);
+        context.setFill(Color.valueOf("#bbbbbb"));
         context.fillText(element.getName(), this.canvas.getWidth() / 2, 0);
     }
 
@@ -136,6 +141,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
         // draw the list elements below (only the name, not everything else)
         context.setTextAlign(TextAlignment.LEFT);
         context.setFont(Font.font(listFontSize));
+        context.setFill(Color.valueOf("#bbbbbb"));
         double startY = this.headerFontSize + this.padding;
         double y = startY;
         if (listElement instanceof MenuRootElement) {
@@ -154,6 +160,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
         // draw choices like as if they were in a list like MenuListElement
         context.setTextAlign(TextAlignment.LEFT);
         context.setFont(Font.font(this.listFontSize));
+        context.setFill(Color.valueOf("#bbbbbb"));
         double y = this.headerFontSize + this.padding;
         for (Object choice : choiceElement.getChoices()) {
             context.fillText(choice.toString(), this.listFontSize + this.padding, y);
@@ -167,6 +174,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
         context.setTextAlign(TextAlignment.CENTER);
         context.setTextBaseline(VPos.TOP);
         context.setFont(Font.font(descriptionFontSize));
+        context.setFill(Color.valueOf("#bbbbbb"));
         context.fillText(textElement.getDescription(), this.canvas.getWidth() / 2, this.headerFontSize + this.padding);
     }
 
@@ -175,6 +183,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
         context.setFont(Font.font(this.hintFontSize));
         context.setTextBaseline(VPos.BOTTOM);
         context.setTextAlign(TextAlignment.CENTER);
+        context.setFill(Color.valueOf("#bbbbbb"));
         context.fillText("Enter: Confirm | Up/Down: Move cursor | Esc/Backspace: Go back", this.canvas.getWidth() / 2,
                 this.canvas.getHeight());
     }

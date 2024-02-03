@@ -65,7 +65,7 @@ public class MenuController implements Executor {
     // functions related to menu movement
 
     private MenuElement createMenuStructure() {
-        return new MenuRootElement("Labyrinth",
+        return new MenuRootElement("",
                 new MenuButtonElement("Play", () -> onPlay.accept(config)),
                 new MenuListElement("Configuration",
                         new MenuChoiceElement<>("Players", 0, List.of(1, 2, 3, 4), this::setPlayers),

@@ -2,41 +2,117 @@ package com.ccdr.labyrinth.game.player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import com.ccdr.labyrinth.game.Board;
+import com.ccdr.labyrinth.game.loader.Coordinate;
+import com.ccdr.labyrinth.game.loader.Direction;
 
 public class PlayersManager {
 
     private final List<Player> players = new ArrayList<>();
+    private int activePlayer;
+    private int diceVal;
+    private Board board;
 
     public PlayersManager(final int numPlayers) {
         for(int i = 0; i < numPlayers; i++) {
             this.players.add(new PlayerImpl());
         }
+        this.activePlayer = 0;
     }
 
     /**
-     * Draw the players on the board
-     * @param players the list of players to draw
+     * Gives the list of players
+     * @return an unmodifiable list of players
      */
-    public void drawPlayersOnBoard(final List<Player> players) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'drawPlayers'");
+    public List<Player> getPlayer() {
+        return List.copyOf(this.players);
     }
 
     /**
-     * Draw the players statistics
-     * @param players the list of players to draw
+     * method to set the index of the active player
+     * @param activePlayer the index of the player to be set as active
      */
-    public void drawPlayersStats(final List<Player> players) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'drawPlayersStats'");
+    public void setActivePlayer(final int activePlayer) {
+        this.activePlayer = activePlayer;
     }
 
     /**
-     * Gives a single player
-     * @param numPlayer the index of the player that you want
-     * @return a player
+     * Gives player active at the moment
+     * @return the active player
      */
-    public Player getPlayer(final int numPlayer) {
-        return this.players.get(numPlayer);
+    public Player getActivePlayer() {
+        return this.players.get(this.activePlayer);
+    }
+
+    /**
+     * method to generate a random number
+     */
+    public void generateDiceValue() {
+        Random random = new Random();
+        this.diceVal = random.nextInt(12) + 1;
+    }
+
+    /**
+     * method for moving a tile and checking whether the player has moved a tile
+     * @return true if the active player moved a tile, otherwise false
+     */
+    public boolean hasTileMoved() {
+        //TODO: implementation to understand if the tile has been moved
+        //final Coordinate tileCoord <-- è argomento del metodo???
+        return true;
+    }
+    
+    public void tryMoveUp() {
+        var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
+        var endTile = this.board.getMap()
+            .get(new Coordinate(this.getActivePlayer()
+            .getCoord().row()-1, this.getActivePlayer().getCoord().column()));
+        if(startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
+            this.getActivePlayer().moveUp();
+            this.diceVal--;
+        }
+    }
+
+    public void tryMoveRight() {
+        var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
+        var endTile = this.board.getMap()
+            .get(new Coordinate(this.getActivePlayer()
+            .getCoord().row(), this.getActivePlayer().getCoord().column()+1));
+        if(startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
+            this.getActivePlayer().moveRight();
+            this.diceVal--;
+        }
+    }
+
+    public void tryMoveLeft() {
+        var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
+        var endTile = this.board.getMap()
+            .get(new Coordinate(this.getActivePlayer()
+            .getCoord().row(), this.getActivePlayer().getCoord().column()-1));
+        if(startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
+            this.getActivePlayer().moveLeft();
+            this.diceVal--;
+        }
+    }
+
+    public void tryMoveDown() {
+        var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
+        var endTile = this.board.getMap()
+            .get(new Coordinate(this.getActivePlayer()
+            .getCoord().row()+1, this.getActivePlayer().getCoord().column()));
+        if(startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
+            this.getActivePlayer().moveDown();
+            this.diceVal--;
+        }
+    }
+
+    /**
+     * method to control if the turn of a player is finished
+     * @return true if the player has finished his turn, otherwise false
+     */
+    public boolean isTurnFinished() {
+        return this.hasTileMoved() && this.diceVal == 0;
     }
 }

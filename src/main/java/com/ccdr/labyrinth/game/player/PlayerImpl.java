@@ -66,13 +66,8 @@ public class PlayerImpl implements Player{
     }
 
     @Override
-    public int getRow() {
-        return this.coord.row();
-    }
-
-    @Override
-    public int getColumn() {
-        return this.coord.column();
+    public Coordinate getCoord() {
+        return this.coord;
     }
 
 }

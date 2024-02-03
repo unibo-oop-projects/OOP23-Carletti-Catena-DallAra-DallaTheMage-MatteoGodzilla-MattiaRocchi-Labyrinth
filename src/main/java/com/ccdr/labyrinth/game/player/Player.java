@@ -1,6 +1,7 @@
 package com.ccdr.labyrinth.game.player;
 
 import com.ccdr.labyrinth.Material;
+import com.ccdr.labyrinth.game.loader.Coordinate;
 
 public interface Player {
     /**
@@ -57,14 +58,8 @@ public interface Player {
     int getPoints();
 
     /**
-     * Gives the value of row of a player
-     * @return the row's value of a player
+     * Gives the coordinate of a player
+     * @return coordinate of a player
      */
-    int getRow();
-
-    /**
-     * Gives the value of column of a player
-     * @return the column's value of a player
-     */
-    int getColumn();
+    Coordinate getCoord();
 }

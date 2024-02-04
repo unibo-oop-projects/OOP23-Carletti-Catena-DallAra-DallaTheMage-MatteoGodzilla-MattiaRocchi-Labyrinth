@@ -67,4 +67,8 @@ public class GameController implements Executor{
     public void movePlayerDown() {
         this.playerManager.tryMoveDown();
     }
+
+    public void numberPlayerMoves() {
+        this.playerManager.generateDiceValue();
+    }
 }

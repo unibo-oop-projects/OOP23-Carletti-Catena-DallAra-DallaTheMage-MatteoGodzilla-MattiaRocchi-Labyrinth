@@ -25,6 +25,9 @@ public class GameInputAdapter implements JFXInputSource.Receiver {
             case S:
                 this.controller.movePlayerDown();
                 break;
+            case SPACE:
+                this.controller.numberPlayerMoves();
+                break;
             case ENTER:
                 break;
             default:

@@ -64,46 +64,66 @@ public class PlayersManager {
         return true;
     }
     
+    /**
+     * method that checks if upward movement is allowed
+     */
     public void tryMoveUp() {
         var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row()-1, this.getActivePlayer().getCoord().column()));
         if(startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
+            startTile.onExit();
             this.getActivePlayer().moveUp();
+            endTile.onEnter();
             this.diceVal--;
         }
     }
 
+    /**
+     * method that checks if rightward movement is allowed
+     */
     public void tryMoveRight() {
         var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column()+1));
         if(startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
+            startTile.onExit();
             this.getActivePlayer().moveRight();
+            endTile.onEnter();
             this.diceVal--;
         }
     }
 
+    /**
+     * method that checks if leftward movement is allowed
+     */
     public void tryMoveLeft() {
         var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column()-1));
         if(startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
+            startTile.onExit();
             this.getActivePlayer().moveLeft();
+            endTile.onEnter();
             this.diceVal--;
         }
     }
 
+    /**
+     * method that checks if downward movement is allowed
+     */
     public void tryMoveDown() {
         var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row()+1, this.getActivePlayer().getCoord().column()));
         if(startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
+            startTile.onExit();
             this.getActivePlayer().moveDown();
+            endTile.onEnter();
             this.diceVal--;
         }
     }

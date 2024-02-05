@@ -36,6 +36,19 @@ public class GameInputAdapter implements JFXInputSource.Receiver {
     }
 
     public void onKeyReleased(KeyEvent event){
-
+        switch(event.getCode()){
+            case W:
+                this.controller.moveUpGuild();
+                break;
+            case D:
+                this.controller.moveDownGuild();
+                break;
+            case ENTER:
+                this.controller.selectGuild();
+                break;
+            default:
+                this.controller.backGuild();
+                break;
+        }
     }
 }

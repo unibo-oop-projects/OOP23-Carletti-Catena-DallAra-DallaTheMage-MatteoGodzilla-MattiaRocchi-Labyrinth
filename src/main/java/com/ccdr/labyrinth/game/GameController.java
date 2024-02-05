@@ -13,6 +13,7 @@ public class GameController implements Executor{
     private Engine engine;
     private Board board;
     private PlayersManager playerManager;
+    private boolean menuGuild = false;
 
     @Override
     public void onEnable(Engine engine) {
@@ -70,5 +71,21 @@ public class GameController implements Executor{
 
     public void numberPlayerMoves() {
         this.playerManager.generateDiceValue();
+    }
+
+    public void moveUpGuild() {
+;
+    }
+
+    public void moveDownGuild() {
+ ;
+    }
+
+    public void selectGuild() {
+
+    }
+
+    public void backGuild() {
+
     }
 }

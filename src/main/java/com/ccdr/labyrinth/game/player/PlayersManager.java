@@ -72,7 +72,7 @@ public class PlayersManager {
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row()-1, this.getActivePlayer().getCoord().column()));
-        if(startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
+        if(this.diceVal > 0 && startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
             startTile.onExit();
             this.getActivePlayer().moveUp();
             endTile.onEnter();
@@ -88,7 +88,7 @@ public class PlayersManager {
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column()+1));
-        if(startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
+        if(this.diceVal > 0 && startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
             startTile.onExit();
             this.getActivePlayer().moveRight();
             endTile.onEnter();
@@ -104,7 +104,7 @@ public class PlayersManager {
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column()-1));
-        if(startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
+        if(this.diceVal > 0 && startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
             startTile.onExit();
             this.getActivePlayer().moveLeft();
             endTile.onEnter();
@@ -120,7 +120,7 @@ public class PlayersManager {
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row()+1, this.getActivePlayer().getCoord().column()));
-        if(startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
+        if(this.diceVal > 0 && startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
             startTile.onExit();
             this.getActivePlayer().moveDown();
             endTile.onEnter();

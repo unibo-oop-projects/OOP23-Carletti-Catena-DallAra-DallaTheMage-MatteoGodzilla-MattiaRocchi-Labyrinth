@@ -2,6 +2,7 @@ package com.ccdr.labyrinth.game;
 
 import java.util.List;
 
+import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.player.Player;
 
 public interface GameView {
@@ -22,6 +23,8 @@ public interface GameView {
      * @param players the list of players to draw
      */
     void drawPlayersStats(final List<Player> players);
+
+    void drawMissions(double fps, List<Item> missions);
 
     void onDisable();
 }

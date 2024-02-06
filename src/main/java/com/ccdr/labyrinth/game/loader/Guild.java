@@ -11,7 +11,5 @@ public interface Guild {
     void setType(TileType type);
 
     TileType getType();
-    
-    void addMissions(Item mission);
 
 }

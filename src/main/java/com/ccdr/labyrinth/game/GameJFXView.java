@@ -2,6 +2,7 @@ package com.ccdr.labyrinth.game;
 
 import java.util.List;
 
+import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
@@ -61,6 +62,16 @@ public class GameJFXView implements GameView, JFXInputSource {
     public void drawPlayersStats(List<Player> players) {
         Platform.runLater(() -> {
             //TODO: insert code to draw players statistics
+        });
+    }
+
+    public void drawMissions(double framerate, List<Item> missions){
+        Platform.runLater(()->{
+            var context2d = this.canvas.getGraphicsContext2D();
+            context2d.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
+            context2d.setFill(Color.BLACK);
+            context2d.setTextBaseline(VPos.TOP);
+            context2d.fillText("FPS:"+framerate, 0, 0);
         });
     }
 

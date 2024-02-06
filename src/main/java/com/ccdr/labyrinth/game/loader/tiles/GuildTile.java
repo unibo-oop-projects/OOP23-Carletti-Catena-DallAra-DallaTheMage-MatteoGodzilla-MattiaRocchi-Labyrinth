@@ -52,11 +52,6 @@ public class GuildTile extends GenericTile implements Guild {
     }
 
     @Override
-    public void addMissions(Item mission) {
-       missions.add(mission);
-    }
-
-    @Override
     public void onEnter() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'onEnter'");

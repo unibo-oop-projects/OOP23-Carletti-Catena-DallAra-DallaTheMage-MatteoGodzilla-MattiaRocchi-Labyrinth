@@ -14,6 +14,10 @@ public class PlayersManager {
     private int activePlayer;
     private int diceVal;
     private Board board;
+    private boolean diceRolled = false;
+    private boolean rowMoved = false;
+    private boolean columnMoved = false;
+    private boolean tileRotated = false;
 
     public PlayersManager(final int numPlayers) {
         for(int i = 0; i < numPlayers; i++) {
@@ -26,7 +30,7 @@ public class PlayersManager {
      * Gives the list of players
      * @return an unmodifiable list of players
      */
-    public List<Player> getPlayer() {
+    public List<Player> getPlayers() {
         return List.copyOf(this.players);
     }
 
@@ -52,16 +56,51 @@ public class PlayersManager {
     public void generateDiceValue() {
         Random random = new Random();
         this.diceVal = random.nextInt(12) + 1;
+        this.diceRolled = true;
     }
 
     /**
-     * method for moving a tile and checking whether the player has moved a tile
-     * @return true if the active player moved a tile, otherwise false
+     * method to check if a row of the board is moved
+     * @param rowIndex the index of the row that is moved
      */
-    public boolean hasTileMoved() {
-        //TODO: implementation to understand if the tile has been moved
-        //final Coordinate tileCoord <-- è argomento del metodo???
-        return true;
+    public void tryMoveRow(final int rowIndex) {
+        if(rowIndex >= 0 && rowIndex < this.board.getHeight()) {
+            this.board.shiftRow(rowIndex, 1);
+            this.rowMoved = true;
+        }
+    }
+
+    /**
+     * method to check if a column of the board is moved
+     * @param columnIndex the index of the column that is moved
+     */
+    public void tryMoveColumn(final int columnIndex) {
+        if(columnIndex >= 0 && columnIndex < this.board.getWidth()) {
+            this.board.shiftColumn(columnIndex, 1);
+            this.columnMoved = true;
+        }
+    }
+
+    /**
+     * method to check if a tile of the board is rotated
+     * @param tileCoord the coordinate of the tile that is rotated
+     */
+    public void tryTileRotate(final Coordinate tileCoord) {
+        if(this.neighbours(this.getActivePlayer().getCoord(), tileCoord)) {
+            this.board.getMap().get(tileCoord).rotate();
+            this.tileRotated = true;
+        }
+    }
+
+    /**
+     * checks that two tiles are adjacent in the eight directions
+     * @param coord1 the coordinate of the first tile
+     * @param coord2 the coordinate of the second tile
+     * @return true if the two tiles are adjacent, otherwise false
+     */
+    private boolean neighbours(final Coordinate coord1, final Coordinate coord2) {
+        return Math.abs(coord1.row()-coord2.row()) <= 1 && 
+        Math.abs(coord1.column()-coord2.column()) <= 1 && !coord1.equals(coord2);
     }
     
     /**
@@ -133,6 +172,24 @@ public class PlayersManager {
      * @return true if the player has finished his turn, otherwise false
      */
     public boolean isTurnFinished() {
-        return this.hasTileMoved() && this.diceVal == 0;
+        return (this.rowMoved || this.columnMoved || this.tileRotated) && this.diceRolled && this.diceVal == 0;
+    }
+
+    /**
+     * method for managing the turns system
+     */
+    public void turnsManager() {
+        //Gestisco shiftrow/shiftcolumn oppure rotate di una tessera adiacente
+        //Gestisco lancio del dado
+        //Gestisco movimento activePlayer
+
+        //Poi cambio l'activePlayer (se isTurnFInisched è true) rimettendo a false i campi della condizione fine turno
+        if(this.isTurnFinished()) {
+            this.setActivePlayer(this.activePlayer+1 % this.players.size());
+            this.diceRolled = false;
+            this.rowMoved = false;
+            this.columnMoved = false;
+            this.tileRotated = false;
+        }
     }
 }

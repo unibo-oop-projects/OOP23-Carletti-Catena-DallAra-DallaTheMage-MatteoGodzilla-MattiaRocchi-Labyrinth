@@ -6,8 +6,8 @@ public enum Direction {
     DOWN,
     LEFT;
 
-    public static Direction next(Direction actual) {
-        switch(actual) {
+    public Direction next() {
+        switch(this) {
             case UP:
                 return RIGHT;
             case RIGHT:

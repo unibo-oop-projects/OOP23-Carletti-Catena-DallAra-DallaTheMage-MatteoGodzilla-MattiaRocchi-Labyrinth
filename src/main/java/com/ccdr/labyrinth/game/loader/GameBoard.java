@@ -45,6 +45,14 @@ public class GameBoard implements Board {
         map.put(coordinate, tile);
     }
 
+    private int getNext(int actual, int size) {
+        if(actual >= size) {
+             return 0;
+        } else {
+             return ++actual;
+        }
+    }
+
     @Override
     public void shiftRow(int row, int movement) {
         Map<Coordinate, Tile> shifted = new HashMap<>();
@@ -61,14 +69,6 @@ public class GameBoard implements Board {
                 this.map.replace(pointer, shifted.get(pointer));
             }
         }
-    }
-
-    private int getNext(int actual, int size) {
-       if(actual >= size) {
-            return 0;
-       } else {
-            return ++actual;
-       }
     }
 
     @Override

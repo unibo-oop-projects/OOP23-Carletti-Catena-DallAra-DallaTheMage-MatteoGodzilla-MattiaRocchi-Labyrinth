@@ -7,7 +7,7 @@ import java.util.Map;
 public interface Tile {
 
     boolean isOpen(Direction access);
-
+    
     void onEnter();
 
     void onExit();

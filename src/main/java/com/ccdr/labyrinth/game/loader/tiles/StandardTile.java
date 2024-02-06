@@ -6,6 +6,7 @@ public class StandardTile extends GenericTile {
         super.setType(TileType.NORMAL);
     }
 
+    /*TODO: OPTIONAL STANDARDTILE BONUS MATERIALS*/
     @Override
     public void onEnter() {
         // TODO Auto-generated method stub

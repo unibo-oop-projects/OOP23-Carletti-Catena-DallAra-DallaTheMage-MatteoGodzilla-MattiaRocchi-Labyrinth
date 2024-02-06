@@ -7,7 +7,6 @@ import com.ccdr.labyrinth.jfx.JFXStage;
 import com.ccdr.labyrinth.menu.tree.MenuChoiceElement;
 import com.ccdr.labyrinth.menu.tree.MenuElement;
 import com.ccdr.labyrinth.menu.tree.MenuListElement;
-import com.ccdr.labyrinth.menu.tree.MenuRootElement;
 import com.ccdr.labyrinth.menu.tree.MenuTextElement;
 
 import javafx.animation.Animation;
@@ -83,7 +82,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
             context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
             drawHeader(context, element);
             if (element instanceof MenuListElement) {
-                if (element instanceof MenuRootElement) {
+                if (element.getName().equals(MenuController.ROOT_NAME)) {
                     drawLogo(context);
                 }
                 drawList(context, (MenuListElement) element);
@@ -144,7 +143,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
         context.setFill(Color.valueOf("#bbbbbb"));
         double startY = this.headerFontSize + this.padding;
         double y = startY;
-        if (listElement instanceof MenuRootElement) {
+        if (listElement.getName().equals(MenuController.ROOT_NAME)) {
             startY = this.canvas.getHeight() - listElement.getElements().size() * this.listFontSize - this.hintFontSize
                     - this.padding * 2;
             y = startY;

@@ -12,7 +12,6 @@ import com.ccdr.labyrinth.menu.tree.MenuButtonElement;
 import com.ccdr.labyrinth.menu.tree.MenuChoiceElement;
 import com.ccdr.labyrinth.menu.tree.MenuElement;
 import com.ccdr.labyrinth.menu.tree.MenuListElement;
-import com.ccdr.labyrinth.menu.tree.MenuRootElement;
 import com.ccdr.labyrinth.menu.tree.MenuTextElement;
 
 /**
@@ -20,6 +19,7 @@ import com.ccdr.labyrinth.menu.tree.MenuTextElement;
  * This class doesn't have any direct reference to the game controller
  */
 public class MenuController implements Executor {
+    public static final String ROOT_NAME = "Labyrinth";
     private GameConfig config = new GameConfig();
     private Set<MenuView> views = new HashSet<>();
     private MenuElement current = createMenuStructure();
@@ -65,15 +65,18 @@ public class MenuController implements Executor {
     // functions related to menu movement
 
     private MenuElement createMenuStructure() {
-        return new MenuRootElement("",
-                new MenuButtonElement("Play", () -> onPlay.accept(config)),
-                new MenuListElement("Configuration",
-                        new MenuChoiceElement<>("Players", 0, List.of(1, 2, 3, 4), this::setPlayers),
-                        new MenuChoiceElement<>("Width", 0, List.of(1, 2, 3), this::handleWidth)),
-                new MenuTextElement("How to play", ""),
-                new MenuTextElement("Credits", ""),
-                new MenuTextElement("Exit", "Are you sure you want to close the game?")
-                        .setAction(() -> onExit.run()));
+        return new MenuListElement(ROOT_NAME,
+            new MenuButtonElement("Play", () -> onPlay.accept(config)),
+            new MenuListElement("Configuration",
+                new MenuChoiceElement<>("Players", List.of(1, 2, 3, 4))
+                    .setAction(this::setPlayers),
+                new MenuChoiceElement<>("Width", List.of(1, 2, 3))
+                    .setAction(this::handleWidth)
+                ),
+            new MenuTextElement("How to play", ""),
+            new MenuTextElement("Credits", ""),
+            new MenuTextElement("Exit", "Are you sure you want to close the game?")
+                .setAction(() -> onExit.run()));
     }
 
     private void handleWidth(Integer width) {

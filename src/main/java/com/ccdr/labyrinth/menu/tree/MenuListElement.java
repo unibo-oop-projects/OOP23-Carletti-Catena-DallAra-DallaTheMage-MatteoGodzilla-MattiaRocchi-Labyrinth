@@ -2,6 +2,10 @@ package com.ccdr.labyrinth.menu.tree;
 
 import java.util.*;
 
+/**
+ * This class is meant to contain a list of other MenuElement objects.
+ * It's used to build the hierarchy of the menu tree available to the player
+ */
 public class MenuListElement extends MenuElement{
     private List<MenuElement> children = new ArrayList<>();
     private int index = 0;

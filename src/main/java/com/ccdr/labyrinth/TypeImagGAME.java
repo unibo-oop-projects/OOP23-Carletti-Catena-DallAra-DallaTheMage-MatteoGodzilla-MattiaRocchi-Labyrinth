@@ -11,7 +11,7 @@ public enum TypeImagGAME {
 
     private String path;
     private Image picture;
-    
+
     private TypeImagGAME(String path){
         this.path = path;
         this.picture = new Image(path, 0, 0, true, true);

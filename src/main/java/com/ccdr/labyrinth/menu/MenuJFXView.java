@@ -1,6 +1,6 @@
 package com.ccdr.labyrinth.menu;
 
-import com.ccdr.labyrinth.TypeImagMENU;
+import com.ccdr.labyrinth.TypeImag;
 import com.ccdr.labyrinth.jfx.AspectRatioCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
@@ -120,7 +120,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
     }
 
     private void drawLogo(GraphicsContext context) {
-        Image image = TypeImagMENU.LOGO.getImage();
+        Image image = TypeImag.LOGO.getImage();
         double logoWidth = this.logoSize * image.getWidth() / image.getHeight();
         double xPos = this.canvas.getWidth() / 2 - logoWidth / 2;
         //xPos -= logoWidth * 0.1;

@@ -74,7 +74,7 @@ public class GameController implements Executor{
     }
 
     public void moveUpGuild() {
-;
+;       
     }
 
     public void moveDownGuild() {

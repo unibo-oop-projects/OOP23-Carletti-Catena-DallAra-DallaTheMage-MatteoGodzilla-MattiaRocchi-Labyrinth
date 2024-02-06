@@ -12,7 +12,6 @@ import com.ccdr.labyrinth.menu.tree.MenuTextElement;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
-import javafx.animation.Animation.Status;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;

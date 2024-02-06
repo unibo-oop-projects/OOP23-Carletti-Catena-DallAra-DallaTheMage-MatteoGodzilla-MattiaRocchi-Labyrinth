@@ -3,7 +3,7 @@ package com.ccdr.labyrinth.game.loader.tiles;
 import com.ccdr.labyrinth.Material;
 
 public class SourceTile extends GenericTile {
-    private final int MAX_CHARGE = 10;
+    public static final int MAX_CHARGE = 10;
     private final Material assignedMaterial;
     private int materialQuantity;
 
@@ -34,13 +34,10 @@ public class SourceTile extends GenericTile {
 
     @Override
     public void onEnter() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onEnter'");
+        //TODO: need a reference to the player that entered this tile,
+        //so that i can reward with materials
     }
 
     @Override
-    public void onExit() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onExit'");
-    }
+    public void onExit() {}
 }

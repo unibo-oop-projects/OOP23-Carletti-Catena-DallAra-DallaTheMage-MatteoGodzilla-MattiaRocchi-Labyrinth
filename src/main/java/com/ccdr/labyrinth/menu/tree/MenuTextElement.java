@@ -1,7 +1,9 @@
 package com.ccdr.labyrinth.menu.tree;
 
-//menu element that only displays text. Meant to be used only as a leaf.
-//it runs the runnable provided in the constructor once selected
+/**
+ * menu element that only displays text. Meant to be used only as a leaf.
+ * it runs the runnable provided in the constructor once selected
+ */
 public class MenuTextElement extends MenuElement {
     private Runnable action;
     private String description;

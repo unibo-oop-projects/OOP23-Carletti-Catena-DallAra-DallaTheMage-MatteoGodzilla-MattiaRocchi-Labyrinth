@@ -8,7 +8,7 @@ public enum TypeImagMENU {
     //path is redirected through src/main/resources
     //if the file could not be found, jfx will throw an exception
     //(it doesn't do that when you use the 'file:' protocol)
-    LOGO("/menu/Logo-v2.png");
+    LOGO("/menu/Logo-v3.png");
     //TEXT("/menu/Text.png");
 
     private String path;

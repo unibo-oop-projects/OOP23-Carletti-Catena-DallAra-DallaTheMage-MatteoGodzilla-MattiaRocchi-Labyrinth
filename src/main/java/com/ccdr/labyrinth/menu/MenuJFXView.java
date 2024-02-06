@@ -113,7 +113,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
     // Platform.runLater
     private void recalculateFontSizes() {
         this.baseFontSize = this.canvas.getHeight() / 10;
-        this.logoSize = this.baseFontSize * 3 / 2;
+        this.logoSize = this.baseFontSize * 2;
         this.headerFontSize = this.baseFontSize;
         this.listFontSize = this.baseFontSize * 2 / 3;
         this.descriptionFontSize = this.baseFontSize / 2;
@@ -125,7 +125,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
         Image image = TypeImagMENU.LOGO.getImage();
         double logoWidth = this.logoSize * image.getWidth() / image.getHeight();
         double xPos = this.canvas.getWidth() / 2 - logoWidth / 2;
-        xPos -= logoWidth * 0.1;
+        //xPos -= logoWidth * 0.1;
         context.drawImage(image, xPos, this.padding, logoWidth, this.logoSize);
     }
 

@@ -14,10 +14,13 @@ public class PlayersManager {
     private int activePlayer;
     private int diceVal;
     private Board board;
-    private boolean diceRolled = false;
-    private boolean rowMoved = false;
-    private boolean columnMoved = false;
-    private boolean tileRotated = false;
+    /**
+     * turnSubphase == 0 -> moverow/movecolumn/rotate
+     * turnSubphase == 1 -> generate dice value
+     * turnSubphase == 2 -> moveup/moveright/moveleft/movedown
+     * turnSubphase == 3 -> end turn, so turnSubphase = 0 
+     */
+    private int turnSubphase = 0;
 
     public PlayersManager(final int numPlayers) {
         for(int i = 0; i < numPlayers; i++) {
@@ -54,9 +57,25 @@ public class PlayersManager {
      * method to generate a random number
      */
     public void generateDiceValue() {
-        Random random = new Random();
-        this.diceVal = random.nextInt(12) + 1;
-        this.diceRolled = true;
+        if(this.turnSubphase == 1) {
+            Random random = new Random();
+            this.diceVal = random.nextInt(12) + 1;
+            this.setTurnSubphase(this.turnSubphase + 1);
+        } else {
+            System.out.println("Non puoi lanciare adesso il dado!!!");
+        }
+    }
+
+    /**
+     * method that sets the value of the point of the turn we are in
+     * @param value it's the new value of the turn subphase
+     */
+    public void setTurnSubphase(final int value) {
+        if(value == 3) {
+            this.turnSubphase = 0;
+        } else {
+            this.turnSubphase = value;
+        }
     }
 
     /**
@@ -64,9 +83,10 @@ public class PlayersManager {
      * @param rowIndex the index of the row that is moved
      */
     public void tryMoveRow(final int rowIndex) {
-        if(rowIndex >= 0 && rowIndex < this.board.getHeight()) {
+        if(this.turnSubphase == 0 && rowIndex >= 0 && rowIndex < this.board.getHeight()) {
             this.board.shiftRow(rowIndex, 1);
-            this.rowMoved = true;
+            this.setTurnSubphase(this.turnSubphase + 1);
+            //TODO:In base alla direzione del movimento si deve spostare insieme alla tile anche il/i player
         }
     }
 
@@ -75,9 +95,10 @@ public class PlayersManager {
      * @param columnIndex the index of the column that is moved
      */
     public void tryMoveColumn(final int columnIndex) {
-        if(columnIndex >= 0 && columnIndex < this.board.getWidth()) {
+        if(this.turnSubphase == 0 && columnIndex >= 0 && columnIndex < this.board.getWidth()) {
             this.board.shiftColumn(columnIndex, 1);
-            this.columnMoved = true;
+            this.setTurnSubphase(this.turnSubphase + 1);
+            //TODO:In base alla direzione del movimento si deve spostare insieme alla tile anche il/i player
         }
     }
 
@@ -86,9 +107,9 @@ public class PlayersManager {
      * @param tileCoord the coordinate of the tile that is rotated
      */
     public void tryTileRotate(final Coordinate tileCoord) {
-        if(this.neighbours(this.getActivePlayer().getCoord(), tileCoord)) {
+        if(this.turnSubphase == 0 && this.neighbours(this.getActivePlayer().getCoord(), tileCoord)) {
             this.board.getMap().get(tileCoord).rotate();
-            this.tileRotated = true;
+            this.setTurnSubphase(this.turnSubphase + 1);
         }
     }
 
@@ -111,7 +132,7 @@ public class PlayersManager {
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row()-1, this.getActivePlayer().getCoord().column()));
-        if(this.diceVal > 0 && startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
+        if(this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
             startTile.onExit();
             this.getActivePlayer().moveUp();
             endTile.onEnter();
@@ -127,7 +148,7 @@ public class PlayersManager {
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column()+1));
-        if(this.diceVal > 0 && startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
+        if(this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
             startTile.onExit();
             this.getActivePlayer().moveRight();
             endTile.onEnter();
@@ -143,7 +164,7 @@ public class PlayersManager {
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column()-1));
-        if(this.diceVal > 0 && startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
+        if(this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
             startTile.onExit();
             this.getActivePlayer().moveLeft();
             endTile.onEnter();
@@ -159,7 +180,7 @@ public class PlayersManager {
         var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row()+1, this.getActivePlayer().getCoord().column()));
-        if(this.diceVal > 0 && startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
+        if(this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
             startTile.onExit();
             this.getActivePlayer().moveDown();
             endTile.onEnter();
@@ -172,24 +193,20 @@ public class PlayersManager {
      * @return true if the player has finished his turn, otherwise false
      */
     public boolean isTurnFinished() {
-        return (this.rowMoved || this.columnMoved || this.tileRotated) && this.diceRolled && this.diceVal == 0;
+        return this.turnSubphase == 2 && this.diceVal == 0;
     }
 
     /**
      * method for managing the turns system
      */
     public void turnsManager() {
-        //Gestisco shiftrow/shiftcolumn oppure rotate di una tessera adiacente
-        //Gestisco lancio del dado
-        //Gestisco movimento activePlayer
-
-        //Poi cambio l'activePlayer (se isTurnFInisched è true) rimettendo a false i campi della condizione fine turno
+        //Poi cambio l'activePlayer (se isTurnFInisched è true),
+        //mettendo turnSubpahse a 3 che verrà settato successivamente a 0
         if(this.isTurnFinished()) {
             this.setActivePlayer(this.activePlayer+1 % this.players.size());
-            this.diceRolled = false;
-            this.rowMoved = false;
-            this.columnMoved = false;
-            this.tileRotated = false;
+            this.setTurnSubphase(this.turnSubphase + 1);
+        } else {
+            System.out.println("Il tuo turno non è ancora terminato! Sei alla fase " + this.turnSubphase);
         }
     }
 }

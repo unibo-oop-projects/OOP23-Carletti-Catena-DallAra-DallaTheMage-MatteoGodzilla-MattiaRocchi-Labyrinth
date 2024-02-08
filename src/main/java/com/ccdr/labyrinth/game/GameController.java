@@ -3,9 +3,12 @@ package com.ccdr.labyrinth.game;
 import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.PlayersManager;
+import com.ccdr.labyrinth.game.loader.Item;
+import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 //this is the class responsible for controlling the entire game
 public class GameController implements Executor{
@@ -14,13 +17,17 @@ public class GameController implements Executor{
     private Board board;
     private PlayersManager playerManager;
     private boolean menuGuild = false;
+    private List<Item> missions;
+    private GuildTile guild;
 
     @Override
     public void onEnable(Engine engine) {
+
         this.engine = engine;
         for (GameView gameView : views) {
             gameView.onEnable();
         }
+        missions = guild.returnListOfMissions();
     }
 
     public void init(GameConfig config){
@@ -32,7 +39,7 @@ public class GameController implements Executor{
         //game loop
         double framerate = 1.0/deltaTimeInSeconds;
         for (GameView gameView : views) {
-            gameView.draw(framerate);
+            gameView.drawMissions(missions);
             gameView.drawBoard(this.board);
         }
     }

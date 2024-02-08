@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 public class GameJFXView implements GameView, JFXInputSource {
     private Scene scene;
     private Canvas canvas;
+    private int i = 1;
 
     public GameJFXView(){
         this.canvas = new Canvas(JFXStage.WINDOW_WIDTH,JFXStage.WINDOW_HEIGHT);
@@ -65,13 +66,18 @@ public class GameJFXView implements GameView, JFXInputSource {
         });
     }
 
-    public void drawMissions(double framerate, List<Item> missions){
+    public void drawMissions(List<Item> missions){
         Platform.runLater(()->{
             var context2d = this.canvas.getGraphicsContext2D();
             context2d.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
             context2d.setFill(Color.BLACK);
             context2d.setTextBaseline(VPos.TOP);
-            context2d.fillText("FPS:"+framerate, 0, 0);
+            context2d.fillText("Missions", 15, 0);
+            for (Item item : missions) {
+                context2d.fillText(""+item.getCategory() + item.getMaterial() + item.getRequiredMaterials(), 0, i * 10);
+                i++;
+            }
+            i=1;
         });
     }
 

@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
 
+/**
+ * Class that contains all tests for Source tiles.
+ */
 public class SourceTileTest {
 
     @Test
@@ -23,7 +26,7 @@ public class SourceTileTest {
 
     @Test
     void collect() {
-        SourceTile tile = new SourceTile(Material.WOOD,3);
+        SourceTile tile = new SourceTile(Material.WOOD, 3);
         tile.updateTile();
         tile.updateTile();
         tile.updateTile();
@@ -52,8 +55,9 @@ public class SourceTileTest {
         //players walks up to the source tile
         assertEquals(SourceTile.STARTING_QUANTITY, tile.collect());
         assertFalse(tile.isActive());
-        //simulate nothing happens for 5 turns
-        for (int i = 0; i < 5; i++) {
+        //simulate nothing happening for 5 turns
+        final int emptyTurns = 5;
+        for (int i = 0; i < emptyTurns; i++) {
             tile.updateTile();
         }
         //it should still be inactive

@@ -4,16 +4,24 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.ccdr.labyrinth.menu.tree.*;
-import java.util.*;
+import com.ccdr.labyrinth.menu.tree.MenuButtonElement;
+import com.ccdr.labyrinth.menu.tree.MenuChoiceElement;
+import com.ccdr.labyrinth.menu.tree.MenuElement;
+import com.ccdr.labyrinth.menu.tree.MenuListElement;
+import com.ccdr.labyrinth.menu.tree.MenuTextElement;
 
-public class MenuElementTest {
+/**
+ * Class that contains all test cases for MenuElements.
+ */
+public final class MenuElementTest {
 
-    MenuElement tree;
-    boolean signal = false;
+    private MenuElement tree;
+    private boolean signal = false;
 
     @BeforeEach
     void setupMenuTree() {
@@ -22,7 +30,7 @@ public class MenuElementTest {
             new MenuChoiceElement<>("Choice box", List.of("a", "b", "c", "d")),
             new MenuListElement("InnerList",
                 new MenuTextElement("Clickable Text", null),
-                new MenuButtonElement("Clickable Button", ()->System.out.println("clicked"))),
+                new MenuButtonElement("Clickable Button", () -> System.out.println("clicked"))),
             new MenuButtonElement("Fake Play", () -> signal = true)
         );
         signal = false;

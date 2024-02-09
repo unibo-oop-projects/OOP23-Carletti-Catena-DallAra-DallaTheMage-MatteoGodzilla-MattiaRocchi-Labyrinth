@@ -1,27 +1,34 @@
 package com.ccdr.labyrinth.menu.tree;
 
-public class MenuButtonElement extends MenuElement {
+/**
+ * This class represents a button that activates as soon as it's selected.
+ */
+public final class MenuButtonElement extends MenuElement {
 
     private Runnable action;
 
-    public MenuButtonElement(String name, Runnable action) {
+    /**
+     * @param name name of this MenuElement
+     * @param action callback to run as soon as this element is selected
+     */
+    public MenuButtonElement(final String name, final Runnable action) {
         super(name);
         this.action = action;
     }
 
     @Override
     public void up() {
-        throw new IllegalStateException("MenuButton does not support up");
+        throw new IllegalCallerException("MenuButton cannot be focused. It does not support 'up' event ");
     }
 
     @Override
     public void down() {
-        throw new IllegalStateException("MenuButton does not support down");
+        throw new IllegalCallerException("MenuButton cannot be focused. It does not support 'down' event ");
     }
 
     @Override
     public MenuElement nextState() {
-        throw new IllegalStateException("MenuButton cannot be the currently selected element");
+        throw new IllegalCallerException("MenuButton cannot be focused. It does not have a 'next state'");
     }
 
     @Override

@@ -4,29 +4,39 @@ package com.ccdr.labyrinth.menu.tree;
  * menu element that only displays text. Meant to be used only as a leaf.
  * it runs the runnable provided in the constructor once selected
  */
-public class MenuTextElement extends MenuElement {
+public final class MenuTextElement extends MenuElement {
     private Runnable action;
     private String description;
 
-    public MenuTextElement(String text, String description){
-        super(text);
+    /**
+     * @param name name of this MenuElement
+     * @param description Description to show when this object is in focus, can be null
+     */
+    public MenuTextElement(final String name, final String description) {
+        super(name);
         this.description = description;
     }
 
-    public MenuTextElement setAction(Runnable action){
+    /**
+     * @param action callback to run once this object is not in focus anymore
+     * @return this instance
+     */
+    public MenuTextElement setAction(final Runnable action) {
         this.action = action;
         return this;
     }
 
+    //This object can be focused by the user, so up and down should silently fail
+    //Instead of throwing an exception when the user presses up/down
     @Override
-    public void up() {}
+    public void up() { }
 
     @Override
-    public void down() {}
+    public void down() { }
 
     @Override
     public MenuElement nextState() {
-        if(this.action != null){
+        if (this.action != null) {
             this.action.run();
         }
         return getParent();
@@ -37,12 +47,15 @@ public class MenuTextElement extends MenuElement {
         return getName();
     }
 
-    public String getDescription(){
-        return this.description;
-    }
-
     //MenuTextElement does not need to do anything immediate
     @Override
-    public void immediate() {}
+    public void immediate() { }
 
+    //Getters
+    /**
+     * @return description of this object
+     */
+    public String getDescription() {
+        return this.description;
+    }
 }

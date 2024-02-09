@@ -1,32 +1,39 @@
 package com.ccdr.labyrinth.menu.tree;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This class is meant to contain a list of other MenuElement objects.
  * It's used to build the hierarchy of the menu tree available to the player
  */
-public class MenuListElement extends MenuElement{
+public final class MenuListElement extends MenuElement {
     private List<MenuElement> children = new ArrayList<>();
     private int index = 0;
 
-    public MenuListElement(String name, MenuElement ...elm){
+    /**
+     * @param name name of this menu element
+     * @param elm immutable list of elements that contains all possible child elements
+     */
+    public MenuListElement(final String name, final MenuElement... elm) {
         super(name);
         for (MenuElement menuElement : elm) {
-            this.add(menuElement);
+            this.children.add(menuElement);
+            menuElement.setParent(this);
         }
     }
 
     @Override
     public void up() {
-        if(this.index > 0){
+        if (this.index > 0) {
             this.index--;
         }
     }
 
     @Override
     public void down() {
-        if(this.index + 1 < this.children.size()){
+        if (this.index + 1 < this.children.size()) {
             this.index++;
         }
     }
@@ -36,25 +43,28 @@ public class MenuListElement extends MenuElement{
         return this.children.get(this.index);
     }
 
-    private void add(MenuElement menuElement) {
-        this.children.add(menuElement);
-        menuElement.setParent(this);
-    }
-
-    public int getIndex() {
-        return this.index;
-    }
-
     @Override
     public String toString() {
         return this.getName();
     }
 
-    public List<MenuElement> getElements(){
+    //MenuListElement does not require to do anything immediate
+    @Override
+    public void immediate() { }
+
+    //Getters
+
+    /**
+     * @return immutable list of menu elements contained inside this object
+     */
+    public List<MenuElement> getElements() {
         return Collections.unmodifiableList(this.children);
     }
 
-    //MenuListElement does not require to do anything immediate
-    @Override
-    public void immediate() {}
+    /**
+     * @return index of the currently chosen menu object
+     */
+    public int getIndex() {
+        return this.index;
+    }
 }

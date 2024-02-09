@@ -12,15 +12,24 @@ import com.ccdr.labyrinth.menu.MenuJFXView;
 import javafx.application.Application;
 import javafx.application.Platform;
 
-public class Labyrinth {
+/**
+ * Main class that gets executed.
+ */
+public final class Labyrinth {
+    private static final int TARGET_FRAMERATE = 120;
 
-    //Entry point of the entire application
-    public static void main(String[] args) throws InterruptedException {
-        new Thread(()->{
+    /**
+     *
+     * @param args ignored
+     * @throws InterruptedException ignored
+     */
+    public static void main(final String[] args) throws InterruptedException {
+        new Thread(() -> {
             //Makes sure the JavaFX environment is set up, in the case where the application below hasn´t started yet
             //System.out.println(System.getProperty("java.class.path"));
-            Platform.startup(()->{});
-            Engine engine = new Engine(120);
+            Platform.startup(() -> {
+            });
+            Engine engine = new Engine(TARGET_FRAMERATE);
 
             //setting up the actual game
             GameController gameController = new GameController();
@@ -36,7 +45,7 @@ public class Labyrinth {
             MenuInputAdapter menuInput = new MenuInputAdapter(menuController);
             menuView.routeKeyboardEvents(menuInput);
 
-            menuController.onPlay(config ->{
+            menuController.onPlay(config -> {
                 engine.changeExecutor(ID.GAME);
                 gameController.init(config);
             });
@@ -61,4 +70,6 @@ public class Labyrinth {
 
         Application.launch(JFXStage.class);
     }
+
+    private Labyrinth() { }
 }

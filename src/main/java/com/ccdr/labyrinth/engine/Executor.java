@@ -4,8 +4,17 @@ package com.ccdr.labyrinth.engine;
  * @see Engine
  */
 public interface Executor {
-    public enum ID {
+    /**
+     * IDs used to differentiate executors in the engine class.
+     */
+    enum ID {
+        /**
+         * id used for the main menu.
+         */
         MENU,
+        /**
+         * id used for the gameplay.
+         */
         GAME
     }
 
@@ -22,7 +31,6 @@ public interface Executor {
     /**
      * Opposite method of onEnable
      * This function gets called by the engine when this executor switches from active to inactive.
-     * @param engine reference to the engine object
      */
     void onDisable();
 }

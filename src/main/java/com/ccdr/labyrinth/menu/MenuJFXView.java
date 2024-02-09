@@ -49,7 +49,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
     private static final Color TEXT_FILL = Color.valueOf("#bbbbbb");
 
     /**
-     * constructor
+     * 
      */
     public MenuJFXView() {
         this.canvas = new AspectRatioCanvas(JFXStage.WINDOW_WIDTH, JFXStage.WINDOW_HEIGHT);

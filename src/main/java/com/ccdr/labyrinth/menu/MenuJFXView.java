@@ -24,9 +24,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
-//This class is invoked from the controller thread, so *every* draw call MUST be wrapped into
-//a `Platform.runLater` call.
-public class MenuJFXView implements MenuView, JFXInputSource {
+/**
+ * Main implementation of the MenuView interface, done using JavaFX.
+ */
+public final class MenuJFXView implements MenuView, JFXInputSource {
     private Scene scene;
     private AspectRatioCanvas canvas;
     private Animation indexArrow;
@@ -39,10 +40,17 @@ public class MenuJFXView implements MenuView, JFXInputSource {
     private double logoSize;
     private double padding;
     // variable used for animation
+    private static final double ANIM_DURATION = 0.1;
     private double startIndex = 0;
     private double endIndex = 0;
     private double interpolatedIndex;
+    // variables used for general rendering
+    private static final double BRIGHTNESS = 0.1;
+    private static final Color TEXT_FILL = Color.valueOf("#bbbbbb");
 
+    /**
+     * constructor
+     */
     public MenuJFXView() {
         this.canvas = new AspectRatioCanvas(JFXStage.WINDOW_WIDTH, JFXStage.WINDOW_HEIGHT);
         var layout = new HBox(this.canvas);
@@ -57,13 +65,13 @@ public class MenuJFXView implements MenuView, JFXInputSource {
             // index indicator transition
             this.indexArrow = new Transition() {
                 {
-                    setCycleDuration(Duration.seconds(0.1));
+                    setCycleDuration(Duration.seconds(ANIM_DURATION));
                     setCycleCount(1);
                     setInterpolator(Interpolator.EASE_BOTH);
                 }
 
                 @Override
-                protected void interpolate(double frac) {
+                protected void interpolate(final double frac) {
                     interpolatedIndex = frac * (endIndex - startIndex) + startIndex;
                 }
             };
@@ -73,11 +81,11 @@ public class MenuJFXView implements MenuView, JFXInputSource {
     }
 
     @Override
-    public void draw(MenuElement element) {
+    public void draw(final MenuElement element) {
         Platform.runLater(() -> {
             GraphicsContext context = this.canvas.getGraphicsContext2D();
             recalculateFontSizes();
-            context.setFill(Color.gray(0.1));
+            context.setFill(Color.gray(BRIGHTNESS));
             context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
             drawHeader(context, element);
             if (element instanceof MenuListElement) {
@@ -95,7 +103,7 @@ public class MenuJFXView implements MenuView, JFXInputSource {
     }
 
     @Override
-    public void changed(MenuElement element) {
+    public void changed(final MenuElement element) {
         if (element instanceof MenuListElement || element instanceof MenuChoiceElement) {
             this.startIndex = this.endIndex;
             if (element instanceof MenuListElement) {
@@ -107,8 +115,17 @@ public class MenuJFXView implements MenuView, JFXInputSource {
         }
     }
 
-    // all these functions below are called from the JFX thread, so they don't need
-    // Platform.runLater
+    // this is left empty, for now
+    @Override
+    public void onDisable() { }
+
+    @Override
+    public void routeKeyboardEvents(final Receiver adapter) {
+        this.scene.setOnKeyPressed(adapter::onKeyPressed);
+        this.scene.setOnKeyReleased(adapter::onKeyReleased);
+    }
+
+    // all these functions below are called from the JFX thread, so they don't need Platform.runLater
     private void recalculateFontSizes() {
         this.baseFontSize = this.canvas.getHeight() / 10;
         this.logoSize = this.baseFontSize * 2;
@@ -116,30 +133,29 @@ public class MenuJFXView implements MenuView, JFXInputSource {
         this.listFontSize = this.baseFontSize * 2 / 3;
         this.descriptionFontSize = this.baseFontSize / 2;
         this.hintFontSize = this.baseFontSize / 3;
-        this.padding = this.baseFontSize * 0.1;
+        this.padding = this.baseFontSize / 10;
     }
 
-    private void drawLogo(GraphicsContext context) {
+    private void drawLogo(final GraphicsContext context) {
         Image image = TypeImag.LOGO.getImage();
         double logoWidth = this.logoSize * image.getWidth() / image.getHeight();
         double xPos = this.canvas.getWidth() / 2 - logoWidth / 2;
-        //xPos -= logoWidth * 0.1;
         context.drawImage(image, xPos, this.padding, logoWidth, this.logoSize);
     }
 
-    private void drawHeader(GraphicsContext context, MenuElement element) {
+    private void drawHeader(final GraphicsContext context, final MenuElement element) {
         context.setFont(Font.font(this.headerFontSize));
         context.setTextBaseline(VPos.TOP);
         context.setTextAlign(TextAlignment.CENTER);
-        context.setFill(Color.valueOf("#bbbbbb"));
+        context.setFill(TEXT_FILL);
         context.fillText(element.getName(), this.canvas.getWidth() / 2, 0);
     }
 
-    private void drawList(GraphicsContext context, MenuListElement listElement) {
+    private void drawList(final GraphicsContext context, final MenuListElement listElement) {
         // draw the list elements below (only the name, not everything else)
         context.setTextAlign(TextAlignment.LEFT);
         context.setFont(Font.font(listFontSize));
-        context.setFill(Color.valueOf("#bbbbbb"));
+        context.setFill(TEXT_FILL);
         double startY = this.headerFontSize + this.padding;
         double y = startY;
         if (listElement.getName().equals(MenuController.ROOT_NAME)) {
@@ -154,11 +170,11 @@ public class MenuJFXView implements MenuView, JFXInputSource {
         context.fillText(">", this.padding, startY + interpolatedIndex * this.listFontSize);
     }
 
-    private void drawChoice(GraphicsContext context, MenuChoiceElement<?> choiceElement) {
+    private void drawChoice(final GraphicsContext context, final MenuChoiceElement<?> choiceElement) {
         // draw choices like as if they were in a list like MenuListElement
         context.setTextAlign(TextAlignment.LEFT);
         context.setFont(Font.font(this.listFontSize));
-        context.setFill(Color.valueOf("#bbbbbb"));
+        context.setFill(TEXT_FILL);
         double y = this.headerFontSize + this.padding;
         for (Object choice : choiceElement.getChoices()) {
             context.fillText(choice.toString(), this.listFontSize + this.padding, y);
@@ -167,34 +183,23 @@ public class MenuJFXView implements MenuView, JFXInputSource {
         context.fillText(">", this.padding, this.headerFontSize + this.padding + interpolatedIndex * this.listFontSize);
     }
 
-    private void drawText(GraphicsContext context, MenuTextElement textElement) {
+    private void drawText(final GraphicsContext context, final MenuTextElement textElement) {
         // draw additional description at the bottom
         context.setTextAlign(TextAlignment.CENTER);
         context.setTextBaseline(VPos.TOP);
         context.setFont(Font.font(descriptionFontSize));
-        context.setFill(Color.valueOf("#bbbbbb"));
+        context.setFill(TEXT_FILL);
         context.fillText(textElement.getDescription(), this.canvas.getWidth() / 2, this.headerFontSize + this.padding);
     }
 
-    private void drawHint(GraphicsContext context) {
+    private void drawHint(final GraphicsContext context) {
         // draw tooltip at the bottom
         context.setFont(Font.font(this.hintFontSize));
         context.setTextBaseline(VPos.BOTTOM);
         context.setTextAlign(TextAlignment.CENTER);
-        context.setFill(Color.valueOf("#bbbbbb"));
-        context.fillText("Enter: Confirm | Up/Down: Move cursor | Esc/Backspace: Go back", this.canvas.getWidth() / 2,
-                this.canvas.getHeight());
-    }
-
-    // this is left empty, for now
-    @Override
-    public void onDisable() {
-    }
-
-    @Override
-    public void routeKeyboardEvents(Receiver adapter) {
-        this.scene.setOnKeyPressed(adapter::onKeyPressed);
-        this.scene.setOnKeyReleased(adapter::onKeyReleased);
+        context.setFill(TEXT_FILL);
+        context.fillText("Enter: Confirm | Up/Down: Move cursor | Esc/Backspace: Go back",
+            this.canvas.getWidth() / 2, this.canvas.getHeight());
     }
 
 }

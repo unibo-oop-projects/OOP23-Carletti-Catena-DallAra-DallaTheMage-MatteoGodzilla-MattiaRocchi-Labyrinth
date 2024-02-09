@@ -4,16 +4,22 @@ import com.ccdr.labyrinth.jfx.JFXInputSource;
 
 import javafx.scene.input.KeyEvent;
 
-public final class MenuInputAdapter implements JFXInputSource.Receiver{
+/**
+ * Adapter responsible for receiving input events from the user when in the main menu.
+ */
+public final class MenuInputAdapter implements JFXInputSource.Receiver {
     private MenuController menuController;
 
-    public MenuInputAdapter(MenuController controller) {
+    /**
+     * @param controller reference to the menu controller to call
+     */
+    public MenuInputAdapter(final MenuController controller) {
         this.menuController = controller;
     }
 
     @Override
-    public void onKeyPressed(KeyEvent event) {
-        switch(event.getCode()){
+    public void onKeyPressed(final KeyEvent event) {
+        switch (event.getCode()) {
             case UP:
                 menuController.moveUp();
                 break;
@@ -33,5 +39,5 @@ public final class MenuInputAdapter implements JFXInputSource.Receiver{
     }
 
     @Override
-    public void onKeyReleased(KeyEvent event) { }
+    public void onKeyReleased(final KeyEvent event) { }
 }

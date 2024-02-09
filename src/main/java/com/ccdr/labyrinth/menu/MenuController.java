@@ -18,8 +18,12 @@ import com.ccdr.labyrinth.menu.tree.MenuTextElement;
  * Main class responsible for controlling the menu.
  * This class doesn't have any direct reference to the game controller
  */
-public class MenuController implements Executor {
+public final class MenuController implements Executor {
+    /**
+     * Name of the root of the menu, used to tell if the player is at the root of the menu.
+     */
     public static final String ROOT_NAME = "Labyrinth";
+
     private GameConfig config = new GameConfig();
     private Set<MenuView> views = new HashSet<>();
     private MenuElement current = createMenuStructure();
@@ -29,14 +33,14 @@ public class MenuController implements Executor {
     private Runnable onExit;
 
     @Override
-    public void onEnable(Engine engine) {
+    public void onEnable(final Engine engine) {
         for (MenuView view : views) {
             view.onEnable();
         }
     }
 
     @Override
-    public void update(double deltaTime) {
+    public void update(final double deltaTime) {
         for (MenuView view : views) {
             view.draw(current);
         }
@@ -49,20 +53,71 @@ public class MenuController implements Executor {
         }
     }
 
-    public void addView(MenuView view) {
+    /**
+     * Adds a view so that it gets updates from this controller.
+     * @param view view object
+     */
+    public void addView(final MenuView view) {
         this.views.add(view);
     }
 
     // events
-    public void onPlay(Consumer<GameConfig> callback) {
+    /**
+     * @param callback function to run when selecting 'play' in the menu
+     */
+    public void onPlay(final Consumer<GameConfig> callback) {
         this.onPlay = callback;
     }
 
-    public void onExit(Runnable callback) {
+    /**
+     * @param callback function to run when selecting 'exit' in the menu
+     */
+    public void onExit(final Runnable callback) {
         this.onExit = callback;
     }
 
+    //Functions called externally, in order to actually the menu
+    /**
+     * Up event received from the user, to then dispatch where necessary.
+     */
+    public void moveUp() {
+        current.up();
+        sendChangeToViews();
+    }
+
+    /**
+     * Down event received from the user, to then dispatch where necessary.
+     */
+    public void moveDown() {
+        current.down();
+        sendChangeToViews();
+    }
+
+    /**
+     * Select event received from the user, to then dispatch where necessary.
+     */
+    public void select() {
+        current = current.nextState();
+        current.immediate();
+        sendChangeToViews();
+    }
+
+    /**
+     * Back event received from the user, to then dispatch where necessary.
+     */
+    public void back() {
+        if (current.getParent() != null) {
+            current = current.getParent();
+        }
+        sendChangeToViews();
+    }
+
     // functions related to menu movement
+    private void sendChangeToViews() {
+        for (MenuView view : views) {
+            view.changed(this.current);
+        }
+    }
 
     private MenuElement createMenuStructure() {
         return new MenuListElement(ROOT_NAME,
@@ -79,40 +134,12 @@ public class MenuController implements Executor {
                 .setAction(() -> onExit.run()));
     }
 
-    private void handleWidth(Integer width) {
+    //Handlers for the single menu elements
+    private void handleWidth(final Integer width) {
         System.out.println(width);
     }
 
-    private void setPlayers(Integer players) {
+    private void setPlayers(final Integer players) {
         this.config.setPlayerCount(players);
-    }
-
-    public void moveUp() {
-        current.up();
-        sendChangeToViews();
-    }
-
-    public void moveDown() {
-        current.down();
-        sendChangeToViews();
-    }
-
-    public void select() {
-        current = current.nextState();
-        current.immediate();
-        sendChangeToViews();
-    }
-
-    public void back() {
-        if (current.getParent() != null) {
-            current = current.getParent();
-        }
-        sendChangeToViews();
-    }
-
-    public void sendChangeToViews() {
-        for (MenuView view : views) {
-            view.changed(this.current);
-        }
     }
 }

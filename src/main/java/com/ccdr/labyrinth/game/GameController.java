@@ -8,7 +8,7 @@ import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
+import java.util.*;
 
 //this is the class responsible for controlling the entire game
 public class GameController implements Executor{
@@ -17,8 +17,8 @@ public class GameController implements Executor{
     private Board board;
     private PlayersManager playerManager;
     private boolean menuGuild = false;
-    private List<Item> missions;
-    private GuildTile guild;
+    private List<Item> missions = new ArrayList();
+    private GuildTile guild = new GuildTile(4);
 
     @Override
     public void onEnable(Engine engine) {

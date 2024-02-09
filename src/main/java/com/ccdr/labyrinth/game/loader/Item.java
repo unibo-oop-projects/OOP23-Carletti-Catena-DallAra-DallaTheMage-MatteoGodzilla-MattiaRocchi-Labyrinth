@@ -6,15 +6,9 @@ import com.ccdr.labyrinth.Material;
 import java.util.Set;
 
 public class Item {
-    private String name;
     private Category category;
     private Material material;
-    private Set<Material> requiredMaterialTypes;
-    private MaterialBag requiredMaterials;
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private int quantity;
 
     public void setCategory(Category category) {
         this.category = category;
@@ -22,6 +16,10 @@ public class Item {
 
     public void setMaterial(Material material) {
         this.material = material;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public Category getCategory() {
@@ -32,11 +30,7 @@ public class Item {
         return this.material;
     }
 
-    public void setRequiredMaterialTypes(Set<Material> requiredMaterialTypes) {
-        this.requiredMaterialTypes = requiredMaterialTypes;
-    }
-
-    public MaterialBag getRequiredMaterials() {
-        return requiredMaterials;
+    public int getQuantity() {
+        return this.quantity;
     }
 }

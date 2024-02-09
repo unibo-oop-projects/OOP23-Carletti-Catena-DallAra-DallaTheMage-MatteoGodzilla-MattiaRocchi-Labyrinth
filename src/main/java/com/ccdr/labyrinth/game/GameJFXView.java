@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.player.Player;
+import com.ccdr.labyrinth.jfx.AspectRatioCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
 
@@ -22,7 +23,7 @@ public class GameJFXView implements GameView, JFXInputSource {
     private int i = 1;
 
     public GameJFXView(){
-        this.canvas = new Canvas(JFXStage.WINDOW_WIDTH,JFXStage.WINDOW_HEIGHT);
+        this.canvas = new AspectRatioCanvas(JFXStage.WINDOW_WIDTH,JFXStage.WINDOW_HEIGHT);
         this.scene = new Scene(new Group(this.canvas), Color.GREEN);
     }
 
@@ -69,12 +70,12 @@ public class GameJFXView implements GameView, JFXInputSource {
     public void drawMissions(List<Item> missions){
         Platform.runLater(()->{
             var context2d = this.canvas.getGraphicsContext2D();
-            context2d.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
+            context2d.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
             context2d.setFill(Color.BLACK);
             context2d.setTextBaseline(VPos.TOP);
             context2d.fillText("Missions", 15, 0);
             for (Item item : missions) {
-                context2d.fillText(""+item.getCategory() + item.getMaterial() + item.getRequiredMaterials(), 0, i * 10);
+                context2d.fillText(""+ item.getCategory() + "\t" + item.getMaterial() + "\t" + item.getQuantity(), 0, i * 10);
                 i++;
             }
             i=1;

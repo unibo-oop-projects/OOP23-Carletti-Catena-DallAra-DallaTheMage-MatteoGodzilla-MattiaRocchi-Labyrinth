@@ -12,7 +12,7 @@ public class Objective  {
     private Item item;
     private Random quantityGenerator = new Random();
 
-    public void setRandomRequiredQuantities(Set<Material> materialsToSet) {
+    /*    public void setRandomRequiredQuantities(Set<Material> materialsToSet) {
         for(Material material : materialsToSet) {
             switch (material) {
                 case WOOD:
@@ -29,5 +29,5 @@ public class Objective  {
                     item.getRequiredMaterials().setRequiredSilk(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
             }
         }
-    }
+    }*/
 }

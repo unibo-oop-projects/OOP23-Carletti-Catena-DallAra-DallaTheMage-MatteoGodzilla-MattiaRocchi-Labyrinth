@@ -3,6 +3,7 @@ package com.ccdr.labyrinth.game.loader;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.HashSet;
 
 import com.ccdr.labyrinth.Category;
 import com.ccdr.labyrinth.Material;
@@ -13,64 +14,40 @@ public class GetMissions {
     private int material_temp = 0;
     private int idCat = 0;
     private int idMat = 0;
-    private Item item;
-    private Category[] category = Category.values();
-    private Material[] material = Material.values();
+    private Set<Category> category = new HashSet<>(Set.of(Category.values()));
+    private Set<Material> material = new HashSet<>(Set.of(Material.values()));
     private Random quantityGenerator = new Random();
-    private int[] matSelect;
 
-    public void setTypeMatItem(){
-        idCat = quantityGenerator.nextInt(0,4);
-        item.setCategory(category[idCat]);
-        if(material_temp == 2){
-            idMat = quantityGenerator.nextInt(0,6);
-            for(int i = 0; i<matSelect.length; i++){
-                if(idMat == matSelect[i]){
-                    setTypeMatItem();
-                    break;
-                }
+
+    public Item generateMission(){
+        Item item = new Item();
+        if(material_temp == 1 || material_temp == 0){
+            if(material_temp == 1){
+                category.remove(Category.values()[idCat]);
             }
-            material_temp = 0;
+
+            do{
+                idCat = quantityGenerator.nextInt(0,5);
+            }while(!category.contains(Category.values()[idCat]));
         }
-        item.setMaterial(material[idMat]);
-        matSelect[idMat] = idMat;
+
+        if(material_temp == 2 || material_temp == 0){
+            if(material_temp == 2){
+                material.remove(Material.values()[idMat]);
+                material_temp = 0;
+            }
+
+            do{
+                idMat = quantityGenerator.nextInt(0,6);
+            }while(!material.contains(Material.values()[idMat]));
+        }
+
+        item.setCategory(Category.values()[idCat]);
+        item.setMaterial(Material.values()[idMat]);
         material_temp++;
-    }
+        item.setQuantity(quantityGenerator.nextInt(MIN_REQUIRED,MAX_REQUIRED));;
 
-    public boolean control(List<Item>missions){
-        for(Item mission : missions){
-            if(mission.equals(item) ){
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    public void setRandomRequiredQuantities() {
-        switch (item.getMaterial()) {
-            case WOOD:
-                item.getRequiredMaterials().setRequiredWood(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
-                break;
-            case COAL:
-                item.getRequiredMaterials().setRequiredCoal(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
-                break;
-            case IRON:
-                item.getRequiredMaterials().setRequiredIron(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
-                break;
-            case COPPER:
-                item.getRequiredMaterials().setRequiredCopper(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
-                break;
-            case DIAMOND:
-                item.getRequiredMaterials().setRequiredDiamond(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
-                break;
-            case SILK:
-                item.getRequiredMaterials().setRequiredSilk(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
-                break;
-        }
-    }
-
-    public Item getMis(){
         return item;
+
     }
 }

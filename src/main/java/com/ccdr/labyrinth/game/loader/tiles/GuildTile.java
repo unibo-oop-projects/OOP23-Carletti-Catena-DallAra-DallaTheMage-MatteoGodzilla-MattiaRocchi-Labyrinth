@@ -8,30 +8,19 @@ import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.Category;
 import com.ccdr.labyrinth.Material;
 
-
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /*FIXME: MAKE GUILDTILE IMPLEMENTS TILE INTERFACE OR EXTENDS STANDARDTILE CLASS*/
 public class GuildTile extends GenericTile implements Guild {
 
     private TileType type;
-    public List<Item> missions;
-    private boolean control;
-    public GetMissions getM;
+    public List<Item> missions = new ArrayList();
+    public GetMissions getM = new GetMissions();
 
     public GuildTile(int nPlayer){
-        for(int i = 0; i < nPlayer; i++){
-            getM.setTypeMatItem();
-            control = getM.control(missions);
-            getM.setTypeMatItem();
-            if(!control){
-                i--;
-            }
-            else{
-                missions.add(getM.getMis());
-            }
+        for(int i = 0; i < nPlayer * 2; i++){
+            missions.add(getM.generateMission());
         }
     }
 

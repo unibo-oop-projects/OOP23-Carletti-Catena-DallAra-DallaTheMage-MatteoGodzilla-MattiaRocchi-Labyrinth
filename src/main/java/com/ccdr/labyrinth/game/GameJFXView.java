@@ -23,7 +23,7 @@ public class GameJFXView implements GameView, JFXInputSource {
     private int i = 1;
 
     public GameJFXView(){
-        this.canvas = new AspectRatioCanvas(JFXStage.WINDOW_WIDTH,JFXStage.WINDOW_HEIGHT);
+        this.canvas = new Canvas(JFXStage.WINDOW_WIDTH,JFXStage.WINDOW_HEIGHT);
         this.scene = new Scene(new Group(this.canvas), Color.GREEN);
     }
 

@@ -37,7 +37,6 @@ public class GameController implements Executor{
     @Override
     public void update(double deltaTimeInSeconds) {
         //game loop
-        double framerate = 1.0/deltaTimeInSeconds;
         for (GameView gameView : views) {
             gameView.drawMissions(missions);
             gameView.drawBoard(this.board);

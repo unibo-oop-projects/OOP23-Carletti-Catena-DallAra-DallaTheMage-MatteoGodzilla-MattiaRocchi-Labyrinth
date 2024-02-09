@@ -11,7 +11,7 @@ public abstract class GenericTile implements Tile {
     protected void setType(TileType type) {
         this.type = type;
     }
-    
+
     @Override
     public TileType getType() {
         return type;
@@ -42,5 +42,5 @@ public abstract class GenericTile implements Tile {
         }
         this.setPattern(rotated);
     }
-    
+
 }

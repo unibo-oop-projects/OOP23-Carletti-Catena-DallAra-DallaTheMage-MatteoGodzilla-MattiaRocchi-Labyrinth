@@ -1,12 +1,5 @@
 package com.ccdr.labyrinth.game;
 
-import com.ccdr.labyrinth.Material;
-
-/* Temporary imports */
-import java.util.Map;
-import java.util.HashMap;
-/* end temporary imports */
-
 public class GameConfig {
     private final int GUILDNUMBER = 1;
     public int playerCount;
@@ -57,20 +50,6 @@ public class GameConfig {
 
     public void setPlayerCount(int playerCount) {
         this.playerCount = playerCount;
-    }
-
-    /*FIXME: temporary, waiting for get mission implementation */
-    public Map<Integer, Material> setupMaterialsList() {
-        Map<Integer, Material> materials = new HashMap<>();
-        int sourceEach = this.sourceTiles / Material.values().length;
-        int key = 0;
-        for(Material m : Material.values()) {
-            for(int i = sourceEach; i > 0; i--) {
-                materials.put(key, m);
-                key++;
-            }
-        }
-        return materials;
     }
 
 }

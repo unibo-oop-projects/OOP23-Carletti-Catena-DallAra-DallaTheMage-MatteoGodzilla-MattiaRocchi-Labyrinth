@@ -2,10 +2,10 @@ package com.ccdr.labyrinth.game.loader.tiles;
 
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.Material;
+import com.ccdr.labyrinth.game.player.Player;
 
 public class BonusTile extends GenericTile{
 
-    private boolean rewardGiven = false;
     private int amount;
     private Material material;
 
@@ -17,10 +17,8 @@ public class BonusTile extends GenericTile{
 
     @Override
     public void onEnter(Player player) {
-        if (!this.rewardGiven) {
-            //reward the player for exploring this tile
-        }
-        this.rewardGiven = true;
+        player.increaseQuantityMaterial(this.material, this.amount);
+        this.amount = 0;
     }
 
     @Override

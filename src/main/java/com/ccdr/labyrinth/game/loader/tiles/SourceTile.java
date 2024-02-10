@@ -2,6 +2,7 @@ package com.ccdr.labyrinth.game.loader.tiles;
 
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.Material;
+import com.ccdr.labyrinth.game.player.Player;
 
 /**
  * How source tiles work in the game:
@@ -59,8 +60,7 @@ public class SourceTile extends GenericTile {
 
     @Override
     public void onEnter(final Player player) {
-        // TODO: need a reference to the player that entered this tile,
-        // so that i can reward with materials.
+        player.increaseQuantityMaterial(this.materialType, collect());
     }
 
     @Override

@@ -1,4 +1,5 @@
 package labyrinth;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -15,16 +16,16 @@ import com.ccdr.labyrinth.game.player.PlayerImpl;
  * A test class for the implementation of a player.
  * It's final because the class is not designed for extension.
  */
-public final class PlayerTest {
+final class PlayerTest {
 
     private Player player;
-    private GameConfig gameConfig = new GameConfig();
+    private final GameConfig gameConfig = new GameConfig();
 
     /**
      * Method to initialize the field's player.
      */
     @BeforeEach
-    public void init() {
+    void init() {
         this.player = new PlayerImpl();
     }
 
@@ -32,8 +33,8 @@ public final class PlayerTest {
      * Test the functioning of the moveUp() method.
      */
     @Test
-    public void testMoveUp() {
-        var player1 = this.player;
+    void testMoveUp() {
+        final var player1 = this.player;
         assertEquals(new Coordinate(0, 0), player1.getCoord());
         player1.moveUp();
         assertNotEquals(new Coordinate(-1, 0), player1.getCoord());
@@ -44,8 +45,8 @@ public final class PlayerTest {
      * Test the functioning of the moveRight() method.
      */
     @Test
-    public void testMoveRight() {
-        var player1 = this.player;
+    void testMoveRight() {
+        final var player1 = this.player;
         assertEquals(new Coordinate(0, 0), player1.getCoord());
         player1.moveRight();
         assertEquals(new Coordinate(0, 1), player1.getCoord());
@@ -60,8 +61,8 @@ public final class PlayerTest {
      * Test the functioning of the moveLeft() method.
      */
     @Test
-    public void testMoveLeft() {
-        var player1 = this.player;
+    void testMoveLeft() {
+        final var player1 = this.player;
         assertEquals(new Coordinate(0, 0), player1.getCoord());
         player1.moveLeft();
         assertNotEquals(new Coordinate(0, -1), player1.getCoord());
@@ -72,8 +73,8 @@ public final class PlayerTest {
      * Test the functioning of the moveDown() method.
      */
     @Test
-    public void testMoveDown() {
-        var player1 = this.player;
+    void testMoveDown() {
+        final var player1 = this.player;
         assertEquals(new Coordinate(0, 0), player1.getCoord());
         player1.moveDown();
         assertEquals(new Coordinate(1, 0), player1.getCoord());
@@ -88,8 +89,8 @@ public final class PlayerTest {
      * Test the points management methods.
      */
     @Test
-    public void testPoints() {
-        var player1 = this.player;
+    void testPoints() {
+        final var player1 = this.player;
         assertEquals(0, player1.getPoints());
         player1.increasePoints(4);
         assertEquals(4, player1.getPoints());
@@ -101,8 +102,8 @@ public final class PlayerTest {
      * Test the inventory management methods.
      */
     @Test
-    public void testInventory() {
-        var player1 = this.player;
+    void testInventory() {
+        final var player1 = this.player;
         assertEquals(0, player1.getQuantityMaterial(Material.WOOD));
         assertEquals(0, player1.getQuantityMaterial(Material.IRON));
         player1.increaseQuantityMaterial(Material.WOOD, 10);

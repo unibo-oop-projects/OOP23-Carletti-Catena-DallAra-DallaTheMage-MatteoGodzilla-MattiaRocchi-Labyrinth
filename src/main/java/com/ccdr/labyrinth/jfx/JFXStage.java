@@ -30,6 +30,8 @@ public final class JFXStage extends Application {
     public void start(final Stage primaryStage) throws Exception {
         stage = primaryStage;
         stage.setTitle("Labyrinth");
+        stage.setMinWidth(WINDOW_WIDTH);
+        stage.setMinHeight(WINDOW_HEIGHT);
         stage.setWidth(WINDOW_WIDTH);
         stage.setHeight(WINDOW_HEIGHT);
         stage.show();

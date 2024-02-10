@@ -16,7 +16,6 @@ import javafx.application.Platform;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -29,7 +28,7 @@ import javafx.util.Duration;
  */
 public final class MenuJFXView implements MenuView, JFXInputSource {
     private final Scene scene;
-    private final Canvas canvas;
+    private final ExpandCanvas canvas;
     private Animation indexArrow;
     // variables used for resizing text elements
     private double listFontSize;
@@ -44,15 +43,16 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
     private double endIndex;
     private double interpolatedIndex;
     // variables used for general rendering
-    private static final double BRIGHTNESS = 0.1;
+    private static final Color MENU_BASE_COLOR = Color.gray(0.1);
     private static final Color TEXT_FILL = Color.valueOf("#bbbbbb");
 
     /**
      *
      */
     public MenuJFXView() {
-        this.canvas = new ExpandCanvas(JFXStage.getStage());
-        this.scene = new Scene(new Group(this.canvas), Color.BLACK);
+        this.canvas = new ExpandCanvas();
+        this.scene = new Scene(new Group(this.canvas), MENU_BASE_COLOR);
+        this.canvas.bind(this.scene);
     }
 
     @Override
@@ -82,7 +82,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
         Platform.runLater(() -> {
             final GraphicsContext context = this.canvas.getGraphicsContext2D();
             recalculateFontSizes();
-            context.setFill(Color.gray(BRIGHTNESS));
+            context.setFill(MENU_BASE_COLOR);
             context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
             if (element.getParent() != null) {
                 drawHeader(context, element);
@@ -92,7 +92,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
                     drawLogo(context);
                     //offset the main menu list so it's below in the screen
                     final MenuListElement listElement = (MenuListElement) element;
-                    final double sizeForElements = (listElement.getElements().size() - 1) * this.listFontSize;
+                    final double sizeForElements = listElement.getElements().size() * this.listFontSize;
                     final double startY = this.canvas.getHeight() - sizeForElements - this.hintFontSize - this.padding;
                     drawList(context, (MenuListElement) element, startY);
                 } else {
@@ -162,6 +162,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
         // draw the list elements below (only the name, not everything else)
         context.setTextAlign(TextAlignment.LEFT);
         context.setFont(Font.font(listFontSize));
+        context.setTextBaseline(VPos.TOP);
         context.setFill(TEXT_FILL);
         double y = startY;
         for (final MenuElement child : listElement.getElements()) {

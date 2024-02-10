@@ -15,15 +15,15 @@ public final class PlayerImpl implements Player {
 
     private final Map<Material, Integer> playerInventory = new HashMap<>();
     private Coordinate coord;
-    private GameConfig gameconfig = new GameConfig();
-    private int points = 0;
+    private final GameConfig gameconfig = new GameConfig();
+    private int points;
 
     /**
      * The builder for a player, with an inventory that contains materials
      * and a position in coordinate (0,0).
      */
     public PlayerImpl() {
-        for (var material : Material.values()) {
+        for (final var material : Material.values()) {
             this.playerInventory.put(material, 0);
         }
         this.coord = new Coordinate(0, 0);
@@ -59,14 +59,14 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void increaseQuantityMaterial(final Material material, final int amount) {
-        int newValue = this.getQuantityMaterial(material) + amount;
+        final int newValue = this.getQuantityMaterial(material) + amount;
         this.playerInventory.replace(material, newValue);
     }
 
     @Override
     public void decreaseQuantityMaterial(final Material material, final int amount) {
         if (this.playerInventory.get(material) >= amount) {
-            int newValue = this.getQuantityMaterial(material) - amount;
+            final int newValue = this.getQuantityMaterial(material) - amount;
             this.playerInventory.replace(material, newValue);
         }
     }

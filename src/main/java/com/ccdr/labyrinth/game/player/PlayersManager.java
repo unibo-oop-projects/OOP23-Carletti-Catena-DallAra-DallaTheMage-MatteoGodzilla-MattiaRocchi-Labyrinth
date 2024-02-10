@@ -26,7 +26,7 @@ public class PlayersManager {
      * turnSubphase == 2 -> moveup/moveright/moveleft/movedown
      * turnSubphase == 3 -> end turn, so turnSubphase = 0
      */
-    private int turnSubphase = 0;
+    private int turnSubphase;
 
     /**
      * The builder for a manager of players, with a list of all players in the game.
@@ -69,11 +69,9 @@ public class PlayersManager {
      */
     public void generateDiceValue() {
         if (this.turnSubphase == 1) {
-            Random random = new Random();
+            final Random random = new Random();
             this.diceVal = random.nextInt(MAX_DICEVAL) + 1;
             this.setTurnSubphase(this.turnSubphase + 1);
-        } else {
-            System.out.println("Non puoi lanciare adesso il dado!!!");
         }
     }
 
@@ -139,8 +137,8 @@ public class PlayersManager {
      * method that checks if upward movement is allowed.
      */
     public void tryMoveUp() {
-        var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
-        var endTile = this.board.getMap()
+        final var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
+        final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row() - 1, this.getActivePlayer().getCoord().column()));
         if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
@@ -155,8 +153,8 @@ public class PlayersManager {
      * method that checks if rightward movement is allowed.
      */
     public void tryMoveRight() {
-        var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
-        var endTile = this.board.getMap()
+        final var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
+        final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column() + 1));
         if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
@@ -171,8 +169,8 @@ public class PlayersManager {
      * method that checks if leftward movement is allowed.
      */
     public void tryMoveLeft() {
-        var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
-        var endTile = this.board.getMap()
+        final var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
+        final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column() - 1));
         if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
@@ -187,8 +185,8 @@ public class PlayersManager {
      * method that checks if downward movement is allowed.
      */
     public void tryMoveDown() {
-        var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
-        var endTile = this.board.getMap()
+        final var startTile = this.board.getMap().get(this.getActivePlayer().getCoord());
+        final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row() + 1, this.getActivePlayer().getCoord().column()));
         if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
@@ -216,8 +214,6 @@ public class PlayersManager {
         if (this.isTurnFinished()) {
             this.setActivePlayer(this.activePlayer + 1 % this.players.size());
             this.setTurnSubphase(this.turnSubphase + 1);
-        } else {
-            System.out.println("Il tuo turno non è ancora terminato! Sei alla fase " + this.turnSubphase);
         }
     }
 }

@@ -26,6 +26,11 @@ public final class MenuController implements Executor {
     // multiple callbacks are activated.
     private Consumer<GameConfig> onPlay;
     private Runnable onExit;
+    //Possible options for configuring the game
+    private static final List<Integer> PLAYER_COUNT = List.of(2, 3, 4);
+    private static final List<Integer> LABYRINTH_SIZE = List.of(15, 31, 45);
+    private static final List<Integer> SOURCE_OPTIONS = List.of(4, 8, 12, 16);
+    private static final List<Integer> OBJECTIVE_COUNT = List.of(4, 8, 12);
 
     @Override
     public void onEnable(final Engine engine) {
@@ -118,19 +123,19 @@ public final class MenuController implements Executor {
         return new MenuListElement("",
             new MenuButtonElement("Play", () -> onPlay.accept(config)),
             new MenuListElement("Configuration",
-                new MenuChoiceElement<>("Players", List.of(2, 3, 4))
+                new MenuChoiceElement<>("Players", PLAYER_COUNT)
                     .defaultIndex(0)
                     .action(playerCount -> this.config.setPlayerCount(playerCount)),
-                new MenuChoiceElement<>("Labyrinth Size", List.of(15, 31, 45))
+                new MenuChoiceElement<>("Labyrinth Size", LABYRINTH_SIZE)
                     .defaultIndex(1)
                     .action(size -> {
                         this.config.setLabyrinthHeight(size);
                         this.config.setLabyrinthHeight(size);
                     }),
-                new MenuChoiceElement<>("Source Tiles", List.of(4, 8, 12, 16))
+                new MenuChoiceElement<>("Source Tiles", SOURCE_OPTIONS)
                     .defaultIndex(1)
                     .action(count -> this.config.setSourceTiles(count)),
-                new MenuChoiceElement<>("Mission Count", List.of(4, 8, 12))
+                new MenuChoiceElement<>("Mission Count", OBJECTIVE_COUNT)
                     .action(count -> this.config.setObjectivesNum(count))
                 ),
             new MenuTextElement("How to play", ""),

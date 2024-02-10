@@ -1,3 +1,4 @@
+package labyrinth;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
@@ -18,10 +19,10 @@ import com.ccdr.labyrinth.menu.tree.MenuTextElement;
 /**
  * Class that contains all test cases for MenuElements.
  */
-public final class MenuElementTest {
+final class MenuElementTest {
 
     private MenuElement tree;
-    private boolean signal = false;
+    private boolean signal;
 
     @BeforeEach
     void setupMenuTree() {
@@ -30,7 +31,7 @@ public final class MenuElementTest {
             new MenuChoiceElement<>("Choice box", List.of("a", "b", "c", "d")),
             new MenuListElement("InnerList",
                 new MenuTextElement("Clickable Text", null),
-                new MenuButtonElement("Clickable Button", () -> System.out.println("clicked"))),
+                new MenuButtonElement("Clickable Button", () -> signal = true)),
             new MenuButtonElement("Fake Play", () -> signal = true)
         );
         signal = false;
@@ -39,7 +40,7 @@ public final class MenuElementTest {
     @Test
     void movementUp() {
         //menu list should not wrap around when scrolling
-        MenuListElement root = (MenuListElement) tree;
+        final MenuListElement root = (MenuListElement) tree;
         for (int i = 0; i < 10; i++) {
             tree.up();
         }
@@ -49,7 +50,7 @@ public final class MenuElementTest {
     @Test
     void movementDown() {
         //menu list should not wrap around when scrolling
-        MenuListElement root = (MenuListElement) tree;
+        final MenuListElement root = (MenuListElement) tree;
         for (int i = 0; i < 10; i++) {
             tree.down();
         }
@@ -65,16 +66,16 @@ public final class MenuElementTest {
     @Test
     void movementEnterChoice() {
         tree.down();
-        MenuElement elm = tree.nextState();
+        final MenuElement elm = tree.nextState();
         if (elm instanceof MenuChoiceElement<?>) {
-            MenuChoiceElement<?> choice = ((MenuChoiceElement<?>) elm);
+            final MenuChoiceElement<?> choice = (MenuChoiceElement<?>) elm;
             //pass only if the chosen object is 'c'
-            choice.action(obj -> signal = obj.equals("c"));
+            choice.action(obj -> signal = "c".equals(obj));
             choice.down();
             choice.down();
-            MenuElement shouldBeRoot = choice.nextState();
+            final MenuElement maybeRoot = choice.nextState();
             assertTrue(signal);
-            assertEquals(tree, shouldBeRoot);
+            assertEquals(tree, maybeRoot);
         } else {
             fail("Wrong object type selected in menu");
         }
@@ -94,7 +95,7 @@ public final class MenuElementTest {
         tree.down();
         tree.down();
         tree.down();
-        MenuElement button = tree.nextState();
+        final MenuElement button = tree.nextState();
         //if it's a button, then these should throw an exception
         assertThrowsExactly(IllegalStateException.class, () -> {
             button.nextState();

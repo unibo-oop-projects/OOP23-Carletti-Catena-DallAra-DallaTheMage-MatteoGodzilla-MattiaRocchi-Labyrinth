@@ -1,3 +1,4 @@
+package labyrinth;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,12 +11,12 @@ import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
 /**
  * Class that contains all tests for Source tiles.
  */
-public class SourceTileTest {
+class SourceTileTest {
 
     @Test
     void accumulate() {
         // materials inside source tile should never go beyond the maximum
-        SourceTile tile = new SourceTile(Material.DIAMOND, 4);
+        final SourceTile tile = new SourceTile(Material.DIAMOND, 4);
         assertEquals(SourceTile.STARTING_QUANTITY, tile.getQuantity());
 
         for (int i = 0; i < SourceTile.MAX_QUANTITY + 2; i++) {
@@ -26,7 +27,7 @@ public class SourceTileTest {
 
     @Test
     void collect() {
-        SourceTile tile = new SourceTile(Material.WOOD, 3);
+        final SourceTile tile = new SourceTile(Material.WOOD, 3);
         tile.updateTile();
         tile.updateTile();
         tile.updateTile();
@@ -35,8 +36,8 @@ public class SourceTileTest {
     }
 
     @Test
-    void getQuantity() {
-        SourceTile tile = new SourceTile(Material.COAL, 2);
+    void testQuantity() {
+        final SourceTile tile = new SourceTile(Material.COAL, 2);
         assertEquals(SourceTile.STARTING_QUANTITY, tile.getQuantity());
         tile.updateTile();
         tile.updateTile();
@@ -49,7 +50,7 @@ public class SourceTileTest {
 
     @Test
     void repeatedCollect() {
-        SourceTile tile = new SourceTile(Material.SILK, 8);
+        final SourceTile tile = new SourceTile(Material.SILK, 8);
         //the tile should be active as soon as it's created
         assertTrue(tile.isActive());
         //players walks up to the source tile

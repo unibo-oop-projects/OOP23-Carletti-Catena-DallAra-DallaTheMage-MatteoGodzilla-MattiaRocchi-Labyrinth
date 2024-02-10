@@ -1,3 +1,4 @@
+package labyrinth;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
@@ -21,7 +22,7 @@ public class GuildTileTest {
         GuildTile guild = new GuildTile(4);
         List<Item> missions = guild.returnListOfMissions();
         for (Item item : missions) {
-            
+
             System.out.println("" + item.getPoints() + item.getQuantity() + item.getMaterial() + item.getCategory());
         }
     }

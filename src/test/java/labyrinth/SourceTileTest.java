@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
+import com.ccdr.labyrinth.game.player.PlayerImpl;
 
 /**
  * Class that contains all tests for Source tiles.
@@ -73,6 +74,26 @@ class SourceTileTest {
         tile.updateTile();
         assertTrue(tile.isActive());
         assertEquals(SourceTile.MIN_QUANTITY, tile.getQuantity());
+    }
 
+    @Test
+    void testWithPlayerObject() {
+        final PlayerImpl p = new PlayerImpl();
+        final SourceTile tile = new SourceTile(Material.COAL, 3);
+        assertEquals(0, p.getQuantityMaterial(Material.COAL));
+        tile.updateTile();
+        tile.updateTile();
+        tile.updateTile();
+        //simulate player going over the source tile and leaving
+        tile.onEnter(p);
+        tile.updateTile();
+        tile.onExit(p);
+        final int newQuantity = p.getQuantityMaterial(Material.COAL);
+        assertTrue(newQuantity > 0);
+        //tile should be blocked now
+        tile.onEnter(p);
+        tile.updateTile();
+        tile.onExit(p);
+        assertEquals(newQuantity, p.getQuantityMaterial(Material.COAL));
     }
 }

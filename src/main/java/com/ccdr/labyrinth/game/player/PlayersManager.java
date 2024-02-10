@@ -103,7 +103,7 @@ public class PlayersManager {
 
     /**
      * method to check if a column of the board is moved.
-     * @param columnIndex the index of the column that is moved
+     * @param columnIndex the index of the column that is moved.
      */
     public void tryMoveColumn(final int columnIndex) {
         if (this.turnSubphase == 0 && columnIndex >= 0 && columnIndex < this.board.getWidth()) {
@@ -144,9 +144,9 @@ public class PlayersManager {
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row() - 1, this.getActivePlayer().getCoord().column()));
         if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
-            startTile.onExit();
+            startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveUp();
-            endTile.onEnter();
+            endTile.onEnter(this.getActivePlayer());
             this.diceVal--;
         }
     }
@@ -160,9 +160,9 @@ public class PlayersManager {
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column() + 1));
         if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
-            startTile.onExit();
+            startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveRight();
-            endTile.onEnter();
+            endTile.onEnter(this.getActivePlayer());
             this.diceVal--;
         }
     }
@@ -176,9 +176,9 @@ public class PlayersManager {
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column() - 1));
         if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
-            startTile.onExit();
+            startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveLeft();
-            endTile.onEnter();
+            endTile.onEnter(this.getActivePlayer());
             this.diceVal--;
         }
     }
@@ -192,9 +192,9 @@ public class PlayersManager {
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row() + 1, this.getActivePlayer().getCoord().column()));
         if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
-            startTile.onExit();
+            startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveDown();
-            endTile.onEnter();
+            endTile.onEnter(this.getActivePlayer());
             this.diceVal--;
         }
     }

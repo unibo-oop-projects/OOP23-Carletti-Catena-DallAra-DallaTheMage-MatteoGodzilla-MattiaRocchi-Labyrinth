@@ -6,6 +6,7 @@ import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.Category;
 import com.ccdr.labyrinth.Material;
+import com.ccdr.labyrinth.game.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,25 +19,25 @@ public class GuildTile extends GenericTile {
     public List<Item> missions = new ArrayList();
     public GetMissions getM = new GetMissions();
 
-    public GuildTile(int nPlayer){
-        for(int i = 0; i < nPlayer * 2; i++){
+    public GuildTile(final int nPlayer) {
+        for (int i = 0; i < nPlayer * 2; i++) {
             missions.add(getM.generateMission());
         }
     }
 
-    public List<Item> returnListOfMissions(){
+    public List<Item> returnListOfMissions() {
         return missions;
     }
 
     @Override
-    public void onEnter(/* id player */) {
-        if(state == false){
+    public void onEnter(final Player player) {
+        if (state == false) {
             /*materiali bonus in numero o fiso o randomico ma con range ristretto */
         }
     }
 
     @Override
-    public void onExit() {
+    public void onExit(final Player player) {
     }
 
 }

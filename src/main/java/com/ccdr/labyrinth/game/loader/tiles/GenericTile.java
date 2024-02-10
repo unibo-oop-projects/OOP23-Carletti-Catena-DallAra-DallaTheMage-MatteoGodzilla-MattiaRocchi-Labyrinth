@@ -8,7 +8,7 @@ public abstract class GenericTile implements Tile {
     private TileType type;
     private Map<Direction, Boolean> pattern = new HashMap<>();
 
-    protected void setType(TileType type) {
+    protected void setType(final TileType type) {
         this.type = type;
     }
 
@@ -18,13 +18,13 @@ public abstract class GenericTile implements Tile {
     }
 
     @Override
-    public boolean isOpen(Direction access) {
+    public boolean isOpen(final Direction access) {
         return pattern.get(access);
     }
 
     @Override
-    public void setPattern(Map<Direction, Boolean> readedPattern) {
-        for(Direction dir : readedPattern.keySet()) {
+    public void setPattern(final Map<Direction, Boolean> readedPattern) {
+        for (Direction dir : readedPattern.keySet()) {
             pattern.put(dir, readedPattern.get(dir));
         }
     }
@@ -37,7 +37,7 @@ public abstract class GenericTile implements Tile {
     @Override
     public void rotate() {
         Map<Direction, Boolean> rotated = new HashMap<>();
-        for(Direction e : pattern.keySet()) {
+        for (Direction e : pattern.keySet()) {
             rotated.put(e, pattern.get(e.next()));
         }
         this.setPattern(rotated);

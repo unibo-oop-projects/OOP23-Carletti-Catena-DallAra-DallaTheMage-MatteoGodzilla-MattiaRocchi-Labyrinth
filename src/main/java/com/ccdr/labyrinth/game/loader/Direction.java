@@ -7,7 +7,7 @@ public enum Direction {
     LEFT;
 
     public Direction next() {
-        switch(this) {
+        switch (this) {
             case UP:
                 return RIGHT;
             case RIGHT:

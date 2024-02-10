@@ -6,7 +6,7 @@ import com.ccdr.labyrinth.game.loader.TileCreator;
 import com.ccdr.labyrinth.game.loader.GameBoard;
 
 public class GameLoader {
-    public static Board generateTiles(GameConfig config) {
+    public static Board generateTiles(final GameConfig config) {
         Board gameBoard = new GameBoard();
         gameBoard.setHeight(config.getLabyrinthHeight());
         gameBoard.setWidth(config.getLabyrinthWidth());

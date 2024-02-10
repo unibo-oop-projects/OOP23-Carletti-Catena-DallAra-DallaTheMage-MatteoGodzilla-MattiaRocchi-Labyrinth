@@ -1,5 +1,6 @@
 package com.ccdr.labyrinth.game.loader.tiles;
 
+import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.Material;
 
 public class BonusTile extends GenericTile{
@@ -15,7 +16,7 @@ public class BonusTile extends GenericTile{
     }
 
     @Override
-    public void onEnter() {
+    public void onEnter(Player player) {
         if (!this.rewardGiven) {
             //reward the player for exploring this tile
         }
@@ -23,6 +24,6 @@ public class BonusTile extends GenericTile{
     }
 
     @Override
-    public void onExit() { }
+    public void onExit(Player player) { }
 
 }

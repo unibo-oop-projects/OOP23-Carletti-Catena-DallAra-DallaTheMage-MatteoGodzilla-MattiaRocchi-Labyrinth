@@ -6,7 +6,7 @@ import com.ccdr.labyrinth.game.loader.tiles.Tile;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameBoard implements Board {
+public final class GameBoard implements Board {
     private Map<Coordinate, Tile> map = new HashMap<>();
     private int height, width;
 
@@ -46,7 +46,7 @@ public class GameBoard implements Board {
     }
 
     private int getNext(int actual, int size) {
-        if(actual >= size) {
+        if (actual >= size) {
              return 0;
         } else {
              return ++actual;
@@ -58,13 +58,13 @@ public class GameBoard implements Board {
         Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
-        while(movement-- > 0) {
-            for(index = 0; index < this.width; index++) {
+        while (movement-- > 0) {
+            for (index = 0; index < this.width; index++) {
                 pointer = new Coordinate(row, index);
                 shiftedPointer = new Coordinate(row, getNext(index, this.width));
                 shifted.put(shiftedPointer, this.map.get(pointer));
             }
-            for(index = 0; index < this.width; index++) {
+            for (index = 0; index < this.width; index++) {
                 pointer = new Coordinate(row, index);
                 this.map.replace(pointer, shifted.get(pointer));
             }
@@ -76,13 +76,13 @@ public class GameBoard implements Board {
         Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
-        while(movement-- > 0) {
-            for(index = 0; index < this.width; index++) {
-                pointer = new Coordinate(index, column );
+        while (movement-- > 0) {
+            for (index = 0; index < this.width; index++) {
+                pointer = new Coordinate(index, column);
                 shiftedPointer = new Coordinate(getNext(index, this.height), column);
                 shifted.put(shiftedPointer, this.map.get(pointer));
             }
-            for(index = 0; index < this.width; index++) {
+            for (index = 0; index < this.width; index++) {
                 pointer = new Coordinate(index, column);
                 this.map.replace(pointer, shifted.get(pointer));
             }

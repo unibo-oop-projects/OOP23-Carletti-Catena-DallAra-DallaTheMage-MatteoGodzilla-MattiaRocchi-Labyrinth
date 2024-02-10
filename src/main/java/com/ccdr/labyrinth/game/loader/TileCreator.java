@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 public class TileCreator {
-    public static Map<Coordinate, Tile> generateTiles(GameConfig config) {
+    public static Map<Coordinate, Tile> generateTiles(final GameConfig config) {
         Map<Coordinate, Tile> tiles = new HashMap<>();
         //Parameters that depend on the config
         int sourceQuantity = config.getSourceTiles();
@@ -50,25 +50,27 @@ public class TileCreator {
         return generatedTile;
     }
 
-    private static Tile generateSource(Material material, int playerCount) {
+    private static Tile generateSource(final Material material, final int playerCount) {
         Tile generatedTile = new SourceTile(material, playerCount);
         generatedTile.setPattern(generateRandomPattern().getPattern());
         return generatedTile;
     }
 
-    private static Coordinate generateRandomCoordinate(Map<Coordinate, Tile> board, int height, int width) {
+    private static Coordinate generateRandomCoordinate(final Map<Coordinate, Tile> board, final int height, final int width) {
         Random rng = new Random();
         Coordinate coordinate;
         do {
             coordinate = new Coordinate(rng.nextInt(0, height), rng.nextInt(0, width));
-        } while(board.containsKey(coordinate));
+        } while (board.containsKey(coordinate));
         return coordinate;
     }
 
     private static Tile generateRandomPattern() {
+        final int MIN_PATTERNS = 1, MAX_PATTERNS = 5;
+        final int MIN_ROTATIONS = 0, MAX_ROTATIONS = 4;
         Random seed = new Random();
-        int ways = seed.nextInt(1, 5);
-        int rotations = seed.nextInt(0, 4);
+        int ways = seed.nextInt(MIN_PATTERNS, MAX_PATTERNS);
+        int rotations = seed.nextInt(MIN_ROTATIONS, MAX_ROTATIONS);
         Tile pattern = new StandardTile();
         /* PREDETERMINED TILE PATTERNS SELECTOR */
         switch (ways) {
@@ -103,17 +105,17 @@ public class TileCreator {
         return pattern;
     }
 
-    /*FIXME: temporary, waiting for get mission implementation */
+    /*FIXME: temporary, waiting for get mission implementation.*/
     /**
      * Generates a list of materials that will be used to place the source tiles, in order, in the map
      * @param config game config to get how many materials to place
      * @return list of materials to add
      */
-    public static List<Material> setupMaterialsList(GameConfig config) {
+    public static List<Material> setupMaterialsList(final GameConfig config) {
         List<Material> materials = new ArrayList<>();
         int sourceEach = config.getSourceTiles() / Material.values().length;
-        for(int i = sourceEach; i > 0; i--) {
-            for(Material m : Material.values()) {
+        for (int i = sourceEach; i > 0; i--) {
+            for (Material m : Material.values()) {
                 materials.add(m);
             }
         }

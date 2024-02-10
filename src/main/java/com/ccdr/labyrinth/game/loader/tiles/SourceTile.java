@@ -1,5 +1,6 @@
 package com.ccdr.labyrinth.game.loader.tiles;
 
+import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.Material;
 
 /**
@@ -24,7 +25,7 @@ public class SourceTile extends GenericTile {
     private int turnsToWait;
     private int remainingCooldown;
 
-    public SourceTile(Material assignedMaterial, int waitingTurns) {
+    public SourceTile(final Material assignedMaterial, final int waitingTurns) {
         super.setType(TileType.SOURCE);
         this.materialType = assignedMaterial;
         this.quantity = STARTING_QUANTITY;
@@ -33,7 +34,7 @@ public class SourceTile extends GenericTile {
     }
 
     /**
-     * this function must be called after every player's end of turn
+     * this function must be called after every player's end of turn.
      */
     public void updateTile() {
         if (this.isActive()) {
@@ -57,13 +58,13 @@ public class SourceTile extends GenericTile {
     }
 
     @Override
-    public void onEnter() {
+    public void onEnter(final Player player) {
         // TODO: need a reference to the player that entered this tile,
-        // so that i can reward with materials
+        // so that i can reward with materials.
     }
 
     @Override
-    public void onExit() {}
+    public void onExit(final Player player) { }
 
     // Getters
     public int getQuantity() {

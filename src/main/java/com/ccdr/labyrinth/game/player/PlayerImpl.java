@@ -20,7 +20,7 @@ public final class PlayerImpl implements Player {
 
     /**
      * The builder for a player, with an inventory that contains materials
-     * and a positions in coordinate (0,0).
+     * and a position in coordinate (0,0).
      */
     public PlayerImpl() {
         for (var material : Material.values()) {

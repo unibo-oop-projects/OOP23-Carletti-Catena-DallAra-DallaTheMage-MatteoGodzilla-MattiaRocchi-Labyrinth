@@ -11,11 +11,9 @@ import com.ccdr.labyrinth.game.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-/*FIXME: MAKE GUILDTILE IMPLEMENTS TILE INTERFACE OR EXTENDS STANDARDTILE CLASS*/
 public class GuildTile extends GenericTile {
 
     boolean state;
-    private TileType type;
     public List<Item> missions = new ArrayList();
     public GetMissions getM = new GetMissions();
 

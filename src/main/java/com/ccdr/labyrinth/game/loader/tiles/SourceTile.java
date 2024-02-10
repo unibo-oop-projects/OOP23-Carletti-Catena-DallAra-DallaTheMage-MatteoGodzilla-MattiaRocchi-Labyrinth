@@ -27,7 +27,6 @@ public class SourceTile extends GenericTile {
     private int remainingCooldown;
 
     public SourceTile(final Material assignedMaterial, final int waitingTurns) {
-        super.setType(TileType.SOURCE);
         this.materialType = assignedMaterial;
         this.quantity = STARTING_QUANTITY;
         this.turnsToWait = waitingTurns;

@@ -17,7 +17,5 @@ public interface Tile {
 
     void setPattern(Map<Direction, Boolean> readedPattern);
 
-    TileType getType();
-
     Map<Direction, Boolean> getPattern();
 }

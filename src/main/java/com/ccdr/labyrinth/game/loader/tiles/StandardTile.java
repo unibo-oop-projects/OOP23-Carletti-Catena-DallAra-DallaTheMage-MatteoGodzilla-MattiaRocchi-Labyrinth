@@ -9,12 +9,9 @@ public class StandardTile extends GenericTile {
     private Optional<Material> bonusMaterial = Optional.empty();
     private int bonusAmount;
 
-    public StandardTile() {
-        super.setType(TileType.NORMAL);
-    }
-
+    public StandardTile() { }
+    
     public StandardTile(Material bonusMaterial, int amount) {
-        super.setType(TileType.BONUS);
         this.bonusMaterial = Optional.of(bonusMaterial);
         this.bonusAmount = amount;
     }

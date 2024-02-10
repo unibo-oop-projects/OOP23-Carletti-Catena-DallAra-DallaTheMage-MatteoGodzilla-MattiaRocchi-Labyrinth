@@ -5,17 +5,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public abstract class GenericTile implements Tile {
-    private TileType type;
     private Map<Direction, Boolean> pattern = new HashMap<>();
-
-    protected void setType(final TileType type) {
-        this.type = type;
-    }
-
-    @Override
-    public TileType getType() {
-        return type;
-    }
 
     @Override
     public boolean isOpen(final Direction access) {

@@ -39,7 +39,7 @@ public final class JFXStage extends Application {
     //while this stop function always works
     @Override
     public void stop() throws Exception {
-        for (Runnable runnable : onCloseCallbacks) {
+        for (final Runnable runnable : onCloseCallbacks) {
             runnable.run();
         }
     }

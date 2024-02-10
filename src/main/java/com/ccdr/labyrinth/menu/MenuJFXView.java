@@ -16,6 +16,7 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
@@ -28,11 +29,10 @@ import javafx.util.Duration;
  * Main implementation of the MenuView interface, done using JavaFX.
  */
 public final class MenuJFXView implements MenuView, JFXInputSource {
-    private Scene scene;
-    private AspectRatioCanvas canvas;
+    private final Scene scene;
+    private final Canvas canvas;
     private Animation indexArrow;
     // variables used for resizing text elements
-    private double baseFontSize;
     private double listFontSize;
     private double descriptionFontSize;
     private double hintFontSize;
@@ -41,19 +41,19 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
     private double padding;
     // variable used for animation
     private static final double ANIM_DURATION = 0.1;
-    private double startIndex = 0;
-    private double endIndex = 0;
+    private double startIndex;
+    private double endIndex;
     private double interpolatedIndex;
     // variables used for general rendering
     private static final double BRIGHTNESS = 0.1;
     private static final Color TEXT_FILL = Color.valueOf("#bbbbbb");
 
     /**
-     * 
+     *
      */
     public MenuJFXView() {
         this.canvas = new AspectRatioCanvas(JFXStage.WINDOW_WIDTH, JFXStage.WINDOW_HEIGHT);
-        var layout = new HBox(this.canvas);
+        final var layout = new HBox(this.canvas);
         layout.setAlignment(Pos.CENTER);
         this.scene = new Scene(layout, Color.BLACK);
     }
@@ -83,7 +83,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
     @Override
     public void draw(final MenuElement element) {
         Platform.runLater(() -> {
-            GraphicsContext context = this.canvas.getGraphicsContext2D();
+            final GraphicsContext context = this.canvas.getGraphicsContext2D();
             recalculateFontSizes();
             context.setFill(Color.gray(BRIGHTNESS));
             context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
@@ -127,19 +127,19 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
 
     // all these functions below are called from the JFX thread, so they don't need Platform.runLater
     private void recalculateFontSizes() {
-        this.baseFontSize = this.canvas.getHeight() / 10;
-        this.logoSize = this.baseFontSize * 2;
-        this.headerFontSize = this.baseFontSize;
-        this.listFontSize = this.baseFontSize * 2 / 3;
-        this.descriptionFontSize = this.baseFontSize / 2;
-        this.hintFontSize = this.baseFontSize / 3;
-        this.padding = this.baseFontSize / 10;
+        final double baseFontSize = this.canvas.getHeight() / 10;
+        this.logoSize = baseFontSize * 2;
+        this.headerFontSize = baseFontSize;
+        this.listFontSize = baseFontSize * 2 / 3;
+        this.descriptionFontSize = baseFontSize / 2;
+        this.hintFontSize = baseFontSize / 3;
+        this.padding = baseFontSize / 10;
     }
 
     private void drawLogo(final GraphicsContext context) {
-        Image image = TypeImag.LOGO.getImage();
-        double logoWidth = this.logoSize * image.getWidth() / image.getHeight();
-        double xPos = this.canvas.getWidth() / 2 - logoWidth / 2;
+        final Image image = TypeImag.LOGO.getImage();
+        final double logoWidth = this.logoSize * image.getWidth() / image.getHeight();
+        final double xPos = this.canvas.getWidth() / 2 - logoWidth / 2;
         context.drawImage(image, xPos, this.padding, logoWidth, this.logoSize);
     }
 
@@ -163,7 +163,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
                     - this.padding * 2;
             y = startY;
         }
-        for (MenuElement child : listElement.getElements()) {
+        for (final MenuElement child : listElement.getElements()) {
             context.fillText(child.toString(), this.listFontSize + this.padding, y);
             y += this.listFontSize;
         }
@@ -176,7 +176,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
         context.setFont(Font.font(this.listFontSize));
         context.setFill(TEXT_FILL);
         double y = this.headerFontSize + this.padding;
-        for (Object choice : choiceElement.getChoices()) {
+        for (final Object choice : choiceElement.getChoices()) {
             context.fillText(choice.toString(), this.listFontSize + this.padding, y);
             y += this.listFontSize;
         }

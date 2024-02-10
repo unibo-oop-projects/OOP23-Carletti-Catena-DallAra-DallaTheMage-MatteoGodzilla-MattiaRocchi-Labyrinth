@@ -24,8 +24,8 @@ public final class MenuController implements Executor {
      */
     public static final String ROOT_NAME = "Labyrinth";
 
-    private GameConfig config = new GameConfig();
-    private Set<MenuView> views = new HashSet<>();
+    private final GameConfig config = new GameConfig();
+    private final Set<MenuView> views = new HashSet<>();
     private MenuElement current = createMenuStructure();
     // "events" fired when the menu has completed its task. Can be expanded so
     // multiple callbacks are activated.
@@ -34,21 +34,21 @@ public final class MenuController implements Executor {
 
     @Override
     public void onEnable(final Engine engine) {
-        for (MenuView view : views) {
+        for (final MenuView view : views) {
             view.onEnable();
         }
     }
 
     @Override
     public void update(final double deltaTime) {
-        for (MenuView view : views) {
+        for (final MenuView view : views) {
             view.draw(current);
         }
     }
 
     @Override
     public void onDisable() {
-        for (MenuView menuView : views) {
+        for (final MenuView menuView : views) {
             menuView.onDisable();
         }
     }
@@ -114,7 +114,7 @@ public final class MenuController implements Executor {
 
     // functions related to menu movement
     private void sendChangeToViews() {
-        for (MenuView view : views) {
+        for (final MenuView view : views) {
             view.changed(this.current);
         }
     }
@@ -124,19 +124,20 @@ public final class MenuController implements Executor {
             new MenuButtonElement("Play", () -> onPlay.accept(config)),
             new MenuListElement("Configuration",
                 new MenuChoiceElement<>("Players", List.of(1, 2, 3, 4))
-                    .setAction(this::setPlayers),
+                    .action(this::setPlayers),
                 new MenuChoiceElement<>("Width", List.of(1, 2, 3))
-                    .setAction(this::handleWidth)
+                    .action(this::handleWidth)
                 ),
             new MenuTextElement("How to play", ""),
             new MenuTextElement("Credits", ""),
             new MenuTextElement("Exit", "Are you sure you want to close the game?")
-                .setAction(() -> onExit.run()));
+                .onAction(() -> onExit.run()));
     }
 
     //Handlers for the single menu elements
-    private void handleWidth(final Integer width) {
-        System.out.println(width);
+    private void handleWidth(final Integer size) {
+        this.config.setLabyrinthHeight(size);
+        this.config.setLabyrinthHeight(size);
     }
 
     private void setPlayers(final Integer players) {

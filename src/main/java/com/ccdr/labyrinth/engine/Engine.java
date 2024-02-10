@@ -12,10 +12,10 @@ import java.util.HashMap;
 public final class Engine {
     private static final double ONE_SECOND_IN_NANOS = 1e9;
 
-    private Map<Executor.ID, Executor> executors = new HashMap<>();
+    private final Map<Executor.ID, Executor> executors = new HashMap<>();
     private Executor.ID activeExecutor;
 
-    private double framerate;
+    private final double framerate;
     private volatile boolean running;
 
     /**
@@ -34,13 +34,13 @@ public final class Engine {
         double lastFrame = lastTick;
         double timeElapsed = 0;
         while (this.running) {
-            double currentTick = System.nanoTime();
-            double deltaTick = currentTick - lastTick;
+            final double currentTick = System.nanoTime();
+            final double deltaTick = currentTick - lastTick;
             timeElapsed += deltaTick;
 
             if (timeElapsed > ONE_SECOND_IN_NANOS / framerate) {
-                double newFrame = System.nanoTime();
-                double deltaTimeInSeconds = (newFrame - lastFrame) / ONE_SECOND_IN_NANOS;
+                final double newFrame = System.nanoTime();
+                final double deltaTimeInSeconds = (newFrame - lastFrame) / ONE_SECOND_IN_NANOS;
 
                 this.executors.get(activeExecutor).update(deltaTimeInSeconds);
 

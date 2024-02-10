@@ -15,6 +15,7 @@ import javafx.application.Platform;
 /**
  * Main class that gets executed.
  */
+@SuppressWarnings("PMD.NoPackage")
 public final class Labyrinth {
     private static final int TARGET_FRAMERATE = 120;
 
@@ -29,20 +30,20 @@ public final class Labyrinth {
             //System.out.println(System.getProperty("java.class.path"));
             Platform.startup(() -> {
             });
-            Engine engine = new Engine(TARGET_FRAMERATE);
+            final Engine engine = new Engine(TARGET_FRAMERATE);
 
             //setting up the actual game
-            GameController gameController = new GameController();
-            GameJFXView gameView = new GameJFXView();
+            final GameController gameController = new GameController();
+            final GameJFXView gameView = new GameJFXView();
             gameController.addView(gameView);
-            GameInputAdapter gameInput = new GameInputAdapter(gameController);
+            final GameInputAdapter gameInput = new GameInputAdapter(gameController);
             gameView.routeKeyboardEvents(gameInput);
 
             //setting up the main menu
-            MenuController menuController = new MenuController();
-            MenuJFXView menuView = new MenuJFXView();
+            final MenuController menuController = new MenuController();
+            final MenuJFXView menuView = new MenuJFXView();
             menuController.addView(menuView);
-            MenuInputAdapter menuInput = new MenuInputAdapter(menuController);
+            final MenuInputAdapter menuInput = new MenuInputAdapter(menuController);
             menuView.routeKeyboardEvents(menuInput);
 
             menuController.onPlay(config -> {
@@ -50,7 +51,7 @@ public final class Labyrinth {
                 gameController.init(config);
             });
 
-            Runnable onClose = new Runnable() {
+            final Runnable onClose = new Runnable() {
                 @Override
                 public void run() {
                     engine.stop();

@@ -7,7 +7,7 @@ import javafx.scene.canvas.Canvas;
  */
 public class AspectRatioCanvas extends Canvas {
 
-    private double ratio;
+    private final double ratio;
 
     /**
      * @param targetWidth initial width of the canvas
@@ -21,11 +21,11 @@ public class AspectRatioCanvas extends Canvas {
     }
 
     private void handleChange() {
-        double stageWidth = JFXStage.getStage().getWidth();
-        double stageHeight = JFXStage.getStage().getHeight();
+        final double stageWidth = JFXStage.getStage().getWidth();
+        final double stageHeight = JFXStage.getStage().getHeight();
 
-        double canvasWidth = Math.min(stageWidth, stageHeight * ratio);
-        double canvasHeight = Math.min(stageHeight, stageWidth / ratio);
+        final double canvasWidth = Math.min(stageWidth, stageHeight * ratio);
+        final double canvasHeight = Math.min(stageHeight, stageWidth / ratio);
         setWidth(canvasWidth);
         setHeight(canvasHeight);
     }

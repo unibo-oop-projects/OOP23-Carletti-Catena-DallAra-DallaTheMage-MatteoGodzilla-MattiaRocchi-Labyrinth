@@ -5,7 +5,7 @@ package com.ccdr.labyrinth.menu.tree;
  */
 public final class MenuButtonElement extends MenuElement {
 
-    private Runnable action;
+    private final Runnable action;
 
     /**
      * @param name name of this MenuElement

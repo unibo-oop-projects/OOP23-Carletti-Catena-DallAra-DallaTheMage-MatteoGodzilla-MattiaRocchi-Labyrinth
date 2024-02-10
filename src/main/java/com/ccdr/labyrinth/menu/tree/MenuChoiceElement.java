@@ -14,7 +14,7 @@ public final class MenuChoiceElement<T> extends MenuElement {
 
     private Consumer<T> action;
     private int chosenIndex;
-    private List<T> values;
+    private final List<T> values;
 
     /**
      * @param name Entry name shown when it appears on a list.
@@ -30,7 +30,7 @@ public final class MenuChoiceElement<T> extends MenuElement {
      * @param defaultIndex numeric value of the index
      * @return this instance
      */
-    public MenuChoiceElement<T> setDefaultIndex(final int defaultIndex) {
+    public MenuChoiceElement<T> defaultIndex(final int defaultIndex) {
         if (0 <= defaultIndex && defaultIndex < this.values.size()) {
             this.chosenIndex = defaultIndex;
             return this;
@@ -43,7 +43,7 @@ public final class MenuChoiceElement<T> extends MenuElement {
      * @param action callback that should be called once the user has finally chosen an option
      * @return this instance
      */
-    public MenuChoiceElement<T> setAction(final Consumer<T> action) {
+    public MenuChoiceElement<T> action(final Consumer<T> action) {
         this.action = action;
         return this;
     }

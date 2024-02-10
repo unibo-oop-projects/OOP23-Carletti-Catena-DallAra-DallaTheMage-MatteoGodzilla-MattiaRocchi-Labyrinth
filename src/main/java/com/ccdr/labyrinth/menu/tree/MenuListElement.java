@@ -9,8 +9,8 @@ import java.util.List;
  * It's used to build the hierarchy of the menu tree available to the player
  */
 public final class MenuListElement extends MenuElement {
-    private List<MenuElement> children = new ArrayList<>();
-    private int index = 0;
+    private final List<MenuElement> children = new ArrayList<>();
+    private int index;
 
     /**
      * @param name name of this menu element
@@ -18,7 +18,7 @@ public final class MenuListElement extends MenuElement {
      */
     public MenuListElement(final String name, final MenuElement... elm) {
         super(name);
-        for (MenuElement menuElement : elm) {
+        for (final MenuElement menuElement : elm) {
             this.children.add(menuElement);
             menuElement.setParent(this);
         }

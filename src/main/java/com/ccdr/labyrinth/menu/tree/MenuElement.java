@@ -47,28 +47,28 @@ public abstract class MenuElement {
     /**
      * @param parent reference to parent object
      */
-    public void setParent(final MenuElement parent) {
+    public final void setParent(final MenuElement parent) {
         this.parent = parent;
     }
 
     /**
      * @return reference to parent object
      */
-    public MenuElement getParent() {
+    public final MenuElement getParent() {
         return this.parent;
     }
 
     /**
      * @param name new name of this MenuElement object
      */
-    public void setName(final String name) {
+    protected final void setName(final String name) {
         this.name = name;
     }
 
     /**
      * @return name of this MenuElement object
      */
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
 }

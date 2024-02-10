@@ -6,7 +6,7 @@ package com.ccdr.labyrinth.menu.tree;
  */
 public final class MenuTextElement extends MenuElement {
     private Runnable action;
-    private String description;
+    private final String description;
 
     /**
      * @param name name of this MenuElement
@@ -21,7 +21,7 @@ public final class MenuTextElement extends MenuElement {
      * @param action callback to run once this object is not in focus anymore
      * @return this instance
      */
-    public MenuTextElement setAction(final Runnable action) {
+    public MenuTextElement onAction(final Runnable action) {
         this.action = action;
         return this;
     }

@@ -69,7 +69,7 @@ public final class MenuElementTest {
         if (elm instanceof MenuChoiceElement<?>) {
             MenuChoiceElement<?> choice = ((MenuChoiceElement<?>) elm);
             //pass only if the chosen object is 'c'
-            choice.setAction(obj -> signal = obj.equals("c"));
+            choice.action(obj -> signal = obj.equals("c"));
             choice.down();
             choice.down();
             MenuElement shouldBeRoot = choice.nextState();

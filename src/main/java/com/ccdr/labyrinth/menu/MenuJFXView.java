@@ -1,7 +1,6 @@
 package com.ccdr.labyrinth.menu;
 
 import com.ccdr.labyrinth.TypeImag;
-import com.ccdr.labyrinth.jfx.AspectRatioCanvas;
 import com.ccdr.labyrinth.jfx.ExpandCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
@@ -14,14 +13,12 @@ import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
 import javafx.application.Platform;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -94,9 +91,9 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
                 if (element.getParent() == null) {
                     drawLogo(context);
                     //offset the main menu list so it's below in the screen
-                    MenuListElement listElement = ((MenuListElement) element);
-                    double sizeForElements = (listElement.getElements().size() - 1) * this.listFontSize;
-                    double startY = this.canvas.getHeight() - sizeForElements - this.hintFontSize - this.padding;
+                    final MenuListElement listElement = (MenuListElement) element;
+                    final double sizeForElements = (listElement.getElements().size() - 1) * this.listFontSize;
+                    final double startY = this.canvas.getHeight() - sizeForElements - this.hintFontSize - this.padding;
                     drawList(context, (MenuListElement) element, startY);
                 } else {
                     drawList(context, (MenuListElement) element, this.headerFontSize + this.padding);
@@ -161,7 +158,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
         context.fillText(element.getName(), this.canvas.getWidth() / 2, 0);
     }
 
-    private void drawList(final GraphicsContext context, final MenuListElement listElement, double startY) {
+    private void drawList(final GraphicsContext context, final MenuListElement listElement, final double startY) {
         // draw the list elements below (only the name, not everything else)
         context.setTextAlign(TextAlignment.LEFT);
         context.setFont(Font.font(listFontSize));

@@ -17,7 +17,7 @@ public class TileCreator {
         Map<Coordinate, Tile> tiles = new HashMap<>();
         //Parameters that depend on the config
         int sourceQuantity = config.getSourceTiles();
-        int guildQuantity = config.getGuildNum();
+        int guildQuantity = 1;
         int width = config.getLabyrinthWidth();
         int height = config.getLabyrinthHeight();
         int normalQuantity = height * width - sourceQuantity - guildQuantity;
@@ -29,7 +29,7 @@ public class TileCreator {
         //Source Tiles
         for (Material m : setupMaterialsList(config)) {
             //FIXME:CHANGE TO PREDETERMINED POSITION
-            tiles.put(generateRandomCoordinate(tiles, height, width), generateSource(m, config.playerCount));
+            tiles.put(generateRandomCoordinate(tiles, height, width), generateSource(m, config.getPlayerCount()));
         }
         //Normal tiles
         while (normalQuantity-- > 0) {

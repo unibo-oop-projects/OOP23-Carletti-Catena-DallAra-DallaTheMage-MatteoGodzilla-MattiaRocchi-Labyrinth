@@ -19,11 +19,6 @@ import com.ccdr.labyrinth.menu.tree.MenuTextElement;
  * This class doesn't have any direct reference to the game controller
  */
 public final class MenuController implements Executor {
-    /**
-     * Name of the root of the menu, used to tell if the player is at the root of the menu.
-     */
-    public static final String ROOT_NAME = "Labyrinth";
-
     private final GameConfig config = new GameConfig();
     private final Set<MenuView> views = new HashSet<>();
     private MenuElement current = createMenuStructure();
@@ -120,27 +115,27 @@ public final class MenuController implements Executor {
     }
 
     private MenuElement createMenuStructure() {
-        return new MenuListElement(ROOT_NAME,
+        return new MenuListElement("",
             new MenuButtonElement("Play", () -> onPlay.accept(config)),
             new MenuListElement("Configuration",
-                new MenuChoiceElement<>("Players", List.of(1, 2, 3, 4))
-                    .action(this::setPlayers),
-                new MenuChoiceElement<>("Width", List.of(1, 2, 3))
-                    .action(this::handleWidth)
+                new MenuChoiceElement<>("Players", List.of(2, 3, 4))
+                    .defaultIndex(0)
+                    .action(playerCount -> this.config.setPlayerCount(playerCount)),
+                new MenuChoiceElement<>("Labyrinth Size", List.of(15, 31, 45))
+                    .defaultIndex(1)
+                    .action(size -> {
+                        this.config.setLabyrinthHeight(size);
+                        this.config.setLabyrinthHeight(size);
+                    }),
+                new MenuChoiceElement<>("Source Tiles", List.of(4, 8, 12, 16))
+                    .defaultIndex(1)
+                    .action(count -> this.config.setSourceTiles(count)),
+                new MenuChoiceElement<>("Mission Count", List.of(4, 8, 12))
+                    .action(count -> this.config.setObjectivesNum(count))
                 ),
             new MenuTextElement("How to play", ""),
             new MenuTextElement("Credits", ""),
             new MenuTextElement("Exit", "Are you sure you want to close the game?")
                 .onAction(() -> onExit.run()));
-    }
-
-    //Handlers for the single menu elements
-    private void handleWidth(final Integer size) {
-        this.config.setLabyrinthHeight(size);
-        this.config.setLabyrinthHeight(size);
-    }
-
-    private void setPlayers(final Integer players) {
-        this.config.setPlayerCount(players);
     }
 }

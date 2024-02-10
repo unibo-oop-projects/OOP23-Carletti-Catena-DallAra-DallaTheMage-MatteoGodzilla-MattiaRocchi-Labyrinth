@@ -2,6 +2,7 @@ package com.ccdr.labyrinth.menu;
 
 import com.ccdr.labyrinth.TypeImag;
 import com.ccdr.labyrinth.jfx.AspectRatioCanvas;
+import com.ccdr.labyrinth.jfx.ExpandCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
 import com.ccdr.labyrinth.menu.tree.MenuChoiceElement;
@@ -15,6 +16,7 @@ import javafx.animation.Transition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -52,10 +54,8 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
      *
      */
     public MenuJFXView() {
-        this.canvas = new AspectRatioCanvas(JFXStage.WINDOW_WIDTH, JFXStage.WINDOW_HEIGHT);
-        final var layout = new HBox(this.canvas);
-        layout.setAlignment(Pos.CENTER);
-        this.scene = new Scene(layout, Color.BLACK);
+        this.canvas = new ExpandCanvas(JFXStage.getStage());
+        this.scene = new Scene(new Group(this.canvas), Color.BLACK);
     }
 
     @Override
@@ -87,12 +87,20 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
             recalculateFontSizes();
             context.setFill(Color.gray(BRIGHTNESS));
             context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
-            drawHeader(context, element);
+            if (element.getParent() != null) {
+                drawHeader(context, element);
+            }
             if (element instanceof MenuListElement) {
-                if (element.getName().equals(MenuController.ROOT_NAME)) {
+                if (element.getParent() == null) {
                     drawLogo(context);
+                    //offset the main menu list so it's below in the screen
+                    MenuListElement listElement = ((MenuListElement) element);
+                    double sizeForElements = (listElement.getElements().size() - 1) * this.listFontSize;
+                    double startY = this.canvas.getHeight() - sizeForElements - this.hintFontSize - this.padding;
+                    drawList(context, (MenuListElement) element, startY);
+                } else {
+                    drawList(context, (MenuListElement) element, this.headerFontSize + this.padding);
                 }
-                drawList(context, (MenuListElement) element);
             } else if (element instanceof MenuTextElement) {
                 drawText(context, (MenuTextElement) element);
             } else if (element instanceof MenuChoiceElement) {
@@ -127,7 +135,9 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
 
     // all these functions below are called from the JFX thread, so they don't need Platform.runLater
     private void recalculateFontSizes() {
-        final double baseFontSize = this.canvas.getHeight() / 10;
+        //aspect ratio of the menu is in 4/3
+        final double referenceHeight = Math.min(this.canvas.getHeight(), this.canvas.getWidth() * 3 / 4);
+        final double baseFontSize = referenceHeight / 10;
         this.logoSize = baseFontSize * 2;
         this.headerFontSize = baseFontSize;
         this.listFontSize = baseFontSize * 2 / 3;
@@ -151,18 +161,12 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
         context.fillText(element.getName(), this.canvas.getWidth() / 2, 0);
     }
 
-    private void drawList(final GraphicsContext context, final MenuListElement listElement) {
+    private void drawList(final GraphicsContext context, final MenuListElement listElement, double startY) {
         // draw the list elements below (only the name, not everything else)
         context.setTextAlign(TextAlignment.LEFT);
         context.setFont(Font.font(listFontSize));
         context.setFill(TEXT_FILL);
-        double startY = this.headerFontSize + this.padding;
         double y = startY;
-        if (listElement.getName().equals(MenuController.ROOT_NAME)) {
-            startY = this.canvas.getHeight() - listElement.getElements().size() * this.listFontSize - this.hintFontSize
-                    - this.padding * 2;
-            y = startY;
-        }
         for (final MenuElement child : listElement.getElements()) {
             context.fillText(child.toString(), this.listFontSize + this.padding, y);
             y += this.listFontSize;

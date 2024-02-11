@@ -29,6 +29,7 @@ import javafx.util.Duration;
 public final class MenuJFXView implements MenuView, JFXInputSource {
     private final Scene scene;
     private final ExpandCanvas canvas;
+    private final MenuParticleSystem menuPS;
     private Animation indexArrow;
     // variables used for resizing text elements
     private double listFontSize;
@@ -53,6 +54,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
         this.canvas = new ExpandCanvas();
         this.scene = new Scene(new Group(this.canvas), MENU_BASE_COLOR);
         this.canvas.bind(this.scene);
+        this.menuPS = new MenuParticleSystem();
     }
 
     @Override
@@ -84,6 +86,8 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
             recalculateFontSizes();
             context.setFill(MENU_BASE_COLOR);
             context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
+            this.menuPS.update();
+            this.menuPS.draw(canvas);
             if (element.getParent() != null) {
                 drawHeader(context, element);
             }
@@ -144,13 +148,16 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
     }
 
     private void drawLogo(final GraphicsContext context) {
+        context.save();
         final Image image = TypeImag.LOGO.getImage();
         final double logoWidth = this.logoSize * image.getWidth() / image.getHeight();
         final double xPos = this.canvas.getWidth() / 2 - logoWidth / 2;
         context.drawImage(image, xPos, this.padding, logoWidth, this.logoSize);
+        context.restore();
     }
 
     private void drawHeader(final GraphicsContext context, final MenuElement element) {
+        context.save();
         context.setFont(Font.font(this.headerFontSize));
         context.setTextBaseline(VPos.TOP);
         context.setTextAlign(TextAlignment.CENTER);
@@ -159,6 +166,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
     }
 
     private void drawList(final GraphicsContext context, final MenuListElement listElement, final double startY) {
+        context.save();
         // draw the list elements below (only the name, not everything else)
         context.setTextAlign(TextAlignment.LEFT);
         context.setFont(Font.font(listFontSize));
@@ -170,9 +178,11 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
             y += this.listFontSize;
         }
         context.fillText(">", this.padding, startY + interpolatedIndex * this.listFontSize);
-    }
+        context.restore();
+}
 
     private void drawChoice(final GraphicsContext context, final MenuChoiceElement<?> choiceElement) {
+        context.save();
         // draw choices like as if they were in a list like MenuListElement
         context.setTextAlign(TextAlignment.LEFT);
         context.setFont(Font.font(this.listFontSize));
@@ -183,18 +193,22 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
             y += this.listFontSize;
         }
         context.fillText(">", this.padding, this.headerFontSize + this.padding + interpolatedIndex * this.listFontSize);
-    }
+        context.restore();
+}
 
     private void drawText(final GraphicsContext context, final MenuTextElement textElement) {
+        context.save();
         // draw additional description at the bottom
         context.setTextAlign(TextAlignment.CENTER);
         context.setTextBaseline(VPos.TOP);
         context.setFont(Font.font(descriptionFontSize));
         context.setFill(TEXT_FILL);
         context.fillText(textElement.getDescription(), this.canvas.getWidth() / 2, this.headerFontSize + this.padding);
-    }
+        context.restore();
+}
 
     private void drawHint(final GraphicsContext context) {
+        context.save();
         // draw tooltip at the bottom
         context.setFont(Font.font(this.hintFontSize));
         context.setTextBaseline(VPos.BOTTOM);
@@ -202,6 +216,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
         context.setFill(TEXT_FILL);
         context.fillText("Enter: Confirm | Up/Down: Move cursor | Esc/Backspace: Go back",
             this.canvas.getWidth() / 2, this.canvas.getHeight());
+        context.restore();
     }
 
 }

@@ -20,16 +20,12 @@ public final class Labyrinth {
     private static final int TARGET_FRAMERATE = 120;
 
     /**
-     *
      * @param args ignored
-     * @throws InterruptedException ignored
      */
-    public static void main(final String[] args) throws InterruptedException {
+    public static void main(final String[] args) {
         new Thread(() -> {
             //Makes sure the JavaFX environment is set up, in the case where the application below hasn´t started yet
-            //System.out.println(System.getProperty("java.class.path"));
-            Platform.startup(() -> {
-            });
+            Platform.startup(() -> { });
             final Engine engine = new Engine(TARGET_FRAMERATE);
 
             //setting up the actual game

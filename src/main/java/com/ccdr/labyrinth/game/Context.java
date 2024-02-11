@@ -1,10 +1,17 @@
 package com.ccdr.labyrinth.game;
 
-import com.ccdr.labyrinth.game.loader.Direction;
+public interface Context  {
+    void up();
 
-/*TODO: CONTEXT INTERFACE*/
-public interface Context<T>  {
-    void switchAction();
-    T move(T target, Direction way);
-    T execute(T selected);
+    void down();
+
+    void left();
+
+    void right();
+
+    void primary();
+
+    void secondary();
+
+    void tertiary();
 }

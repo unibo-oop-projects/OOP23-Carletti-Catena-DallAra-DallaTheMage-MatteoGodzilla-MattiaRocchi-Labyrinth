@@ -97,15 +97,15 @@ final class MenuElementTest {
         tree.down();
         final MenuElement button = tree.nextState();
         //if it's a button, then these should throw an exception
-        assertThrowsExactly(IllegalStateException.class, () -> {
+        assertThrowsExactly(IllegalCallerException.class, () -> {
             button.nextState();
         });
 
-        assertThrowsExactly(IllegalStateException.class, () -> {
+        assertThrowsExactly(IllegalCallerException.class, () -> {
             button.up();
         });
 
-        assertThrowsExactly(IllegalStateException.class, () -> {
+        assertThrowsExactly(IllegalCallerException.class, () -> {
             button.down();
         });
 

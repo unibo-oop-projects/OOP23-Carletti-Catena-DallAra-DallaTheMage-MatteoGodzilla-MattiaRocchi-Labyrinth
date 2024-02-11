@@ -40,7 +40,7 @@ public final class JFXStage extends Application {
     //stage.onCloseRequestProperty() only works if the user clicks on the X
     //while this stop function always works
     @Override
-    public void stop() throws Exception {
+    public void stop() {
         for (final Runnable runnable : onCloseCallbacks) {
             runnable.run();
         }

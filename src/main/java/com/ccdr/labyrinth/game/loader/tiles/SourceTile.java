@@ -2,7 +2,6 @@ package com.ccdr.labyrinth.game.loader.tiles;
 
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.Material;
-import com.ccdr.labyrinth.game.player.Player;
 
 /**
  * How source tiles work in the game:

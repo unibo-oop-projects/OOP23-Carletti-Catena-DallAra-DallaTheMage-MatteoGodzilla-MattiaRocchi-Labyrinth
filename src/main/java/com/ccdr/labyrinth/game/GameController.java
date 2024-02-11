@@ -59,20 +59,27 @@ public class GameController implements Executor{
         this.engine.changeExecutor(ID.MENU);
     }
 
+    /**
+     * method to change the context during the game phase.
+     */
+    public void changeContext() {
+        //TODO:How to change the context here?
+    }
+
     public void movePlayerUp() {
-        this.playerManager.tryMoveUp();
+        //this.playerManager.tryMoveUp();
     }
 
     public void movePlayerRight() {
-        this.playerManager.tryMoveRight();
+        //this.playerManager.tryMoveRight();
     }
 
     public void movePlayerLeft() {
-        this.playerManager.tryMoveLeft();
+        //this.playerManager.tryMoveLeft();
     }
 
     public void movePlayerDown() {
-        this.playerManager.tryMoveDown();
+        //this.playerManager.tryMoveDown();
     }
 
     public void numberPlayerMoves() {
@@ -80,7 +87,7 @@ public class GameController implements Executor{
     }
 
     public void moveUpGuild() {
-;       
+;
     }
 
     public void moveDownGuild() {

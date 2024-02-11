@@ -14,4 +14,8 @@ public interface Context  {
     void secondary();
 
     void tertiary();
+
+    boolean done();
+
+    Context getNextContext();
 }

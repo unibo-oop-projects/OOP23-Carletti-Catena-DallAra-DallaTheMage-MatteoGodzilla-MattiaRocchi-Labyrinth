@@ -146,7 +146,7 @@ public final class MenuController implements Executor, MenuInputs {
                 .append("Lorenzo Dall'Ara\n")
                 .append("Mattia Rocchi\n")
                 .append("Art by Matteo Catena\n")
-                .append('♥')
+                .append("♥") //apparently this has issues in windows
                 .toString()
             ),
             new MenuTextElement("Exit", "Are you sure you want to close the game?")

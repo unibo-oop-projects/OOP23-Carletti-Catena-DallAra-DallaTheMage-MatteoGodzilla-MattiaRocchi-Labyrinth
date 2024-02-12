@@ -8,7 +8,7 @@ import com.ccdr.labyrinth.game.player.Player;
 public interface GameView {
     void onEnable();
 
-    void draw(double fps);
+    void clear();
 
     void drawBoard(Board board);
 

@@ -29,9 +29,10 @@ public class GameController implements Executor, GameInputs{
 
     public void init(GameConfig config){
         //Inizializzazione this.activeContext = new "LabyrinthManager";
+        board = new GameBoard();
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
-        board.setMap(new TileCreator(config).generateTiles());        
+        board.setMap(new TileCreator(config).generateTiles());
         this.playerManager = new PlayersManager(config.getPlayerCount());
     }
 
@@ -39,6 +40,7 @@ public class GameController implements Executor, GameInputs{
     public void update(double deltaTimeInSeconds) {
         //game loop
         for (GameView gameView : views) {
+            gameView.clear();
             gameView.drawMissions(missions);
             gameView.drawBoard(this.board);
             gameView.drawPlayersOnBoard(this.playerManager.getPlayers());

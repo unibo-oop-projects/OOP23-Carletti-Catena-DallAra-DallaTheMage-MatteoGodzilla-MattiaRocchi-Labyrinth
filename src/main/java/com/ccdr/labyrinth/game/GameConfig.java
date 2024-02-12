@@ -1,6 +1,5 @@
 package com.ccdr.labyrinth.game;
 
-//TODO: change this to a record
 public class GameConfig {
     //private final int guildNumber = 1;
     private int playerCount = 2;

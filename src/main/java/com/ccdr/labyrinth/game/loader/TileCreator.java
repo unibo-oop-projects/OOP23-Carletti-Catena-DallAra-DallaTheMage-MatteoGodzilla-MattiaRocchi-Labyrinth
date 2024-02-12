@@ -16,7 +16,7 @@ import java.util.Random;
 public class TileCreator {
     private final GameConfig configuration;
     private final CoordinatesManager coordinatesGenerator;
-    private List<Material> presentMaterials;
+    private List<Material> presentMaterials = new ArrayList<>();
     private Map<Coordinate, Tile> tiles;
 
 
@@ -48,7 +48,7 @@ public class TileCreator {
         }
         //TODO: bonus tiles
         return tiles;
-    }  
+    }
 
     private Tile generateSource(final Material material, final int playerCount) {
         Tile generatedTile = new SourceTile(material, playerCount);

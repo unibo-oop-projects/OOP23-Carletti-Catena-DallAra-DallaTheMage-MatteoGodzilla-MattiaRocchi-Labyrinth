@@ -61,6 +61,9 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
     public void onEnable() {
         Platform.runLater(() -> {
             JFXStage.getStage().setScene(this.scene);
+            //Force resize of canvas so it fills the entire stage
+            JFXStage.getStage().setWidth(JFXStage.getStage().getWidth());
+            JFXStage.getStage().setHeight(JFXStage.getStage().getHeight());
             // index indicator transition
             this.indexArrow = new Transition() {
                 {

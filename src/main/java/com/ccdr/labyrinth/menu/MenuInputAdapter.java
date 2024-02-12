@@ -8,12 +8,12 @@ import javafx.scene.input.KeyEvent;
  * Adapter responsible for receiving input events from the user when in the main menu.
  */
 public final class MenuInputAdapter implements JFXInputSource.Receiver {
-    private final MenuController menuController;
+    private final MenuInputs menuController;
 
     /**
      * @param controller reference to the menu controller to call
      */
-    public MenuInputAdapter(final MenuController controller) {
+    public MenuInputAdapter(final MenuInputs controller) {
         this.menuController = controller;
     }
 

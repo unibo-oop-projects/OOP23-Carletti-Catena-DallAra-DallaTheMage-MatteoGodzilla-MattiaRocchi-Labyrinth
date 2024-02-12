@@ -8,7 +8,7 @@ import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import java.util.*;
 
 //this is the class responsible for controlling the entire game
-public class GameController implements Executor{
+public class GameController implements Executor, GameInputs{
     private Context activeContext;
     private Set<GameView> views = new HashSet<>();
     private Board board;
@@ -52,6 +52,7 @@ public class GameController implements Executor{
     /**
      * method that calls the activeContext method to execute when the W or up arrow key is pressed.
      */
+    @Override
     public void up(){
         this.activeContext.up();
         switchContextIfNecessary();
@@ -60,6 +61,7 @@ public class GameController implements Executor{
     /**
      * method that calls the activeContext method to execute when the S or down arrow key is pressed.
      */
+    @Override
     public void down(){
         this.activeContext.down();
         switchContextIfNecessary();
@@ -68,6 +70,7 @@ public class GameController implements Executor{
     /**
      * method that calls the activeContext method to execute when the A or left arrow key is pressed.
      */
+    @Override
     public void left() {
         this.activeContext.left();
         switchContextIfNecessary();
@@ -76,6 +79,7 @@ public class GameController implements Executor{
     /**
      * method that calls the activeContext method to execute when the D or right arrow key is pressed.
      */
+    @Override
     public void right() {
         this.activeContext.right();
         switchContextIfNecessary();
@@ -84,6 +88,7 @@ public class GameController implements Executor{
     /**
      * method that calls the activeContext method to execute when the ENTER or SPACE key is pressed.
      */
+    @Override
     public void primary() {
         this.activeContext.primary();
         switchContextIfNecessary();
@@ -92,6 +97,7 @@ public class GameController implements Executor{
     /**
      * method that calls the activeContext method to execute when the TAB or CTRL key is pressed.
      */
+    @Override
     public void secondary() {
         this.activeContext.secondary();
         switchContextIfNecessary();
@@ -100,6 +106,7 @@ public class GameController implements Executor{
     /**
      * method that calls the activeContext method to execute when the ESC or BACKSPACE key is pressed.
      */
+    @Override
     public void back() {
         this.activeContext.back();
         switchContextIfNecessary();

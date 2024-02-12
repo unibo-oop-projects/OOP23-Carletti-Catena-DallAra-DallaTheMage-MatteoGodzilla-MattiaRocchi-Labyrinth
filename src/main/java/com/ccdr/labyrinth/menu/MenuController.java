@@ -139,14 +139,14 @@ public final class MenuController implements Executor, MenuInputs {
                 .toString()
             ),
             new MenuTextElement("Credits", new StringBuilder()
-                .append("\n")
+                .append('\n')
                 .append("Made by Team CCDR:\n")
                 .append("Lorenzo Carletti\n")
                 .append("Matteo Catena\n")
                 .append("Lorenzo Dall'Ara\n")
                 .append("Mattia Rocchi\n")
                 .append("Art by Matteo Catena\n")
-                .append("♥")
+                .append('♥')
                 .toString()
             ),
             new MenuTextElement("Exit", "Are you sure you want to close the game?")

@@ -17,7 +17,22 @@ public enum Direction {
             case LEFT:
                 return UP;
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalStateException();
+        }
+    }
+
+    public Direction prev() {
+        switch (this) {
+            case UP:
+                return LEFT;
+            case RIGHT:
+                return UP;
+            case DOWN:
+                return RIGHT;
+            case LEFT:
+                return DOWN;
+            default:
+                throw new IllegalStateException();
         }
     }
 }

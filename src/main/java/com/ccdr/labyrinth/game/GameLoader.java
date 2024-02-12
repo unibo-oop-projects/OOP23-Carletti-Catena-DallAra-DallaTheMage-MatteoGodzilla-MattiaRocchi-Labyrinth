@@ -10,7 +10,7 @@ public class GameLoader {
         Board gameBoard = new GameBoard();
         gameBoard.setHeight(config.getLabyrinthHeight());
         gameBoard.setWidth(config.getLabyrinthWidth());
-        gameBoard.setMap(TileCreator.generateTiles(config));
+        gameBoard.setMap(new TileCreator(config).generateTiles());
         return gameBoard;
     }
 } 

@@ -2,7 +2,9 @@ package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.PlayersManager;
+import com.ccdr.labyrinth.game.loader.GameBoard;
 import com.ccdr.labyrinth.game.loader.Item;
+import com.ccdr.labyrinth.game.loader.TileCreator;
 import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 
 import java.util.*;
@@ -27,7 +29,9 @@ public class GameController implements Executor{
 
     public void init(GameConfig config){
         //Inizializzazione this.activeContext = new "LabyrinthManager";
-        this.board = GameLoader.generateTiles(config);
+        board.setHeight(config.getLabyrinthHeight());
+        board.setWidth(config.getLabyrinthWidth());
+        board.setMap(new TileCreator(config).generateTiles());        
         this.playerManager = new PlayersManager(config.getPlayerCount());
     }
 

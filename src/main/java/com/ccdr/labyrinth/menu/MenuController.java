@@ -33,7 +33,7 @@ public final class MenuController implements Executor {
     private static final List<Integer> OBJECTIVE_COUNT = List.of(4, 8, 12);
 
     @Override
-    public void onEnable(final Engine engine) {
+    public void onEnable() {
         for (final MenuView view : views) {
             view.onEnable();
         }
@@ -43,13 +43,6 @@ public final class MenuController implements Executor {
     public void update(final double deltaTime) {
         for (final MenuView view : views) {
             view.draw(current);
-        }
-    }
-
-    @Override
-    public void onDisable() {
-        for (final MenuView menuView : views) {
-            menuView.onDisable();
         }
     }
 

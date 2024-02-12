@@ -13,7 +13,6 @@ import java.util.*;
 //this is the class responsible for controlling the entire game
 public class GameController implements Executor{
     private Set<GameView> views = new HashSet<>();
-    private Engine engine;
     private Board board;
     private PlayersManager playerManager;
     private boolean menuGuild = false;
@@ -21,9 +20,7 @@ public class GameController implements Executor{
     private GuildTile guild = new GuildTile(4);
 
     @Override
-    public void onEnable(Engine engine) {
-
-        this.engine = engine;
+    public void onEnable() {
         for (GameView gameView : views) {
             gameView.onEnable();
         }
@@ -42,12 +39,6 @@ public class GameController implements Executor{
             gameView.drawBoard(this.board);
         }
     }
-    @Override
-    public void onDisable() {
-        for (GameView gameView : views) {
-            gameView.onDisable();
-        }
-    }
 
     public void addView(GameView view){
         this.views.add(view);
@@ -55,9 +46,6 @@ public class GameController implements Executor{
 
     //input methods
     //note: this method gets called from the javafx application thread
-    public void switchToMenu(){
-        this.engine.changeExecutor(ID.MENU);
-    }
 
     /**
      * method to change the context during the game phase.
@@ -87,11 +75,11 @@ public class GameController implements Executor{
     }
 
     public void moveUpGuild() {
-;
+
     }
 
     public void moveDownGuild() {
- ;
+
     }
 
     public void selectGuild() {

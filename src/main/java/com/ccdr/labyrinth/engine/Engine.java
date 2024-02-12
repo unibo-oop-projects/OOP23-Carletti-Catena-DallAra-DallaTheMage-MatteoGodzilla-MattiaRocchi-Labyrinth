@@ -64,12 +64,9 @@ public final class Engine {
      * @param id id of the new executor to run
      */
     public void changeExecutor(final Executor.ID id) {
-        if (this.activeExecutor != null) {
-            executors.get(this.activeExecutor).onDisable();
-        }
         this.activeExecutor = id;
         if (this.activeExecutor != null) {
-            executors.get(this.activeExecutor).onEnable(this);
+            executors.get(this.activeExecutor).onEnable();
         }
     }
 

@@ -145,7 +145,7 @@ public final class MenuController implements Executor, MenuInputs {
                 .append("Matteo Catena\n")
                 .append("Lorenzo Dall'Ara\n")
                 .append("Mattia Rocchi\n")
-                .append("Art by Matteo Catena\n")
+                .append("Art by Matteo Catena & Mattia Rocchi\n")
                 .append("♥") //apparently this has issues in windows
                 .toString()
             ),

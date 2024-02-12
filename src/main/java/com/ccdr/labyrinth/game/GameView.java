@@ -25,6 +25,4 @@ public interface GameView {
     void drawPlayersStats(final List<Player> players);
 
     void drawMissions(List<Item> missions);
-
-    void onDisable();
 }

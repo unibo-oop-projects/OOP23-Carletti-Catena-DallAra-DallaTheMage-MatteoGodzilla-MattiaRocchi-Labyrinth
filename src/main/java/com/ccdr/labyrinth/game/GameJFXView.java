@@ -69,8 +69,14 @@ public class GameJFXView implements GameView, JFXInputSource {
             final double tileWidth = labyrinthSize / board.getWidth();
             final double tileheight = labyrinthSize / board.getHeight();
             //reference points in the tile
-            final double sliceWidth = tileWidth/3;
-            final double sliceHeight = tileheight/3;
+            final double middlePercentage = 2.0/3;
+            final double middleWidth = tileWidth * middlePercentage;
+            final double middleHeight = tileWidth * middlePercentage;
+            final double leftSplit = tileWidth * (1-middlePercentage) / 2;
+            final double rightSplit = leftSplit + tileWidth * middlePercentage;
+            final double topSplit = tileheight * (1-middlePercentage) / 2;
+            final double bottomSplit = topSplit + tileheight * middlePercentage;
+
             context2d.setFill(Color.GRAY);
             Image wall = TypeImag.WALL.getImage();
             Image pathCenter = TypeImag.PATH.getImage();
@@ -84,39 +90,39 @@ public class GameJFXView implements GameView, JFXInputSource {
 
                 //corners are always a wall
                 //top left
-                context2d.drawImage(wall, x, y, sliceWidth, sliceHeight);
+                context2d.drawImage(wall, x, y, leftSplit, topSplit);
                 //top right
-                context2d.drawImage(wall, x + sliceWidth * 2, y, sliceWidth, sliceHeight);
+                context2d.drawImage(wall, x + rightSplit, y, tileWidth - rightSplit, topSplit);
                 //bottom left
-                context2d.drawImage(wall, x, y + sliceHeight * 2, sliceWidth, sliceHeight);
-                //bottom left
-                context2d.drawImage(wall, x + sliceWidth * 2, y + sliceHeight * 2, sliceWidth, sliceHeight);
+                context2d.drawImage(wall, x, y + bottomSplit, leftSplit, tileheight - bottomSplit);
+                //bottom right
+                context2d.drawImage(wall, x + rightSplit, y + bottomSplit, tileWidth - rightSplit, tileheight - bottomSplit);
                 //center is always walkable
-                context2d.drawImage(pathCenter, x + sliceWidth, y + sliceHeight, sliceWidth, sliceHeight);
+                context2d.drawImage(pathCenter, x + leftSplit, y + topSplit, middleWidth, middleHeight);
 
                 //vertical paths
                 //top
                 if(tile.isOpen(Direction.UP)){
-                    context2d.drawImage(pathVertical, x + sliceWidth, y, sliceWidth, sliceHeight);
+                    context2d.drawImage(pathVertical, x + leftSplit, y, middleWidth, topSplit);
                 } else {
-                    context2d.drawImage(wall, x + sliceWidth, y, sliceWidth, sliceHeight);
+                    context2d.drawImage(wall, x + leftSplit, y, middleWidth, topSplit);
                 }
                 if(tile.isOpen(Direction.DOWN)){
-                    context2d.drawImage(pathVertical, x + sliceWidth, y + sliceHeight * 2, sliceWidth, sliceHeight);
+                    context2d.drawImage(pathVertical, x + leftSplit, y + bottomSplit, middleWidth, tileheight - bottomSplit);
                 } else {
-                    context2d.drawImage(wall, x + sliceWidth, y + sliceHeight * 2, sliceWidth, sliceHeight);
+                    context2d.drawImage(wall, x + leftSplit, y + bottomSplit, middleWidth, tileheight - bottomSplit);
                 }
 
                 //horizontal paths
                 if(tile.isOpen(Direction.LEFT)){
-                    context2d.drawImage(pathHorizontal, x, y + sliceHeight, sliceWidth, sliceHeight);
+                    context2d.drawImage(pathHorizontal, x, y + topSplit, leftSplit, middleHeight);
                 } else {
-                    context2d.drawImage(wall, x, y + sliceHeight, sliceWidth, sliceHeight);
+                    context2d.drawImage(wall, x, y + topSplit, leftSplit, middleHeight);
                 }
-                if(tile.isOpen(Direction.DOWN)){
-                    context2d.drawImage(pathHorizontal, x + sliceWidth * 2, y + sliceHeight, sliceWidth, sliceHeight);
+                if(tile.isOpen(Direction.RIGHT)){
+                    context2d.drawImage(pathHorizontal, x + rightSplit, y + topSplit, tileWidth - rightSplit, middleHeight);
                 } else {
-                    context2d.drawImage(wall, x + sliceWidth * 2, y + sliceHeight, sliceWidth, sliceHeight);
+                    context2d.drawImage(wall, x + rightSplit, y + topSplit, tileWidth - rightSplit, middleHeight);
                 }
             }
         });

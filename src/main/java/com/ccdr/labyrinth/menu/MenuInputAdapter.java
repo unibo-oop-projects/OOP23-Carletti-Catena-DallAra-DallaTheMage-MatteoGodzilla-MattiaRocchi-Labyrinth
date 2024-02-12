@@ -37,7 +37,4 @@ public final class MenuInputAdapter implements JFXInputSource.Receiver {
                 break;
         }
     }
-
-    @Override
-    public void onKeyReleased(final KeyEvent event) { }
 }

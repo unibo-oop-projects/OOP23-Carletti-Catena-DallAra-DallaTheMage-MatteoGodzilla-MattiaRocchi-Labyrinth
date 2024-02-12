@@ -131,7 +131,6 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
     @Override
     public void routeKeyboardEvents(final Receiver adapter) {
         this.scene.setOnKeyPressed(adapter::onKeyPressed);
-        this.scene.setOnKeyReleased(adapter::onKeyReleased);
     }
 
     // all these functions below are called from the JFX thread, so they don't need Platform.runLater

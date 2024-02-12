@@ -39,8 +39,8 @@ public class ContextManager{
         switchContextIfNecessary();
     }
 
-    public void tertiary() {
-        this.activeContext.tertiary();
+    public void back() {
+        this.activeContext.back();
         switchContextIfNecessary();
     }
 

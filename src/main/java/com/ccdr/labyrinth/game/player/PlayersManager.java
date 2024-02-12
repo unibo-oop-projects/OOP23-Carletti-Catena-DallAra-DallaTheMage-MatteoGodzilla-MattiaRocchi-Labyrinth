@@ -222,7 +222,7 @@ public class PlayersManager implements Context{
      * nothing to do as a tertiary action.
      */
     @Override
-    public void tertiary() {}
+    public void back() {}
 
     /**
      * method to control if the turn of a player is finished.

@@ -9,11 +9,14 @@ public interface Context  {
 
     void right();
 
+    //SPACE/ENTER
     void primary();
 
+    //TAB/LCTRL
     void secondary();
 
-    void tertiary();
+    //ESCAPE/BACKSPACE
+    void back();
 
     boolean done();
 

@@ -15,12 +15,19 @@ public class GuildTile extends GenericTile {
 
     boolean state;
     public List<Item> missions = new ArrayList();
+    public List<Material> materialpresents = new ArrayList();
     public GetMissions getM = new GetMissions();
 
     public GuildTile(final int nPlayer) {
         for (int i = 0; i < nPlayer * 2; i++) {
             missions.add(getM.generateMission());
         }
+
+        materialpresents.addAll(getM.materialPresents());
+    }
+
+    public List<Material> getMaterialPresents(){
+        return materialpresents;
     }
 
     public List<Item> returnListOfMissions() {

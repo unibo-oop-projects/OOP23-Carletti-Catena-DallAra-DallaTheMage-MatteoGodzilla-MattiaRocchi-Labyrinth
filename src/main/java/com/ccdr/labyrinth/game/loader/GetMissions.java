@@ -3,6 +3,7 @@ package com.ccdr.labyrinth.game.loader;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import com.ccdr.labyrinth.Category;
@@ -15,6 +16,7 @@ public class GetMissions {
     private int idCat = 0;
     private int idMat = 0;
     private Set<Category> category = new HashSet<>(Set.of(Category.values()));
+    private List<Material> materialpresents = new ArrayList<>();
     private Set<Material> material = new HashSet<>(Set.of(Material.values()));
     private Random quantityGenerator = new Random();
 
@@ -45,10 +47,15 @@ public class GetMissions {
         item.setCategory(Category.values()[idCat]);
         item.setMaterial(Material.values()[idMat]);
         material_temp++;
+        materialpresents.add(item.getMaterial());
         item.setQuantity(quantityGenerator.nextInt(MIN_REQUIRED,MAX_REQUIRED));
         item.setPoints(quantityGenerator.nextInt(6,11));
 
         return item;
 
+    }
+
+    public List<Material> materialPresents(){
+        return materialpresents;
     }
 }

@@ -1,17 +1,15 @@
 package com.ccdr.labyrinth.game;
 
-import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.PlayersManager;
 import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.*;
 
 //this is the class responsible for controlling the entire game
 public class GameController implements Executor{
+    private Context activeContext;
     private Set<GameView> views = new HashSet<>();
     private Board board;
     private PlayersManager playerManager;
@@ -28,7 +26,9 @@ public class GameController implements Executor{
     }
 
     public void init(GameConfig config){
+        //Inizializzazione this.activeContext = new "LabyrinthManager";
         this.board = GameLoader.generateTiles(config);
+        this.playerManager = new PlayersManager(config.getPlayerCount());
     }
 
     @Override
@@ -37,6 +37,8 @@ public class GameController implements Executor{
         for (GameView gameView : views) {
             gameView.drawMissions(missions);
             gameView.drawBoard(this.board);
+            gameView.drawPlayersOnBoard(this.playerManager.getPlayers());
+            gameView.drawPlayersStats(this.playerManager.getPlayers());
         }
     }
 
@@ -48,45 +50,68 @@ public class GameController implements Executor{
     //note: this method gets called from the javafx application thread
 
     /**
-     * method to change the context during the game phase.
+     * method that calls the activeContext method to execute when the W or up arrow key is pressed.
      */
-    public void changeContext() {
-        //TODO:How to change the context here?
+    public void up(){
+        this.activeContext.up();
+        switchContextIfNecessary();
     }
 
-    public void movePlayerUp() {
-        //this.playerManager.tryMoveUp();
+    /**
+     * method that calls the activeContext method to execute when the S or down arrow key is pressed.
+     */
+    public void down(){
+        this.activeContext.down();
+        switchContextIfNecessary();
     }
 
-    public void movePlayerRight() {
-        //this.playerManager.tryMoveRight();
+    /**
+     * method that calls the activeContext method to execute when the A or left arrow key is pressed.
+     */
+    public void left() {
+        this.activeContext.left();
+        switchContextIfNecessary();
     }
 
-    public void movePlayerLeft() {
-        //this.playerManager.tryMoveLeft();
+    /**
+     * method that calls the activeContext method to execute when the D or right arrow key is pressed.
+     */
+    public void right() {
+        this.activeContext.right();
+        switchContextIfNecessary();
     }
 
-    public void movePlayerDown() {
-        //this.playerManager.tryMoveDown();
+    /**
+     * method that calls the activeContext method to execute when the ENTER or SPACE key is pressed.
+     */
+    public void primary() {
+        this.activeContext.primary();
+        switchContextIfNecessary();
     }
 
-    public void numberPlayerMoves() {
-        this.playerManager.generateDiceValue();
+    /**
+     * method that calls the activeContext method to execute when the TAB or CTRL key is pressed.
+     */
+    public void secondary() {
+        this.activeContext.secondary();
+        switchContextIfNecessary();
     }
 
-    public void moveUpGuild() {
-
+    /**
+     * method that calls the activeContext method to execute when the ESC or BACKSPACE key is pressed.
+     */
+    public void back() {
+        this.activeContext.back();
+        switchContextIfNecessary();
     }
 
-    public void moveDownGuild() {
-
-    }
-
-    public void selectGuild() {
-
-    }
-
-    public void backGuild() {
-
+    /**
+     * method that checks if the activeContext should be changed.
+     * This method is checked when the player presses a key used by the game.
+     */
+    private void switchContextIfNecessary() {
+        if(this.activeContext.done()){
+            this.activeContext = this.activeContext.getNextContext();
+        }
     }
 }

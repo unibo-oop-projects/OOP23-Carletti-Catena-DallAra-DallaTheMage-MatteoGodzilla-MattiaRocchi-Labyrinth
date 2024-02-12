@@ -43,8 +43,8 @@ public final class Labyrinth {
             menuView.routeKeyboardEvents(menuInput);
 
             menuController.onPlay(config -> {
-                engine.changeExecutor(ID.GAME);
                 gameController.init(config);
+                engine.changeExecutor(ID.GAME);
             });
 
             final Runnable onClose = new Runnable() {

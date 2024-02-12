@@ -45,7 +45,7 @@ public class GameJFXView implements GameView, JFXInputSource {
             context2d.fillText("FPS:"+framerate, 0, 0);
         });
     }
-    
+
     @Override
     public void drawBoard(Board board) {
         Platform.runLater(()->{
@@ -89,7 +89,6 @@ public class GameJFXView implements GameView, JFXInputSource {
     @Override
     public void routeKeyboardEvents(Receiver adapter){
         this.scene.setOnKeyPressed(adapter::onKeyPressed);
-        this.scene.setOnKeyReleased(adapter::onKeyReleased);
     }
 
 }

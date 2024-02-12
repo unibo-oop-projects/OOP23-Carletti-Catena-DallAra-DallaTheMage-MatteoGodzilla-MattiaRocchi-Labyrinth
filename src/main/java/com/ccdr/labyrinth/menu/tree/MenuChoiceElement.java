@@ -22,7 +22,8 @@ public final class MenuChoiceElement<T> extends MenuElement {
      */
     public MenuChoiceElement(final String name, final List<T> values) {
         super(name);
-        this.values = values;
+        //Yes, i do realise this might be unnecessary and expensive.
+        this.values = List.copyOf(values);
     }
 
     /**

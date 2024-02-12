@@ -87,7 +87,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
             context.setFill(MENU_BASE_COLOR);
             context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
             this.menuPS.update();
-            this.menuPS.draw(canvas);
+            this.menuPS.render(canvas);
             if (element.getParent() != null) {
                 drawHeader(context, element);
             }
@@ -131,7 +131,6 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
     @Override
     public void routeKeyboardEvents(final Receiver adapter) {
         this.scene.setOnKeyPressed(adapter::onKeyPressed);
-        this.scene.setOnKeyReleased(adapter::onKeyReleased);
     }
 
     // all these functions below are called from the JFX thread, so they don't need Platform.runLater

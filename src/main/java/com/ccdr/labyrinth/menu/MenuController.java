@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.List;
 import java.util.function.Consumer;
 
-import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.GameConfig;
 import com.ccdr.labyrinth.menu.tree.MenuButtonElement;
@@ -18,7 +17,7 @@ import com.ccdr.labyrinth.menu.tree.MenuTextElement;
  * Main class responsible for controlling the menu.
  * This class doesn't have any direct reference to the game controller
  */
-public final class MenuController implements Executor {
+public final class MenuController implements Executor, MenuInputs {
     private final GameConfig config = new GameConfig();
     private final Set<MenuView> views = new HashSet<>();
     private MenuElement current = createMenuStructure();
@@ -73,6 +72,7 @@ public final class MenuController implements Executor {
     /**
      * Up event received from the user, to then dispatch where necessary.
      */
+    @Override
     public void moveUp() {
         current.up();
         sendChangeToViews();
@@ -81,6 +81,7 @@ public final class MenuController implements Executor {
     /**
      * Down event received from the user, to then dispatch where necessary.
      */
+    @Override
     public void moveDown() {
         current.down();
         sendChangeToViews();
@@ -89,6 +90,7 @@ public final class MenuController implements Executor {
     /**
      * Select event received from the user, to then dispatch where necessary.
      */
+    @Override
     public void select() {
         current = current.nextState();
         current.immediate();
@@ -98,6 +100,7 @@ public final class MenuController implements Executor {
     /**
      * Back event received from the user, to then dispatch where necessary.
      */
+    @Override
     public void back() {
         if (current.getParent() != null) {
             current = current.getParent();
@@ -136,14 +139,14 @@ public final class MenuController implements Executor {
                 .toString()
             ),
             new MenuTextElement("Credits", new StringBuilder()
-                .append("\n")
+                .append('\n')
                 .append("Made by Team CCDR:\n")
                 .append("Lorenzo Carletti\n")
                 .append("Matteo Catena\n")
                 .append("Lorenzo Dall'Ara\n")
                 .append("Mattia Rocchi\n")
                 .append("Art by Matteo Catena\n")
-                .append("♥")
+                .append('♥')
                 .toString()
             ),
             new MenuTextElement("Exit", "Are you sure you want to close the game?")

@@ -5,9 +5,9 @@ import com.ccdr.labyrinth.jfx.JFXInputSource;
 import javafx.scene.input.KeyEvent;
 
 public class GameInputAdapter implements JFXInputSource.Receiver {
-    private GameController controller;
+    private GameInputs controller;
 
-    public GameInputAdapter(GameController controller){
+    public GameInputAdapter(final GameInputs controller){
         this.controller = controller;
     }
 

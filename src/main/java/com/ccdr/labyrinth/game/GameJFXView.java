@@ -22,6 +22,9 @@ import javafx.scene.paint.Color;
 //This class is invoked from the controller thread, so *every* draw call MUST be wrapped into
 //a `Platform.runLater` call.
 public class GameJFXView implements GameView, JFXInputSource {
+
+    private static final int PIXEL_FOR_PLAYER = 33 - 15;
+
     private Scene scene;
     private ExpandCanvas canvas;
     private int i = 1;
@@ -132,6 +135,36 @@ public class GameJFXView implements GameView, JFXInputSource {
     public void drawPlayersOnBoard(List<Player> players) {
         Platform.runLater(() -> {
             //TODO: insert code to draw players on board
+            var context2d = this.canvas.getGraphicsContext2D();
+            final double regionWidth = this.canvas.getWidth() * 2 / 3;
+            final double regionXStart = this.canvas.getWidth() / 6;
+
+            double playerY;
+            double playerX;
+            
+            //Player1
+            playerY = (players.get(0).getCoord().row() * 33) + regionXStart + 102;
+            playerX = players.get(0).getCoord().column() * 33;
+            context2d.setFill(Color.RED);
+            context2d.fillOval(playerY, playerX, PIXEL_FOR_PLAYER, PIXEL_FOR_PLAYER);
+
+            //Player2
+            playerY = (players.get(1).getCoord().row() * 33) + regionWidth + 93;
+            playerX = players.get(1).getCoord().column() * 33;
+            context2d.setFill(Color.BLUE);
+            context2d.fillOval(playerY, playerX, PIXEL_FOR_PLAYER, PIXEL_FOR_PLAYER);
+
+            //Player3
+            playerY = (players.get(2).getCoord().row() * 33) + regionWidth + 93;
+            playerX = (players.get(2).getCoord().column() * 33) + regionXStart + 418;
+            context2d.setFill(Color.GREEN);
+            context2d.fillOval(playerY, playerX, PIXEL_FOR_PLAYER, PIXEL_FOR_PLAYER);
+
+            //Player4
+            playerY = (players.get(3).getCoord().row() * 33) + regionXStart + 102;
+            playerX = (players.get(3).getCoord().column() * 33) + regionXStart + 418;
+            context2d.setFill(Color.YELLOW);
+            context2d.fillOval(playerY, playerX, PIXEL_FOR_PLAYER, PIXEL_FOR_PLAYER);
         });
     }
 

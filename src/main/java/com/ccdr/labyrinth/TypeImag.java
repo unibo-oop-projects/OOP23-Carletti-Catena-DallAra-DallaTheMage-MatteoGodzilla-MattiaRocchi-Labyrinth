@@ -16,13 +16,20 @@ public enum TypeImag {
     PATH_HORIZONTAL("/game/PathHorizontal.png"),
     PATH_CENTRAL("/game/PathCentral.png"),
     PATH("/game/Path.png"),
+    GUILD("/game/Guild.png"),
     //MATERIALS
     COAL("/game/materials/Coal.png"),
     COPPER("/game/materials/Copper.png"),
     DIAMOND("/game/materials/Diamond.png"),
     IRON("/game/materials/Iron.png"),
     SILK("/game/materials/Silk.png"),
-    WOOD("/game/materials/Wood.png");
+    WOOD("/game/materials/Wood.png"),
+    //CATEGORYS
+    ARMOR("/game/category/Armor.png"),
+    CLOTHING("/game/category/Clothing.png"),
+    JEWEL("/game/category/Jewel.png"),
+    TOOL("/game/category/Tool.png"),
+    WEAPON("/game/category/Weapon.png");
 
     private String path;
     private Image picture;

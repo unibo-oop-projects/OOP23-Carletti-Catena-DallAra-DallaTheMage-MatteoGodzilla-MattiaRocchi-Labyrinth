@@ -85,6 +85,7 @@ public class GameJFXView implements GameView, JFXInputSource {
             Image pathCenter = TypeImag.PATH.getImage();
             Image pathVertical = TypeImag.PATH.getImage();
             Image pathHorizontal = TypeImag.PATH.getImage();
+            Image pathGuild = TypeImag.GUILD.getImage();
             for(var entry : board.getMap().entrySet()){
                 final Coordinate c = entry.getKey();
                 final Tile tile = entry.getValue();
@@ -176,6 +177,7 @@ public class GameJFXView implements GameView, JFXInputSource {
     }
 
     public void drawMissions(List<Item> missions){
+        Image Armor = TypeImag.ARMOR.getImage();
         Platform.runLater(()->{
             var context2d = this.canvas.getGraphicsContext2D();
             context2d.setFill(Color.BLACK);
@@ -183,6 +185,7 @@ public class GameJFXView implements GameView, JFXInputSource {
             context2d.fillText("Missions", 15, 0);
             for (Item item : missions) {
                 context2d.fillText(""+ item.getCategory() + "\t" + item.getMaterial() + "\t" + item.getQuantity(), 0, i * 10);
+                context2d.drawImage(Armor, 0, i * 10, 25 , 25);
                 i++;
             }
             i=1;

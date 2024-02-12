@@ -66,16 +66,16 @@ public class GameJFXView implements GameView, JFXInputSource {
             final double labyrinthSize = Math.min(regionWidth, this.canvas.getHeight());
             final double topLeftX = (regionWidth - labyrinthSize) / 2 + regionXStart;
             final double topLeftY = (this.canvas.getHeight() - labyrinthSize) / 2;
-
             final double tileWidth = labyrinthSize / board.getWidth();
             final double tileheight = labyrinthSize / board.getHeight();
+            //reference points in the tile
             final double sliceWidth = tileWidth/3;
             final double sliceHeight = tileheight/3;
             context2d.setFill(Color.GRAY);
             Image wall = TypeImag.WALL.getImage();
-            Image pathCenter = TypeImag.PATH_CENTRAL.getImage();
-            Image pathVertical = TypeImag.PATH_VERTICAL.getImage();
-            Image pathHorizontal = TypeImag.PATH_HORIZONTAL.getImage();
+            Image pathCenter = TypeImag.PATH.getImage();
+            Image pathVertical = TypeImag.PATH.getImage();
+            Image pathHorizontal = TypeImag.PATH.getImage();
             for(var entry : board.getMap().entrySet()){
                 final Coordinate c = entry.getKey();
                 final Tile tile = entry.getValue();

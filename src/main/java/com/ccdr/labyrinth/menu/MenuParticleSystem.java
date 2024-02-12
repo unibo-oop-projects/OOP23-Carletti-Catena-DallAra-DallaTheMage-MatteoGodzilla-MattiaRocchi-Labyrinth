@@ -30,7 +30,7 @@ public class MenuParticleSystem {
         }
     }
 
-    Particle generateParticle(){
+    private Particle generateParticle(){
         Material m = Material.values()[r.nextInt(Material.values().length)];
         //from -BOX_WIDTH/2 to BOX_WIDTH/2
         double x = r.nextDouble() * BOX_HALF_WIDTH * 2 - BOX_HALF_WIDTH;
@@ -42,7 +42,7 @@ public class MenuParticleSystem {
         return new Particle(m, x, y, z, speed);
     }
 
-    void update(){
+    public void update(){
         for (Particle particle : this.particles) {
             particle.z -= particle.zSpeed;
         }
@@ -54,7 +54,7 @@ public class MenuParticleSystem {
         }
     }
 
-    void draw(Canvas target){
+    public void render(Canvas target){
         final GraphicsContext context = target.getGraphicsContext2D();
         double width = target.getWidth();
         double height = target.getHeight();
@@ -95,7 +95,7 @@ public class MenuParticleSystem {
     }
 
 
-    private class Particle{
+    private static class Particle{
         private Material m;
         private double x;
         private double y;

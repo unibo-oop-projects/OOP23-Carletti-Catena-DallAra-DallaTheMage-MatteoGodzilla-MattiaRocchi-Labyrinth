@@ -87,7 +87,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
             context.setFill(MENU_BASE_COLOR);
             context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
             this.menuPS.update();
-            this.menuPS.draw(canvas);
+            this.menuPS.render(canvas);
             if (element.getParent() != null) {
                 drawHeader(context, element);
             }

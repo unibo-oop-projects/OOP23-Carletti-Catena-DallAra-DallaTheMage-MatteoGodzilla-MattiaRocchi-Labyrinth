@@ -8,6 +8,7 @@ import com.ccdr.labyrinth.game.Board;
 import com.ccdr.labyrinth.game.Context;
 import com.ccdr.labyrinth.game.loader.Coordinate;
 import com.ccdr.labyrinth.game.loader.Direction;
+import com.ccdr.labyrinth.game.loader.GameBoard;
 
 /**
  * A class that implements a manager of players, with a reference of all players in the game.
@@ -20,7 +21,7 @@ public class PlayersManager implements Context{
     private final List<Player> players = new ArrayList<>();
     private int activePlayer;
     private int diceVal;
-    private Board board;
+    private Board board = new GameBoard();
     private Context context;
     /*
      * turnSubphase == 1 -> generate dice value
@@ -35,7 +36,22 @@ public class PlayersManager implements Context{
      */
     public PlayersManager(final int numPlayers) {
         for (int i = 0; i < numPlayers; i++) {
-            this.players.add(new PlayerImpl());
+            if (i == 0) {
+                this.players.add(new PlayerImpl());
+                this.players.get(i).setCoord(0, 0);
+            }
+            else if (i == 1) {
+                this.players.add(new PlayerImpl());
+                this.players.get(i).setCoord(0, this.board.getWidth() - 1);
+            }
+            else if (i == 2) {
+                this.players.add(new PlayerImpl());
+                this.players.get(i).setCoord(this.board.getHeight() - 1, 0);
+            }
+            else if (i == 3) {
+                this.players.add(new PlayerImpl());
+                this.players.get(i).setCoord(this.board.getWidth() - 1, this.board.getWidth() - 1);
+            }
         }
         this.activePlayer = 0;
         this.turnSubphase = 1;
@@ -74,6 +90,14 @@ public class PlayersManager implements Context{
             this.diceVal = random.nextInt(MAX_DICEVAL) + 1;
             this.setTurnSubphase(this.turnSubphase + 1);
         }
+    }
+
+    /**
+     * gives the dice value.
+     * @return the value of the dice
+     */
+    public int getDiceValue() {
+        return this.diceVal;
     }
 
     /**

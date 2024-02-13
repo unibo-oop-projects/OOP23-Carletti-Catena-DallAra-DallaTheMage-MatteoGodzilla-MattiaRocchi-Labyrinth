@@ -4,7 +4,7 @@ import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.game.loader.Coordinate;
 
 /**
- * An interface modelling a player, that can move in the four directions, 
+ * An interface modelling a player, that can move in the four directions,
  * and with an inventory to contains materials.
  */
 public interface Player {
@@ -66,4 +66,9 @@ public interface Player {
      * @return coordinate of a player
      */
     Coordinate getCoord();
+
+    /**
+     * Sets the coordinate of a player.
+     */
+    void setCoord(int row, int col);
 }

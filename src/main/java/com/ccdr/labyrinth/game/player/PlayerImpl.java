@@ -91,4 +91,9 @@ public final class PlayerImpl implements Player {
         return this.coord;
     }
 
+    @Override
+    public void setCoord(final int row, final int col) {
+        this.coord = new Coordinate(row, col);
+    }
+
 }

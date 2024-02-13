@@ -1,6 +1,7 @@
 package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.game.loader.Coordinate;
+import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public interface Board {
 
-    Optional<Tile> getGuildTile();
+    Optional<GuildTile> getGuildTile();
 
     int getHeight();
 

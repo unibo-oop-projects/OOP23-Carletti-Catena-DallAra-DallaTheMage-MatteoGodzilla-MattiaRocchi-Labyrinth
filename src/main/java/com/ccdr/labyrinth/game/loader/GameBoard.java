@@ -1,6 +1,7 @@
 package com.ccdr.labyrinth.game.loader;
 
 import com.ccdr.labyrinth.game.Board;
+import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 
 import java.util.HashMap;
@@ -91,8 +92,8 @@ public final class GameBoard implements Board {
     }
 
     @Override
-    public Optional<Tile> getGuildTile() {
+    public Optional<GuildTile> getGuildTile() {
         Coordinate center = new Coordinate(Math.round(width/2), Math.round(height/2));
-        return map.containsKey(center) ? Optional.of(map.get(center)) : Optional.empty();
+        return map.containsKey(center) ? Optional.of((GuildTile)map.get(center)) : Optional.empty();
     }
 }

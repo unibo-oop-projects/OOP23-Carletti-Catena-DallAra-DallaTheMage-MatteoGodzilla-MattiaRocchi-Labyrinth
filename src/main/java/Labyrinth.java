@@ -8,6 +8,9 @@ import com.ccdr.labyrinth.jfx.JFXStage;
 import com.ccdr.labyrinth.menu.MenuController;
 import com.ccdr.labyrinth.menu.MenuInputAdapter;
 import com.ccdr.labyrinth.menu.MenuJFXView;
+import com.ccdr.labyrinth.result.ResultController;
+import com.ccdr.labyrinth.result.ResultInputAdapter;
+import com.ccdr.labyrinth.result.ResultJFXView;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -38,9 +41,16 @@ public final class Labyrinth {
             //setting up the main menu
             final MenuController menuController = new MenuController();
             final MenuJFXView menuView = new MenuJFXView();
-            menuController.addView(menuView);
             final MenuInputAdapter menuInput = new MenuInputAdapter(menuController);
+            menuController.addView(menuView);
             menuView.routeKeyboardEvents(menuInput);
+
+            //setting up the result screen
+            final ResultController resultController = new ResultController(engine);
+            final ResultJFXView resultView = new ResultJFXView();
+            resultController.addView(resultView);
+            final ResultInputAdapter resultInput = new ResultInputAdapter(resultController);
+            resultView.routeKeyboardEvents(resultInput);
 
             menuController.onPlay(config -> {
                 gameController.init(config);
@@ -59,6 +69,7 @@ public final class Labyrinth {
 
             engine.bindExecutor(Executor.ID.MENU, menuController);
             engine.bindExecutor(Executor.ID.GAME, gameController);
+            engine.bindExecutor(Executor.ID.RESULT, resultController);
             engine.changeExecutor(Executor.ID.MENU);
 
             JFXStage.addOnCloseListener(onClose);

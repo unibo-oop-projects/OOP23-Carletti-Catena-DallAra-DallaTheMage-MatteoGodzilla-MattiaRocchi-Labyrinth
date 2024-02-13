@@ -15,7 +15,11 @@ public interface Executor {
         /**
          * id used for the gameplay.
          */
-        GAME
+        GAME,
+        /**
+         * id used for the result screen, when the game ends
+         */
+        RESULT
     }
 
     /**

@@ -161,6 +161,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
         context.setTextAlign(TextAlignment.CENTER);
         context.setFill(TEXT_FILL);
         context.fillText(element.getName(), this.canvas.getWidth() / 2, 0);
+        context.restore();
     }
 
     private void drawList(final GraphicsContext context, final MenuListElement listElement, final double startY) {

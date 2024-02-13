@@ -5,6 +5,7 @@ import com.ccdr.labyrinth.game.loader.tiles.Tile;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public final class GameBoard implements Board {
     private Map<Coordinate, Tile> map = new HashMap<>();
@@ -87,5 +88,11 @@ public final class GameBoard implements Board {
                 this.map.replace(pointer, shifted.get(pointer));
             }
         }
+    }
+
+    @Override
+    public Optional<Tile> getGuildTile() {
+        Coordinate center = new Coordinate(Math.round(width/2), Math.round(height/2));
+        return map.containsKey(center) ? Optional.of(map.get(center)) : Optional.empty();
     }
 }

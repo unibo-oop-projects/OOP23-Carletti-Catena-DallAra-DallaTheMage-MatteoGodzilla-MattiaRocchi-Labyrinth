@@ -6,6 +6,16 @@ import java.util.HashMap;
 
 public abstract class GenericTile implements Tile {
     private Map<Direction, Boolean> pattern = new HashMap<>();
+    private boolean discovered;
+
+    protected void discover() {
+        this.discovered = true;
+    }
+
+    @Override
+    public boolean isDiscovered() {
+        return discovered;
+    }
 
     @Override
     public boolean isOpen(final Direction access) {

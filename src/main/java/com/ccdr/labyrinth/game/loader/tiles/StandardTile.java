@@ -18,6 +18,7 @@ public class StandardTile extends GenericTile {
 
     @Override
     public void onEnter(final Player player) {
+        super.discover();
         if (this.bonusMaterial.isPresent()) {
             player.increaseQuantityMaterial(this.bonusMaterial.get(), this.bonusAmount);
             this.bonusMaterial = Optional.empty();

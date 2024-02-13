@@ -9,6 +9,8 @@ public interface Tile {
 
     boolean isOpen(Direction access);
     
+    boolean isDiscovered();
+    
     void onEnter(Player player);
 
     void onExit(Player player);

@@ -61,6 +61,9 @@ public final class GameJFXView implements GameView, JFXInputSource {
     private Scene scene;
     private ExpandCanvas canvas;
     private int i = 3;
+    //Variable used for resizing header elements
+    private double headerFontSize;
+    private double descriptionFontSize;
 
     public GameJFXView(){
         this.canvas = new ExpandCanvas();
@@ -249,15 +252,16 @@ public final class GameJFXView implements GameView, JFXInputSource {
     }
 
     @Override
-    public void drawPlayersStats(final PlayersManager playersManager, List<Material> materialPresent) {
+    public void drawPlayersStats(final PlayersManager playersManager, final List<Material> materialPresent) {
         Platform.runLater(() -> {
             var context2d = this.canvas.getGraphicsContext2D();
+            this.recalculateFontSizes();
             final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
             final double border = (tileWidth - tileMiddleSize) / 2;
 
             context2d.setTextBaseline(VPos.TOP);
             context2d.setFill(Color.BLACK);
-            context2d.setFont(Font.font(20));
+            context2d.setFont(Font.font(this.headerFontSize));
             context2d.fillText("Players Statistics", this.playerStatsRegionX + STEP, 0);
             context2d.setFont(Font.getDefault());
 
@@ -337,8 +341,21 @@ public final class GameJFXView implements GameView, JFXInputSource {
 
             //Mostro il diceVal
             final double newStartPosY = border + STEP * 26;
-            context2d.fillText("Numero di mosse rimanenti: " + playersManager.getDiceValue(), this.playerStatsRegionX + border, newStartPosY);
+            context2d.setFont(Font.font(this.descriptionFontSize));
+            context2d.fillText("Numero di mosse rimanenti: " + playersManager.getDiceValue(),
+            this.playerStatsRegionX + border, newStartPosY);
+            context2d.setFont(Font.getDefault());
         });
+    }
+
+    /**
+     * method to resize the text based on the window size.
+     */
+    private void recalculateFontSizes() {
+        final double referenceHeight = Math.min(this.canvas.getHeight(), this.canvas.getWidth() * 1 / 6);
+        final double baseFontSize = referenceHeight / 10;
+        this.headerFontSize = baseFontSize;
+        this.descriptionFontSize = baseFontSize / 1.5;
     }
 
     public void drawMissions(List<Item> missions){
@@ -352,6 +369,8 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.setFill(Color.BLACK);
             context2d.setTextBaseline(VPos.TOP);
             context2d.setFont(Font.font(25));
+            //oppure questo
+            //context2d.setFont(Font.font(this.headerFontSize));
             context2d.fillText("Missions", 15, 0);
             context2d.setFont(Font.getDefault());
             for (Item item : missions) {
@@ -361,6 +380,8 @@ public final class GameJFXView implements GameView, JFXInputSource {
             i=3;
 
             context2d.setFont(Font.font(25));
+            //oppure questo
+            //context2d.setFont(Font.font(this.headerFontSize));
             context2d.fillText(" LEGEND ", (labyrinthRegionX / 2) - (labyrinthRegionX / 5), this.canvas.getHeight() - 170, 200);
             context2d.setFont(Font.getDefault());
             context2d.drawImage(Armor,10, this.canvas.getHeight() -130, 25 , 25);

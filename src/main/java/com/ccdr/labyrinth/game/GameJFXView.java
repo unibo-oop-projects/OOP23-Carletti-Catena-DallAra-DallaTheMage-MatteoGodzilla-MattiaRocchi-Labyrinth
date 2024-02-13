@@ -24,9 +24,7 @@ import javafx.scene.paint.Color;
 //This class is invoked from the controller thread, so *every* draw call MUST be wrapped into
 //a `Platform.runLater` call.
 public final class GameJFXView implements GameView, JFXInputSource {
-
-    private static final int PIXEL_FOR_PLAYER = 33 - 15;
-
+    
     //Reference constants that are used to set the layout of the game
     private static final double OBJECTIVE_REGION_WIDTH = 1.0/6;
     private static final double LABYRINTH_REGION_WIDTH = 4.0/6;
@@ -46,7 +44,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
     private double labyrinthTopLeftY;
     private double labyrinthSize; //assumed to be a square
     private double tileWidth;
-    private double tileheight;
+    private double tileHeight;
 
     //Images
     private static final Image WALL = TypeImag.WALL.getImage();
@@ -95,7 +93,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.fillRect(labyrinthRegionX, 0, labyrinthRegionWidth, this.canvas.getHeight());
 
             this.tileWidth = labyrinthSize / board.getWidth();
-            this.tileheight = labyrinthSize / board.getHeight();
+            this.tileHeight = labyrinthSize / board.getHeight();
             //reference points in the tile
             final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
             final double border = (tileWidth - tileMiddleSize) / 2;
@@ -107,7 +105,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                 final Coordinate c = entry.getKey();
                 final Tile tile = entry.getValue();
                 final double x = labyrinthTopLeftX + c.column() * tileWidth;
-                final double y = labyrinthTopLeftY + c.row() * tileheight;
+                final double y = labyrinthTopLeftY + c.row() * tileHeight;
 
                 //corners are always a wall
                 //top left
@@ -163,37 +161,48 @@ public final class GameJFXView implements GameView, JFXInputSource {
     @Override
     public void drawPlayersOnBoard(List<Player> players) {
         Platform.runLater(() -> {
-            //TODO: insert code to draw players on board
             var context2d = this.canvas.getGraphicsContext2D();
-            final double regionWidth = this.canvas.getWidth() * 2 / 3;
-            final double regionXStart = this.canvas.getWidth() / 6;
+            final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
+            final double border = (tileWidth - tileMiddleSize) / 2;
 
-            double playerY;
-            double playerX;
-
-            //Player1
-            playerY = (players.get(0).getCoord().row() * 33) + regionXStart + 102;
-            playerX = players.get(0).getCoord().column() * 33;
-            context2d.setFill(Color.RED);
-            context2d.fillOval(playerY, playerX, PIXEL_FOR_PLAYER, PIXEL_FOR_PLAYER);
-
-            //Player2
-            playerY = (players.get(1).getCoord().row() * 33) + regionWidth + 93;
-            playerX = players.get(1).getCoord().column() * 33;
-            context2d.setFill(Color.BLUE);
-            context2d.fillOval(playerY, playerX, PIXEL_FOR_PLAYER, PIXEL_FOR_PLAYER);
-
-            //Player3
-            playerY = (players.get(2).getCoord().row() * 33) + regionWidth + 93;
-            playerX = (players.get(2).getCoord().column() * 33) + regionXStart + 418;
-            context2d.setFill(Color.GREEN);
-            context2d.fillOval(playerY, playerX, PIXEL_FOR_PLAYER, PIXEL_FOR_PLAYER);
-
-            //Player4
-            playerY = (players.get(3).getCoord().row() * 33) + regionXStart + 102;
-            playerX = (players.get(3).getCoord().column() * 33) + regionXStart + 418;
-            context2d.setFill(Color.YELLOW);
-            context2d.fillOval(playerY, playerX, PIXEL_FOR_PLAYER, PIXEL_FOR_PLAYER);
+            for (int i = 0; i < players.size(); i++) {
+                if (i == 0) {
+                    //Player1
+                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight) +
+                    this.labyrinthTopLeftY;
+                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth) +
+                    this.labyrinthTopLeftX;
+                    context2d.setFill(Color.RED);
+                    context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
+                }
+                else if (i == 1) {
+                    //Player2
+                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight) +
+                    this.labyrinthTopLeftY;
+                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth) +
+                    this.labyrinthTopLeftX + this.labyrinthSize - this.tileWidth;
+                    context2d.setFill(Color.BLUE);
+                    context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
+                }
+                else if (i == 2) {
+                    //Player3
+                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight) +
+                    this.labyrinthTopLeftY + this.labyrinthSize - this.tileHeight;
+                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth) +
+                    this.labyrinthTopLeftX;
+                    context2d.setFill(Color.GREEN);
+                    context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
+                }
+                else if (i == 3) {
+                    //Player4
+                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight) +
+                    this.labyrinthTopLeftY + this.labyrinthSize - this.tileHeight;
+                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth) +
+                    this.labyrinthTopLeftX + this.labyrinthSize - this.tileWidth;
+                    context2d.setFill(Color.YELLOW);
+                    context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
+                }
+            }
         });
     }
 
@@ -227,7 +236,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
         this.playerStatsRegionWidth = canvasWidth * PLAYER_STATS_REGION_WIDTH;
         this.objectiveRegionX = 0;
         this.labyrinthRegionX = this.objectiveRegionWidth;
-        this.playerStatsRegionX = this.objectiveRegionWidth + this.playerStatsRegionWidth;
+        this.playerStatsRegionX = this.objectiveRegionWidth + this.labyrinthRegionWidth;
 
         //the available region of space is labyrinthRegionWidth*canvas.getHeight
         //the labyrinth must fit inside the allocated region

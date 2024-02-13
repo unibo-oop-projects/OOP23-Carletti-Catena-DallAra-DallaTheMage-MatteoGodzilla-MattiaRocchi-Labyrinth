@@ -52,6 +52,8 @@ public class GetMissions {
         item.setCategory(Category.values()[idCat]);
         item.setMaterial(Material.values()[idMat]);
         material_temp++;
+
+        materialpresents.add(item.getMaterial());
         
         item.setQuantity(quantityGenerator.nextInt(MIN_REQUIRED,MAX_REQUIRED));
         /*Set quantity of points */

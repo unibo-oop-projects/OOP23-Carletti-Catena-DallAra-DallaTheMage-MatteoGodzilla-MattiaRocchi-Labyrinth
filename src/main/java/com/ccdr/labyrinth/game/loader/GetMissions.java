@@ -53,8 +53,10 @@ public class GetMissions {
         item.setMaterial(Material.values()[idMat]);
         material_temp++;
 
-        materialpresents.add(item.getMaterial());
-        
+        if(!materialpresents.contains(item.getMaterial())){
+            materialpresents.add(item.getMaterial());
+        }
+        /*Set quantity of materials */
         item.setQuantity(quantityGenerator.nextInt(MIN_REQUIRED,MAX_REQUIRED));
         /*Set quantity of points */
         item.setPoints(quantityGenerator.nextInt(6,11));

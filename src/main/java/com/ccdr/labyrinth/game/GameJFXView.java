@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 //This class is invoked from the controller thread, so *every* draw call MUST be wrapped into
 //a `Platform.runLater` call.
@@ -55,7 +56,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
 
     private Scene scene;
     private ExpandCanvas canvas;
-    private int i = 1;
+    private int i = 3;
 
     public GameJFXView(){
         this.canvas = new ExpandCanvas();
@@ -215,17 +216,36 @@ public final class GameJFXView implements GameView, JFXInputSource {
 
     public void drawMissions(List<Item> missions){
         Image Armor = TypeImag.ARMOR.getImage();
+        Image Clothing = TypeImag.CLOTHING.getImage();
+        Image Jewel = TypeImag.JEWEL.getImage();
+        Image Weapon = TypeImag.WEAPON.getImage();
+        Image Tool = TypeImag.TOOL.getImage();
         Platform.runLater(()->{
             var context2d = this.canvas.getGraphicsContext2D();
             context2d.setFill(Color.BLACK);
             context2d.setTextBaseline(VPos.TOP);
+            context2d.setFont(Font.font(25));
             context2d.fillText("Missions", 15, 0);
+            context2d.setFont(Font.getDefault());
             for (Item item : missions) {
-                context2d.fillText(""+ item.getCategory() + "\t" + item.getMaterial() + "\t" + item.getQuantity(), 0, i * 10);
-                context2d.drawImage(Armor, 0, i * 10, 25 , 25);
+                context2d.fillText(""+ item.getCategory()  + " " +"\t   " + item.getMaterial() + "\t " + item.getQuantity(), 0,i * 10);
                 i++;
             }
-            i=1;
+            i=3;
+
+            context2d.setFont(Font.font(25));
+            context2d.fillText(" LEGEND ", (labyrinthRegionX / 2) - (labyrinthRegionX / 5), this.canvas.getHeight() - 170, 200);
+            context2d.setFont(Font.getDefault());
+            context2d.drawImage(Armor,10, this.canvas.getHeight() -130, 25 , 25);
+            context2d.fillText(" -> Type Armor", 36 ,this.canvas.getHeight() -126);
+            context2d.drawImage(Clothing,7, this.canvas.getHeight() -108, 30 , 30);
+            context2d.fillText(" -> Type Clothing", 36 ,this.canvas.getHeight() -103);
+            context2d.drawImage(Weapon,10, this.canvas.getHeight() -82, 25 , 25);
+            context2d.fillText(" -> Type Weapon", 36 ,this.canvas.getHeight() -80);
+            context2d.drawImage(Tool,10, this.canvas.getHeight() -56, 19 , 19);
+            context2d.fillText(" -> Type Tool", 36 ,this.canvas.getHeight() -57);
+            context2d.drawImage(Jewel,10, this.canvas.getHeight() -34, 20 , 20);
+            context2d.fillText(" -> Type Jewel", 36 ,this.canvas.getHeight() -34);
         });
     }
 

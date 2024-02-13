@@ -13,7 +13,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
-public class ResultJFXView implements ResultView, JFXInputSource{
+/**
+ * Main implementation of ResultView, done with JavaFX.
+ */
+public final class ResultJFXView implements ResultView, JFXInputSource {
     //same ones as the menu
     private static final Color BASE_COLOR = Color.gray(0.1);
     private static final Color TEXT_FILL = Color.valueOf("#bbbbbb");
@@ -24,7 +27,10 @@ public class ResultJFXView implements ResultView, JFXInputSource{
     private double padding;
     private double hintFontSize;
 
-    public ResultJFXView(){
+    /**
+     *
+     */
+    public ResultJFXView() {
         this.canvas = new ExpandCanvas();
         this.scene = new Scene(new Group(this.canvas), BASE_COLOR);
         this.canvas.bind(this.scene);
@@ -54,19 +60,19 @@ public class ResultJFXView implements ResultView, JFXInputSource{
             context.setTextBaseline(VPos.TOP);
             context.setFill(TEXT_FILL);
             context.setFont(Font.font(this.headerFontSize));
-            context.fillText("Results", this.canvas.getWidth()/2, this.padding);
+            context.fillText("Results", this.canvas.getWidth() / 2, this.padding);
 
             //draw hint at the bottom
             context.setTextAlign(TextAlignment.CENTER);
             context.setTextBaseline(VPos.BOTTOM);
             context.setFill(TEXT_FILL);
             context.setFont(Font.font(this.hintFontSize));
-            context.fillText("Press Enter to close", this.canvas.getWidth()/2, this.canvas.getHeight() - this.padding);
+            context.fillText("Press Enter to close", this.canvas.getWidth() / 2, this.canvas.getHeight() - this.padding);
         });
     }
 
     @Override
-    public void routeKeyboardEvents(Receiver receiver) {
+    public void routeKeyboardEvents(final Receiver receiver) {
         this.scene.setOnKeyPressed(receiver::onKeyPressed);
     }
 

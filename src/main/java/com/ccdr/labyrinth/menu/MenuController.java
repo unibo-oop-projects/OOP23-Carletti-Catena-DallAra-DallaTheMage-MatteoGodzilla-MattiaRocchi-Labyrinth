@@ -125,7 +125,7 @@ public final class MenuController implements Executor, MenuInputs {
                 new MenuChoiceElement<>("Labyrinth Size", LABYRINTH_SIZE)
                     .defaultIndex(1)
                     .action(size -> {
-                        this.config.setLabyrinthHeight(size);
+                        this.config.setLabyrinthWidth(size);
                         this.config.setLabyrinthHeight(size);
                     }),
                 new MenuChoiceElement<>("Source Tiles", SOURCE_OPTIONS)

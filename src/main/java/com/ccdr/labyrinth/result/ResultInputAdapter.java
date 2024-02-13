@@ -4,17 +4,23 @@ import com.ccdr.labyrinth.jfx.JFXInputSource;
 
 import javafx.scene.input.KeyEvent;
 
-public class ResultInputAdapter implements JFXInputSource.Receiver{
+/**
+ * Class responsible for routing the events from Javafx to the ResultController.
+ */
+public final class ResultInputAdapter implements JFXInputSource.Receiver {
 
     private ResultInputs controller;
 
-    public ResultInputAdapter(final ResultInputs controller){
+    /**
+     * @param controller indirect reference to ResultController
+     */
+    public ResultInputAdapter(final ResultInputs controller) {
         this.controller = controller;
     }
 
     @Override
-    public void onKeyPressed(KeyEvent event) {
-        switch(event.getCode()){
+    public void onKeyPressed(final KeyEvent event) {
+        switch (event.getCode()) {
             case ENTER:
             case SPACE:
                 this.controller.close();

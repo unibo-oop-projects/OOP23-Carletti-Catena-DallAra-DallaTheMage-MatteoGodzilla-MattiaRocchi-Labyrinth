@@ -82,6 +82,14 @@ public class PlayersManager implements Context{
     }
 
     /**
+     * gives the index of the player active at the moment.
+     * @return the index of the active player
+     */
+    public int getActivePlayerIndex() {
+        return this.activePlayer;
+    }
+
+    /**
      * method to generate a random number.
      */
     public void generateDiceValue() {

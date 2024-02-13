@@ -5,8 +5,14 @@ package com.ccdr.labyrinth.game;
  * The methods inside this interface are just the ones to manage Contexts and switching between them.
  * {@see GameInputs} for the actual list of functions that should be overridden for gameplay purposes
  */
-public interface Context extends GameInputs{
+public interface Context extends GameInputs {
+    /**
+     * @return true if this context has finished execution and the next context should become active
+     */
     boolean done();
 
+    /**
+     * @return the next context instance that should become active
+     */
     Context getNextContext();
 }

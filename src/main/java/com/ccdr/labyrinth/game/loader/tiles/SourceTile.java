@@ -16,15 +16,28 @@ import com.ccdr.labyrinth.Material;
  * - If a tile is active, every turn it will increase the amount of materials
  * stored inside, until the maximum quantity.
  */
-public class SourceTile extends GenericTile {
+public final class SourceTile extends GenericTile {
+    /**
+     * Maximum number of materials that any source tile can keep inside.
+     */
     public static final int MAX_QUANTITY = 10;
+    /**
+     * Minimum quantity of materials that any source tile has right after it becomes active.
+     */
     public static final int MIN_QUANTITY = 3;
+    /**
+     * Quantity of materials right at the start of the game.
+     */
     public static final int STARTING_QUANTITY = MIN_QUANTITY - 2;
     private final Material materialType;
     private int quantity;
     private int turnsToWait;
     private int remainingCooldown;
 
+    /**
+     * @param assignedMaterial Material type that this source must generate
+     * @param waitingTurns how many turns is this source locked after giving materials
+     */
     public SourceTile(final Material assignedMaterial, final int waitingTurns) {
         this.materialType = assignedMaterial;
         this.quantity = STARTING_QUANTITY;
@@ -46,7 +59,15 @@ public class SourceTile extends GenericTile {
         }
     }
 
-    public int collect() {
+    @Override
+    public void onEnter(final Player player) {
+        player.increaseQuantityMaterial(this.materialType, collect());
+    }
+
+    @Override
+    public void onExit(final Player player) { }
+
+    private int collect() {
         if (this.isActive()) {
             int collected = this.quantity;
             this.quantity = 0;
@@ -56,23 +77,24 @@ public class SourceTile extends GenericTile {
         return 0;
     }
 
-    @Override
-    public void onEnter(final Player player) {
-        player.increaseQuantityMaterial(this.materialType, collect());
-    }
-
-    @Override
-    public void onExit(final Player player) { }
-
     // Getters
+    /**
+     * @return amount of materials inside this source tile
+     */
     public int getQuantity() {
         return this.quantity;
     }
 
+    /**
+     * @return material type that this source tile generates
+     */
     public Material getMaterialType() {
         return this.materialType;
     }
 
+    /**
+     * @return true if this source tile can give materials to a player
+     */
     public boolean isActive() {
         return this.remainingCooldown <= 0;
     }

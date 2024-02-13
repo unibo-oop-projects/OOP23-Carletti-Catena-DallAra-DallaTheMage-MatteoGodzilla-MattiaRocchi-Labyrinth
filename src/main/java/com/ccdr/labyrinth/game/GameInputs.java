@@ -1,5 +1,8 @@
 package com.ccdr.labyrinth.game;
 
+/**
+ * Interface responsible to describe what are the input types that the game can understand.
+ */
 public interface GameInputs {
 
     /**
@@ -36,5 +39,4 @@ public interface GameInputs {
      * method that calls the activeContext method to execute when the ESC or BACKSPACE key is pressed.
      */
     void back();
-
 }

@@ -20,7 +20,6 @@ public interface Executor {
 
     /**
      * This function gets called by the engine when this executor switches from inactive to active.
-     * @param engine reference to the engine object
      */
     void onEnable();
     /**

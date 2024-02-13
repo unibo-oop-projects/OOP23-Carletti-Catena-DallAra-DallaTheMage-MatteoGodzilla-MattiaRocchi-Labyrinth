@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
+import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayerImpl;
 
 /**
@@ -27,35 +28,29 @@ class SourceTileTest {
     }
 
     @Test
-    void collect() {
+    void testSingleCollect() {
         final SourceTile tile = new SourceTile(Material.WOOD, 3);
+        final Player p = new PlayerImpl();
         tile.updateTile();
         tile.updateTile();
         tile.updateTile();
-        assertEquals(SourceTile.STARTING_QUANTITY + 3, tile.collect());
-        assertEquals(0, tile.collect());
-    }
-
-    @Test
-    void testQuantity() {
-        final SourceTile tile = new SourceTile(Material.COAL, 2);
-        assertEquals(SourceTile.STARTING_QUANTITY, tile.getQuantity());
-        tile.updateTile();
-        tile.updateTile();
-        tile.updateTile();
-        tile.updateTile();
-        assertEquals(SourceTile.STARTING_QUANTITY + 4, tile.getQuantity());
-        tile.collect();
+        assertEquals(SourceTile.STARTING_QUANTITY + 3, tile.getQuantity());
+        tile.onEnter(p);
+        tile.onExit(p);
         assertEquals(0, tile.getQuantity());
     }
 
     @Test
-    void repeatedCollect() {
+    void testMultiplePlayersCollecting() {
         final SourceTile tile = new SourceTile(Material.SILK, 8);
+        final Player p = new PlayerImpl();
+        final Player p2 = new PlayerImpl();
         //the tile should be active as soon as it's created
         assertTrue(tile.isActive());
         //players walks up to the source tile
-        assertEquals(SourceTile.STARTING_QUANTITY, tile.collect());
+        assertEquals(SourceTile.STARTING_QUANTITY, tile.getQuantity());
+        tile.onEnter(p);
+        tile.onExit(p);
         assertFalse(tile.isActive());
         //simulate nothing happening for 5 turns
         final int emptyTurns = 5;
@@ -64,8 +59,10 @@ class SourceTileTest {
         }
         //it should still be inactive
         assertFalse(tile.isActive());
+        tile.onEnter(p2);
+        tile.onExit(p2);
         //player 2 wants to collect materials, but it can´t
-        assertEquals(0, tile.collect());
+        assertEquals(0, p2.getQuantityMaterial(Material.SILK));
         //the cooldown should not have been reset by this action
         for (int i = 0; i < 3; i++) {
             tile.updateTile();
@@ -77,7 +74,7 @@ class SourceTileTest {
     }
 
     @Test
-    void testWithPlayerObject() {
+    void testSamePlayerCollectingMultipleTimes() {
         final PlayerImpl p = new PlayerImpl();
         final SourceTile tile = new SourceTile(Material.COAL, 3);
         assertEquals(0, p.getQuantityMaterial(Material.COAL));

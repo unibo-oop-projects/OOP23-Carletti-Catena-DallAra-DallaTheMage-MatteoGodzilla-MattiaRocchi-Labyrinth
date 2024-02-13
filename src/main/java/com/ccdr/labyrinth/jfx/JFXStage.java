@@ -1,6 +1,9 @@
 package com.ccdr.labyrinth.jfx;
 
 import java.util.Set;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.HashSet;
 
 import javafx.application.Application;
@@ -27,6 +30,7 @@ public final class JFXStage extends Application {
     private static Set<Runnable> onCloseCallbacks = new HashSet<>();
 
     @Override
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
     public void start(final Stage primaryStage) throws Exception {
         stage = primaryStage;
         stage.setTitle("Labyrinth");
@@ -49,6 +53,7 @@ public final class JFXStage extends Application {
     /**
      * @return reference to the stage that is created by JavaFX
      */
+    @SuppressFBWarnings("MS_EXPOSE_REP")
     public static Stage getStage() {
         return stage;
     }

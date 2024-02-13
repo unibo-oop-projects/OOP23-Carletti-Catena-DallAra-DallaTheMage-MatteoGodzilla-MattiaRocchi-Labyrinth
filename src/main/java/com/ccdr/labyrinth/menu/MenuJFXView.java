@@ -127,10 +127,6 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
         }
     }
 
-    // this is left empty, for now
-    @Override
-    public void onDisable() { }
-
     @Override
     public void routeKeyboardEvents(final Receiver adapter) {
         this.scene.setOnKeyPressed(adapter::onKeyPressed);

@@ -23,9 +23,4 @@ public interface MenuView {
      */
     void changed(MenuElement element);
 
-    /**
-     * Opposite method of `onEnable`.
-     * This method gets called last, when the menu must be closed/hidden.
-     */
-    void onDisable();
 }

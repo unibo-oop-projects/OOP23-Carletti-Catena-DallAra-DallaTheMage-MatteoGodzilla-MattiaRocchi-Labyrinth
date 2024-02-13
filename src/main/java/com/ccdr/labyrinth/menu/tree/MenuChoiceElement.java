@@ -13,7 +13,8 @@ import java.util.function.Consumer;
 public final class MenuChoiceElement<T> extends MenuElement {
 
     private Consumer<T> action;
-    private int chosenIndex;
+    private int lastChoiceIndex;
+    private int choosingIndex;
     private final List<T> values;
 
     /**
@@ -33,7 +34,8 @@ public final class MenuChoiceElement<T> extends MenuElement {
      */
     public MenuChoiceElement<T> defaultIndex(final int defaultIndex) {
         if (0 <= defaultIndex && defaultIndex < this.values.size()) {
-            this.chosenIndex = defaultIndex;
+            this.lastChoiceIndex = defaultIndex;
+            this.choosingIndex = defaultIndex;
             return this;
         } else {
             throw new IllegalStateException("default index must be a valid index in the possible choices");
@@ -51,22 +53,23 @@ public final class MenuChoiceElement<T> extends MenuElement {
 
     @Override
     public void up() {
-        if (this.chosenIndex > 0) {
-            this.chosenIndex--;
+        if (this.choosingIndex > 0) {
+            this.choosingIndex--;
         }
     }
 
     @Override
     public void down() {
-        if (this.chosenIndex + 1 < values.size()) {
-            this.chosenIndex++;
+        if (this.choosingIndex + 1 < this.values.size()) {
+            this.choosingIndex++;
         }
     }
 
     @Override
     public MenuElement nextState() {
         if (this.action != null) {
-            this.action.accept(values.get(chosenIndex));
+            this.action.accept(values.get(this.choosingIndex));
+            this.lastChoiceIndex = this.choosingIndex;
         }
         return getParent();
     }
@@ -82,12 +85,12 @@ public final class MenuChoiceElement<T> extends MenuElement {
      * @return the index of the entry while the user is choosing an option.
      */
     public int getIndex() {
-        return this.chosenIndex;
+        return this.choosingIndex;
     }
 
     @Override
     public String toString() {
-        return this.getName() + ": " + this.values.get(chosenIndex).toString();
+        return this.getName() + ": " + this.values.get(this.lastChoiceIndex).toString();
     }
 
     //MenuChoiceElement does not require to do anything immediate

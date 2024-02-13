@@ -27,7 +27,6 @@ public class GameController implements Executor, GameInputs{
         for (GameView gameView : views) {
             gameView.onEnable();
         }
-        missions = guild.returnListOfMissions();
     }
 
     public void init(GameConfig config){
@@ -44,10 +43,10 @@ public class GameController implements Executor, GameInputs{
         //game loop
         for (GameView gameView : views) {
             gameView.clear();
-            gameView.drawMissions(missions);
+            gameView.drawMissions(board.getGuildTile().returnListOfMissions());
             gameView.drawBoard(this.board);
             gameView.drawPlayersOnBoard(this.playerManager.getPlayers());
-            gameView.drawPlayersStats(this.playerManager , this.guild.getMaterialPresents());
+            gameView.drawPlayersStats(this.playerManager , this.board.getGuildTile().getMaterialPresents());
         }
     }
 

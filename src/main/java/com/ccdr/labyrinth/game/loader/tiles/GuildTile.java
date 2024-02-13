@@ -45,4 +45,11 @@ public class GuildTile extends GenericTile {
     public void onExit(final Player player) {
     }
 
+    @Override
+    public boolean isDiscovered() {
+        return true;
+    }
+
+
+
 }

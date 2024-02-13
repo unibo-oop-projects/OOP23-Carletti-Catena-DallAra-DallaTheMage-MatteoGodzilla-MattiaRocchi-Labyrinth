@@ -54,7 +54,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
     @Override
     public void draw(final List<Player> players) {
         Platform.runLater(() -> {
-            GraphicsContext context = this.canvas.getGraphicsContext2D();
+            final GraphicsContext context = this.canvas.getGraphicsContext2D();
             context.setFill(BASE_COLOR);
             context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
             recalculateFontSizes();
@@ -66,7 +66,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
             context.setFont(Font.font(this.headerFontSize));
             context.fillText("Results", this.canvas.getWidth() / 2, this.padding);
 
-            if (players != null && players.size() > 0) {
+            if (players != null && !players.isEmpty()) {
                 drawScores(context, players);
             }
 
@@ -94,8 +94,8 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
             context.setFont(Font.font(playerSize));
             context.fillText(entry, this.canvas.getWidth() / 2, y);
 
-            var entry2 = new StringBuilder().append('(');
-            Material[] allMaterials = Material.values();
+            final StringBuilder entry2 = new StringBuilder().append('(');
+            final Material[] allMaterials = Material.values();
             for (int j = 0; j < allMaterials.length; j++) {
                 entry2.append(allMaterials[j])
                     .append(": ")

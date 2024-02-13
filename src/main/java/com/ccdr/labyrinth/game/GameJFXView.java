@@ -7,6 +7,8 @@ import com.ccdr.labyrinth.TypeImag;
 import com.ccdr.labyrinth.game.loader.Coordinate;
 import com.ccdr.labyrinth.game.loader.Direction;
 import com.ccdr.labyrinth.game.loader.Item;
+
+import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 import com.ccdr.labyrinth.game.player.Player;
@@ -200,6 +202,9 @@ public final class GameJFXView implements GameView, JFXInputSource {
             if(material != null){
                 context2d.drawImage(material, x + border, y + border, tileMiddleSize, tileMiddleSize);
             }
+        } else if (tile instanceof GuildTile){
+            //GuildTile guild = (GuildTile) tile;
+            context2d.drawImage(PATH_GUILD, x, y, tileWidth, tileHeight);
         }
     }
 

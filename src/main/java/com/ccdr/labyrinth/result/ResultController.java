@@ -13,13 +13,13 @@ public final class ResultController implements Executor, ResultInputs {
 
     private final List<ResultView> views = new ArrayList<>();
     private List<Player> players;
-    private Runnable closeAction;
+    private Runnable closeAction = () -> { };
 
     /**
      * @param players list of players, received from GameController on gameover
      */
     public void init(final List<Player> players) {
-        this.players = players;
+        this.players = List.copyOf(players);
     }
 
     /**

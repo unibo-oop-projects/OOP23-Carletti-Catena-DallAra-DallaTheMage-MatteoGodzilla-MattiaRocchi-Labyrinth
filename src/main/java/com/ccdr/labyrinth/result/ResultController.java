@@ -5,20 +5,24 @@ import java.util.List;
 
 import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
+import com.ccdr.labyrinth.game.player.Player;
 
 /**
  * Class responsible for managing the result screen that appears after a game has ended.
  */
 public final class ResultController implements Executor, ResultInputs {
 
-    private Engine engine;
     private List<ResultView> views = new ArrayList<>();
+    private List<Player> players;
+    private Runnable closeAction;
 
     /**
-     * @param engine reference to Engine class that will execute this
+     *
      */
-    public ResultController(final Engine engine) {
-        this.engine = engine;
+    public ResultController() {}
+
+    public void init(List<Player> players){
+        this.players = players;
     }
 
     /**
@@ -38,12 +42,16 @@ public final class ResultController implements Executor, ResultInputs {
     @Override
     public void update(final double deltaTime) {
         for (ResultView resultView : views) {
-            resultView.draw();
+            resultView.draw(this.players);
         }
     }
 
     @Override
     public void close() {
-        this.engine.changeExecutor(ID.MENU);
+        this.closeAction.run();
+    }
+
+    public void onClose(Runnable action){
+        this.closeAction = action;
     }
 }

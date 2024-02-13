@@ -46,23 +46,30 @@ public final class Labyrinth {
             menuView.routeKeyboardEvents(menuInput);
 
             //setting up the result screen
-            final ResultController resultController = new ResultController(engine);
+            final ResultController resultController = new ResultController();
             final ResultJFXView resultView = new ResultJFXView();
             resultController.addView(resultView);
             final ResultInputAdapter resultInput = new ResultInputAdapter(resultController);
             resultView.routeKeyboardEvents(resultInput);
 
+            //setting up callbacks
             menuController.onPlay(config -> {
                 gameController.init(config);
                 engine.changeExecutor(ID.GAME);
             });
 
-            final Runnable onClose = new Runnable() {
-                @Override
-                public void run() {
-                    engine.stop();
-                    Platform.exit();
-                }
+            gameController.onGameover(players -> {
+                resultController.init(players);
+                engine.changeExecutor(ID.RESULT);
+            });
+
+            resultController.onClose(() -> {
+                engine.changeExecutor(ID.MENU);
+            });
+
+            final Runnable onClose = () -> {
+                engine.stop();
+                Platform.exit();
             };
 
             menuController.onExit(onClose);

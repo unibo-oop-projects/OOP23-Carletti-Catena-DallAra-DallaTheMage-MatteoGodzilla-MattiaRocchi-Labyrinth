@@ -20,7 +20,7 @@ import com.ccdr.labyrinth.menu.tree.MenuTextElement;
 public final class MenuController implements Executor, MenuInputs {
     private final GameConfig config = new GameConfig();
     private final Set<MenuView> views = new HashSet<>();
-    private MenuElement current = createMenuStructure();
+    private MenuElement current;
     // "events" fired when the menu has completed its task. Can be expanded so
     // multiple callbacks are activated.
     private Consumer<GameConfig> onPlay;
@@ -33,6 +33,7 @@ public final class MenuController implements Executor, MenuInputs {
 
     @Override
     public void onEnable() {
+        current = createMenuStructure();
         for (final MenuView view : views) {
             view.onEnable();
         }

@@ -1,6 +1,7 @@
 package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.engine.Executor;
+import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
 import com.ccdr.labyrinth.game.loader.GameBoard;
 import com.ccdr.labyrinth.game.loader.Item;
@@ -8,6 +9,7 @@ import com.ccdr.labyrinth.game.loader.TileCreator;
 import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 //this is the class responsible for controlling the entire game
 public class GameController implements Executor, GameInputs{
@@ -18,6 +20,7 @@ public class GameController implements Executor, GameInputs{
     private boolean menuGuild = false;
     private List<Item> missions = new ArrayList();
     private GuildTile guild = new GuildTile(4);
+    private Consumer<List<Player>> gameover;
 
     @Override
     public void onEnable() {
@@ -52,6 +55,10 @@ public class GameController implements Executor, GameInputs{
         this.views.add(view);
     }
 
+    public void onGameover(Consumer<List<Player>> action){
+        this.gameover = action;
+    }
+
     //input methods
     //note: this method gets called from the javafx application thread
 
@@ -60,6 +67,9 @@ public class GameController implements Executor, GameInputs{
      */
     @Override
     public void up(){
+        //TEMPORARY
+        //this.gameover.accept(this.playerManager.getPlayers());
+
         this.activeContext.up();
         switchContextIfNecessary();
     }

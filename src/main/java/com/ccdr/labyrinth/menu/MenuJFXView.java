@@ -100,7 +100,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
                     //offset the main menu list so it's below in the screen
                     final MenuListElement listElement = (MenuListElement) element;
                     final double sizeForElements = listElement.getElements().size() * this.listFontSize;
-                    final double startY = this.canvas.getHeight() - sizeForElements - this.hintFontSize - this.padding;
+                    final double startY = this.canvas.getHeight() - sizeForElements - this.hintFontSize - this.padding * 2;
                     drawList(context, (MenuListElement) element, startY);
                 } else {
                     drawList(context, (MenuListElement) element, this.headerFontSize + this.padding);
@@ -214,7 +214,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
         context.setTextAlign(TextAlignment.CENTER);
         context.setFill(TEXT_FILL);
         context.fillText("Enter: Confirm | Up/Down: Move cursor | Esc/Backspace: Go back",
-            this.canvas.getWidth() / 2, this.canvas.getHeight());
+            this.canvas.getWidth() / 2, this.canvas.getHeight() - this.padding);
         context.restore();
     }
 

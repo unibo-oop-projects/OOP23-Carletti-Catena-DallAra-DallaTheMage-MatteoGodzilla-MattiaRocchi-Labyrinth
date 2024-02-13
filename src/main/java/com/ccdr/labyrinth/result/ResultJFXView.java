@@ -3,6 +3,10 @@ package com.ccdr.labyrinth.result;
 import com.ccdr.labyrinth.jfx.ExpandCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
+import com.ccdr.labyrinth.game.player.Player;
+import com.ccdr.labyrinth.Material;
+
+import java.util.List;
 
 import javafx.application.Platform;
 import javafx.geometry.VPos;
@@ -26,6 +30,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
     private double headerFontSize;
     private double padding;
     private double hintFontSize;
+    private double playerSize;
 
     /**
      *
@@ -39,7 +44,6 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
     @Override
     public void onEnable() {
         Platform.runLater(() -> {
-            System.out.println("ENABLED");
             JFXStage.getStage().setScene(this.scene);
             //Force resize of canvas so it fills the entire stage
             JFXStage.getStage().setWidth(JFXStage.getStage().getWidth());
@@ -48,7 +52,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
     }
 
     @Override
-    public void draw() {
+    public void draw(List<Player> players) {
         Platform.runLater(() -> {
             GraphicsContext context = this.canvas.getGraphicsContext2D();
             context.setFill(BASE_COLOR);
@@ -62,18 +66,48 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
             context.setFont(Font.font(this.headerFontSize));
             context.fillText("Results", this.canvas.getWidth() / 2, this.padding);
 
+            if(players != null && players.size() > 0){
+                drawScores(context, players);
+            }
+
             //draw hint at the bottom
             context.setTextAlign(TextAlignment.CENTER);
             context.setTextBaseline(VPos.BOTTOM);
             context.setFill(TEXT_FILL);
             context.setFont(Font.font(this.hintFontSize));
-            context.fillText("Press Enter to close", this.canvas.getWidth() / 2, this.canvas.getHeight() - this.padding);
+            context.fillText("Press Enter/Space to close", this.canvas.getWidth() / 2, this.canvas.getHeight() - this.padding);
         });
     }
 
-    @Override
-    public void routeKeyboardEvents(final Receiver receiver) {
-        this.scene.setOnKeyPressed(receiver::onKeyPressed);
+    private void drawScores(GraphicsContext context, List<Player> players) {
+        context.setFill(TEXT_FILL);
+
+        for(int i = 0; i < players.size(); i++){
+            final double y = this.headerFontSize + this.padding * 2 + (this.playerSize + this.hintFontSize + this.padding) * i;
+            final String entry = new StringBuilder()
+                .append("Player ")
+                .append(String.valueOf(i + 1))
+                .append(": ")
+                .append(players.get(i).getPoints())
+                .append(" points")
+                .toString();
+            context.setFont(Font.font(playerSize));
+            context.fillText(entry, this.canvas.getWidth() / 2, y);
+
+            var entry2 = new StringBuilder().append('(');
+            Material[] allMaterials = Material.values();
+            for(int j = 0; j < allMaterials.length; j++){
+                entry2.append(allMaterials[j])
+                    .append(": ")
+                    .append(players.get(i).getQuantityMaterial(allMaterials[j]));
+                if(j + 1 < allMaterials.length){
+                    entry2.append(", ");
+                }
+            }
+            entry2.append(')');
+            context.setFont(Font.font(this.hintFontSize));
+            context.fillText(entry2.toString(), this.canvas.getWidth() / 2, y + this.playerSize + this.padding);
+        }
     }
 
     private void recalculateFontSizes() {
@@ -81,10 +115,14 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
         final double baseFontSize = referenceHeight / 10;
         // this.logoSize = baseFontSize * 2;
         this.headerFontSize = baseFontSize;
-        // this.listFontSize = baseFontSize * 2 / 3;
+        this.playerSize = baseFontSize * 2 / 3;
         // this.descriptionFontSize = baseFontSize / 2;
         this.hintFontSize = baseFontSize / 3;
         this.padding = baseFontSize / 10;
     }
 
+    @Override
+    public void routeKeyboardEvents(final Receiver receiver) {
+        this.scene.setOnKeyPressed(receiver::onKeyPressed);
+    }
 }

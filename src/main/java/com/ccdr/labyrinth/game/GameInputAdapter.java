@@ -5,13 +5,14 @@ import com.ccdr.labyrinth.jfx.JFXInputSource;
 import javafx.scene.input.KeyEvent;
 
 public class GameInputAdapter implements JFXInputSource.Receiver {
-    private GameInputs controller;
+    private final GameInputs controller;
 
     public GameInputAdapter(final GameInputs controller){
         this.controller = controller;
     }
 
-    public void onKeyPressed(KeyEvent event){
+    @Override
+    public void onKeyPressed(final KeyEvent event){
         switch(event.getCode()){
             case W:
             case UP:
@@ -45,6 +46,4 @@ public class GameInputAdapter implements JFXInputSource.Receiver {
                 break;
         }
     }
-
-    public void onKeyReleased(KeyEvent event){}
 }

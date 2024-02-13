@@ -31,7 +31,7 @@ public final class SourceTile extends GenericTile {
     public static final int STARTING_QUANTITY = MIN_QUANTITY - 2;
     private final Material materialType;
     private int quantity;
-    private int turnsToWait;
+    private final int turnsToWait;
     private int remainingCooldown;
 
     /**
@@ -69,7 +69,7 @@ public final class SourceTile extends GenericTile {
 
     private int collect() {
         if (this.isActive()) {
-            int collected = this.quantity;
+            final int collected = this.quantity;
             this.quantity = 0;
             this.remainingCooldown = this.turnsToWait + 1;
             return collected;

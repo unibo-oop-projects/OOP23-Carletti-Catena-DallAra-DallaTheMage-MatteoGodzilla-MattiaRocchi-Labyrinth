@@ -25,7 +25,7 @@ public final class MenuParticleSystem {
     private static final double PARTICLE_MAX_SPEED = 0.01;
 
     private Set<Particle> particles = new HashSet<>();
-    private Random r = new Random();
+    private final Random r = new Random();
 
     /**
      *

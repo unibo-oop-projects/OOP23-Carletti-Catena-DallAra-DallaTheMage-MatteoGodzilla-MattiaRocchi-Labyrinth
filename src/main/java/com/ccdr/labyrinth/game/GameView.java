@@ -16,13 +16,13 @@ public interface GameView {
      * Draw the players on the board
      * @param players the list of players to draw
      */
-    void drawPlayersOnBoard(final List<Player> players);
+    void drawPlayersOnBoard(List<Player> players);
 
     /**
      * Draw the players statistics
      * @param players the list of players to draw
      */
-    void drawPlayersStats(final List<Player> players);
+    void drawPlayersStats(List<Player> players);
 
     void drawMissions(List<Item> missions);
 }

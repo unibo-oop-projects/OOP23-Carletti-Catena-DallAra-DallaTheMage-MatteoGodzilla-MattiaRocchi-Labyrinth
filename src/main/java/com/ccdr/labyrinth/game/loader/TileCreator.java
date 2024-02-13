@@ -16,7 +16,6 @@ import java.util.Random;
 public class TileCreator {
     private final GameConfig configuration;
     private final CoordinatesManager coordinatesGenerator;
-    private List<Material> presentMaterials = new ArrayList<>();
     private Map<Coordinate, Tile> tiles;
 
 
@@ -34,10 +33,9 @@ public class TileCreator {
         //Guild tile
         GuildTile guild = new GuildTile(configuration.getPlayerCount());
         guild.setPattern(selectPattern(4));
-        this.presentMaterials.addAll(guild.getMaterialPresents());
         tiles.put(CENTER, guild);
         //Source Tiles
-        for (Material m : setupMaterialsList(presentMaterials)) {
+        for (Material m : setupMaterialsList(guild.getMaterialPresents())) {
             tiles.put(this.coordinatesGenerator.generateCoordinateNearCenter(CENTER, tiles), generateSource(m, configuration.getPlayerCount()));
         }
         //Normal tiles
@@ -97,12 +95,17 @@ public class TileCreator {
      */
     public List<Material> setupMaterialsList(List<Material> presents) {
         List<Material> materials = new ArrayList<>();
-        int sourceEach = configuration.getSourceTiles() / presents.size();
-        for (int i = sourceEach; i > 0; i--) {
-            for (Material m : presents) {
-                materials.add(m);
+        if(presents.size() > 0) {
+            int sourceEach = configuration.getSourceTiles() / presents.size();
+            for (int i = sourceEach; i > 0; i--) {
+                for (Material m : presents) {
+                    materials.add(m);
+                }
             }
+            return materials;
         }
-        return materials;
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 }

@@ -3,7 +3,6 @@ package com.ccdr.labyrinth.result;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.Player;
 
@@ -12,16 +11,11 @@ import com.ccdr.labyrinth.game.player.Player;
  */
 public final class ResultController implements Executor, ResultInputs {
 
-    private List<ResultView> views = new ArrayList<>();
+    private final List<ResultView> views = new ArrayList<>();
     private List<Player> players;
     private Runnable closeAction;
 
-    /**
-     *
-     */
-    public ResultController() {}
-
-    public void init(List<Player> players){
+    public void init(final List<Player> players){
         this.players = players;
     }
 
@@ -34,14 +28,14 @@ public final class ResultController implements Executor, ResultInputs {
 
     @Override
     public void onEnable() {
-        for (ResultView resultView : views) {
+        for (final ResultView resultView : views) {
             resultView.onEnable();
         }
     }
 
     @Override
     public void update(final double deltaTime) {
-        for (ResultView resultView : views) {
+        for (final ResultView resultView : views) {
             resultView.draw(this.players);
         }
     }
@@ -51,7 +45,7 @@ public final class ResultController implements Executor, ResultInputs {
         this.closeAction.run();
     }
 
-    public void onClose(Runnable action){
+    public void onClose(final Runnable action){
         this.closeAction = action;
     }
 }

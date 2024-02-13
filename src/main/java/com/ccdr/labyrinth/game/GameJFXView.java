@@ -24,7 +24,7 @@ import javafx.scene.paint.Color;
 //This class is invoked from the controller thread, so *every* draw call MUST be wrapped into
 //a `Platform.runLater` call.
 public final class GameJFXView implements GameView, JFXInputSource {
-    
+
     //Reference constants that are used to set the layout of the game
     private static final double OBJECTIVE_REGION_WIDTH = 1.0/6;
     private static final double LABYRINTH_REGION_WIDTH = 4.0/6;
@@ -89,8 +89,8 @@ public final class GameJFXView implements GameView, JFXInputSource {
         Platform.runLater(()->{
             var context2d = this.canvas.getGraphicsContext2D();
             //DEBUG
-            context2d.setFill(Color.BLUE);
-            context2d.fillRect(labyrinthRegionX, 0, labyrinthRegionWidth, this.canvas.getHeight());
+            //context2d.setFill(Color.BLUE);
+            //context2d.fillRect(labyrinthRegionX, 0, labyrinthRegionWidth, this.canvas.getHeight());
 
             this.tileWidth = labyrinthSize / board.getWidth();
             this.tileHeight = labyrinthSize / board.getHeight();

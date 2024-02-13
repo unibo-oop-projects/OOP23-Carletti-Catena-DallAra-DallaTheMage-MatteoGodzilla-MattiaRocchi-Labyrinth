@@ -5,10 +5,10 @@ import com.ccdr.labyrinth.game.loader.tiles.Tile;
 
 public class UpdateBoardContext implements Context {
 
-    private Board board;
-    private Context following;
+    private final Board board;
+    private final Context following;
 
-    public UpdateBoardContext(Board board, Context following){
+    public UpdateBoardContext(final Board board, final Context following){
         this.board = board;
         //this might require a separate bind function
         this.following = following;
@@ -28,10 +28,9 @@ public class UpdateBoardContext implements Context {
 
     @Override
     public void primary() {
-        for (Tile tile : this.board.getMap().values()) {
+        for (final Tile tile : this.board.getMap().values()) {
             if(tile instanceof SourceTile){
-                SourceTile source = (SourceTile)tile;
-                source.updateTile();
+                ((SourceTile)tile).updateTile();
             }
         }
     }

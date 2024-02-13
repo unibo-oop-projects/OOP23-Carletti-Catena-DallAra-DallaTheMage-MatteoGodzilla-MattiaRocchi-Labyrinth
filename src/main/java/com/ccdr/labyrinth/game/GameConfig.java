@@ -35,19 +35,19 @@ public class GameConfig {
     }
 
     //Setters
-    public void setObjectivesNum(int objectivesNum) {
+    public void setObjectivesNum(final int objectivesNum) {
         this.objectivesNum = objectivesNum;
     }
-    public void setLabyrinthWidth(int labyrinthWidth) {
+    public void setLabyrinthWidth(final int labyrinthWidth) {
         this.labyrinthWidth = labyrinthWidth;
     }
-    public void setLabyrinthHeight(int labyrinthHeight) {
+    public void setLabyrinthHeight(final int labyrinthHeight) {
         this.labyrinthHeight = labyrinthHeight;
     }
-    public void setSourceTiles(int sourceTiles) {
+    public void setSourceTiles(final int sourceTiles) {
         this.sourceTiles = sourceTiles;
     }
-    public void setPlayerCount(int playerCount) {
+    public void setPlayerCount(final int playerCount) {
         this.playerCount = playerCount;
     }
 

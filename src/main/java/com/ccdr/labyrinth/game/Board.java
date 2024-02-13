@@ -5,11 +5,10 @@ import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 
 import java.util.Map;
-import java.util.Optional;
 
 public interface Board {
 
-    Optional<GuildTile> getGuildTile();
+    GuildTile getGuildTile();
 
     int getHeight();
 

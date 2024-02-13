@@ -47,7 +47,7 @@ public class GameController implements Executor, GameInputs{
             gameView.drawMissions(missions);
             gameView.drawBoard(this.board);
             gameView.drawPlayersOnBoard(this.playerManager.getPlayers());
-            gameView.drawPlayersStats(this.playerManager.getPlayers());
+            gameView.drawPlayersStats(this.playerManager , this.guild.getMaterialPresents());
         }
     }
 

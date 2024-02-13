@@ -2,6 +2,7 @@ package com.ccdr.labyrinth.game;
 
 import java.util.List;
 
+import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.TypeImag;
 import com.ccdr.labyrinth.game.loader.Coordinate;
 import com.ccdr.labyrinth.game.loader.Direction;
@@ -9,6 +10,7 @@ import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 import com.ccdr.labyrinth.game.player.Player;
+import com.ccdr.labyrinth.game.player.PlayersManager;
 import com.ccdr.labyrinth.jfx.ExpandCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
@@ -20,11 +22,14 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 //This class is invoked from the controller thread, so *every* draw call MUST be wrapped into
 //a `Platform.runLater` call.
 public final class GameJFXView implements GameView, JFXInputSource {
-    
+
+    private static final int STEP = 20;
+
     //Reference constants that are used to set the layout of the game
     private static final double OBJECTIVE_REGION_WIDTH = 1.0/6;
     private static final double LABYRINTH_REGION_WIDTH = 4.0/6;
@@ -55,11 +60,11 @@ public final class GameJFXView implements GameView, JFXInputSource {
 
     private Scene scene;
     private ExpandCanvas canvas;
-    private int i = 1;
+    private int i = 3;
 
     public GameJFXView(){
         this.canvas = new ExpandCanvas();
-        this.scene = new Scene(new Group(this.canvas), Color.GREEN);
+        this.scene = new Scene(new Group(this.canvas), Color.gray(0.3));
         this.canvas.bind(this.scene);
     }
 
@@ -89,8 +94,8 @@ public final class GameJFXView implements GameView, JFXInputSource {
         Platform.runLater(()->{
             var context2d = this.canvas.getGraphicsContext2D();
             //DEBUG
-            context2d.setFill(Color.BLUE);
-            context2d.fillRect(labyrinthRegionX, 0, labyrinthRegionWidth, this.canvas.getHeight());
+            //context2d.setFill(Color.BLUE);
+            //context2d.fillRect(labyrinthRegionX, 0, labyrinthRegionWidth, this.canvas.getHeight());
 
             this.tileWidth = labyrinthSize / board.getWidth();
             this.tileHeight = labyrinthSize / board.getHeight();
@@ -180,14 +185,14 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     final double playerY = (players.get(i).getCoord().row() * this.tileHeight) +
                     this.labyrinthTopLeftY;
                     final double playerX = (players.get(i).getCoord().column() * this.tileWidth) +
-                    this.labyrinthTopLeftX + this.labyrinthSize - this.tileWidth;
+                    this.labyrinthTopLeftX + this.labyrinthSize;
                     context2d.setFill(Color.BLUE);
                     context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
                 }
                 else if (i == 2) {
                     //Player3
                     final double playerY = (players.get(i).getCoord().row() * this.tileHeight) +
-                    this.labyrinthTopLeftY + this.labyrinthSize - this.tileHeight;
+                    this.labyrinthTopLeftY + this.labyrinthSize;
                     final double playerX = (players.get(i).getCoord().column() * this.tileWidth) +
                     this.labyrinthTopLeftX;
                     context2d.setFill(Color.GREEN);
@@ -196,9 +201,9 @@ public final class GameJFXView implements GameView, JFXInputSource {
                 else if (i == 3) {
                     //Player4
                     final double playerY = (players.get(i).getCoord().row() * this.tileHeight) +
-                    this.labyrinthTopLeftY + this.labyrinthSize - this.tileHeight;
+                    this.labyrinthTopLeftY + this.labyrinthSize;
                     final double playerX = (players.get(i).getCoord().column() * this.tileWidth) +
-                    this.labyrinthTopLeftX + this.labyrinthSize - this.tileWidth;
+                    this.labyrinthTopLeftX + this.labyrinthSize;
                     context2d.setFill(Color.YELLOW);
                     context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
                 }
@@ -207,25 +212,130 @@ public final class GameJFXView implements GameView, JFXInputSource {
     }
 
     @Override
-    public void drawPlayersStats(List<Player> players) {
+    public void drawPlayersStats(final PlayersManager playersManager, List<Material> materialPresent) {
         Platform.runLater(() -> {
-            //TODO: insert code to draw players statistics
+            var context2d = this.canvas.getGraphicsContext2D();
+            final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
+            final double border = (tileWidth - tileMiddleSize) / 2;
+
+            context2d.setTextBaseline(VPos.TOP);
+            context2d.setFill(Color.BLACK);
+            context2d.setFont(Font.font(20));
+            context2d.fillText("Players Statistics", this.playerStatsRegionX + STEP, 0);
+            context2d.setFont(Font.getDefault());
+
+            for (int i = 0; i < playersManager.getPlayers().size(); i++) {
+                if (i == 0) {
+                    //Player1
+                    context2d.setFill(Color.RED);
+                    context2d.fillOval(this.playerStatsRegionX + border, border + STEP,
+                    tileMiddleSize, tileMiddleSize);
+                    if (i != playersManager.getActivePlayerIndex()) {
+                        context2d.setFill(Color.BLACK);
+                    }
+                    context2d.fillText("Player1", this.playerStatsRegionX + border + STEP, border + STEP);
+                    context2d.setFill(Color.BLACK);
+                    for (int j = 0; j < materialPresent.size(); j++) {
+                        var material = materialPresent.get(j);
+                        context2d.fillText(material.name() + "  " + playersManager.getPlayers()
+                        .get(i).getQuantityMaterial(material),
+                        this.playerStatsRegionX + border, border + STEP * 2 + STEP * j);
+                    }
+                }
+                else if (i == 1) {
+                    //Player2
+                    final double newStartPosY = border + STEP * 6;
+                    context2d.setFill(Color.BLUE);
+                    context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
+                    tileMiddleSize, tileMiddleSize);
+                    if (i != playersManager.getActivePlayerIndex()) {
+                        context2d.setFill(Color.BLACK);
+                    }
+                    context2d.fillText("Player2", this.playerStatsRegionX + border + STEP, newStartPosY);
+                    context2d.setFill(Color.BLACK);
+                    for (int j = 0; j < materialPresent.size(); j++) {
+                        var material = materialPresent.get(j);
+                        context2d.fillText(material.name() + "  " + playersManager.getPlayers()
+                        .get(i).getQuantityMaterial(material),
+                        this.playerStatsRegionX + border, newStartPosY + STEP + STEP * j);
+                    }
+                }
+                else if (i == 2) {
+                    //Player3
+                    final double newStartPosY = border + STEP * 11;
+                    context2d.setFill(Color.GREEN);
+                    context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
+                    tileMiddleSize, tileMiddleSize);
+                    if (i != playersManager.getActivePlayerIndex()) {
+                        context2d.setFill(Color.BLACK);
+                    }
+                    context2d.fillText("Player3", this.playerStatsRegionX + border + STEP, newStartPosY);
+                    context2d.setFill(Color.BLACK);
+                    for (int j = 0; j < materialPresent.size(); j++) {
+                        var material = materialPresent.get(j);
+                        context2d.fillText(material.name() + "  " + playersManager.getPlayers()
+                        .get(i).getQuantityMaterial(material),
+                        this.playerStatsRegionX + border, newStartPosY + STEP + STEP * j);
+                    }
+                }
+                else if (i == 3) {
+                    //Player4
+                    final double newStartPosY = border + STEP * 16;
+                    context2d.setFill(Color.YELLOW);
+                    context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
+                    tileMiddleSize, tileMiddleSize);
+                    if (i != playersManager.getActivePlayerIndex()) {
+                        context2d.setFill(Color.BLACK);
+                    }
+                    context2d.fillText("Player4", this.playerStatsRegionX + border + STEP, newStartPosY);
+                    context2d.setFill(Color.BLACK);
+                    for (int j = 0; j < materialPresent.size(); j++) {
+                        var material = materialPresent.get(j);
+                        context2d.fillText(material.name() + "  " + playersManager.getPlayers()
+                        .get(i).getQuantityMaterial(material),
+                        this.playerStatsRegionX + border, newStartPosY + STEP + STEP * j);
+                    }
+                }
+            }
+
+            //Mostro il diceVal
+            final double newStartPosY = border + STEP * 26;
+            context2d.fillText("Numero di mosse rimanenti: " + playersManager.getDiceValue(), this.playerStatsRegionX + border, newStartPosY);
         });
     }
 
     public void drawMissions(List<Item> missions){
         Image Armor = TypeImag.ARMOR.getImage();
+        Image Clothing = TypeImag.CLOTHING.getImage();
+        Image Jewel = TypeImag.JEWEL.getImage();
+        Image Weapon = TypeImag.WEAPON.getImage();
+        Image Tool = TypeImag.TOOL.getImage();
         Platform.runLater(()->{
             var context2d = this.canvas.getGraphicsContext2D();
             context2d.setFill(Color.BLACK);
             context2d.setTextBaseline(VPos.TOP);
+            context2d.setFont(Font.font(25));
             context2d.fillText("Missions", 15, 0);
+            context2d.setFont(Font.getDefault());
             for (Item item : missions) {
-                context2d.fillText(""+ item.getCategory() + "\t" + item.getMaterial() + "\t" + item.getQuantity(), 0, i * 10);
-                context2d.drawImage(Armor, 0, i * 10, 25 , 25);
+                context2d.fillText(""+ item.getCategory()  + " " +"\t   " + item.getMaterial() + "\t " + item.getQuantity(), 0,i * 10);
                 i++;
             }
-            i=1;
+            i=3;
+
+            context2d.setFont(Font.font(25));
+            context2d.fillText(" LEGEND ", (labyrinthRegionX / 2) - (labyrinthRegionX / 5), this.canvas.getHeight() - 170, 200);
+            context2d.setFont(Font.getDefault());
+            context2d.drawImage(Armor,10, this.canvas.getHeight() -130, 25 , 25);
+            context2d.fillText(" -> Type Armor", 36 ,this.canvas.getHeight() -126);
+            context2d.drawImage(Clothing,7, this.canvas.getHeight() -108, 30 , 30);
+            context2d.fillText(" -> Type Clothing", 36 ,this.canvas.getHeight() -103);
+            context2d.drawImage(Weapon,10, this.canvas.getHeight() -82, 25 , 25);
+            context2d.fillText(" -> Type Weapon", 36 ,this.canvas.getHeight() -80);
+            context2d.drawImage(Tool,10, this.canvas.getHeight() -56, 19 , 19);
+            context2d.fillText(" -> Type Tool", 36 ,this.canvas.getHeight() -57);
+            context2d.drawImage(Jewel,10, this.canvas.getHeight() -34, 20 , 20);
+            context2d.fillText(" -> Type Jewel", 36 ,this.canvas.getHeight() -34);
         });
     }
 

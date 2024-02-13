@@ -13,7 +13,8 @@ public interface ResultView {
     void onEnable();
 
     /**
-     * Draw the entire Result screen .
+     * Draw the entire Result screen.
+     * @param players list of players, to draw their scores and other data
      */
     void draw(List<Player> players);
 }

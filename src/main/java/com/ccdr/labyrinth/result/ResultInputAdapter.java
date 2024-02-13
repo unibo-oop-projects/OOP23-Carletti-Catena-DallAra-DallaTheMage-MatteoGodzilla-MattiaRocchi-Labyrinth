@@ -9,7 +9,7 @@ import javafx.scene.input.KeyEvent;
  */
 public final class ResultInputAdapter implements JFXInputSource.Receiver {
 
-    private ResultInputs controller;
+    private final ResultInputs controller;
 
     /**
      * @param controller indirect reference to ResultController

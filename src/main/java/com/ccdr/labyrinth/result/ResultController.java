@@ -15,7 +15,10 @@ public final class ResultController implements Executor, ResultInputs {
     private List<Player> players;
     private Runnable closeAction;
 
-    public void init(final List<Player> players){
+    /**
+     * @param players list of players, received from GameController on gameover
+     */
+    public void init(final List<Player> players) {
         this.players = players;
     }
 
@@ -45,7 +48,10 @@ public final class ResultController implements Executor, ResultInputs {
         this.closeAction.run();
     }
 
-    public void onClose(final Runnable action){
+    /**
+     * @param action runnable callback to run when the player wants to close the result screen
+     */
+    public void onClose(final Runnable action) {
         this.closeAction = action;
     }
 }

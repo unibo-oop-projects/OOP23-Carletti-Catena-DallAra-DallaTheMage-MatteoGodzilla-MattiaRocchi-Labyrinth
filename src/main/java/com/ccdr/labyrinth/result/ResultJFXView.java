@@ -52,7 +52,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
     }
 
     @Override
-    public void draw(List<Player> players) {
+    public void draw(final List<Player> players) {
         Platform.runLater(() -> {
             GraphicsContext context = this.canvas.getGraphicsContext2D();
             context.setFill(BASE_COLOR);
@@ -66,7 +66,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
             context.setFont(Font.font(this.headerFontSize));
             context.fillText("Results", this.canvas.getWidth() / 2, this.padding);
 
-            if(players != null && players.size() > 0){
+            if (players != null && players.size() > 0) {
                 drawScores(context, players);
             }
 
@@ -79,10 +79,10 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
         });
     }
 
-    private void drawScores(GraphicsContext context, List<Player> players) {
+    private void drawScores(final GraphicsContext context, final List<Player> players) {
         context.setFill(TEXT_FILL);
 
-        for(int i = 0; i < players.size(); i++){
+        for (int i = 0; i < players.size(); i++) {
             final double y = this.headerFontSize + this.padding * 2 + (this.playerSize + this.hintFontSize + this.padding) * i;
             final String entry = new StringBuilder()
                 .append("Player ")
@@ -96,11 +96,11 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
 
             var entry2 = new StringBuilder().append('(');
             Material[] allMaterials = Material.values();
-            for(int j = 0; j < allMaterials.length; j++){
+            for (int j = 0; j < allMaterials.length; j++) {
                 entry2.append(allMaterials[j])
                     .append(": ")
                     .append(players.get(i).getQuantityMaterial(allMaterials[j]));
-                if(j + 1 < allMaterials.length){
+                if (j + 1 < allMaterials.length) {
                     entry2.append(", ");
                 }
             }

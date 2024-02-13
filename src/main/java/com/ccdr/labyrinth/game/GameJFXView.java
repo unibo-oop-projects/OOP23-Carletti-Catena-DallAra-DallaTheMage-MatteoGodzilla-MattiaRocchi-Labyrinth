@@ -94,72 +94,109 @@ public final class GameJFXView implements GameView, JFXInputSource {
         Platform.runLater(()->{
             var context2d = this.canvas.getGraphicsContext2D();
             //DEBUG
-            //context2d.setFill(Color.BLUE);
-            //context2d.fillRect(labyrinthRegionX, 0, labyrinthRegionWidth, this.canvas.getHeight());
+            context2d.setFill(Color.BLACK);
+            context2d.fillRect(labyrinthTopLeftX, labyrinthTopLeftY, labyrinthSize, labyrinthSize);
 
             this.tileWidth = labyrinthSize / board.getWidth();
             this.tileHeight = labyrinthSize / board.getHeight();
-            //reference points in the tile
-            final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
-            final double border = (tileWidth - tileMiddleSize) / 2;
-            final double rightSplit = border + tileMiddleSize;
-            final double bottomSplit = border + tileMiddleSize;
 
             context2d.setFill(Color.GRAY);
             for(var entry : board.getMap().entrySet()){
                 final Coordinate c = entry.getKey();
                 final Tile tile = entry.getValue();
-                final double x = labyrinthTopLeftX + c.column() * tileWidth;
-                final double y = labyrinthTopLeftY + c.row() * tileHeight;
-
-                //corners are always a wall
-                //top left
-                context2d.drawImage(WALL, x, y, border, border);
-                //top right
-                context2d.drawImage(WALL, x + rightSplit, y, border, border);
-                //bottom left
-                context2d.drawImage(WALL, x, y + bottomSplit, border, border);
-                //bottom right
-                context2d.drawImage(WALL, x + rightSplit, y + bottomSplit, border, border);
-                //center is always walkable
-                context2d.drawImage(PATH_CENTER, x + border, y + border, tileMiddleSize, tileMiddleSize);
-
-                //vertical paths
-                if(tile.isOpen(Direction.UP)){
-                    context2d.drawImage(PATH_VERTICAL, x + border, y, tileMiddleSize, border);
-                } else {
-                    context2d.drawImage(WALL, x + border, y, tileMiddleSize, border);
+                if(tile.isDiscovered()){
+                    drawTile(context2d, c, tile, board);
                 }
-                if(tile.isOpen(Direction.DOWN)){
-                    context2d.drawImage(PATH_VERTICAL, x + border, y + bottomSplit, tileMiddleSize, border);
-                } else {
-                    context2d.drawImage(WALL, x + border, y + bottomSplit, tileMiddleSize, border);
-                }
-
-                //horizontal paths
-                if(tile.isOpen(Direction.LEFT)){
-                    context2d.drawImage(PATH_HORIZONTAL, x, y + border, border, tileMiddleSize);
-                } else {
-                    context2d.drawImage(WALL, x, y + border, border, tileMiddleSize);
-                }
-                if(tile.isOpen(Direction.RIGHT)){
-                    context2d.drawImage(PATH_HORIZONTAL, x + rightSplit, y + border, border, tileMiddleSize);
-                } else {
-                    context2d.drawImage(WALL, x + rightSplit, y + border, border, tileMiddleSize);
-                }
-
-                decorateTile(context2d, tile, x, y);
             }
         });
+    }
+
+    private void drawTile(GraphicsContext context2d, Coordinate c, Tile tile, Board board) {
+        //reference points in the tile
+        final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
+        final double border = (tileWidth - tileMiddleSize) / 2;
+        final double rightSplit = border + tileMiddleSize;
+        final double bottomSplit = border + tileMiddleSize;
+        final double x = labyrinthTopLeftX + c.column() * tileWidth;
+        final double y = labyrinthTopLeftY + c.row() * tileHeight;
+
+        //corners are always a wall
+        //top left
+        context2d.drawImage(WALL, x, y, border, border);
+        //top right
+        context2d.drawImage(WALL, x + rightSplit, y, border, border);
+        //bottom left
+        context2d.drawImage(WALL, x, y + bottomSplit, border, border);
+        //bottom right
+        context2d.drawImage(WALL, x + rightSplit, y + bottomSplit, border, border);
+        //center is always walkable
+        context2d.drawImage(PATH_CENTER, x + border, y + border, tileMiddleSize, tileMiddleSize);
+
+        //vertical paths
+        if(tile.isOpen(Direction.UP)){
+            context2d.drawImage(PATH_VERTICAL, x + border, y, tileMiddleSize, border);
+        } else {
+            context2d.drawImage(WALL, x + border, y, tileMiddleSize, border);
+        }
+        if(tile.isOpen(Direction.DOWN)){
+            context2d.drawImage(PATH_VERTICAL, x + border, y + bottomSplit, tileMiddleSize, border);
+        } else {
+            context2d.drawImage(WALL, x + border, y + bottomSplit, tileMiddleSize, border);
+        }
+
+        //horizontal paths
+        if(tile.isOpen(Direction.LEFT)){
+            context2d.drawImage(PATH_HORIZONTAL, x, y + border, border, tileMiddleSize);
+        } else {
+            context2d.drawImage(WALL, x, y + border, border, tileMiddleSize);
+        }
+        if(tile.isOpen(Direction.RIGHT)){
+            context2d.drawImage(PATH_HORIZONTAL, x + rightSplit, y + border, border, tileMiddleSize);
+        } else {
+            context2d.drawImage(WALL, x + rightSplit, y + border, border, tileMiddleSize);
+        }
+
+        decorateTile(context2d, tile, x, y);
     }
 
     //Used for those tiles that require additional graphics on top of the standard path rendering
     private void decorateTile(GraphicsContext context2d, Tile tile, double x, double y) {
         if(tile instanceof SourceTile){
-            context2d.setStroke(Color.GREENYELLOW);
+            SourceTile sourceTile = (SourceTile) tile;
+            if(sourceTile.isActive()){
+                context2d.setStroke(Color.GREENYELLOW);
+            } else {
+                context2d.setStroke(Color.RED);
+            }
             final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
             final double border = (tileWidth - tileMiddleSize) / 2;
             context2d.strokeOval(x + border, y + border, tileMiddleSize, tileMiddleSize);
+            //draw material inside
+            Image material;
+            switch(sourceTile.getMaterialType()){
+                case COAL:
+                    material = TypeImag.COAL.getImage();
+                    break;
+                case COPPER:
+                    material = TypeImag.COPPER.getImage();
+                    break;
+                case DIAMOND:
+                    material = TypeImag.DIAMOND.getImage();
+                    break;
+                case IRON:
+                    material = TypeImag.IRON.getImage();
+                    break;
+                case SILK:
+                    material = TypeImag.SILK.getImage();
+                    break;
+                case WOOD:
+                default:
+                    material = TypeImag.WOOD.getImage();
+                    break;
+            }
+            if(material != null){
+                context2d.drawImage(material, x + border, y + border, tileMiddleSize, tileMiddleSize);
+            }
         }
     }
 

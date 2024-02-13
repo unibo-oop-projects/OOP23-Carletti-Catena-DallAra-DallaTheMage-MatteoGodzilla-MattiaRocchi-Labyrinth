@@ -98,4 +98,9 @@ public final class SourceTile extends GenericTile {
     public boolean isActive() {
         return this.remainingCooldown <= 0;
     }
+
+    @Override
+    public boolean isDiscovered() {
+        return true;
+    }
 }

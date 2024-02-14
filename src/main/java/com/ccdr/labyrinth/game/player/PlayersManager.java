@@ -23,7 +23,7 @@ public class PlayersManager implements Context {
     private final List<Player> players = new ArrayList<>();
     private int activePlayer;
     private int diceVal;
-    private final Board board = new GameBoard();
+    private Board board;
     private boolean isGuild;
     private Context context;
     /*
@@ -38,6 +38,7 @@ public class PlayersManager implements Context {
      * @param numPlayers the number of players in the game
      */
     public PlayersManager(final int numPlayers, final Board board) {
+        this.board = board;
         for (int i = 0; i < numPlayers; i++) {
             if (i == 0) {
                 this.players.add(new PlayerImpl());

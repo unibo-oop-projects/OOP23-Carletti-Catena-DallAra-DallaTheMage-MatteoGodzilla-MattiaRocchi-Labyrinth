@@ -423,7 +423,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
         final double referenceHeight = Math.min(this.canvas.getHeight(), this.canvas.getWidth() * 1 / 6);
         final double baseFontSize = referenceHeight / 10;
         this.headerFontSize = baseFontSize;
-        this.descriptionFontSize = baseFontSize * 3 / 2 ;
+        this.descriptionFontSize = baseFontSize * 2 / 3;
     }
 
     private void recalculateLayout() {

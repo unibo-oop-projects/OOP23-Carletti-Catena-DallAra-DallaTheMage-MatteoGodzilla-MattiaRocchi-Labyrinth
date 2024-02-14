@@ -18,6 +18,7 @@ import com.ccdr.labyrinth.game.loader.GameBoard;
 public class PlayersManager implements Context {
 
     private static final int MAX_DICEVAL = 12;
+    private static final Random RANDOM = new Random();
 
     private final List<Player> players = new ArrayList<>();
     private int activePlayer;
@@ -93,8 +94,7 @@ public class PlayersManager implements Context {
      */
     public void generateDiceValue() {
         if (this.turnSubphase == 1) {
-            final Random random = new Random();
-            this.diceVal = random.nextInt(MAX_DICEVAL) + 1;
+            this.diceVal = RANDOM.nextInt(MAX_DICEVAL) + 1;
             this.setTurnSubphase(this.turnSubphase + 1);
         }
     }
@@ -248,8 +248,7 @@ public class PlayersManager implements Context {
      */
     @Override
     public void secondary() {
-        final Coordinate guildTile = new Coordinate(Math.round(this.board.getHeight() / 2),
-        Math.round(this.board.getWidth() / 2));
+        final Coordinate guildTile = new Coordinate(this.board.getHeight() / 2, this.board.getWidth() / 2);
         if (this.getActivePlayer().getCoord().equals(guildTile)) {
             this.isGuild = true;
         }
@@ -282,8 +281,7 @@ public class PlayersManager implements Context {
         }
         this.setActivePlayer(this.activePlayer + 1 % this.players.size());
         this.setTurnSubphase(this.turnSubphase + 1);
-        final Coordinate guildTile = new Coordinate(Math.round(this.board.getHeight() / 2),
-        Math.round(this.board.getWidth() / 2));
+        final Coordinate guildTile = new Coordinate(this.board.getHeight() / 2, this.board.getWidth() / 2);
         if (this.getActivePlayer().getCoord().equals(guildTile)) {
             //this.context dovrà puntare al contesto della gilda
             return new UpdateBoardContext(this.board, this.context);

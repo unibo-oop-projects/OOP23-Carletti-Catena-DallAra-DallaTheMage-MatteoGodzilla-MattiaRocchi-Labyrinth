@@ -104,7 +104,7 @@ public final class GameBoard implements Board {
     @Override
     public void discoverNearBy(Coordinate playerLocation, int radius) {
         for(int x = playerLocation.column() - radius; x <= playerLocation.column() + radius; x++) {
-            for(int y = playerLocation.row() - radius; x <= playerLocation.row() + radius; y++) {
+            for(int y = playerLocation.row() - radius; y <= playerLocation.row() + radius; y++) {
                 Coordinate target = new Coordinate(y, x);
                 if(map.containsKey(target) && !map.get(target).isDiscovered()) {
                     map.get(target).discover();

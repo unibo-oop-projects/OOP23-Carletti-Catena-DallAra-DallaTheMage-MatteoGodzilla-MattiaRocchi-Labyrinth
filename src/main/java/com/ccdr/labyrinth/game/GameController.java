@@ -13,12 +13,16 @@ import java.util.function.Consumer;
 
 //this is the class responsible for controlling the entire game
 public final class GameController implements Executor, GameInputs{
-    private Context activeContext;
     private final Set<GameView> views = new HashSet<>();
     private Board board;
-    private PlayersManager playerManager;
     private boolean menuGuild = false;
     private Consumer<List<Player>> gameover;
+    //Contexts
+    private Context activeContext;
+    private UpdateBoardContext updateBoardContext;
+    private LabyrinthContext labyrinthContext;
+    private PlayersManager playerManager;
+    private GuildContext guildContext;
 
     @Override
     public void onEnable() {
@@ -33,7 +37,15 @@ public final class GameController implements Executor, GameInputs{
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
         board.setMap(new TilesGenerator(config).generateTiles());
+        //set up contexts
+        this.updateBoardContext = new UpdateBoardContext(board);
+        this.labyrinthContext = new LabyrinthContext();
         this.playerManager = new PlayersManager(config.getPlayerCount());
+        this.guildContext = new GuildContext();
+
+        this.updateBoardContext.bindNextContext(this.labyrinthContext);
+        this.updateBoardContext.bindPlayerManager(playerManager);
+        this.activeContext = this.updateBoardContext;
     }
 
     @Override

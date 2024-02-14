@@ -284,7 +284,8 @@ public class PlayersManager implements Context {
         final Coordinate guildTile = new Coordinate(this.board.getHeight() / 2, this.board.getWidth() / 2);
         if (this.getActivePlayer().getCoord().equals(guildTile)) {
             //this.context dovrà puntare al contesto della gilda
-            return new UpdateBoardContext(this.board, this.context);
+            //non deve creare un nuovo oggetto, ma utilizzare quello all'interno di GameController
+            //return new UpdateBoardContext(this.board, this.context);
         } else {
             //return new contestoLabirinto;
         }

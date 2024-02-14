@@ -4,9 +4,7 @@ import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
 import com.ccdr.labyrinth.game.loader.GameBoard;
-import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.loader.TileCreator;
-import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -18,8 +16,6 @@ public class GameController implements Executor, GameInputs{
     private Board board;
     private PlayersManager playerManager;
     private boolean menuGuild = false;
-    private List<Item> missions = new ArrayList<>();
-    private GuildTile guild = new GuildTile(4);
     private Consumer<List<Player>> gameover;
 
     @Override
@@ -68,7 +64,7 @@ public class GameController implements Executor, GameInputs{
     @Override
     public void up(){
         //TEMPORARY
-        this.gameover.accept(this.playerManager.getPlayers());
+        //this.gameover.accept(this.playerManager.getPlayers());
 
         this.activeContext.up();
         switchContextIfNecessary();

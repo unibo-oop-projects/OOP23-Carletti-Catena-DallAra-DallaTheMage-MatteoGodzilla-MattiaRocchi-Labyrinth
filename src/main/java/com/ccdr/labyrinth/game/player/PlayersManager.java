@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.ccdr.labyrinth.game.Board;
 import com.ccdr.labyrinth.game.Context;
+import com.ccdr.labyrinth.game.UpdateBoardContext;
 import com.ccdr.labyrinth.game.loader.Coordinate;
 import com.ccdr.labyrinth.game.loader.Direction;
 import com.ccdr.labyrinth.game.loader.GameBoard;
@@ -22,6 +23,7 @@ public class PlayersManager implements Context{
     private int activePlayer;
     private int diceVal;
     private Board board = new GameBoard();
+    private boolean isGuild = false;
     private Context context;
     /*
      * turnSubphase == 1 -> generate dice value
@@ -245,13 +247,19 @@ public class PlayersManager implements Context{
     }
 
     /**
-     * nothing to do as a secondary action.
+     * method for switching to guild context on player's own will on his turn.
      */
     @Override
-    public void secondary() {}
+    public void secondary() {
+        final Coordinate guildTile = new Coordinate(Math.round(this.board.getHeight() / 2),
+        Math.round(this.board.getWidth() / 2));
+        if (this.getActivePlayer().getCoord().equals(guildTile)) {
+            this.isGuild = true;
+        }
+    }
 
     /**
-     * nothing to do as a tertiary action.
+     * nothing to do as a back action.
      */
     @Override
     public void back() {}
@@ -262,22 +270,29 @@ public class PlayersManager implements Context{
      */
     @Override
     public boolean done() {
-        if (this.turnSubphase == 2 && this.diceVal == 0) {
+        if ((this.turnSubphase == 2 && this.diceVal == 0) || this.isGuild) {
             return true;
         }
         return false;
     }
 
     /**
-     * method that executes the end of the turn, passing the new active context.
+     * method that executes the end of the turn, passing to the new active context.
+     * @return the next active context
      */
     @Override
     public Context getNextContext() {
+        if (this.isGuild) {
+            this.isGuild = false;
+            //return new contestoGilda;
+        }
         this.setActivePlayer(this.activePlayer + 1 % this.players.size());
         this.setTurnSubphase(this.turnSubphase + 1);
-        final Coordinate guildTile = new Coordinate(this.board.getHeight() / 2, this.board.getWidth() / 2);
+        final Coordinate guildTile = new Coordinate(Math.round(this.board.getHeight() / 2),
+        Math.round(this.board.getWidth() / 2));
         if (this.getActivePlayer().getCoord().equals(guildTile)) {
-            //return new contestoGilda;
+            //this.context dovrà puntare al contesto della gilda
+            return new UpdateBoardContext(this.board, this.context);
         } else {
             //return new contestoLabirinto;
         }

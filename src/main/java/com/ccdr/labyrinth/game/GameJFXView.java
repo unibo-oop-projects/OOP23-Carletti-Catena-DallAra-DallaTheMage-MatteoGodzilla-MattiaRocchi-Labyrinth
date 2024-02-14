@@ -353,16 +353,6 @@ public final class GameJFXView implements GameView, JFXInputSource {
         });
     }
 
-    /**
-     * method to resize the text based on the window size.
-     */
-    private void recalculateFontSizes() {
-        final double referenceHeight = Math.min(this.canvas.getHeight(), this.canvas.getWidth() * 1 / 6);
-        final double baseFontSize = referenceHeight / 10;
-        this.headerFontSize = baseFontSize;
-        this.descriptionFontSize = baseFontSize / 1.5;
-    }
-
     public void drawMissions(List<Item> missions){
         Image Armor = TypeImag.ARMOR.getImage();
         Image Clothing = TypeImag.CLOTHING.getImage();
@@ -400,6 +390,23 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.drawImage(Jewel,10, this.canvas.getHeight() -34, 20 , 20);
             context2d.fillText(" -> Type Jewel", 36 ,this.canvas.getHeight() -34);
         });
+    }
+
+    @Override
+    public void drawContext(Context context) {
+        Platform.runLater(() -> {
+            System.out.println(context);
+        });
+    }
+
+    /**
+     * method to resize the text based on the window size.
+     */
+    private void recalculateFontSizes() {
+        final double referenceHeight = Math.min(this.canvas.getHeight(), this.canvas.getWidth() * 1 / 6);
+        final double baseFontSize = referenceHeight / 10;
+        this.headerFontSize = baseFontSize;
+        this.descriptionFontSize = baseFontSize / 1.5;
     }
 
     private void recalculateLayout(){

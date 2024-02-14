@@ -28,4 +28,6 @@ public interface GameView {
     void drawPlayersStats(PlayersManager playersManager, List<Material> materialPresent);
 
     void drawMissions(List<Item> missions);
+
+    void drawContext(Context context);
 }

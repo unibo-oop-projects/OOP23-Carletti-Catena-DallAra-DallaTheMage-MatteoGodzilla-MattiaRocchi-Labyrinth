@@ -23,8 +23,8 @@ public final class MenuController implements Executor, MenuInputs {
     private MenuElement current;
     // "events" fired when the menu has completed its task. Can be expanded so
     // multiple callbacks are activated.
-    private Consumer<GameConfig> onPlay;
-    private Runnable onExit;
+    private Consumer<GameConfig> onPlay = config -> { };
+    private Runnable onExit = () -> { };
     //Possible options for configuring the game
     private static final List<Integer> PLAYER_COUNT = List.of(2, 3, 4);
     private static final List<Integer> LABYRINTH_SIZE = List.of(15, 31, 45);

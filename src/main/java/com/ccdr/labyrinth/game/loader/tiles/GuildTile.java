@@ -1,22 +1,19 @@
 package com.ccdr.labyrinth.game.loader.tiles;
-import com.ccdr.labyrinth.game.GameConfig;
-import com.ccdr.labyrinth.game.GameController;
+
 import com.ccdr.labyrinth.game.loader.GetMissions;
 import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.player.Player;
-import com.ccdr.labyrinth.Category;
 import com.ccdr.labyrinth.Material;
-import com.ccdr.labyrinth.game.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GuildTile extends GenericTile {
 
-    boolean state;
-    public List<Item> missions = new ArrayList();
-    public List<Material> materialpresents = new ArrayList();
-    public GetMissions getM = new GetMissions();
+    private boolean state;
+    private List<Item> missions = new ArrayList<>();
+    private List<Material> materialpresents = new ArrayList<>();
+    private GetMissions getM = new GetMissions();
 
     public GuildTile(final int nPlayer) {
         //THE GUILD IS DISCOVERED BY DEFAULT
@@ -46,5 +43,12 @@ public class GuildTile extends GenericTile {
     @Override
     public void onExit(final Player player) {
     }
+
+    @Override
+    public boolean isDiscovered() {
+        return true;
+    }
+
+
 
 }

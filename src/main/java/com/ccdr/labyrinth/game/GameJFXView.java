@@ -7,6 +7,8 @@ import com.ccdr.labyrinth.TypeImag;
 import com.ccdr.labyrinth.game.loader.Coordinate;
 import com.ccdr.labyrinth.game.loader.Direction;
 import com.ccdr.labyrinth.game.loader.Item;
+
+import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 import com.ccdr.labyrinth.game.player.Player;
@@ -200,6 +202,9 @@ public final class GameJFXView implements GameView, JFXInputSource {
             if(material != null){
                 context2d.drawImage(material, x + border, y + border, tileMiddleSize, tileMiddleSize);
             }
+        } else if (tile instanceof GuildTile){
+            //GuildTile guild = (GuildTile) tile;
+            context2d.drawImage(PATH_GUILD, x, y, tileWidth, tileHeight);
         }
     }
 
@@ -276,16 +281,19 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     }
                     context2d.fillText("Player1", this.playerStatsRegionX + border + STEP, border + STEP);
                     context2d.setFill(Color.BLACK);
+                    //draw the player's points
+                    context2d.fillText("Points= " + playersManager.getPlayers().get(i).getPoints(),
+                    this.playerStatsRegionX + border, border + STEP * 2);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         var material = materialPresent.get(j);
                         context2d.fillText(material.name() + "  " + playersManager.getPlayers()
                         .get(i).getQuantityMaterial(material),
-                        this.playerStatsRegionX + border, border + STEP * 2 + STEP * j);
+                        this.playerStatsRegionX + border, border + STEP * 3 + STEP * j);
                     }
                 }
                 else if (i == 1) {
                     //Player2
-                    final double newStartPosY = border + STEP * 6;
+                    final double newStartPosY = border + STEP * 7;
                     context2d.setFill(Color.BLUE);
                     context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
                     tileMiddleSize, tileMiddleSize);
@@ -294,16 +302,19 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     }
                     context2d.fillText("Player2", this.playerStatsRegionX + border + STEP, newStartPosY);
                     context2d.setFill(Color.BLACK);
+                    //draw the player's points
+                    context2d.fillText("Points= " + playersManager.getPlayers().get(i).getPoints(),
+                    this.playerStatsRegionX + border, newStartPosY + STEP);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         var material = materialPresent.get(j);
                         context2d.fillText(material.name() + "  " + playersManager.getPlayers()
                         .get(i).getQuantityMaterial(material),
-                        this.playerStatsRegionX + border, newStartPosY + STEP + STEP * j);
+                        this.playerStatsRegionX + border, newStartPosY + STEP * 2 + STEP * j);
                     }
                 }
                 else if (i == 2) {
                     //Player3
-                    final double newStartPosY = border + STEP * 11;
+                    final double newStartPosY = border + STEP * 13;
                     context2d.setFill(Color.GREEN);
                     context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
                     tileMiddleSize, tileMiddleSize);
@@ -312,16 +323,19 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     }
                     context2d.fillText("Player3", this.playerStatsRegionX + border + STEP, newStartPosY);
                     context2d.setFill(Color.BLACK);
+                    //draw the player's points
+                    context2d.fillText("Points= " + playersManager.getPlayers().get(i).getPoints(),
+                    this.playerStatsRegionX + border, newStartPosY + STEP);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         var material = materialPresent.get(j);
                         context2d.fillText(material.name() + "  " + playersManager.getPlayers()
                         .get(i).getQuantityMaterial(material),
-                        this.playerStatsRegionX + border, newStartPosY + STEP + STEP * j);
+                        this.playerStatsRegionX + border, newStartPosY + STEP * 2 + STEP * j);
                     }
                 }
                 else if (i == 3) {
                     //Player4
-                    final double newStartPosY = border + STEP * 16;
+                    final double newStartPosY = border + STEP * 19;
                     context2d.setFill(Color.YELLOW);
                     context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
                     tileMiddleSize, tileMiddleSize);
@@ -330,11 +344,14 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     }
                     context2d.fillText("Player4", this.playerStatsRegionX + border + STEP, newStartPosY);
                     context2d.setFill(Color.BLACK);
+                    //draw the player's points
+                    context2d.fillText("Points= " + playersManager.getPlayers().get(i).getPoints(),
+                    this.playerStatsRegionX + border, newStartPosY + STEP);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         var material = materialPresent.get(j);
                         context2d.fillText(material.name() + "  " + playersManager.getPlayers()
                         .get(i).getQuantityMaterial(material),
-                        this.playerStatsRegionX + border, newStartPosY + STEP + STEP * j);
+                        this.playerStatsRegionX + border, newStartPosY + STEP * 2 + STEP * j);
                     }
                 }
             }
@@ -342,20 +359,10 @@ public final class GameJFXView implements GameView, JFXInputSource {
             //Mostro il diceVal
             final double newStartPosY = border + STEP * 26;
             context2d.setFont(Font.font(this.descriptionFontSize));
-            context2d.fillText("Numero di mosse rimanenti: " + playersManager.getDiceValue(),
+            context2d.fillText("Number of moves remaining: " + playersManager.getDiceValue(),
             this.playerStatsRegionX + border, newStartPosY);
             context2d.setFont(Font.getDefault());
         });
-    }
-
-    /**
-     * method to resize the text based on the window size.
-     */
-    private void recalculateFontSizes() {
-        final double referenceHeight = Math.min(this.canvas.getHeight(), this.canvas.getWidth() * 1 / 6);
-        final double baseFontSize = referenceHeight / 10;
-        this.headerFontSize = baseFontSize;
-        this.descriptionFontSize = baseFontSize / 1.5;
     }
 
     public void drawMissions(List<Item> missions){
@@ -395,6 +402,23 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.drawImage(Jewel,10, this.canvas.getHeight() -34, 20 , 20);
             context2d.fillText(" -> Type Jewel", 36 ,this.canvas.getHeight() -34);
         });
+    }
+
+    @Override
+    public void drawContext(Context context) {
+        Platform.runLater(() -> {
+            
+        });
+    }
+
+    /**
+     * method to resize the text based on the window size.
+     */
+    private void recalculateFontSizes() {
+        final double referenceHeight = Math.min(this.canvas.getHeight(), this.canvas.getWidth() * 1 / 6);
+        final double baseFontSize = referenceHeight / 10;
+        this.headerFontSize = baseFontSize;
+        this.descriptionFontSize = baseFontSize / 1.5;
     }
 
     private void recalculateLayout(){

@@ -1,7 +1,5 @@
 package com.ccdr.labyrinth;
 
-import java.util.PrimitiveIterator;
-
 import javafx.scene.image.Image;
 
 public enum TypeImag {
@@ -31,11 +29,11 @@ public enum TypeImag {
     TOOL("/game/category/Tool.png"),
     WEAPON("/game/category/Weapon.png");
 
-    private String path;
+    //private String path;
     private Image picture;
 
     private TypeImag(String path){
-        this.path = path;
+        //this.path = path;
         this.picture = new Image(path, 0, 0, true, true);
     }
 

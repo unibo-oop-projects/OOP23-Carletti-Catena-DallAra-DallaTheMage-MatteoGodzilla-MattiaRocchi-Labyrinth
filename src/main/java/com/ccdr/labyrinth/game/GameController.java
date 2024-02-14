@@ -4,9 +4,7 @@ import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
 import com.ccdr.labyrinth.game.loader.GameBoard;
-import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.loader.TileCreator;
-import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -18,8 +16,6 @@ public class GameController implements Executor, GameInputs{
     private Board board;
     private PlayersManager playerManager;
     private boolean menuGuild = false;
-    private List<Item> missions = new ArrayList();
-    private GuildTile guild = new GuildTile(4);
     private Consumer<List<Player>> gameover;
 
     @Override
@@ -27,7 +23,6 @@ public class GameController implements Executor, GameInputs{
         for (GameView gameView : views) {
             gameView.onEnable();
         }
-        missions = guild.returnListOfMissions();
     }
 
     public void init(GameConfig config){
@@ -44,10 +39,11 @@ public class GameController implements Executor, GameInputs{
         //game loop
         for (GameView gameView : views) {
             gameView.clear();
-            gameView.drawMissions(missions);
+            gameView.drawMissions(board.getGuildTile().returnListOfMissions());
             gameView.drawBoard(this.board);
             gameView.drawPlayersOnBoard(this.playerManager.getPlayers());
-            gameView.drawPlayersStats(this.playerManager , this.guild.getMaterialPresents());
+            gameView.drawPlayersStats(this.playerManager , this.board.getGuildTile().getMaterialPresents());
+            gameView.drawContext(this.activeContext);
         }
     }
 

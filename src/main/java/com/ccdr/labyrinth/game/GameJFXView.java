@@ -10,6 +10,7 @@ import com.ccdr.labyrinth.game.loader.Item;
 
 import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
+import com.ccdr.labyrinth.game.loader.tiles.StandardTile;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
@@ -25,6 +26,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 /**
  * Main implementation of the GameView interface, done using JavaFX.
@@ -103,7 +105,6 @@ public final class GameJFXView implements GameView, JFXInputSource {
     public void drawBoard(final Board board) {
         Platform.runLater(() -> {
             final GraphicsContext context2d = this.canvas.getGraphicsContext2D();
-            //DEBUG
             context2d.setFill(Color.BLACK);
             context2d.fillRect(labyrinthTopLeftX, labyrinthTopLeftY, labyrinthSize, labyrinthSize);
 
@@ -171,6 +172,8 @@ public final class GameJFXView implements GameView, JFXInputSource {
 
     //Used for those tiles that require additional graphics on top of the standard path rendering
     private void decorateTile(final GraphicsContext context2d, final Tile tile, final double x, final double y) {
+        final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
+        final double border = (tileWidth - tileMiddleSize) / 2;
         if (tile instanceof SourceTile) {
             final SourceTile sourceTile = (SourceTile) tile;
             if (sourceTile.isActive()) {
@@ -178,38 +181,23 @@ public final class GameJFXView implements GameView, JFXInputSource {
             } else {
                 context2d.setStroke(Color.RED);
             }
-            final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
-            final double border = (tileWidth - tileMiddleSize) / 2;
             context2d.strokeOval(x + border, y + border, tileMiddleSize, tileMiddleSize);
             //draw material inside
-            Image material;
-            switch (sourceTile.getMaterialType()) {
-                case COAL:
-                    material = TypeImag.COAL.getImage();
-                    break;
-                case COPPER:
-                    material = TypeImag.COPPER.getImage();
-                    break;
-                case DIAMOND:
-                    material = TypeImag.DIAMOND.getImage();
-                    break;
-                case IRON:
-                    material = TypeImag.IRON.getImage();
-                    break;
-                case SILK:
-                    material = TypeImag.SILK.getImage();
-                    break;
-                case WOOD:
-                default:
-                    material = TypeImag.WOOD.getImage();
-                    break;
-            }
+            Image material = materialToImage(sourceTile.getMaterialType());
             if (material != null) {
                 context2d.drawImage(material, x + border, y + border, tileMiddleSize, tileMiddleSize);
             }
         } else if (tile instanceof GuildTile) {
             //GuildTile guild = (GuildTile) tile;
             context2d.drawImage(PATH_GUILD, x, y, tileWidth, tileHeight);
+        } else if (tile instanceof StandardTile){
+            StandardTile standard = (StandardTile) tile;
+            if(standard.getBonusMaterial().isPresent()){
+                Image material = materialToImage(standard.getBonusMaterial().get());
+                if (material != null) {
+                    context2d.drawImage(material, x + border, y + border, tileMiddleSize, tileMiddleSize);
+                }
+            }
         }
     }
 
@@ -412,8 +400,66 @@ public final class GameJFXView implements GameView, JFXInputSource {
     @Override
     public void drawContext(final Context context) {
         Platform.runLater(() -> {
+            final GraphicsContext context2d = this.canvas.getGraphicsContext2D();
+            context2d.setFill(Color.BLACK);
+            if (context instanceof UpdateBoardContext) {
+                UpdateBoardContext update = (UpdateBoardContext) context;
 
+                context2d.setStroke(Color.WHITESMOKE);
+                context2d.setFill(BASE_COLOR);
+                final double popupWidth = this.labyrinthSize / 2;
+                final double popupHeight = this.headerFontSize + this.descriptionFontSize * 3;
+                final double x = (this.canvas.getWidth() - popupWidth) / 2;
+                final double y = (this.canvas.getHeight() - popupHeight) / 2;
+                context2d.fillRect(x,y,popupWidth, popupHeight);
+                context2d.strokeRect(x, y, popupWidth, popupHeight);
+                context2d.setFill(playerIndexToColor(update.getActivePlayerIndex()));
+                context2d.setTextAlign(TextAlignment.CENTER);
+                context2d.setTextBaseline(VPos.TOP);
+                context2d.setFont(Font.font(this.headerFontSize));
+                context2d.fillText("Player " + (update.getActivePlayerIndex() + 1) + "'s turn", this.canvas.getWidth() / 2, y);
+
+                //footer
+                context2d.setFont(Font.font(this.descriptionFontSize));
+                context2d.setTextBaseline(VPos.BOTTOM);
+                context2d.setFill(Color.BLACK);
+                context2d.fillText("Press Enter/Space to dismiss", this.canvas.getWidth() / 2 , y + popupHeight);
+            }
         });
+    }
+
+    private Image materialToImage(final Material material) {
+        switch (material) {
+            case COAL:
+                return TypeImag.COAL.getImage();
+            case COPPER:
+                return TypeImag.COPPER.getImage();
+            case DIAMOND:
+                return TypeImag.DIAMOND.getImage();
+            case IRON:
+                return TypeImag.IRON.getImage();
+            case SILK:
+                return TypeImag.SILK.getImage();
+            case WOOD:
+                return TypeImag.WOOD.getImage();
+            default:
+                return null;
+        }
+    }
+
+    public Color playerIndexToColor(final int index){
+        switch(index){
+            case 0:
+                return Color.RED;
+            case 1:
+                return Color.BLUE;
+            case 2:
+                return Color.GREEN;
+            case 3:
+                return Color.YELLOW;
+            default:
+                return null;
+        }
     }
 
     /**

@@ -87,25 +87,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
         int i = 0;
         for (final Player player : players) {
             final int index = playersToIndex.get(player);
-            Color c;
-            switch (index) {
-                case 0:
-                    c = Color.RED;
-                    break;
-                case 1:
-                    c = Color.BLUE;
-                    break;
-                case 2:
-                    c = Color.GREEN;
-                    break;
-                case 3:
-                    c = Color.YELLOW;
-                    break;
-                default:
-                c = Color.RED;
-                    break;
-            }
-            context.setFill(c);
+            context.setFill(playerIndexToColor(playersToIndex.get(player)));
 
             final double heightPerPlayer = this.playerSize + this.hintFontSize + this.padding;
             final double y = this.headerFontSize + this.padding * 2 + heightPerPlayer * i;
@@ -150,5 +132,20 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
     @Override
     public void routeKeyboardEvents(final Receiver receiver) {
         this.scene.setOnKeyPressed(receiver::onKeyPressed);
+    }
+
+    public Color playerIndexToColor(final int index){
+        switch(index){
+            case 0:
+                return Color.RED;
+            case 1:
+                return Color.BLUE;
+            case 2:
+                return Color.GREEN;
+            case 3:
+                return Color.YELLOW;
+            default:
+                return null;
+        }
     }
 }

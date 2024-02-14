@@ -40,4 +40,8 @@ public final class StandardTile extends GenericTile {
 
     @Override
     public void onExit(final Player player) { }
+
+    public Optional<Material> getBonusMaterial() {
+        return bonusMaterial;
+    }
 }

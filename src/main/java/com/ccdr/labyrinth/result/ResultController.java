@@ -16,7 +16,7 @@ public final class ResultController implements Executor, ResultInputs {
 
     private final List<ResultView> views = new ArrayList<>();
     private List<Player> players;
-    private Map<Player,Integer> playerToIndex;
+    private Map<Player, Integer> playerToIndex;
     private Runnable closeAction = () -> { };
 
     /**
@@ -28,13 +28,13 @@ public final class ResultController implements Executor, ResultInputs {
         //sort players
         //Since the players don't contain inside what index they are, if we sort them by points we'll lose the original index.
         //So we make a map to keep this old information
-        for(int i = 0; i < this.players.size(); i++){
+        for (int i = 0; i < this.players.size(); i++) {
             this.playerToIndex.put(this.players.get(i), i);
         }
         this.players.sort((p1, p2) -> {
             final int p1Points = p1.getPoints();
             final int p2Points = p2.getPoints();
-            if(p1Points == p2Points){
+            if (p1Points == p2Points) {
                 int p1TotalMaterials = 0;
                 int p2TotalMaterials = 0;
                 for (final Material m : Material.values()) {

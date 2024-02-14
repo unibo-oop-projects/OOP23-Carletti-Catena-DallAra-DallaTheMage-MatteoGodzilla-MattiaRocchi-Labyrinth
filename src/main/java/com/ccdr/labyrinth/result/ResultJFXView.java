@@ -53,7 +53,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
     }
 
     @Override
-    public void draw(final List<Player> players, final Map<Player,Integer> playersToIndex) {
+    public void draw(final List<Player> players, final Map<Player, Integer> playersToIndex) {
         Platform.runLater(() -> {
             final GraphicsContext context = this.canvas.getGraphicsContext2D();
             context.setFill(BASE_COLOR);
@@ -80,13 +80,15 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
         });
     }
 
-    private void drawScores(final GraphicsContext context, final List<Player> players, final Map<Player,Integer> playersToIndex) {
+    private void drawScores(final GraphicsContext context, final List<Player> players,
+        final Map<Player, Integer> playersToIndex
+    ) {
         context.setFill(TEXT_FILL);
         int i = 0;
         for (final Player player : players) {
             final int index = playersToIndex.get(player);
             Color c;
-            switch(index){
+            switch (index) {
                 case 0:
                     c = Color.RED;
                     break;

@@ -5,13 +5,25 @@ import java.util.Optional;
 import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.game.player.Player;
 
-public class StandardTile extends GenericTile {
+/**
+ * This tile type is the one that players normally walk on to move through the labyrinth.
+ * It may contain a bonus inside that will be rewarded to the player.
+ */
+public final class StandardTile extends GenericTile {
     private Optional<Material> bonusMaterial = Optional.empty();
     private int bonusAmount;
 
+    /**
+     * Creates a tile with absolutely zero bonus inside.
+     */
     public StandardTile() { }
-    
-    public StandardTile(Material bonusMaterial, int amount) {
+
+    /**
+     * Creates a tile with a bonus amount of materials inside.
+     * @param bonusMaterial type of material to give as bonus
+     * @param amount quantity of material to give
+     */
+    public StandardTile(final Material bonusMaterial, final int amount) {
         this.bonusMaterial = Optional.of(bonusMaterial);
         this.bonusAmount = amount;
     }

@@ -26,16 +26,17 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-//This class is invoked from the controller thread, so *every* draw call MUST be wrapped into
-//a `Platform.runLater` call.
+/**
+ * Main implementation of the GameView interface, done using JavaFX.
+ */
 public final class GameJFXView implements GameView, JFXInputSource {
 
     private static final int STEP = 20;
 
     //Reference constants that are used to set the layout of the game
-    private static final double OBJECTIVE_REGION_WIDTH = 1.0/6;
-    private static final double LABYRINTH_REGION_WIDTH = 4.0/6;
-    private static final double PLAYER_STATS_REGION_WIDTH = 1.0/6;
+    private static final double OBJECTIVE_REGION_WIDTH = 1.0 / 6;
+    private static final double LABYRINTH_REGION_WIDTH = 4.0 / 6;
+    private static final double PLAYER_STATS_REGION_WIDTH = 1.0 / 6;
 
     //Runtime calculated values with dimentions in pixels
     private double objectiveRegionWidth;
@@ -46,7 +47,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
     private double playerStatsRegionX;
 
     //labyrinth specific values
-    private static final double TILE_MIDDLE_WIDTH = 2.0/3;
+    private static final double TILE_MIDDLE_WIDTH = 2.0 / 3;
     private double labyrinthTopLeftX;
     private double labyrinthTopLeftY;
     private double labyrinthSize; //assumed to be a square
@@ -59,23 +60,27 @@ public final class GameJFXView implements GameView, JFXInputSource {
     private static final Image PATH_VERTICAL = TypeImag.PATH.getImage();
     private static final Image PATH_HORIZONTAL = TypeImag.PATH.getImage();
     private static final Image PATH_GUILD = TypeImag.GUILD.getImage();
+    private static final Color BASE_COLOR = Color.gray(0.3);
 
-    private Scene scene;
-    private ExpandCanvas canvas;
+    private final Scene scene;
+    private final ExpandCanvas canvas;
     private int i = 3;
     //Variable used for resizing header elements
     private double headerFontSize;
     private double descriptionFontSize;
 
-    public GameJFXView(){
+    /**
+     *
+     */
+    public GameJFXView() {
         this.canvas = new ExpandCanvas();
-        this.scene = new Scene(new Group(this.canvas), Color.gray(0.3));
+        this.scene = new Scene(new Group(this.canvas), BASE_COLOR);
         this.canvas.bind(this.scene);
     }
 
     @Override
     public void onEnable() {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             JFXStage.getStage().setScene(this.scene);
             //Force resize of canvas so it fills the entire stage
             JFXStage.getStage().setWidth(JFXStage.getStage().getWidth());
@@ -85,8 +90,8 @@ public final class GameJFXView implements GameView, JFXInputSource {
 
     @Override
     public void clear() {
-        Platform.runLater(()->{
-            var context2d = this.canvas.getGraphicsContext2D();
+        Platform.runLater(() -> {
+            final GraphicsContext context2d = this.canvas.getGraphicsContext2D();
             //Maybe change this to fillRect(black);
             context2d.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
             //eh, this is not the best place to put it
@@ -95,9 +100,9 @@ public final class GameJFXView implements GameView, JFXInputSource {
     }
 
     @Override
-    public void drawBoard(Board board) {
-        Platform.runLater(()->{
-            var context2d = this.canvas.getGraphicsContext2D();
+    public void drawBoard(final Board board) {
+        Platform.runLater(() -> {
+            final GraphicsContext context2d = this.canvas.getGraphicsContext2D();
             //DEBUG
             context2d.setFill(Color.BLACK);
             context2d.fillRect(labyrinthTopLeftX, labyrinthTopLeftY, labyrinthSize, labyrinthSize);
@@ -106,17 +111,17 @@ public final class GameJFXView implements GameView, JFXInputSource {
             this.tileHeight = labyrinthSize / board.getHeight();
 
             context2d.setFill(Color.GRAY);
-            for(var entry : board.getMap().entrySet()){
+            for (final var entry : board.getMap().entrySet()) {
                 final Coordinate c = entry.getKey();
                 final Tile tile = entry.getValue();
-                if(tile.isDiscovered()){
-                    drawTile(context2d, c, tile, board);
+                if (tile.isDiscovered()) {
+                    drawTile(context2d, c, tile);
                 }
             }
         });
     }
 
-    private void drawTile(GraphicsContext context2d, Coordinate c, Tile tile, Board board) {
+    private void drawTile(final GraphicsContext context2d, final Coordinate c, final Tile tile) {
         //reference points in the tile
         final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
         final double border = (tileWidth - tileMiddleSize) / 2;
@@ -138,24 +143,24 @@ public final class GameJFXView implements GameView, JFXInputSource {
         context2d.drawImage(PATH_CENTER, x + border, y + border, tileMiddleSize, tileMiddleSize);
 
         //vertical paths
-        if(tile.isOpen(Direction.UP)){
+        if (tile.isOpen(Direction.UP)) {
             context2d.drawImage(PATH_VERTICAL, x + border, y, tileMiddleSize, border);
         } else {
             context2d.drawImage(WALL, x + border, y, tileMiddleSize, border);
         }
-        if(tile.isOpen(Direction.DOWN)){
+        if (tile.isOpen(Direction.DOWN)) {
             context2d.drawImage(PATH_VERTICAL, x + border, y + bottomSplit, tileMiddleSize, border);
         } else {
             context2d.drawImage(WALL, x + border, y + bottomSplit, tileMiddleSize, border);
         }
 
         //horizontal paths
-        if(tile.isOpen(Direction.LEFT)){
+        if (tile.isOpen(Direction.LEFT)) {
             context2d.drawImage(PATH_HORIZONTAL, x, y + border, border, tileMiddleSize);
         } else {
             context2d.drawImage(WALL, x, y + border, border, tileMiddleSize);
         }
-        if(tile.isOpen(Direction.RIGHT)){
+        if (tile.isOpen(Direction.RIGHT)) {
             context2d.drawImage(PATH_HORIZONTAL, x + rightSplit, y + border, border, tileMiddleSize);
         } else {
             context2d.drawImage(WALL, x + rightSplit, y + border, border, tileMiddleSize);
@@ -165,10 +170,10 @@ public final class GameJFXView implements GameView, JFXInputSource {
     }
 
     //Used for those tiles that require additional graphics on top of the standard path rendering
-    private void decorateTile(GraphicsContext context2d, Tile tile, double x, double y) {
-        if(tile instanceof SourceTile){
-            SourceTile sourceTile = (SourceTile) tile;
-            if(sourceTile.isActive()){
+    private void decorateTile(final GraphicsContext context2d, final Tile tile, final double x, final double y) {
+        if (tile instanceof SourceTile) {
+            final SourceTile sourceTile = (SourceTile) tile;
+            if (sourceTile.isActive()) {
                 context2d.setStroke(Color.GREENYELLOW);
             } else {
                 context2d.setStroke(Color.RED);
@@ -178,7 +183,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.strokeOval(x + border, y + border, tileMiddleSize, tileMiddleSize);
             //draw material inside
             Image material;
-            switch(sourceTile.getMaterialType()){
+            switch (sourceTile.getMaterialType()) {
                 case COAL:
                     material = TypeImag.COAL.getImage();
                     break;
@@ -199,19 +204,19 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     material = TypeImag.WOOD.getImage();
                     break;
             }
-            if(material != null){
+            if (material != null) {
                 context2d.drawImage(material, x + border, y + border, tileMiddleSize, tileMiddleSize);
             }
-        } else if (tile instanceof GuildTile){
+        } else if (tile instanceof GuildTile) {
             //GuildTile guild = (GuildTile) tile;
             context2d.drawImage(PATH_GUILD, x, y, tileWidth, tileHeight);
         }
     }
 
     @Override
-    public void drawPlayersOnBoard(List<Player> players) {
+    public void drawPlayersOnBoard(final List<Player> players) {
         Platform.runLater(() -> {
-            var context2d = this.canvas.getGraphicsContext2D();
+            final GraphicsContext context2d = this.canvas.getGraphicsContext2D();
             final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
             final double border = (tileWidth - tileMiddleSize) / 2;
 
@@ -405,7 +410,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
     }
 
     @Override
-    public void drawContext(Context context) {
+    public void drawContext(final Context context) {
         Platform.runLater(() -> {
 
         });
@@ -418,10 +423,10 @@ public final class GameJFXView implements GameView, JFXInputSource {
         final double referenceHeight = Math.min(this.canvas.getHeight(), this.canvas.getWidth() * 1 / 6);
         final double baseFontSize = referenceHeight / 10;
         this.headerFontSize = baseFontSize;
-        this.descriptionFontSize = baseFontSize / 1.5;
+        this.descriptionFontSize = baseFontSize * 2 / 3;
     }
 
-    private void recalculateLayout(){
+    private void recalculateLayout() {
         final double canvasWidth = this.canvas.getWidth();
         this.objectiveRegionWidth = canvasWidth * OBJECTIVE_REGION_WIDTH;
         this.labyrinthRegionWidth = canvasWidth * LABYRINTH_REGION_WIDTH;
@@ -438,7 +443,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
     }
 
     @Override
-    public void routeKeyboardEvents(Receiver adapter){
+    public void routeKeyboardEvents(final Receiver adapter) {
         this.scene.setOnKeyPressed(adapter::onKeyPressed);
     }
 

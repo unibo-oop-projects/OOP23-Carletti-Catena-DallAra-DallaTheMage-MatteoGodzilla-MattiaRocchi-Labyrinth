@@ -35,7 +35,7 @@ public class TilesGenerator {
     public Map<Coordinate, Tile> generateTiles() {
         //Parameters that depend on the config
         final int GUILD_NUM = 1;
-        final Coordinate CENTER = new Coordinate(Math.round(this.configuration.getLabyrinthHeight() /2), Math.round(this.configuration.getLabyrinthWidth()/2) );
+        final Coordinate CENTER = new Coordinate(this.configuration.getLabyrinthHeight() /2, this.configuration.getLabyrinthWidth()/2);
         int normalQuantity = this.configuration.getLabyrinthHeight() * this.configuration.getLabyrinthWidth() - this.configuration.getSourceTiles() - GUILD_NUM;
         //Guild tile
         GuildTile guild = new GuildTile(this.configuration.getPlayerCount());

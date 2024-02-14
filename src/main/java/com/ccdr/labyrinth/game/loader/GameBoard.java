@@ -106,7 +106,7 @@ public final class GameBoard implements Board {
         for(int x = playerLocation.column() - radius; x <= playerLocation.column() + radius; x++) {
             for(int y = playerLocation.row() - radius; x <= playerLocation.row() + radius; y++) {
                 Coordinate target = new Coordinate(y, x);
-                if(!map.get(target).isDiscovered()) {
+                if(map.containsKey(target) && !map.get(target).isDiscovered()) {
                     map.get(target).discover();
                 }
             }

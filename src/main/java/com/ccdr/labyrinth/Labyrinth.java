@@ -26,9 +26,9 @@ public final class Labyrinth {
      * @param args ignored
      */
     public static void main(final String[] args) {
+        //Makes sure the JavaFX environment is set up, in the case where the application below hasn´t started yet
+        Platform.startup(() -> {});
         new Thread(() -> {
-            //Makes sure the JavaFX environment is set up, in the case where the application below hasn´t started yet
-            Platform.startup(() -> { });
             final Engine engine = new Engine(TARGET_FRAMERATE);
 
             //setting up the actual game

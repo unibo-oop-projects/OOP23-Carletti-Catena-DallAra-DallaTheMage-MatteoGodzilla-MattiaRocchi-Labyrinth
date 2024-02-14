@@ -8,44 +8,74 @@ import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
 import com.ccdr.labyrinth.game.loader.tiles.StandardTile;
 
 import java.util.Map;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.Optional;
 
 public class TileCreator {
+    private final Random seed;
     private final GameConfig configuration;
-    private final CoordinatesManager coordinatesGenerator;
+    private final CoordinatesGenerator placer;
+    private final int MIN_PATTERNS = 1, MAX_PATTERNS = 5;
+    private final int MIN_ROTATIONS = 0, MAX_ROTATIONS = 4;
     private Map<Coordinate, Tile> tiles;
 
 
     public TileCreator (GameConfig configuration) {
-        this.coordinatesGenerator = new CoordinatesManager(configuration);
         this.configuration = configuration;
+        this.placer = new CoordinatesGenerator(configuration);
+        this.seed = new Random();
         this.tiles = new HashMap<>();
     }
 
     public Map<Coordinate, Tile> generateTiles() {
         //Parameters that depend on the config
         final int GUILD_NUM = 1;
-        int normalQuantity = configuration.getLabyrinthHeight() * configuration.getLabyrinthWidth() - configuration.getSourceTiles() - GUILD_NUM;
-        final Coordinate CENTER = new Coordinate(Math.round(configuration.getLabyrinthHeight() /2), Math.round(configuration.getLabyrinthWidth()/2));
+        final Coordinate CENTER = new Coordinate(Math.round(this.configuration.getLabyrinthHeight() /2), Math.round(this.configuration.getLabyrinthWidth()/2) );
+        int normalQuantity = this.configuration.getLabyrinthHeight() * this.configuration.getLabyrinthWidth() - this.configuration.getSourceTiles() - GUILD_NUM;
         //Guild tile
-        GuildTile guild = new GuildTile(configuration.getPlayerCount());
+        GuildTile guild = new GuildTile(this.configuration.getPlayerCount());
         guild.setPattern(selectPattern(4));
         tiles.put(CENTER, guild);
         //Source Tiles
+        final List<Optional<Material>> bonuses = new ArrayList<>(this.setupBonusList(guild.getMaterialPresents()));
+        final List<Coordinate> sourceCoordinates = new ArrayList<>(this.placer.calculateSourcesCoordinates(CENTER, tiles));
+        int index = sourceCoordinates.size()-1;
         for (Material m : setupMaterialsList(guild.getMaterialPresents())) {
-            tiles.put(this.coordinatesGenerator.generateCoordinateNearCenter(CENTER, tiles), generateSource(m, configuration.getPlayerCount()));
+            tiles.put(sourceCoordinates.remove(index--), generateSource(m, this.configuration.getPlayerCount()));
         }
         //Normal tiles
         while (normalQuantity-- > 0) {
-            Tile generatedTile = new StandardTile();
+            Coordinate generatedCoordinate = this.placer.generateRandomCoordinate(tiles);
+            Optional<Material> sourcesMaterial = this.pickMaterial(bonuses);
+            Tile generatedTile = sourcesMaterial.isEmpty() ? new StandardTile() : new StandardTile(sourcesMaterial.get(), 1);
             generatedTile.setPattern(generateRandomPattern().getPattern());
-            tiles.put(this.coordinatesGenerator.generateRandomCoordinate(tiles), generatedTile);
+            tiles.put(generatedCoordinate, generatedTile);
         }
         //TODO: bonus tiles
         return tiles;
+    }
+
+    private Optional<Material> pickMaterial(List<Optional<Material>> bonuses) {
+        return bonuses.size() > 0 ? bonuses.get(seed.nextInt(0, bonuses.size())) : Optional.empty();
+    }
+
+    private List<Optional<Material>> setupBonusList(List<Material> materialPresents) {
+        List<Optional<Material>> bonuses = new ArrayList<>();
+        if(materialPresents.size() > 0) {
+            int percentage = Math.round(materialPresents.size() / 3);
+            for(Material m : materialPresents) {
+                bonuses.add(Optional.of(m));
+            }
+            while(percentage-- > 0) {
+                bonuses.add(Optional.empty());
+            }
+            return bonuses;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     private Tile generateSource(final Material material, final int playerCount) {
@@ -55,9 +85,6 @@ public class TileCreator {
     }
 
     private Tile generateRandomPattern() {
-        final int MIN_PATTERNS = 1, MAX_PATTERNS = 5;
-        final int MIN_ROTATIONS = 0, MAX_ROTATIONS = 4;
-        final Random seed = new Random();
         int rotations = seed.nextInt(MIN_ROTATIONS, MAX_ROTATIONS);
         Tile pattern = new StandardTile();
         pattern.setPattern(selectPattern(seed.nextInt(MIN_PATTERNS, MAX_PATTERNS)));
@@ -96,7 +123,7 @@ public class TileCreator {
     public List<Material> setupMaterialsList(List<Material> presents) {
         List<Material> materials = new ArrayList<>();
         if(presents.size() > 0) {
-            int sourceEach = configuration.getSourceTiles() / presents.size();
+            int sourceEach = this.configuration.getSourceTiles() / presents.size();
             for (int i = sourceEach; i > 0; i--) {
                 for (Material m : presents) {
                     materials.add(m);

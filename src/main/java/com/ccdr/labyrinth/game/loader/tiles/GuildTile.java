@@ -19,6 +19,8 @@ public class GuildTile extends GenericTile {
     public GetMissions getM = new GetMissions();
 
     public GuildTile(final int nPlayer) {
+        //THE GUILD IS DISCOVERED BY DEFAULT
+        //super.discover();
         for (int i = 0; i < nPlayer * 2; i++) {
             missions.add(getM.generateMission());
         }

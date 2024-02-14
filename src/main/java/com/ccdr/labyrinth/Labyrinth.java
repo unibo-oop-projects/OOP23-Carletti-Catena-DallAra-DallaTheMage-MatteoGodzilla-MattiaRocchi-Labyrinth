@@ -77,7 +77,7 @@ public final class Labyrinth {
             engine.bindExecutor(Executor.ID.MENU, menuController);
             engine.bindExecutor(Executor.ID.GAME, gameController);
             engine.bindExecutor(Executor.ID.RESULT, resultController);
-            engine.changeExecutor(Executor.ID.RESULT);
+            engine.changeExecutor(Executor.ID.MENU);
 
             JFXStage.addOnCloseListener(onClose);
             engine.start();

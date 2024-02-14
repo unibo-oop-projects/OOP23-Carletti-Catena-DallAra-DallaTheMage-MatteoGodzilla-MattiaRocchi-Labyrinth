@@ -6,10 +6,10 @@ import java.util.Random;
 
 import com.ccdr.labyrinth.game.Board;
 import com.ccdr.labyrinth.game.Context;
+import com.ccdr.labyrinth.game.GuildContext;
 import com.ccdr.labyrinth.game.UpdateBoardContext;
 import com.ccdr.labyrinth.game.loader.Coordinate;
 import com.ccdr.labyrinth.game.loader.Direction;
-import com.ccdr.labyrinth.game.loader.GameBoard;
 
 /**
  * A class that implements a manager of players, with a reference of all players in the game.
@@ -24,21 +24,25 @@ public class PlayersManager implements Context {
     private int activePlayer;
     private int diceVal;
     private Board board;
-    private boolean isGuild;
-    private Context context;
     /*
      * turnSubphase == 1 -> generate dice value
      * turnSubphase == 2 -> moveup/moveright/moveleft/movedown
      */
     private int turnSubphase;
+    private UpdateBoardContext updateBoard;
+    private GuildContext guildContext;
 
     /**
      * The builder for a manager of players, with a list of all players in the game.
      * It also set as the first active player, the player identified by index 0.
      * @param numPlayers the number of players in the game
      */
-    public PlayersManager(final int numPlayers, final Board board) {
+    public PlayersManager(final int numPlayers, final Board board,
+        final UpdateBoardContext updateContext, final GuildContext guildContext
+    ) {
         this.board = board;
+        this.updateBoard = updateContext;
+        this.guildContext = guildContext;
         for (int i = 0; i < numPlayers; i++) {
             if (i == 0) {
                 this.players.add(new PlayerImpl());
@@ -122,6 +126,14 @@ public class PlayersManager implements Context {
         } else {
             this.turnSubphase = value;
         }
+    }
+
+    /**
+     * gives the value of turn subphase.
+     * @return the turn subphase's value
+     */
+    public int getTurnSubphase() {
+        return this.turnSubphase;
     }
 
     /*
@@ -257,10 +269,7 @@ public class PlayersManager implements Context {
      */
     @Override
     public void secondary() {
-        final Coordinate guildTile = new Coordinate(this.board.getHeight() / 2, this.board.getWidth() / 2);
-        if (this.getActivePlayer().getCoord().equals(guildTile)) {
-            this.isGuild = true;
-        }
+        this.diceVal = 0;
     }
 
     /**
@@ -275,7 +284,7 @@ public class PlayersManager implements Context {
      */
     @Override
     public boolean done() {
-        return (this.turnSubphase == 2 && this.diceVal == 0) || this.isGuild;
+        return this.turnSubphase == 2 && this.diceVal == 0;
     }
 
     /**
@@ -284,20 +293,11 @@ public class PlayersManager implements Context {
      */
     @Override
     public Context getNextContext() {
-        if (this.isGuild) {
-            this.isGuild = false;
-            //return new contestoGilda;
-        }
-        this.setActivePlayer(this.activePlayer + 1 % this.players.size());
-        this.setTurnSubphase(this.turnSubphase + 1);
         final Coordinate guildTile = new Coordinate(this.board.getHeight() / 2, this.board.getWidth() / 2);
         if (this.getActivePlayer().getCoord().equals(guildTile)) {
-            //this.context dovrà puntare al contesto della gilda
-            //non deve creare un nuovo oggetto, ma utilizzare quello all'interno di GameController
-            //return new UpdateBoardContext(this.board, this.context);
+            return this.guildContext;
         } else {
-            //return new contestoLabirinto;
+            return this.updateBoard;
         }
-        return this.context;
     }
 }

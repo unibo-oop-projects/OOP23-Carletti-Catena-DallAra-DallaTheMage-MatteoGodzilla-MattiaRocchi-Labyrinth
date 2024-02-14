@@ -209,6 +209,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
             final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
             final double border = (tileWidth - tileMiddleSize) / 2;
             context2d.save();
+            System.out.println(players.size());
             for (int i = 0; i < players.size(); i++) {
                 if (i == 0) {
                     //Player1
@@ -223,13 +224,13 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     final double playerY = (players.get(i).getCoord().row() * this.tileHeight)
                     + this.labyrinthTopLeftY;
                     final double playerX = (players.get(i).getCoord().column() * this.tileWidth)
-                    + this.labyrinthTopLeftX + this.labyrinthSize;
+                    + this.labyrinthTopLeftX;
                     context2d.setFill(Color.BLUE);
                     context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
                 } else if (i == 2) {
                     //Player3
                     final double playerY = (players.get(i).getCoord().row() * this.tileHeight)
-                    + this.labyrinthTopLeftY + this.labyrinthSize;
+                    + this.labyrinthTopLeftY;
                     final double playerX = (players.get(i).getCoord().column() * this.tileWidth)
                     + this.labyrinthTopLeftX;
                     context2d.setFill(Color.GREEN);
@@ -237,9 +238,9 @@ public final class GameJFXView implements GameView, JFXInputSource {
                 } else if (i == 3) {
                     //Player4
                     final double playerY = (players.get(i).getCoord().row() * this.tileHeight)
-                    + this.labyrinthTopLeftY + this.labyrinthSize;
+                    + this.labyrinthTopLeftY;
                     final double playerX = (players.get(i).getCoord().column() * this.tileWidth)
-                    + this.labyrinthTopLeftX + this.labyrinthSize;
+                    + this.labyrinthTopLeftX;
                     context2d.setFill(Color.YELLOW);
                     context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
                 }
@@ -349,7 +350,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
             }
 
             //Mostro il diceVal
-            final double newStartPosY = border + step * 26;
+            final double newStartPosY = this.canvas.getHeight() - step;
             context2d.fillText("Number of moves remaining: " + playersManager.getDiceValue(),
             this.playerStatsRegionX + border, newStartPosY);
             context2d.setFont(Font.getDefault());

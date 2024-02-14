@@ -60,5 +60,5 @@ tasks.withType<Test> {
 
 application {
     // Define the main class for the application
-    mainClass.set("Labyrinth")
+    mainClass.set("com.ccdr.labyrinth.Labyrinth")
 }

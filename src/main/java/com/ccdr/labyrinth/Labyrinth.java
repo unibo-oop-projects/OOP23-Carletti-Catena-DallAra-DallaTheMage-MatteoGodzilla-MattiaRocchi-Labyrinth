@@ -1,3 +1,4 @@
+package com.ccdr.labyrinth;
 import com.ccdr.labyrinth.engine.Engine;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.engine.Executor.ID;
@@ -18,7 +19,6 @@ import javafx.application.Platform;
 /**
  * Main class that gets executed.
  */
-@SuppressWarnings("PMD.NoPackage")
 public final class Labyrinth {
     private static final int TARGET_FRAMERATE = 120;
 

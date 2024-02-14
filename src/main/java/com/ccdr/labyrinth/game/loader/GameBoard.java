@@ -92,7 +92,7 @@ public final class GameBoard implements Board {
 
     @Override
     public GuildTile getGuildTile() {
-        Coordinate center = new Coordinate(Math.round(width/2), Math.round(height/2));
+        Coordinate center = new Coordinate(width / 2, height / 2);
         if(map.containsKey(center)) {
             return (GuildTile)map.get(center);
         }

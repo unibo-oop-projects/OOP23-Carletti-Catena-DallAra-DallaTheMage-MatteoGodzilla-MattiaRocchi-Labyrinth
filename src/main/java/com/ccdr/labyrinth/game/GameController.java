@@ -33,24 +33,19 @@ public final class GameController implements Executor, GameInputs {
         }
     }
 
-    /**
-     * Initializes the game with the provided config.
-     * @param config object defining how the game should be generated
-     */
-    public void init(final GameConfig config) {
-        //Inizializzazione this.activeContext = new "LabyrinthManager";
+    public void init(final GameConfig config){
         board = new GameBoard();
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
         board.setMap(new TilesGenerator(config).generateTiles());
         //set up contexts
-        this.updateBoardContext = new UpdateBoardContext(board);
+        this.updateBoardContext = new UpdateBoardContext(this.board);
         this.labyrinthContext = new LabyrinthContext();
-        this.playerManager = new PlayersManager(config.getPlayerCount());
+        this.playerManager = new PlayersManager(config.getPlayerCount(), this.board);
         this.guildContext = new GuildContext();
 
         this.updateBoardContext.bindNextContext(this.labyrinthContext);
-        this.updateBoardContext.bindPlayerManager(playerManager);
+        this.updateBoardContext.bindPlayerManager(this.playerManager);
         this.activeContext = this.updateBoardContext;
     }
 

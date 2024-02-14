@@ -37,20 +37,24 @@ public class PlayersManager implements Context {
      * It also set as the first active player, the player identified by index 0.
      * @param numPlayers the number of players in the game
      */
-    public PlayersManager(final int numPlayers) {
+    public PlayersManager(final int numPlayers, final Board board) {
         for (int i = 0; i < numPlayers; i++) {
             if (i == 0) {
                 this.players.add(new PlayerImpl());
                 this.players.get(i).setCoord(0, 0);
+                board.discoverNearBy(this.players.get(i).getCoord(), 2);
             } else if (i == 1) {
                 this.players.add(new PlayerImpl());
                 this.players.get(i).setCoord(0, this.board.getWidth() - 1);
+                board.discoverNearBy(this.players.get(i).getCoord(), 2);
             } else if (i == 2) {
                 this.players.add(new PlayerImpl());
                 this.players.get(i).setCoord(this.board.getHeight() - 1, 0);
+                board.discoverNearBy(this.players.get(i).getCoord(), 2);
             } else if (i == 3) {
                 this.players.add(new PlayerImpl());
                 this.players.get(i).setCoord(this.board.getWidth() - 1, this.board.getWidth() - 1);
+                board.discoverNearBy(this.players.get(i).getCoord(), 2);
             }
         }
         this.activePlayer = 0;
@@ -180,6 +184,7 @@ public class PlayersManager implements Context {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveUp();
             endTile.onEnter(this.getActivePlayer());
+            this.board.discoverNearBy(this.getActivePlayer().getCoord(), 2);
             this.diceVal--;
         }
     }
@@ -197,6 +202,7 @@ public class PlayersManager implements Context {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveDown();
             endTile.onEnter(this.getActivePlayer());
+            this.board.discoverNearBy(this.getActivePlayer().getCoord(), 2);
             this.diceVal--;
         }
     }
@@ -214,6 +220,7 @@ public class PlayersManager implements Context {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveLeft();
             endTile.onEnter(this.getActivePlayer());
+            this.board.discoverNearBy(this.getActivePlayer().getCoord(), 2);
             this.diceVal--;
         }
     }
@@ -231,6 +238,7 @@ public class PlayersManager implements Context {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveRight();
             endTile.onEnter(this.getActivePlayer());
+            this.board.discoverNearBy(this.getActivePlayer().getCoord(), 2);
             this.diceVal--;
         }
     }

@@ -9,6 +9,9 @@ public interface Tile {
 
     boolean isOpen(Direction access);
 
+    /**
+     * Tile that want to always be visible should NOT override this and just call discover() on the constructor.
+     */
     boolean isDiscovered();
 
     void onEnter(Player player);
@@ -20,6 +23,9 @@ public interface Tile {
     void setPattern(Map<Direction, Boolean> readedPattern);
 
     Map<Direction, Boolean> getPattern();
-    
+
+    /**
+     * Tile that want to always be visible should call this instead of overriding isDiscovered.
+     */
     void discover();
 }

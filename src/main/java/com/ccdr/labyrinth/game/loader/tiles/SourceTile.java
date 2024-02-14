@@ -43,6 +43,7 @@ public final class SourceTile extends GenericTile {
         this.quantity = STARTING_QUANTITY;
         this.turnsToWait = waitingTurns;
         this.remainingCooldown = 0;
+        this.discover();
     }
 
     /**
@@ -97,10 +98,5 @@ public final class SourceTile extends GenericTile {
      */
     public boolean isActive() {
         return this.remainingCooldown <= 0;
-    }
-
-    @Override
-    public boolean isDiscovered() {
-        return true;
     }
 }

@@ -21,6 +21,7 @@ public class GuildTile extends GenericTile {
         }
 
         materialpresents.addAll(getM.materialPresents());
+        this.discover();
     }
 
     public List<Material> getMaterialPresents(){
@@ -41,12 +42,4 @@ public class GuildTile extends GenericTile {
     @Override
     public void onExit(final Player player) {
     }
-
-    @Override
-    public boolean isDiscovered() {
-        return true;
-    }
-
-
-
 }

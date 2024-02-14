@@ -1,6 +1,7 @@
 package com.ccdr.labyrinth.result;
 
 import java.util.List;
+import java.util.Map;
 import com.ccdr.labyrinth.game.player.Player;
 
 /**
@@ -16,5 +17,5 @@ public interface ResultView {
      * Draw the entire Result screen.
      * @param players list of players, to draw their scores and other data
      */
-    void draw(List<Player> players);
+    void draw(List<Player> players, Map<Player,Integer> playersToIndex);
 }

@@ -68,7 +68,7 @@ public class GameController implements Executor, GameInputs{
     @Override
     public void up(){
         //TEMPORARY
-        //this.gameover.accept(this.playerManager.getPlayers());
+        this.gameover.accept(this.playerManager.getPlayers());
 
         this.activeContext.up();
         switchContextIfNecessary();

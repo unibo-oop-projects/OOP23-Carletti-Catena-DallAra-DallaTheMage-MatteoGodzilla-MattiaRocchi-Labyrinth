@@ -7,6 +7,7 @@ import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.Material;
 
 import java.util.List;
+import java.util.Map;
 
 import javafx.application.Platform;
 import javafx.geometry.VPos;
@@ -15,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 /**
@@ -52,7 +54,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
     }
 
     @Override
-    public void draw(final List<Player> players) {
+    public void draw(final List<Player> players, final Map<Player,Integer> playersToIndex) {
         Platform.runLater(() -> {
             final GraphicsContext context = this.canvas.getGraphicsContext2D();
             context.setFill(BASE_COLOR);
@@ -67,7 +69,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
             context.fillText("Results", this.canvas.getWidth() / 2, this.padding);
 
             if (players != null && !players.isEmpty()) {
-                drawScores(context, players);
+                drawScores(context, players, playersToIndex);
             }
 
             //draw hint at the bottom
@@ -79,16 +81,36 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
         });
     }
 
-    private void drawScores(final GraphicsContext context, final List<Player> players) {
+    private void drawScores(final GraphicsContext context, final List<Player> players, final Map<Player,Integer> playersToIndex) {
         context.setFill(TEXT_FILL);
+        int i = 0;
+        for (Player player : players) {
+            int index = playersToIndex.get(player);
+            Color c;
+            switch(index){
+                case 0:
+                default:
+                    c = Color.RED;
+                    break;
+                case 1:
+                    c = Color.BLUE;
+                    break;
+                case 2:
+                    c = Color.GREEN;
+                    break;
+                case 3:
+                    c = Color.YELLOW;
+                    break;
+            }
+            context.setFill(c);
 
-        for (int i = 0; i < players.size(); i++) {
-            final double y = this.headerFontSize + this.padding * 2 + (this.playerSize + this.hintFontSize + this.padding) * i;
+            final double heightPerPlayer = (this.playerSize + this.hintFontSize + this.padding);
+            final double y = this.headerFontSize + this.padding * 2 + heightPerPlayer * i;
             final String entry = new StringBuilder()
                 .append("Player ")
-                .append(String.valueOf(i + 1))
+                .append(String.valueOf(index + 1))
                 .append(": ")
-                .append(players.get(i).getPoints())
+                .append(player.getPoints())
                 .append(" points")
                 .toString();
             context.setFont(Font.font(playerSize));
@@ -99,7 +121,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
             for (int j = 0; j < allMaterials.length; j++) {
                 entry2.append(allMaterials[j])
                     .append(": ")
-                    .append(players.get(i).getQuantityMaterial(allMaterials[j]));
+                    .append(player.getQuantityMaterial(allMaterials[j]));
                 if (j + 1 < allMaterials.length) {
                     entry2.append(", ");
                 }
@@ -107,6 +129,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
             entry2.append(')');
             context.setFont(Font.font(this.hintFontSize));
             context.fillText(entry2.toString(), this.canvas.getWidth() / 2, y + this.playerSize + this.padding);
+            i++;
         }
     }
 

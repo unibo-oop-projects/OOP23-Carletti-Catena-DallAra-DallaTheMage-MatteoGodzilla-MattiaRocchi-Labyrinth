@@ -407,7 +407,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
     @Override
     public void drawContext(Context context) {
         Platform.runLater(() -> {
-            System.out.println(context);
+            
         });
     }
 

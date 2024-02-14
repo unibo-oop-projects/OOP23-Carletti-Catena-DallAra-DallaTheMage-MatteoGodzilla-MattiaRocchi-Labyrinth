@@ -41,7 +41,7 @@ public final class GameController implements Executor, GameInputs {
         //set up contexts
         this.updateBoardContext = new UpdateBoardContext(this.board);
         this.labyrinthContext = new LabyrinthContext();
-        this.guildContext = new GuildContext();
+        this.guildContext = new GuildContext(config.getPlayerCount());
         this.playerManager = new PlayersManager(config.getPlayerCount(), this.board,
         this.updateBoardContext, this.guildContext);
 
@@ -55,10 +55,10 @@ public final class GameController implements Executor, GameInputs {
         //game loop
         for (final GameView gameView : views) {
             gameView.clear();
-            gameView.drawMissions(board.getGuildTile().returnListOfMissions());
+            gameView.drawMissions(guildContext.returnListOfMissions());
             gameView.drawBoard(this.board);
             gameView.drawPlayersOnBoard(this.playerManager.getPlayers());
-            gameView.drawPlayersStats(this.playerManager, this.board.getGuildTile().getMaterialPresents());
+            gameView.drawPlayersStats(this.playerManager, guildContext.getMaterialPresents());
             gameView.drawContext(this.activeContext);
         }
     }

@@ -366,11 +366,10 @@ public final class GameJFXView implements GameView, JFXInputSource {
         Platform.runLater(()->{
             var context2d = this.canvas.getGraphicsContext2D();
             context2d.save();
+            this.recalculateFontSizes();
             context2d.setFill(Color.BLACK);
             context2d.setTextBaseline(VPos.TOP);
-            context2d.setFont(Font.font(25));
-            //oppure questo
-            //context2d.setFont(Font.font(this.headerFontSize));
+            context2d.setFont(Font.font(this.headerFontSize));
             context2d.fillText("Missions", 15, 0);
             context2d.setFont(Font.getDefault());
             for (Item item : missions) {
@@ -379,9 +378,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
             }
             i=3;
 
-            context2d.setFont(Font.font(25));
-            //oppure questo
-            //context2d.setFont(Font.font(this.headerFontSize));
+            context2d.setFont(Font.font(this.headerFontSize));
             context2d.fillText(" LEGEND ", (labyrinthRegionX / 2) - (labyrinthRegionX / 5), this.canvas.getHeight() - 170, 200);
             context2d.setFont(Font.getDefault());
             context2d.drawImage(Armor,10, this.canvas.getHeight() -130, 25 , 25);

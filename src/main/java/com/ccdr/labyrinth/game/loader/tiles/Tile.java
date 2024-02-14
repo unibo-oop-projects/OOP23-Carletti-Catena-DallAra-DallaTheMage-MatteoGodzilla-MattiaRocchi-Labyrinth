@@ -20,4 +20,6 @@ public interface Tile {
     void setPattern(Map<Direction, Boolean> readedPattern);
 
     Map<Direction, Boolean> getPattern();
+    
+    void discover();
 }

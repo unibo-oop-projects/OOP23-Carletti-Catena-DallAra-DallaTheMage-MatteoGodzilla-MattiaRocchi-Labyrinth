@@ -28,4 +28,6 @@ public interface Board {
 
     void shiftColumn(int column, int movement);
 
+    void discoverNearBy(Coordinate playerLocation, int radius);
+
 }

@@ -8,7 +8,7 @@ public abstract class GenericTile implements Tile {
     private Map<Direction, Boolean> pattern = new HashMap<>();
     private boolean discovered;
 
-    protected void discover() {
+    public void discover() {
         this.discovered = true;
     }
 

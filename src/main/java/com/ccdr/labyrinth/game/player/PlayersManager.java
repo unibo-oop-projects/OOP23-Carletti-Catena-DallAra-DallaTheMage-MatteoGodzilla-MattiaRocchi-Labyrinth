@@ -15,15 +15,15 @@ import com.ccdr.labyrinth.game.loader.GameBoard;
  * A class that implements a manager of players, with a reference of all players in the game.
  * It also have the implementation of the manager of turns system.
  */
-public class PlayersManager implements Context{
+public class PlayersManager implements Context {
 
     private static final int MAX_DICEVAL = 12;
 
     private final List<Player> players = new ArrayList<>();
     private int activePlayer;
     private int diceVal;
-    private Board board = new GameBoard();
-    private boolean isGuild = false;
+    private final Board board = new GameBoard();
+    private boolean isGuild;
     private Context context;
     /*
      * turnSubphase == 1 -> generate dice value
@@ -41,16 +41,13 @@ public class PlayersManager implements Context{
             if (i == 0) {
                 this.players.add(new PlayerImpl());
                 this.players.get(i).setCoord(0, 0);
-            }
-            else if (i == 1) {
+            } else if (i == 1) {
                 this.players.add(new PlayerImpl());
                 this.players.get(i).setCoord(0, this.board.getWidth() - 1);
-            }
-            else if (i == 2) {
+            } else if (i == 2) {
                 this.players.add(new PlayerImpl());
                 this.players.get(i).setCoord(this.board.getHeight() - 1, 0);
-            }
-            else if (i == 3) {
+            } else if (i == 3) {
                 this.players.add(new PlayerImpl());
                 this.players.get(i).setCoord(this.board.getWidth() - 1, this.board.getWidth() - 1);
             }
@@ -262,7 +259,7 @@ public class PlayersManager implements Context{
      * nothing to do as a back action.
      */
     @Override
-    public void back() {}
+    public void back() { }
 
     /**
      * method to control if the turn of a player is finished.
@@ -270,10 +267,7 @@ public class PlayersManager implements Context{
      */
     @Override
     public boolean done() {
-        if ((this.turnSubphase == 2 && this.diceVal == 0) || this.isGuild) {
-            return true;
-        }
-        return false;
+        return (this.turnSubphase == 2 && this.diceVal == 0) || this.isGuild;
     }
 
     /**

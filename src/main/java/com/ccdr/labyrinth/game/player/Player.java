@@ -69,6 +69,8 @@ public interface Player {
 
     /**
      * Sets the coordinate of a player.
+     * @param row the value of row to set
+     * @param col the value of col to set
      */
     void setCoord(int row, int col);
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class GuildTileTest {
     @Test
-    void TestGetMissions(){
+    void TestGetMissions() {
         GuildTile guild = new GuildTile(4);
         List<Item> missions = guild.returnListOfMissions();
         List<Material> materials = guild.getMaterialPresents();
@@ -19,7 +19,7 @@ public class GuildTileTest {
             System.out.println("" + item.getPoints() + item.getQuantity() + item.getMaterial() + item.getCategory());
         }
 
-        for (Material mat : materials){
+        for (Material mat : materials) {
             System.out.println("" + mat);
         }
 

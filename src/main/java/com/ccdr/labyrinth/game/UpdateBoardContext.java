@@ -17,17 +17,22 @@ public final class UpdateBoardContext implements Context {
 
     /**
      * @param board Board object to get the source tiles from
-     * @param following reference to context object that should activate after this one
      */
     public UpdateBoardContext(final Board board) {
         this.board = board;
     }
 
-    public void bindNextContext(final Context following){
+    /**
+     * @param following reference to context object that should activate after this one
+     */
+    public void bindNextContext(final Context following) {
         this.following = following;
     }
 
-    public void bindPlayerManager(final PlayersManager pm){
+    /**
+     * @param pm reference to the PlayersManager instance that actually contains the players for the game
+     */
+    public void bindPlayerManager(final PlayersManager pm) {
         this.playerManager = pm;
     }
 
@@ -71,10 +76,10 @@ public final class UpdateBoardContext implements Context {
     }
 
     /**
-     * This method is here just so that the view can access it to display it
-     * @return
+     * This method is here just so that the view can access it to display it.
+     * @return index of the active player
      */
-    public int getActivePlayerIndex(){
+    public int getActivePlayerIndex() {
         return this.playerManager.getActivePlayerIndex();
     }
 }

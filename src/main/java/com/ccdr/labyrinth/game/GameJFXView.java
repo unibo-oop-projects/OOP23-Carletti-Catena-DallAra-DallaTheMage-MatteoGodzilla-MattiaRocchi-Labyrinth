@@ -413,7 +413,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                 final double popupHeight = this.headerFontSize + this.descriptionFontSize * 3;
                 final double x = (this.canvas.getWidth() - popupWidth) / 2;
                 final double y = (this.canvas.getHeight() - popupHeight) / 2;
-                context2d.fillRect(x,y,popupWidth, popupHeight);
+                context2d.fillRect(x, y, popupWidth, popupHeight);
                 context2d.strokeRect(x, y, popupWidth, popupHeight);
                 context2d.setFill(playerIndexToColor(update.getActivePlayerIndex()));
                 context2d.setTextAlign(TextAlignment.CENTER);
@@ -425,7 +425,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                 context2d.setFont(Font.font(this.descriptionFontSize));
                 context2d.setTextBaseline(VPos.BOTTOM);
                 context2d.setFill(Color.BLACK);
-                context2d.fillText("Press Enter/Space to dismiss", this.canvas.getWidth() / 2 , y + popupHeight);
+                context2d.fillText("Press Enter/Space to dismiss", this.canvas.getWidth() / 2, y + popupHeight);
             }
             context2d.restore();
         });
@@ -450,8 +450,8 @@ public final class GameJFXView implements GameView, JFXInputSource {
         }
     }
 
-    public Color playerIndexToColor(final int index){
-        switch(index){
+    private Color playerIndexToColor(final int index) {
+        switch (index) {
             case 0:
                 return Color.RED;
             case 1:

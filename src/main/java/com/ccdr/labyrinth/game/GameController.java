@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-//this is the class responsible for controlling the entire game
-public final class GameController implements Executor, GameInputs{
+/**
+ * This is the main class responsible for managing everything related to the game.
+ */
+public final class GameController implements Executor, GameInputs {
     private final Set<GameView> views = new HashSet<>();
     private Board board;
     private boolean menuGuild = false;
@@ -31,7 +33,11 @@ public final class GameController implements Executor, GameInputs{
         }
     }
 
-    public void init(final GameConfig config){
+    /**
+     * Initializes the game with the provided config.
+     * @param config object defining how the game should be generated
+     */
+    public void init(final GameConfig config) {
         //Inizializzazione this.activeContext = new "LabyrinthManager";
         board = new GameBoard();
         board.setHeight(config.getLabyrinthHeight());
@@ -56,16 +62,22 @@ public final class GameController implements Executor, GameInputs{
             gameView.drawMissions(board.getGuildTile().returnListOfMissions());
             gameView.drawBoard(this.board);
             gameView.drawPlayersOnBoard(this.playerManager.getPlayers());
-            gameView.drawPlayersStats(this.playerManager , this.board.getGuildTile().getMaterialPresents());
+            gameView.drawPlayersStats(this.playerManager, this.board.getGuildTile().getMaterialPresents());
             gameView.drawContext(this.activeContext);
         }
     }
 
-    public void addView(final GameView view){
+    /**
+     * @param view GameView object to bind to this controller
+     */
+    public void addView(final GameView view) {
         this.views.add(view);
     }
 
-    public void onGameover(final Consumer<List<Player>> action){
+    /**
+     * @param action Runnable to execute once the game is over
+     */
+    public void onGameover(final Consumer<List<Player>> action) {
         this.gameover = action;
     }
 
@@ -76,7 +88,7 @@ public final class GameController implements Executor, GameInputs{
      * method that calls the activeContext method to execute when the W or up arrow key is pressed.
      */
     @Override
-    public void up(){
+    public void up() {
         //TEMPORARY
         //this.gameover.accept(this.playerManager.getPlayers());
 
@@ -88,7 +100,7 @@ public final class GameController implements Executor, GameInputs{
      * method that calls the activeContext method to execute when the S or down arrow key is pressed.
      */
     @Override
-    public void down(){
+    public void down() {
         this.activeContext.down();
         switchContextIfNecessary();
     }
@@ -143,7 +155,7 @@ public final class GameController implements Executor, GameInputs{
      * This method is checked when the player presses a key used by the game.
      */
     private void switchContextIfNecessary() {
-        if(this.activeContext.done()){
+        if (this.activeContext.done()) {
             this.activeContext = this.activeContext.getNextContext();
         }
     }

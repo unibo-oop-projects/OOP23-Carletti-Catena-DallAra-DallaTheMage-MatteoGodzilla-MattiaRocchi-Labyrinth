@@ -4,9 +4,7 @@ import com.ccdr.labyrinth.jfx.ExpandCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
 import com.ccdr.labyrinth.game.player.Player;
-import com.ccdr.labyrinth.Category;
 import com.ccdr.labyrinth.Material;
-import com.ccdr.labyrinth.TypeImag;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +14,6 @@ import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -141,8 +138,8 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
         this.scene.setOnKeyPressed(receiver::onKeyPressed);
     }
 
-    public Color playerIndexToColor(final int index){
-        switch(index){
+    private Color playerIndexToColor(final int index) {
+        switch (index) {
             case 0:
                 return Color.RED;
             case 1:

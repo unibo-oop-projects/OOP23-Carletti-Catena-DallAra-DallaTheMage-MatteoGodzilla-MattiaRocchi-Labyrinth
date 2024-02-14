@@ -4,16 +4,22 @@ import com.ccdr.labyrinth.jfx.JFXInputSource;
 
 import javafx.scene.input.KeyEvent;
 
-public class GameInputAdapter implements JFXInputSource.Receiver {
+/**
+ * Adapter responsible for routing events to the game controller.
+ */
+public final class GameInputAdapter implements JFXInputSource.Receiver {
     private final GameInputs controller;
 
-    public GameInputAdapter(final GameInputs controller){
+    /**
+     * @param controller reference to the game controller to invoke methods
+     */
+    public GameInputAdapter(final GameInputs controller) {
         this.controller = controller;
     }
 
     @Override
-    public void onKeyPressed(final KeyEvent event){
-        switch(event.getCode()){
+    public void onKeyPressed(final KeyEvent event) {
+        switch (event.getCode()) {
             case W:
             case UP:
                 this.controller.up();

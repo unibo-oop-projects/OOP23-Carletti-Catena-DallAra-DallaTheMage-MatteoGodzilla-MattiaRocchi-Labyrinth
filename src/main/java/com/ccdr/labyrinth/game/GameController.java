@@ -6,13 +6,15 @@ import com.ccdr.labyrinth.game.player.PlayersManager;
 import com.ccdr.labyrinth.game.loader.GameBoard;
 import com.ccdr.labyrinth.game.loader.TileCreator;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 //this is the class responsible for controlling the entire game
-public class GameController implements Executor, GameInputs{
+public final class GameController implements Executor, GameInputs{
     private Context activeContext;
-    private Set<GameView> views = new HashSet<>();
+    private final Set<GameView> views = new HashSet<>();
     private Board board;
     private PlayersManager playerManager;
     private boolean menuGuild = false;
@@ -20,12 +22,12 @@ public class GameController implements Executor, GameInputs{
 
     @Override
     public void onEnable() {
-        for (GameView gameView : views) {
+        for (final GameView gameView : views) {
             gameView.onEnable();
         }
     }
 
-    public void init(GameConfig config){
+    public void init(final GameConfig config){
         //Inizializzazione this.activeContext = new "LabyrinthManager";
         board = new GameBoard();
         board.setHeight(config.getLabyrinthHeight());
@@ -35,9 +37,9 @@ public class GameController implements Executor, GameInputs{
     }
 
     @Override
-    public void update(double deltaTimeInSeconds) {
+    public void update(final double deltaTimeInSeconds) {
         //game loop
-        for (GameView gameView : views) {
+        for (final GameView gameView : views) {
             gameView.clear();
             gameView.drawMissions(board.getGuildTile().returnListOfMissions());
             gameView.drawBoard(this.board);
@@ -47,11 +49,11 @@ public class GameController implements Executor, GameInputs{
         }
     }
 
-    public void addView(GameView view){
+    public void addView(final GameView view){
         this.views.add(view);
     }
 
-    public void onGameover(Consumer<List<Player>> action){
+    public void onGameover(final Consumer<List<Player>> action){
         this.gameover = action;
     }
 

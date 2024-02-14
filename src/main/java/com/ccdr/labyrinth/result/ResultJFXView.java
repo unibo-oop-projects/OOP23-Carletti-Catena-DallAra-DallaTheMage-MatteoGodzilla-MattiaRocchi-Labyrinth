@@ -4,7 +4,9 @@ import com.ccdr.labyrinth.jfx.ExpandCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
 import com.ccdr.labyrinth.game.player.Player;
+import com.ccdr.labyrinth.Category;
 import com.ccdr.labyrinth.Material;
+import com.ccdr.labyrinth.TypeImag;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -56,6 +59,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
     public void draw(final List<Player> players, final Map<Player, Integer> playersToIndex) {
         Platform.runLater(() -> {
             final GraphicsContext context = this.canvas.getGraphicsContext2D();
+            context.save();
             context.setFill(BASE_COLOR);
             context.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
             recalculateFontSizes();
@@ -77,12 +81,14 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
             context.setFill(TEXT_FILL);
             context.setFont(Font.font(this.hintFontSize));
             context.fillText("Press Enter/Space to close", this.canvas.getWidth() / 2, this.canvas.getHeight() - this.padding);
+            context.restore();
         });
     }
 
     private void drawScores(final GraphicsContext context, final List<Player> players,
         final Map<Player, Integer> playersToIndex
     ) {
+        context.save();
         context.setFill(TEXT_FILL);
         int i = 0;
         for (final Player player : players) {
@@ -116,6 +122,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
             context.fillText(entry2.toString(), this.canvas.getWidth() / 2, y + this.playerSize + this.padding);
             i++;
         }
+        context.restore();
     }
 
     private void recalculateFontSizes() {

@@ -105,6 +105,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
     public void drawBoard(final Board board) {
         Platform.runLater(() -> {
             final GraphicsContext context2d = this.canvas.getGraphicsContext2D();
+            context2d.save();
             context2d.setFill(Color.BLACK);
             context2d.fillRect(labyrinthTopLeftX, labyrinthTopLeftY, labyrinthSize, labyrinthSize);
 
@@ -119,6 +120,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     drawTile(context2d, c, tile);
                 }
             }
+            context2d.restore();
         });
     }
 
@@ -207,7 +209,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
             final GraphicsContext context2d = this.canvas.getGraphicsContext2D();
             final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
             final double border = (tileWidth - tileMiddleSize) / 2;
-
+            context2d.save();
             for (int i = 0; i < players.size(); i++) {
                 if (i == 0) {
                     //Player1
@@ -246,6 +248,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
                 }
             }
+            context2d.restore();
         });
     }
 
@@ -257,6 +260,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
             final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
             final double border = (tileWidth - tileMiddleSize) / 2;
 
+            context2d.save();
             context2d.setTextBaseline(VPos.TOP);
             context2d.setFill(Color.BLACK);
             context2d.setFont(Font.font(this.headerFontSize));
@@ -355,6 +359,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.fillText("Number of moves remaining: " + playersManager.getDiceValue(),
             this.playerStatsRegionX + border, newStartPosY);
             context2d.setFont(Font.getDefault());
+            context2d.restore();
         });
     }
 
@@ -366,6 +371,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
         Image Tool = TypeImag.TOOL.getImage();
         Platform.runLater(()->{
             var context2d = this.canvas.getGraphicsContext2D();
+            context2d.save();
             context2d.setFill(Color.BLACK);
             context2d.setTextBaseline(VPos.TOP);
             context2d.setFont(Font.font(25));
@@ -394,6 +400,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.fillText(" -> Type Tool", 36 ,this.canvas.getHeight() -57);
             context2d.drawImage(Jewel,10, this.canvas.getHeight() -34, 20 , 20);
             context2d.fillText(" -> Type Jewel", 36 ,this.canvas.getHeight() -34);
+            context2d.restore();
         });
     }
 
@@ -401,6 +408,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
     public void drawContext(final Context context) {
         Platform.runLater(() -> {
             final GraphicsContext context2d = this.canvas.getGraphicsContext2D();
+            context2d.save();
             context2d.setFill(Color.BLACK);
             if (context instanceof UpdateBoardContext) {
                 UpdateBoardContext update = (UpdateBoardContext) context;
@@ -425,6 +433,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                 context2d.setFill(Color.BLACK);
                 context2d.fillText("Press Enter/Space to dismiss", this.canvas.getWidth() / 2 , y + popupHeight);
             }
+            context2d.restore();
         });
     }
 

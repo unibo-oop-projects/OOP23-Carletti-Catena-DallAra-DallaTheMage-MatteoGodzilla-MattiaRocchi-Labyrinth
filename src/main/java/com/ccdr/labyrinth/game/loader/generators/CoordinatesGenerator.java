@@ -1,6 +1,7 @@
-package com.ccdr.labyrinth.game.loader;
+package com.ccdr.labyrinth.game.loader.generators;
 
 import com.ccdr.labyrinth.game.GameConfig;
+import com.ccdr.labyrinth.game.loader.Coordinate;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 
 import java.util.Random;
@@ -35,7 +36,7 @@ public class CoordinatesGenerator {
         List<Coordinate> valids = new ArrayList<>();
         final double SLICE = Math.PI*2 / toPlace;
         double angle = SLICE;
-        while(toPlace-- > 0) {
+        while (toPlace-- > 0) {
             valids.add(calculateCirclePoint(Math.min(CENTER_HEIGHT_RADIUS,CENTER_WIDTH_RADIUS), angle, CENTER));
             angle += SLICE;
         }

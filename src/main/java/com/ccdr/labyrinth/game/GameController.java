@@ -4,7 +4,7 @@ import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
 import com.ccdr.labyrinth.game.loader.GameBoard;
-import com.ccdr.labyrinth.game.loader.TileCreator;
+import com.ccdr.labyrinth.game.loader.generators.TilesGenerator;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -30,7 +30,7 @@ public class GameController implements Executor, GameInputs{
         board = new GameBoard();
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
-        board.setMap(new TileCreator(config).generateTiles());
+        board.setMap(new TilesGenerator(config).generateTiles());
         this.playerManager = new PlayersManager(config.getPlayerCount());
     }
 

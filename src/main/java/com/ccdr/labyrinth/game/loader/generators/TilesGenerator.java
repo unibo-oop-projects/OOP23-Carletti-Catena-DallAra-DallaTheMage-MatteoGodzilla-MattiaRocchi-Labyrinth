@@ -1,8 +1,10 @@
-package com.ccdr.labyrinth.game.loader;
+package com.ccdr.labyrinth.game.loader.generators;
 
 import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.game.GameConfig;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
+import com.ccdr.labyrinth.game.loader.Coordinate;
+import com.ccdr.labyrinth.game.loader.Direction;
 import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
 import com.ccdr.labyrinth.game.loader.tiles.StandardTile;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Optional;
 
-public class TileCreator {
+public class TilesGenerator {
     private final Random seed;
     private final GameConfig configuration;
     private final CoordinatesGenerator placer;
@@ -23,7 +25,7 @@ public class TileCreator {
     private Map<Coordinate, Tile> tiles;
 
 
-    public TileCreator (GameConfig configuration) {
+    public TilesGenerator (GameConfig configuration) {
         this.configuration = configuration;
         this.placer = new CoordinatesGenerator(configuration);
         this.seed = new Random();
@@ -46,7 +48,7 @@ public class TileCreator {
         for (Material m : setupMaterialsList(guild.getMaterialPresents())) {
             tiles.put(sourceCoordinates.remove(index--), generateSource(m, this.configuration.getPlayerCount()));
         }
-        //Normal tiles
+        //Normal and bonus tiles 
         while (normalQuantity-- > 0) {
             Coordinate generatedCoordinate = this.placer.generateRandomCoordinate(tiles);
             Optional<Material> sourcesMaterial = this.pickMaterial(bonuses);
@@ -54,7 +56,6 @@ public class TileCreator {
             generatedTile.setPattern(generateRandomPattern().getPattern());
             tiles.put(generatedCoordinate, generatedTile);
         }
-        //TODO: bonus tiles
         return tiles;
     }
 

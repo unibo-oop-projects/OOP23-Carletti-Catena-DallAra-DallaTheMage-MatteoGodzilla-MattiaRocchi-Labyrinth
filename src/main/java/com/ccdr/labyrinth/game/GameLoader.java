@@ -1,7 +1,5 @@
 package com.ccdr.labyrinth.game;
 
-// TODO - OBJECTIVES MANAGEMENT COMPONENT
-//import com.ccdr.labyrinth.game.loader.Objective;
 import com.ccdr.labyrinth.game.loader.TileCreator;
 import com.ccdr.labyrinth.game.loader.GameBoard;
 
@@ -13,4 +11,4 @@ public class GameLoader {
         gameBoard.setMap(new TileCreator(config).generateTiles());
         return gameBoard;
     }
-} 
+}

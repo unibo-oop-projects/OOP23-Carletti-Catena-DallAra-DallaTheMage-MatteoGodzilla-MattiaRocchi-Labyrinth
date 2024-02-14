@@ -1,19 +1,10 @@
 package labyrinth;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.Material;
-
-import javafx.beans.binding.ListBinding;
-import javafx.scene.text.Text;
 
 import java.util.List;
 
@@ -32,6 +23,6 @@ public class GuildTileTest {
             System.out.println("" + mat);
         }
 
-        
+
     }
 }

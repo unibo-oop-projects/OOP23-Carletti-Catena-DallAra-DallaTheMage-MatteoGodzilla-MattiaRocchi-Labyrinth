@@ -18,7 +18,7 @@ public class GameController implements Executor, GameInputs{
     private Board board;
     private PlayersManager playerManager;
     private boolean menuGuild = false;
-    private List<Item> missions = new ArrayList();
+    private List<Item> missions = new ArrayList<>();
     private GuildTile guild = new GuildTile(4);
     private Consumer<List<Player>> gameover;
 

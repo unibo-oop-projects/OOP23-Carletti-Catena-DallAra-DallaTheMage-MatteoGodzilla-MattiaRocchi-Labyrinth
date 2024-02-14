@@ -1,9 +1,6 @@
 package com.ccdr.labyrinth.game.loader;
 
 import java.util.Random;
-import java.util.Set;
-
-import com.ccdr.labyrinth.Material;
 
 public class Objective  {
 

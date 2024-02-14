@@ -33,8 +33,6 @@ import javafx.scene.text.TextAlignment;
  */
 public final class GameJFXView implements GameView, JFXInputSource {
 
-    private static final int STEP = 20;
-
     //Reference constants that are used to set the layout of the game
     private static final double OBJECTIVE_REGION_WIDTH = 1.0 / 6;
     private static final double LABYRINTH_REGION_WIDTH = 4.0 / 6;
@@ -47,6 +45,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
     private double objectiveRegionX;
     private double labyrinthRegionX;
     private double playerStatsRegionX;
+    private double step;
 
     //labyrinth specific values
     private static final double TILE_MIDDLE_WIDTH = 2.0 / 3;
@@ -192,9 +191,9 @@ public final class GameJFXView implements GameView, JFXInputSource {
         } else if (tile instanceof GuildTile) {
             //GuildTile guild = (GuildTile) tile;
             context2d.drawImage(PATH_GUILD, x, y, tileWidth, tileHeight);
-        } else if (tile instanceof StandardTile){
+        } else if (tile instanceof StandardTile) {
             StandardTile standard = (StandardTile) tile;
-            if(standard.getBonusMaterial().isPresent()){
+            if (standard.getBonusMaterial().isPresent()) {
                 Image material = materialToImage(standard.getBonusMaterial().get());
                 if (material != null) {
                     context2d.drawImage(material, x + border, y + border, tileMiddleSize, tileMiddleSize);
@@ -213,37 +212,34 @@ public final class GameJFXView implements GameView, JFXInputSource {
             for (int i = 0; i < players.size(); i++) {
                 if (i == 0) {
                     //Player1
-                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight) +
-                    this.labyrinthTopLeftY;
-                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth) +
-                    this.labyrinthTopLeftX;
+                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight)
+                    + this.labyrinthTopLeftY;
+                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth)
+                    + this.labyrinthTopLeftX;
                     context2d.setFill(Color.RED);
                     context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
-                }
-                else if (i == 1) {
+                } else if (i == 1) {
                     //Player2
-                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight) +
-                    this.labyrinthTopLeftY;
-                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth) +
-                    this.labyrinthTopLeftX + this.labyrinthSize;
+                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight)
+                    + this.labyrinthTopLeftY;
+                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth)
+                    + this.labyrinthTopLeftX + this.labyrinthSize;
                     context2d.setFill(Color.BLUE);
                     context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
-                }
-                else if (i == 2) {
+                } else if (i == 2) {
                     //Player3
-                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight) +
-                    this.labyrinthTopLeftY + this.labyrinthSize;
-                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth) +
-                    this.labyrinthTopLeftX;
+                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight)
+                    + this.labyrinthTopLeftY + this.labyrinthSize;
+                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth)
+                    + this.labyrinthTopLeftX;
                     context2d.setFill(Color.GREEN);
                     context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
-                }
-                else if (i == 3) {
+                } else if (i == 3) {
                     //Player4
-                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight) +
-                    this.labyrinthTopLeftY + this.labyrinthSize;
-                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth) +
-                    this.labyrinthTopLeftX + this.labyrinthSize;
+                    final double playerY = (players.get(i).getCoord().row() * this.tileHeight)
+                    + this.labyrinthTopLeftY + this.labyrinthSize;
+                    final double playerX = (players.get(i).getCoord().column() * this.tileWidth)
+                    + this.labyrinthTopLeftX + this.labyrinthSize;
                     context2d.setFill(Color.YELLOW);
                     context2d.fillOval(playerX + border, playerY + border, tileMiddleSize, tileMiddleSize);
                 }
@@ -264,98 +260,96 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.setTextBaseline(VPos.TOP);
             context2d.setFill(Color.BLACK);
             context2d.setFont(Font.font(this.headerFontSize));
-            context2d.fillText("Players Statistics", this.playerStatsRegionX + STEP, 0);
-            context2d.setFont(Font.getDefault());
+            this.step = this.headerFontSize * 3 / 2;
+            context2d.fillText("Players Statistics", this.playerStatsRegionX + step, 0);
+            context2d.setFont(Font.font(this.descriptionFontSize));
+            this.step = this.descriptionFontSize * 3 / 2;
 
             for (int i = 0; i < playersManager.getPlayers().size(); i++) {
                 if (i == 0) {
                     //Player1
                     context2d.setFill(Color.RED);
-                    context2d.fillOval(this.playerStatsRegionX + border, border + STEP,
+                    context2d.fillOval(this.playerStatsRegionX + border, border + step,
                     tileMiddleSize, tileMiddleSize);
                     if (i != playersManager.getActivePlayerIndex()) {
                         context2d.setFill(Color.BLACK);
                     }
-                    context2d.fillText("Player1", this.playerStatsRegionX + border + STEP, border + STEP);
+                    context2d.fillText("Player1", this.playerStatsRegionX + border + step, border + step);
                     context2d.setFill(Color.BLACK);
                     //draw the player's points
                     context2d.fillText("Points= " + playersManager.getPlayers().get(i).getPoints(),
-                    this.playerStatsRegionX + border, border + STEP * 2);
+                    this.playerStatsRegionX + border, border + step * 2);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         var material = materialPresent.get(j);
                         context2d.fillText(material.name() + "  " + playersManager.getPlayers()
                         .get(i).getQuantityMaterial(material),
-                        this.playerStatsRegionX + border, border + STEP * 3 + STEP * j);
+                        this.playerStatsRegionX + border, border + step * 3 + step * j);
                     }
-                }
-                else if (i == 1) {
+                } else if (i == 1) {
                     //Player2
-                    final double newStartPosY = border + STEP * 7;
+                    final double newStartPosY = border + step * 7;
                     context2d.setFill(Color.BLUE);
                     context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
                     tileMiddleSize, tileMiddleSize);
                     if (i != playersManager.getActivePlayerIndex()) {
                         context2d.setFill(Color.BLACK);
                     }
-                    context2d.fillText("Player2", this.playerStatsRegionX + border + STEP, newStartPosY);
+                    context2d.fillText("Player2", this.playerStatsRegionX + border + step, newStartPosY);
                     context2d.setFill(Color.BLACK);
                     //draw the player's points
                     context2d.fillText("Points= " + playersManager.getPlayers().get(i).getPoints(),
-                    this.playerStatsRegionX + border, newStartPosY + STEP);
+                    this.playerStatsRegionX + border, newStartPosY + step);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         var material = materialPresent.get(j);
                         context2d.fillText(material.name() + "  " + playersManager.getPlayers()
                         .get(i).getQuantityMaterial(material),
-                        this.playerStatsRegionX + border, newStartPosY + STEP * 2 + STEP * j);
+                        this.playerStatsRegionX + border, newStartPosY + step * 2 + step * j);
                     }
-                }
-                else if (i == 2) {
+                } else if (i == 2) {
                     //Player3
-                    final double newStartPosY = border + STEP * 13;
+                    final double newStartPosY = border + step * 13;
                     context2d.setFill(Color.GREEN);
                     context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
                     tileMiddleSize, tileMiddleSize);
                     if (i != playersManager.getActivePlayerIndex()) {
                         context2d.setFill(Color.BLACK);
                     }
-                    context2d.fillText("Player3", this.playerStatsRegionX + border + STEP, newStartPosY);
+                    context2d.fillText("Player3", this.playerStatsRegionX + border + step, newStartPosY);
                     context2d.setFill(Color.BLACK);
                     //draw the player's points
                     context2d.fillText("Points= " + playersManager.getPlayers().get(i).getPoints(),
-                    this.playerStatsRegionX + border, newStartPosY + STEP);
+                    this.playerStatsRegionX + border, newStartPosY + step);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         var material = materialPresent.get(j);
                         context2d.fillText(material.name() + "  " + playersManager.getPlayers()
                         .get(i).getQuantityMaterial(material),
-                        this.playerStatsRegionX + border, newStartPosY + STEP * 2 + STEP * j);
+                        this.playerStatsRegionX + border, newStartPosY + step * 2 + step * j);
                     }
-                }
-                else if (i == 3) {
+                } else if (i == 3) {
                     //Player4
-                    final double newStartPosY = border + STEP * 19;
+                    final double newStartPosY = border + step * 19;
                     context2d.setFill(Color.YELLOW);
                     context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
                     tileMiddleSize, tileMiddleSize);
                     if (i != playersManager.getActivePlayerIndex()) {
                         context2d.setFill(Color.BLACK);
                     }
-                    context2d.fillText("Player4", this.playerStatsRegionX + border + STEP, newStartPosY);
+                    context2d.fillText("Player4", this.playerStatsRegionX + border + step, newStartPosY);
                     context2d.setFill(Color.BLACK);
                     //draw the player's points
                     context2d.fillText("Points= " + playersManager.getPlayers().get(i).getPoints(),
-                    this.playerStatsRegionX + border, newStartPosY + STEP);
+                    this.playerStatsRegionX + border, newStartPosY + step);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         var material = materialPresent.get(j);
                         context2d.fillText(material.name() + "  " + playersManager.getPlayers()
                         .get(i).getQuantityMaterial(material),
-                        this.playerStatsRegionX + border, newStartPosY + STEP * 2 + STEP * j);
+                        this.playerStatsRegionX + border, newStartPosY + step * 2 + step * j);
                     }
                 }
             }
 
             //Mostro il diceVal
-            final double newStartPosY = border + STEP * 26;
-            context2d.setFont(Font.font(this.descriptionFontSize));
+            final double newStartPosY = border + step * 26;
             context2d.fillText("Number of moves remaining: " + playersManager.getDiceValue(),
             this.playerStatsRegionX + border, newStartPosY);
             context2d.setFont(Font.getDefault());

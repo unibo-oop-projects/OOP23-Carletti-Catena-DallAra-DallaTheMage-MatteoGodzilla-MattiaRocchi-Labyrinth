@@ -8,19 +8,19 @@ import com.ccdr.labyrinth.Material;
 
 import java.util.List;
 
-public class GuildTileTest {
+class GuildTileTest {
     @Test
-    void TestGetMissions() {
-        GuildTile guild = new GuildTile(4);
-        List<Item> missions = guild.returnListOfMissions();
-        List<Material> materials = guild.getMaterialPresents();
-        for (Item item : missions) {
+    void testGetMissions() {
+        final GuildTile guild = new GuildTile(4);
+        final List<Item> missions = guild.returnListOfMissions();
+        final List<Material> materials = guild.getMaterialPresents();
+        for (final Item item : missions) {
 
-            System.out.println("" + item.getPoints() + item.getQuantity() + item.getMaterial() + item.getCategory());
+            System.out.println("RES:" + item.getPoints() + item.getQuantity() + item.getMaterial() + item.getCategory());
         }
 
-        for (Material mat : materials) {
-            System.out.println("" + mat);
+        for (final Material mat : materials) {
+            System.out.println(mat);
         }
 
 

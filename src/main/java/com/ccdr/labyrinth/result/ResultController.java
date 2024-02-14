@@ -32,12 +32,12 @@ public final class ResultController implements Executor, ResultInputs {
             this.playerToIndex.put(this.players.get(i), i);
         }
         this.players.sort((p1, p2) -> {
-            int p1Points = p1.getPoints();
-            int p2Points = p2.getPoints();
+            final int p1Points = p1.getPoints();
+            final int p2Points = p2.getPoints();
             if(p1Points == p2Points){
                 int p1TotalMaterials = 0;
                 int p2TotalMaterials = 0;
-                for (Material m : Material.values()) {
+                for (final Material m : Material.values()) {
                     p1TotalMaterials += p1.getQuantityMaterial(m);
                     p2TotalMaterials += p2.getQuantityMaterial(m);
                 }

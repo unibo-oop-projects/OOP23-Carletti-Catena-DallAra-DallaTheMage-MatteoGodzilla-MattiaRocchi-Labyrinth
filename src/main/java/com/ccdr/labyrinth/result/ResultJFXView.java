@@ -83,12 +83,11 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
     private void drawScores(final GraphicsContext context, final List<Player> players, final Map<Player,Integer> playersToIndex) {
         context.setFill(TEXT_FILL);
         int i = 0;
-        for (Player player : players) {
-            int index = playersToIndex.get(player);
+        for (final Player player : players) {
+            final int index = playersToIndex.get(player);
             Color c;
             switch(index){
                 case 0:
-                default:
                     c = Color.RED;
                     break;
                 case 1:
@@ -100,10 +99,13 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
                 case 3:
                     c = Color.YELLOW;
                     break;
+                default:
+                c = Color.RED;
+                    break;
             }
             context.setFill(c);
 
-            final double heightPerPlayer = (this.playerSize + this.hintFontSize + this.padding);
+            final double heightPerPlayer = this.playerSize + this.hintFontSize + this.padding;
             final double y = this.headerFontSize + this.padding * 2 + heightPerPlayer * i;
             final String entry = new StringBuilder()
                 .append("Player ")

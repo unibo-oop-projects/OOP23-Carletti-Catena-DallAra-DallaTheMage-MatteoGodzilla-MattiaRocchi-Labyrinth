@@ -28,7 +28,11 @@ public class PlayersManager implements Context {
      * turnSubphase == 1 -> generate dice value
      * turnSubphase == 2 -> moveup/moveright/moveleft/movedown
      */
-    private int turnSubphase;
+    public enum Subphase{
+        DICE,
+        MOVEMENT
+    }
+    private Subphase subphase;
     private UpdateBoardContext updateBoard;
     private GuildContext guildContext;
 
@@ -63,7 +67,7 @@ public class PlayersManager implements Context {
             }
         }
         this.activePlayer = 0;
-        this.turnSubphase = 1;
+        this.subphase = Subphase.DICE;
     }
 
     /**
@@ -102,9 +106,9 @@ public class PlayersManager implements Context {
      * method to generate a random number.
      */
     public void generateDiceValue() {
-        if (this.turnSubphase == 1) {
+        if (this.subphase == Subphase.DICE) {
             this.diceVal = RANDOM.nextInt(MAX_DICEVAL) + 1;
-            this.setTurnSubphase(this.turnSubphase + 1);
+            this.subphase = Subphase.MOVEMENT;
         }
     }
 
@@ -117,23 +121,11 @@ public class PlayersManager implements Context {
     }
 
     /**
-     * method that sets the value of the point of the turn we are in.
-     * @param value it's the new value of the turn subphase
+     * method to set the value of turn subphase.
+     * @param subphase the new value of the turn subphase
      */
-    public void setTurnSubphase(final int value) {
-        if (value == 3) {
-            this.turnSubphase = 1;
-        } else {
-            this.turnSubphase = value;
-        }
-    }
-
-    /**
-     * gives the value of turn subphase.
-     * @return the turn subphase's value
-     */
-    public int getTurnSubphase() {
-        return this.turnSubphase;
+    public void setTurnSubphase(final Subphase subphase) {
+        this.subphase = subphase;
     }
 
     /*
@@ -193,7 +185,7 @@ public class PlayersManager implements Context {
         final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row() - 1, this.getActivePlayer().getCoord().column()));
-        if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
+        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0 && startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveUp();
             endTile.onEnter(this.getActivePlayer());
@@ -211,7 +203,7 @@ public class PlayersManager implements Context {
         final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row() + 1, this.getActivePlayer().getCoord().column()));
-        if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
+        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0 && startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveDown();
             endTile.onEnter(this.getActivePlayer());
@@ -229,7 +221,7 @@ public class PlayersManager implements Context {
         final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column() - 1));
-        if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
+        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0 && startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveLeft();
             endTile.onEnter(this.getActivePlayer());
@@ -247,7 +239,7 @@ public class PlayersManager implements Context {
         final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column() + 1));
-        if (this.turnSubphase == 2 && this.diceVal > 0 && startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
+        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0 && startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveRight();
             endTile.onEnter(this.getActivePlayer());
@@ -265,7 +257,7 @@ public class PlayersManager implements Context {
     }
 
     /**
-     * method for switching to guild context on player's own will on his turn.
+     * method to put a 0 the value of the dice, so the player ends his turn.
      */
     @Override
     public void secondary() {
@@ -284,7 +276,7 @@ public class PlayersManager implements Context {
      */
     @Override
     public boolean done() {
-        return this.turnSubphase == 2 && this.diceVal == 0;
+        return this.subphase == Subphase.MOVEMENT && this.diceVal == 0;
     }
 
     /**

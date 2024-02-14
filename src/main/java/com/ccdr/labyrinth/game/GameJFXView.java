@@ -209,7 +209,6 @@ public final class GameJFXView implements GameView, JFXInputSource {
             final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
             final double border = (tileWidth - tileMiddleSize) / 2;
             context2d.save();
-            System.out.println(players.size());
             for (int i = 0; i < players.size(); i++) {
                 if (i == 0) {
                     //Player1
@@ -416,11 +415,11 @@ public final class GameJFXView implements GameView, JFXInputSource {
                 final double y = (this.canvas.getHeight() - popupHeight) / 2;
                 context2d.fillRect(x, y, popupWidth, popupHeight);
                 context2d.strokeRect(x, y, popupWidth, popupHeight);
-                context2d.setFill(playerIndexToColor(update.getActivePlayerIndex()));
+                context2d.setFill(playerIndexToColor(update.getVisualPlayerIndex()));
                 context2d.setTextAlign(TextAlignment.CENTER);
                 context2d.setTextBaseline(VPos.TOP);
                 context2d.setFont(Font.font(this.headerFontSize));
-                context2d.fillText("Player " + (update.getActivePlayerIndex() + 1) + "'s turn", this.canvas.getWidth() / 2, y);
+                context2d.fillText("Player " + (update.getVisualPlayerIndex() + 1) + "'s turn", this.canvas.getWidth() / 2, y);
 
                 //footer
                 context2d.setFont(Font.font(this.descriptionFontSize));

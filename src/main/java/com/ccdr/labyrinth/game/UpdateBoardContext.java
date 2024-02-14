@@ -3,6 +3,7 @@ package com.ccdr.labyrinth.game;
 import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 import com.ccdr.labyrinth.game.player.PlayersManager;
+import com.ccdr.labyrinth.game.player.PlayersManager.Subphase;
 
 /**
  * This context has the only purpose of updating the source tiles in the board.
@@ -14,6 +15,7 @@ public final class UpdateBoardContext implements Context {
     private Context following;
     private boolean enter;
     private PlayersManager playerManager;
+    private boolean advancePlayer;
 
     /**
      * @param board Board object to get the source tiles from
@@ -50,9 +52,12 @@ public final class UpdateBoardContext implements Context {
 
     @Override
     public void primary() {
-        //advance to the next player 
-        this.playerManager.setActivePlayer(this.getActivePlayerIndex() + 1 % this.playerManager.getPlayers().size());
-        this.playerManager.setTurnSubphase(this.playerManager.getTurnSubphase() + 1);
+        //advance to the next player
+        if(this.advancePlayer){
+            this.playerManager.setActivePlayer((this.playerManager.getActivePlayerIndex() + 1) % this.playerManager.getPlayers().size());
+            this.playerManager.setTurnSubphase(Subphase.DICE);
+        }
+        this.advancePlayer = true;
         for (final Tile tile : this.board.getMap().values()) {
             if (tile instanceof SourceTile) {
                 ((SourceTile) tile).updateTile();
@@ -82,7 +87,11 @@ public final class UpdateBoardContext implements Context {
      * This method is here just so that the view can access it to display it.
      * @return index of the active player
      */
-    public int getActivePlayerIndex() {
-        return (this.playerManager.getActivePlayerIndex() + 1) % this.playerManager.getPlayers().size();
+    public int getVisualPlayerIndex() {
+        if(this.advancePlayer){
+            return (this.playerManager.getActivePlayerIndex() + 1) % this.playerManager.getPlayers().size();
+        } else {
+            return this.playerManager.getActivePlayerIndex();
+        }
     }
 }

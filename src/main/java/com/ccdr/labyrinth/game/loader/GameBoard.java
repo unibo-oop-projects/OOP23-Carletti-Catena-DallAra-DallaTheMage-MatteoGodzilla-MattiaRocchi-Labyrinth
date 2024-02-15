@@ -10,6 +10,9 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.function.BiFunction;
 
+/**
+ * A class that implements the interface Board, and represents the implementation of a board.
+ */
 public final class GameBoard implements Board {
     private final Map<Coordinate, Tile> map = new HashMap<>();
     private final Set<Integer> blockedRows = new HashSet<>();
@@ -22,7 +25,7 @@ public final class GameBoard implements Board {
     }
 
     @Override
-    public void setHeight(int height) {
+    public void setHeight(final int height) {
         this.height = height;
     }
 
@@ -32,7 +35,7 @@ public final class GameBoard implements Board {
     }
 
     @Override
-    public void setWidth(int width) {
+    public void setWidth(final int width) {
         this.width = width;
     }
 
@@ -47,7 +50,7 @@ public final class GameBoard implements Board {
     }
 
     @Override
-    public void addBlocked(Coordinate blocked) {
+    public void addBlocked(final Coordinate blocked) {
         this.blockedRows.add(blocked.row());
         this.blockedColumns.add(blocked.column());
     }
@@ -58,11 +61,11 @@ public final class GameBoard implements Board {
     }
 
     @Override
-    public void insertTile(Coordinate coordinate, Tile tile) {
+    public void insertTile(final Coordinate coordinate, Tile tile) {
         map.put(coordinate, tile);
     }
 
-    private int getNext(int actual, int size) {
+    private int getNext(int actual, final int size) {
         if (actual >= size) {
              return 0;
         } else {
@@ -72,16 +75,16 @@ public final class GameBoard implements Board {
 
     private int getPrev(int actual, int size) {
         if (actual < 0) {
-             return size-1;
+             return size - 1;
         } else {
              return --actual;
         }
     }
 
     @Override
-    public void shiftRow(int row, boolean forward) {
-        BiFunction<Integer, Integer, Integer> operation = forward ? (i, size) -> getNext(i, size) : (i, size) -> getPrev(i, size);
-        Map<Coordinate, Tile> shifted = new HashMap<>();
+    public void shiftRow(final int row, final boolean forward) {
+        final BiFunction<Integer, Integer, Integer> operation = forward ? (i, size) -> getNext(i, size) : (i, size) -> getPrev(i, size);
+        final Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
         for (index = 0; index < this.width; index++) {
@@ -96,9 +99,9 @@ public final class GameBoard implements Board {
     }
 
     @Override
-    public void shiftColumn(int column, boolean forward) {
-        BiFunction<Integer, Integer, Integer> operation = forward ? (i, size) -> getNext(i, size) : (i, size) -> getPrev(i, size);
-        Map<Coordinate, Tile> shifted = new HashMap<>();
+    public void shiftColumn(final int column, final boolean forward) {
+        final BiFunction<Integer, Integer, Integer> operation = forward ? (i, size) -> getNext(i, size) : (i, size) -> getPrev(i, size);
+        final Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
         for (index = 0; index < this.width; index++) {
@@ -114,9 +117,9 @@ public final class GameBoard implements Board {
 
     @Override
     public GuildTile getGuildTile() {
-        Coordinate center = new Coordinate(width / 2, height / 2);
-        if(map.containsKey(center)) {
-            return (GuildTile)map.get(center);
+        final Coordinate center = new Coordinate(width / 2, height / 2);
+        if (map.containsKey(center)) {
+            return (GuildTile) map.get(center);
         }
         else {
             throw new IllegalStateException();
@@ -124,11 +127,11 @@ public final class GameBoard implements Board {
     }
 
     @Override
-    public void discoverNearBy(Coordinate playerLocation, int radius) {
-        for(int x = playerLocation.column() - radius; x <= playerLocation.column() + radius; x++) {
-            for(int y = playerLocation.row() - radius; y <= playerLocation.row() + radius; y++) {
+    public void discoverNearBy(final Coordinate playerLocation, final int radius) {
+        for (int x = playerLocation.column() - radius; x <= playerLocation.column() + radius; x++) {
+            for (int y = playerLocation.row() - radius; y <= playerLocation.row() + radius; y++) {
                 Coordinate target = new Coordinate(y, x);
-                if(map.containsKey(target) && !map.get(target).isDiscovered()) {
+                if (map.containsKey(target) && !map.get(target).isDiscovered()) {
                     map.get(target).discover();
                 }
             }

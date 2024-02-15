@@ -1,9 +1,24 @@
 package com.ccdr.labyrinth.game.loader;
 
+/**
+ * An enum to indicate the fuor possible directions to move.
+ */
 public enum Direction {
+    /**
+     * the upward direction.
+     */
     UP,
+    /**
+     * the rightward direction.
+     */
     RIGHT,
+    /**
+     * the downward direction.
+     */
     DOWN,
+    /**
+     * the leftward direction.
+     */
     LEFT;
 
     public Direction next() {

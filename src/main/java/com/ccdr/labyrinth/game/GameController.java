@@ -3,7 +3,6 @@ package com.ccdr.labyrinth.game;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
-import com.ccdr.labyrinth.game.loader.GameBoard;
 import com.ccdr.labyrinth.game.loader.generators.TilesGenerator;
 
 import java.util.HashSet;
@@ -33,7 +32,7 @@ public final class GameController implements Executor, GameInputs {
         }
     }
 
-    public void init(final GameConfig config){
+    public void init(final GameConfig config) {
         board = new TilesGenerator(config).generateTiles();
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());

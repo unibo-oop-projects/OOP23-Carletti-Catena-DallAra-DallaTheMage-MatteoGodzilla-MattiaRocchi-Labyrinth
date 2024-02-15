@@ -24,7 +24,7 @@ public class GuildTile extends GenericTile {
         this.discover();
     }
 
-    public List<Material> getMaterialPresents(){
+    public List<Material> getMaterialPresents() {
         return materialpresents;
     }
 

@@ -27,7 +27,7 @@ public final class Labyrinth {
      */
     public static void main(final String[] args) {
         //Makes sure the JavaFX environment is set up, in the case where the application below hasn´t started yet
-        Platform.startup(() -> {});
+        Platform.startup(() -> { });
         new Thread(() -> {
             final Engine engine = new Engine(TARGET_FRAMERATE);
 

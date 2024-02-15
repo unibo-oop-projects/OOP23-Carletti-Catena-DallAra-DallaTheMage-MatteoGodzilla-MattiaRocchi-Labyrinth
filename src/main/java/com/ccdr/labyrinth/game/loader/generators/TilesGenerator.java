@@ -24,7 +24,7 @@ public class TilesGenerator {
     private final int MIN_PATTERNS = 1, MAX_PATTERNS = 5;
     private final int MIN_ROTATIONS = 0, MAX_ROTATIONS = 4;
 
-    public TilesGenerator (GameConfig configuration) {
+    public TilesGenerator(final GameConfig configuration) {
         this.configuration = configuration;
         this.placer = new CoordinatesGenerator(configuration);
         this.seed = new Random();
@@ -34,8 +34,10 @@ public class TilesGenerator {
         //Parameters that depend on the config
         final Board tiles = new GameBoard();
         final int GUILD_NUM = 1;
-        final Coordinate CENTER = new Coordinate(this.configuration.getLabyrinthHeight() /2, this.configuration.getLabyrinthWidth()/2);
-        int normalQuantity = this.configuration.getLabyrinthHeight() * this.configuration.getLabyrinthWidth() - this.configuration.getSourceTiles() - GUILD_NUM;
+        final Coordinate CENTER = new Coordinate(this.configuration.getLabyrinthHeight() / 2,
+        this.configuration.getLabyrinthWidth() / 2);
+        int normalQuantity = this.configuration.getLabyrinthHeight() *
+        this.configuration.getLabyrinthWidth() - this.configuration.getSourceTiles() - GUILD_NUM;
         //Guild tile
         GuildTile guild = new GuildTile(this.configuration.getPlayerCount());
         guild.setPattern(selectPattern(4));
@@ -43,37 +45,39 @@ public class TilesGenerator {
         tiles.addBlocked(CENTER);
         //Source Tiles
         final List<Optional<Material>> bonuses = new ArrayList<>(this.setupBonusList(guild.getMaterialPresents()));
-        final List<Coordinate> sourceCoordinates = new ArrayList<>(this.placer.calculateSourcesCoordinates(CENTER, tiles.getMap()));
-        int index = sourceCoordinates.size()-1;
+        final List<Coordinate> sourceCoordinates = new ArrayList<>(
+            this.placer.calculateSourcesCoordinates(CENTER, tiles.getMap()));
+        int index = sourceCoordinates.size() - 1;
         Coordinate sourceGeneratedCoordinate;
         for (Material m : setupMaterialsList(guild.getMaterialPresents())) {
             sourceGeneratedCoordinate = sourceCoordinates.remove(index--);
             tiles.addBlocked(sourceGeneratedCoordinate);
             tiles.insertTile(sourceGeneratedCoordinate, generateSource(m, this.configuration.getPlayerCount()));
         }
-        //Normal and bonus tiles 
+        //Normal and bonus tiles
         while (normalQuantity-- > 0) {
             Coordinate generatedCoordinate = this.placer.generateRandomCoordinate(tiles.getMap());
             Optional<Material> sourcesMaterial = this.pickMaterial(bonuses);
-            Tile generatedTile = sourcesMaterial.isEmpty() ? new StandardTile() : new StandardTile(sourcesMaterial.get(), 1);
+            Tile generatedTile = sourcesMaterial.isEmpty() ? new StandardTile() :
+                new StandardTile(sourcesMaterial.get(), 1);
             generatedTile.setPattern(generateRandomPattern().getPattern());
             tiles.insertTile(generatedCoordinate, generatedTile);
         }
         return tiles;
     }
 
-    private Optional<Material> pickMaterial(List<Optional<Material>> bonuses) {
+    private Optional<Material> pickMaterial(final List<Optional<Material>> bonuses) {
         return bonuses.size() > 0 ? bonuses.get(seed.nextInt(0, bonuses.size())) : Optional.empty();
     }
 
-    private List<Optional<Material>> setupBonusList(List<Material> materialPresents) {
+    private List<Optional<Material>> setupBonusList(final List<Material> materialPresents) {
         List<Optional<Material>> bonuses = new ArrayList<>();
-        if(materialPresents.size() > 0) {
-            int percentage = materialPresents.size()*2;
-            for(Material m : materialPresents) {
+        if (materialPresents.size() > 0) {
+            int percentage = materialPresents.size() * 2;
+            for (Material m : materialPresents) {
                 bonuses.add(Optional.of(m));
             }
-            while(percentage-- > 0) {
+            while (percentage-- > 0) {
                 bonuses.add(Optional.empty());
             }
             return bonuses;
@@ -99,21 +103,25 @@ public class TilesGenerator {
         return pattern;
     }
 
-    private Map<Direction, Boolean> selectPattern(int selected) {
+    private Map<Direction, Boolean> selectPattern(final int selected) {
         /* PREDETERMINED TILE PATTERNS SELECTOR */
         switch (selected) {
             /* straight two-way pattern */
             case 1:
-                return Map.of(Direction.UP, true, Direction.RIGHT, false, Direction.DOWN, true, Direction.LEFT, false);
+                return Map.of(Direction.UP, true, Direction.RIGHT, false,
+                Direction.DOWN, true, Direction.LEFT, false);
             /* 90 degree two way pattern */
             case 2:
-                return Map.of(Direction.UP, true, Direction.RIGHT, true, Direction.DOWN, false, Direction.LEFT, false);
+                return Map.of(Direction.UP, true, Direction.RIGHT, true,
+                Direction.DOWN, false, Direction.LEFT, false);
             /* three-way pattern */
             case 3:
-                return Map.of(Direction.UP, true, Direction.RIGHT, true, Direction.DOWN, true, Direction.LEFT, false);
+                return Map.of(Direction.UP, true, Direction.RIGHT, true,
+                Direction.DOWN, true, Direction.LEFT, false);
             /* four-way pattern */
             case 4:
-                return Map.of(Direction.UP, true, Direction.RIGHT, true, Direction.DOWN, true, Direction.LEFT, true);
+                return Map.of(Direction.UP, true, Direction.RIGHT, true,
+                Direction.DOWN, true, Direction.LEFT, true);
             default:
                 throw new IllegalArgumentException();
         }
@@ -124,9 +132,9 @@ public class TilesGenerator {
      * @param presents list of mission related materials.
      * @return redundant list of materials repeated n times where n is the number of sources per material.
      */
-    public List<Material> setupMaterialsList(List<Material> presents) {
+    public List<Material> setupMaterialsList(final List<Material> presents) {
         List<Material> materials = new ArrayList<>();
-        if(presents.size() > 0) {
+        if (presents.size() > 0) {
             int sourceEach = this.configuration.getSourceTiles() / presents.size();
             for (int i = sourceEach; i > 0; i--) {
                 for (Material m : presents) {

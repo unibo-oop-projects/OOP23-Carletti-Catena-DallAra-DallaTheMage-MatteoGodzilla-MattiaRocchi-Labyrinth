@@ -12,6 +12,7 @@ public interface Tile {
 
     /**
      * Tile that want to always be visible should NOT override this and just call discover() on the constructor.
+     * @return tru if the tile is discovered, otherwise false
      */
     boolean isDiscovered();
 

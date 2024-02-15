@@ -184,7 +184,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
             }
             context2d.strokeOval(x + border, y + border, tileMiddleSize, tileMiddleSize);
             //draw material inside
-            Image material = materialToImage(sourceTile.getMaterialType());
+            final Image material = materialToImage(sourceTile.getMaterialType());
             if (material != null) {
                 context2d.drawImage(material, x + border, y + border, tileMiddleSize, tileMiddleSize);
             }
@@ -192,9 +192,9 @@ public final class GameJFXView implements GameView, JFXInputSource {
             //GuildTile guild = (GuildTile) tile;
             context2d.drawImage(PATH_GUILD, x, y, tileWidth, tileHeight);
         } else if (tile instanceof StandardTile) {
-            StandardTile standard = (StandardTile) tile;
+            final StandardTile standard = (StandardTile) tile;
             if (standard.getBonusMaterial().isPresent()) {
-                Image material = materialToImage(standard.getBonusMaterial().get());
+                final Image material = materialToImage(standard.getBonusMaterial().get());
                 if (material != null) {
                     context2d.drawImage(material, x + border, y + border, tileMiddleSize, tileMiddleSize);
                 }
@@ -251,7 +251,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
     @Override
     public void drawPlayersStats(final PlayersManager playersManager, final List<Material> materialPresent) {
         Platform.runLater(() -> {
-            var context2d = this.canvas.getGraphicsContext2D();
+            final var context2d = this.canvas.getGraphicsContext2D();
             this.recalculateFontSizes();
             final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
             final double border = (tileWidth - tileMiddleSize) / 2;
@@ -280,7 +280,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     context2d.fillText("Points= " + playersManager.getPlayers().get(i).getPoints(),
                     this.playerStatsRegionX + border, border + step * 2);
                     for (int j = 0; j < materialPresent.size(); j++) {
-                        var material = materialPresent.get(j);
+                        final var material = materialPresent.get(j);
                         context2d.fillText(material.name() + "  " + playersManager.getPlayers()
                         .get(i).getQuantityMaterial(material),
                         this.playerStatsRegionX + border, border + step * 3 + step * j);
@@ -300,7 +300,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     context2d.fillText("Points= " + playersManager.getPlayers().get(i).getPoints(),
                     this.playerStatsRegionX + border, newStartPosY + step);
                     for (int j = 0; j < materialPresent.size(); j++) {
-                        var material = materialPresent.get(j);
+                        final var material = materialPresent.get(j);
                         context2d.fillText(material.name() + "  " + playersManager.getPlayers()
                         .get(i).getQuantityMaterial(material),
                         this.playerStatsRegionX + border, newStartPosY + step * 2 + step * j);
@@ -320,7 +320,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     context2d.fillText("Points= " + playersManager.getPlayers().get(i).getPoints(),
                     this.playerStatsRegionX + border, newStartPosY + step);
                     for (int j = 0; j < materialPresent.size(); j++) {
-                        var material = materialPresent.get(j);
+                        final var material = materialPresent.get(j);
                         context2d.fillText(material.name() + "  " + playersManager.getPlayers()
                         .get(i).getQuantityMaterial(material),
                         this.playerStatsRegionX + border, newStartPosY + step * 2 + step * j);
@@ -357,14 +357,15 @@ public final class GameJFXView implements GameView, JFXInputSource {
         });
     }
 
-    public void drawMissions(List<Item> missions){
-        Image Armor = TypeImag.ARMOR.getImage();
-        Image Clothing = TypeImag.CLOTHING.getImage();
-        Image Jewel = TypeImag.JEWEL.getImage();
-        Image Weapon = TypeImag.WEAPON.getImage();
-        Image Tool = TypeImag.TOOL.getImage();
-        Platform.runLater(()->{
-            var context2d = this.canvas.getGraphicsContext2D();
+    @Override
+    public void drawMissions(final List<Item> missions) {
+        final Image Armor = TypeImag.ARMOR.getImage();
+        final Image Clothing = TypeImag.CLOTHING.getImage();
+        final Image Jewel = TypeImag.JEWEL.getImage();
+        final Image Weapon = TypeImag.WEAPON.getImage();
+        final Image Tool = TypeImag.TOOL.getImage();
+        Platform.runLater(() -> {
+            final var context2d = this.canvas.getGraphicsContext2D();
             context2d.save();
             this.recalculateFontSizes();
             context2d.setFill(Color.BLACK);
@@ -373,24 +374,25 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.fillText("Missions", 15, 0);
             context2d.setFont(Font.getDefault());
             for (Item item : missions) {
-                context2d.fillText(""+ item.getCategory()  + " " +"\t   " + item.getMaterial() + "\t " + item.getQuantity(), 0,i * 10);
+                context2d.fillText(""+ item.getCategory()  + " " + "\t   " + item.getMaterial()
+                + "\t " + item.getQuantity(), 0,i * 10);
                 i++;
             }
-            i=3;
+            i = 3;
 
             context2d.setFont(Font.font(this.headerFontSize));
             context2d.fillText(" LEGEND ", (labyrinthRegionX / 2) - (labyrinthRegionX / 5), this.canvas.getHeight() - 170, 200);
             context2d.setFont(Font.getDefault());
-            context2d.drawImage(Armor,10, this.canvas.getHeight() -130, 25 , 25);
-            context2d.fillText(" -> Type Armor", 36 ,this.canvas.getHeight() -126);
-            context2d.drawImage(Clothing,7, this.canvas.getHeight() -108, 30 , 30);
-            context2d.fillText(" -> Type Clothing", 36 ,this.canvas.getHeight() -103);
-            context2d.drawImage(Weapon,10, this.canvas.getHeight() -82, 25 , 25);
-            context2d.fillText(" -> Type Weapon", 36 ,this.canvas.getHeight() -80);
-            context2d.drawImage(Tool,10, this.canvas.getHeight() -56, 19 , 19);
-            context2d.fillText(" -> Type Tool", 36 ,this.canvas.getHeight() -57);
-            context2d.drawImage(Jewel,10, this.canvas.getHeight() -34, 20 , 20);
-            context2d.fillText(" -> Type Jewel", 36 ,this.canvas.getHeight() -34);
+            context2d.drawImage(Armor, 10, this.canvas.getHeight() - 130,  25 , 25);
+            context2d.fillText(" -> Type Armor", 36 , this.canvas.getHeight() - 126);
+            context2d.drawImage(Clothing, 7, this.canvas.getHeight() - 108, 30 , 30);
+            context2d.fillText(" -> Type Clothing", 36 , this.canvas.getHeight() - 103);
+            context2d.drawImage(Weapon, 10, this.canvas.getHeight() - 82, 25 , 25);
+            context2d.fillText(" -> Type Weapon", 36 , this.canvas.getHeight() - 80);
+            context2d.drawImage(Tool, 10, this.canvas.getHeight() - 56, 19 , 19);
+            context2d.fillText(" -> Type Tool", 36 , this.canvas.getHeight() - 57);
+            context2d.drawImage(Jewel, 10, this.canvas.getHeight() - 34, 20 , 20);
+            context2d.fillText(" -> Type Jewel", 36 , this.canvas.getHeight() - 34);
             context2d.restore();
         });
     }
@@ -402,7 +404,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.save();
             context2d.setFill(Color.BLACK);
             if (context instanceof UpdateBoardContext) {
-                UpdateBoardContext update = (UpdateBoardContext) context;
+                final UpdateBoardContext update = (UpdateBoardContext) context;
 
                 context2d.setStroke(Color.WHITESMOKE);
                 context2d.setFill(BASE_COLOR);

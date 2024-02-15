@@ -53,7 +53,7 @@ public abstract class GenericTile implements Tile {
     }
 
     @Override
-    public void rotate(Function<Direction, Direction> rotation) {
+    public void rotate(final Function<Direction, Direction> rotation) {
         Map<Direction, Boolean> rotated = new HashMap<>();
         for (Direction e : pattern.keySet()) {
             rotated.put(e, pattern.get(rotation.apply(e)));

@@ -29,15 +29,13 @@ public enum TypeImag {
     TOOL("/game/category/Tool.png"),
     WEAPON("/game/category/Weapon.png");
 
-    //private String path;
     private Image picture;
 
-    private TypeImag(String path){
-        //this.path = path;
+    private TypeImag(final String path) {
         this.picture = new Image(path, 0, 0, true, true);
     }
 
-    public Image getImage(){
+    public Image getImage() {
         return picture;
     }
 }

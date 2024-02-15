@@ -23,23 +23,31 @@ public class PlayersManager implements Context {
     private final List<Player> players = new ArrayList<>();
     private int activePlayer;
     private int diceVal;
-    private Board board;
-    /*
-     * turnSubphase == 1 -> generate dice value
-     * turnSubphase == 2 -> moveup/moveright/moveleft/movedown
+    private final Board board;
+    /**
+     * An enum to indicate the two subphase that the Playersmanager has to manage.
      */
-    public enum Subphase{
+    public enum Subphase {
+        /**
+         * subphase == DICE -> call the method generateDiceValue.
+         */
         DICE,
+        /**
+         * subphase == MOVEMENT -> call the method moveup/moveright/moveleft/movedown.
+         */
         MOVEMENT
     }
     private Subphase subphase;
-    private UpdateBoardContext updateBoard;
-    private GuildContext guildContext;
+    private final UpdateBoardContext updateBoard;
+    private final GuildContext guildContext;
 
     /**
      * The builder for a manager of players, with a list of all players in the game.
      * It also set as the first active player, the player identified by index 0.
      * @param numPlayers the number of players in the game
+     * @param board the board of the game
+     * @param updateContext the context that update the active player
+     * @param guildContext the context of the guild
      */
     public PlayersManager(final int numPlayers, final Board board,
         final UpdateBoardContext updateContext, final GuildContext guildContext
@@ -185,7 +193,8 @@ public class PlayersManager implements Context {
         final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row() - 1, this.getActivePlayer().getCoord().column()));
-        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0 && startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
+        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0
+            && startTile.isOpen(Direction.UP) && endTile.isOpen(Direction.DOWN)) {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveUp();
             endTile.onEnter(this.getActivePlayer());
@@ -203,7 +212,8 @@ public class PlayersManager implements Context {
         final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row() + 1, this.getActivePlayer().getCoord().column()));
-        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0 && startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
+        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0
+            && startTile.isOpen(Direction.DOWN) && endTile.isOpen(Direction.UP)) {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveDown();
             endTile.onEnter(this.getActivePlayer());
@@ -221,7 +231,8 @@ public class PlayersManager implements Context {
         final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column() - 1));
-        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0 && startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
+        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0
+            && startTile.isOpen(Direction.LEFT) && endTile.isOpen(Direction.RIGHT)) {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveLeft();
             endTile.onEnter(this.getActivePlayer());
@@ -239,7 +250,8 @@ public class PlayersManager implements Context {
         final var endTile = this.board.getMap()
             .get(new Coordinate(this.getActivePlayer()
             .getCoord().row(), this.getActivePlayer().getCoord().column() + 1));
-        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0 && startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
+        if (this.subphase == Subphase.MOVEMENT && this.diceVal > 0
+            && startTile.isOpen(Direction.RIGHT) && endTile.isOpen(Direction.LEFT)) {
             startTile.onExit(this.getActivePlayer());
             this.getActivePlayer().moveRight();
             endTile.onEnter(this.getActivePlayer());

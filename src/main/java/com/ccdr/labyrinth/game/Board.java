@@ -12,7 +12,7 @@ public interface Board {
     GuildTile getGuildTile();
 
     Map<Coordinate, Tile> getMap();
-    
+
     Set<Integer> getBlockedColumns();
 
     Set<Integer> getBlockedRows();

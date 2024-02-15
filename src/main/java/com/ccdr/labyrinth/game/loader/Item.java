@@ -9,19 +9,19 @@ public class Item {
     private int quantity;
     private int points;
 
-    public void setCategory(Category category) {
+    public void setCategory(final Category category) {
         this.category = category;
     }
 
-    public void setMaterial(Material material) {
+    public void setMaterial(final Material material) {
         this.material = material;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(final int quantity) {
         this.quantity = quantity;
     }
 
-    public void setPoints(int points){
+    public void setPoints(final int points) {
         this.points = points;
     }
 
@@ -37,7 +37,7 @@ public class Item {
         return this.quantity;
     }
 
-    public int getPoints(){
+    public int getPoints() {
         return this.points;
     }
 }

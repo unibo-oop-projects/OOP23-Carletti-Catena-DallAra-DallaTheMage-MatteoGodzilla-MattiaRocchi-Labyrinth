@@ -64,6 +64,10 @@ public class GetMissions {
         return item;
 
     }
+    
+    public int getMaxPoints(){
+        return this.MAX_REQUIRED;
+    }
 
     public List<Material> materialPresents() {
         return materialpresents;

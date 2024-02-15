@@ -11,10 +11,12 @@ import java.util.List;
 public class GuildTile extends GenericTile {
 
     private boolean state;
+    private int maxPoints;
     private List<Item> missions = new ArrayList<>();
     private List<Material> materialpresents = new ArrayList<>();
 
-    public GuildTile(final int nPlayer) {
+    public GuildTile(final int nPlayer, int maxPoints) {
+        this.maxPoints = maxPoints;
         this.discover();
     }
 
@@ -29,8 +31,10 @@ public class GuildTile extends GenericTile {
     @Override
     public void onEnter(final Player player) {
         if (state == false) {
-            /*materiali bonus in numero o fiso o randomico ma con range ristretto */
+            player.increasePoints(maxPoints / 2);
         }
+
+        this.state = true;
     }
 
     @Override

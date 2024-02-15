@@ -11,7 +11,7 @@ import java.util.List;
 class GuildTileTest {
     @Test
     void testGetMissions() {
-        final GuildTile guild = new GuildTile(4);
+        final GuildTile guild = new GuildTile(4, 10);
         final List<Item> missions = guild.returnListOfMissions();
         final List<Material> materials = guild.getMaterialPresents();
         for (final Item item : missions) {

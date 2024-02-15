@@ -43,7 +43,7 @@ public class TilesGenerator {
         this.bonuses = this.setupBonusList(materials);
     }
 
-    public Board generateTiles() {
+    public Board generateTiles(final int maxPoints) {
         //Parameters that depend on the config
         final Board tiles = new GameBoard();
         final int GUILD_NUM = 1;
@@ -52,7 +52,7 @@ public class TilesGenerator {
         int normalQuantity = this.CONFIGURATION.getLabyrinthHeight() *
         this.CONFIGURATION.getLabyrinthWidth() - this.CONFIGURATION.getSourceTiles() - GUILD_NUM;
         //Guild tile
-        GuildTile guild = new GuildTile(this.CONFIGURATION.getPlayerCount());
+        GuildTile guild = new GuildTile(this.CONFIGURATION.getPlayerCount(), maxPoints);
         guild.setPattern(selectPattern(4));
         tiles.insertTile(CENTER, guild);
         tiles.addBlocked(CENTER);

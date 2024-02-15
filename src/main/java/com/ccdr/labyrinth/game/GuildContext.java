@@ -49,6 +49,10 @@ public class GuildContext implements Context {
         return missionsCom;
     }
 
+    public GetMissions getMissions(){
+        return this.getM;
+    }
+
     public void setNextContext(Context next){
         this.following = next;
     }

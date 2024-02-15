@@ -1,6 +1,8 @@
 package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.game.loader.Coordinate;
+import com.ccdr.labyrinth.game.player.Player;
+import com.ccdr.labyrinth.game.player.PlayersManager;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -8,6 +10,7 @@ import java.util.function.Function;
 
 public class ShifterContext implements Context {
     private final Board board;
+    private final Context players;
     private Set<Coordinate> selected = new HashSet<>();
     private int selectedRow;
     private int selectedColumn;
@@ -15,8 +18,9 @@ public class ShifterContext implements Context {
     private boolean done;
     private boolean isRow;
 
-    public ShifterContext(Board board, Set<Coordinate> selected) {
+    public ShifterContext(Board board, Set<Coordinate> selected, Context players) {
         this.board = board;
+        this.players = players;
         this.selected = selected;
         this.selected.clear();
         this.selectRow(selectedRow);
@@ -85,7 +89,14 @@ public class ShifterContext implements Context {
             this.board.shiftRow(this.indexSelected, FORWARD);
         } else {
             this.board.shiftColumn(this.indexSelected, FORWARD);
-        }   
+        }
+        this.discoverNearPlayers();
+    }
+
+    private void discoverNearPlayers() {
+        for(Player p : ((PlayersManager)this.players).getPlayers()) {
+            this.board.discoverNearBy(p.getCoord(), 2);
+        }
     }
 
     @Override
@@ -100,6 +111,7 @@ public class ShifterContext implements Context {
         } else {
             this.board.shiftColumn(this.indexSelected, FORWARD);
         }       
+        this.discoverNearPlayers();
     }
 
     @Override
@@ -109,7 +121,6 @@ public class ShifterContext implements Context {
 
     @Override
     public Context getNextContext() {
-        // TODO: FOR NOW DO NOTHING
         return this;    
     }
 

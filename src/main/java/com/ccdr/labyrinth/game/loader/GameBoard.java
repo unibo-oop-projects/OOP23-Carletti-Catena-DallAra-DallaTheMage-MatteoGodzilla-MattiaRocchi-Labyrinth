@@ -76,8 +76,8 @@ public final class GameBoard implements Board {
     }
 
     private int getPrev(int actual, int size) {
-        if (actual < 0) {
-             return size - 1;
+        if (actual <= 0) {
+             return size;
         } else {
              return actual-1;
         }
@@ -91,7 +91,7 @@ public final class GameBoard implements Board {
         int index;
         for (index = 0; index < this.width; index++) {
             pointer = new Coordinate(row, index);
-            shiftedPointer = new Coordinate(row, operation.apply(index, this.width));
+            shiftedPointer = new Coordinate(row, operation.apply(index, this.width-1));
             shifted.put(shiftedPointer, this.map.get(pointer));
         }
         for (index = 0; index < this.width; index++) {
@@ -108,7 +108,7 @@ public final class GameBoard implements Board {
         int index;
         for (index = 0; index < this.width; index++) {
             pointer = new Coordinate(index, column);
-            shiftedPointer = new Coordinate(operation.apply(index, this.height), column);
+            shiftedPointer = new Coordinate(operation.apply(index, this.height-1), column);
             shifted.put(shiftedPointer, this.map.get(pointer));
         }
         for (index = 0; index < this.width; index++) {

@@ -6,15 +6,15 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class LabyrinthContext implements Context {
-    private final Context next; 
+    private final Context playersManager; 
     private Set<Coordinate> selected = new HashSet<>();
     private Context activeContext, shifter, rotator;
     private boolean switcher;
 
     public LabyrinthContext(final Board board, final Coordinate playerLocation, final Context next) {
-        this.next = next;
+        this.playersManager = next;
         this.switcher = true;
-        this.shifter = new ShifterContext(board, selected);
+        this.shifter = new ShifterContext(board, this.selected, this.playersManager);
         this.rotator = new RotationContext(board, playerLocation, selected);
         this.activeContext = shifter;
     }
@@ -68,7 +68,7 @@ public class LabyrinthContext implements Context {
 
     @Override
     public Context getNextContext() {
-        return next;
+        return playersManager;
     }
 
     public Set<Coordinate> getSelected() {

@@ -263,14 +263,18 @@ public final class GameJFXView implements GameView, JFXInputSource {
             final var context2d = this.canvas.getGraphicsContext2D();
             this.recalculateFontSizes();
             final double tileMiddleSize = this.tileWidth * TILE_MIDDLE_WIDTH;
-            final double border = (tileWidth - tileMiddleSize) / 2;
+            final double border = (tileWidth - tileMiddleSize) / 2 + 10;
 
             context2d.save();
             context2d.setTextBaseline(VPos.TOP);
             context2d.setFill(Color.BLACK);
             context2d.setFont(Font.font(this.headerFontSize));
             this.step = this.headerFontSize * 3 / 2;
-            context2d.fillText("Players Statistics", this.playerStatsRegionX + step, 0);
+            context2d.setTextAlign(TextAlignment.CENTER);
+            final double headerPos = this.labyrinthTopLeftX + this.labyrinthSize;
+            context2d.fillText("Players Statistics",
+            headerPos + ((this.canvas.getWidth() - headerPos) / 2), 0);
+            context2d.setTextAlign(TextAlignment.LEFT);
             context2d.setFont(Font.font(this.descriptionFontSize));
             this.step = this.descriptionFontSize * 3 / 2;
 
@@ -390,7 +394,6 @@ public final class GameJFXView implements GameView, JFXInputSource {
             drawLegend(context2d);
             context2d.restore();
             i = 2;
-            
         });
     }
 
@@ -437,7 +440,6 @@ public final class GameJFXView implements GameView, JFXInputSource {
                 default:
                     break;
             }
-            //context2d.setTextAlign(TextAlignment.CENTER);
             switch (item.getMaterial()) {
                 case COAL:
                     context2d.drawImage(materialToImage(item.getMaterial()), lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);

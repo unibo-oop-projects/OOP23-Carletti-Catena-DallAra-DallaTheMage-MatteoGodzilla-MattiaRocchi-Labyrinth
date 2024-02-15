@@ -131,10 +131,8 @@ public final class MenuController implements Executor, MenuInputs {
                     }),
                 new MenuChoiceElement<>("Source Tiles", SOURCE_OPTIONS)
                     .defaultIndex(1)
-                    .action(count -> this.config.setSourceTiles(count)),
-                new MenuChoiceElement<>("Mission Count", OBJECTIVE_COUNT)
-                    .action(count -> this.config.setObjectivesNum(count))
-                ),
+                    .action(count -> this.config.setSourceTiles(count))
+            ),
             new MenuTextElement("How to play", new StringBuilder()
                 .append("")
                 .toString()

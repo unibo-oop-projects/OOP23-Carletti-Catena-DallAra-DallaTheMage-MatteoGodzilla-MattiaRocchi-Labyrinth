@@ -7,23 +7,15 @@ package com.ccdr.labyrinth.game;
 public final class GameConfig {
     private static final int DEFAULT_PLAYER_COUNT = 2;
     private static final int DEFAULT_LABYRINTH_SIZE = 31;
-    private static final int DEFAULT_OBJECTIVE_COUNT = 10;
     private static final int DEFAULT_SOURCE_TILE_COUNT = 8;
 
     private int playerCount = DEFAULT_PLAYER_COUNT;
-    private int objectivesNum = DEFAULT_OBJECTIVE_COUNT;
     private int labyrinthHeight = DEFAULT_LABYRINTH_SIZE;
     private int labyrinthWidth = DEFAULT_LABYRINTH_SIZE;
     // change to percentage of source based on labyrinth dimensions
     private int sourceTiles = DEFAULT_SOURCE_TILE_COUNT;
 
     //Getters
-    /**
-     * @return total number of objectives to generate
-     */
-    public int getObjectivesNum() {
-        return objectivesNum;
-    }
 
     /**
      * @return width of the labyrinth to generate
@@ -51,14 +43,6 @@ public final class GameConfig {
      */
     public int getPlayerCount() {
         return playerCount;
-    }
-
-    //Setters
-    /**
-     * @param objectivesNum new number for objectives to generate
-     */
-    public void setObjectivesNum(final int objectivesNum) {
-        this.objectivesNum = objectivesNum;
     }
 
     /**

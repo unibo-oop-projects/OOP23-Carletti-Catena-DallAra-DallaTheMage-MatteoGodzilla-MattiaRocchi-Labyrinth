@@ -54,6 +54,11 @@ public final class GameJFXView implements GameView, JFXInputSource {
     private double labyrinthSize; //assumed to be a square
     private double tileWidth;
     private double tileHeight;
+    private double imageDimension = 25;
+    private double lineMissionsX;
+    private double lineMissionsY;
+    private double spaceMissionsX;
+
 
     //Images
     private static final Image WALL = TypeImag.WALL.getImage();
@@ -65,7 +70,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
 
     private final Scene scene;
     private final ExpandCanvas canvas;
-    private int i = 3;
+    private double i =10;
     //Variable used for resizing header elements
     private double headerFontSize;
     private double descriptionFontSize;
@@ -357,15 +362,15 @@ public final class GameJFXView implements GameView, JFXInputSource {
         });
     }
 
-    @Override
-    public void drawMissions(final List<Item> missions) {
-        final Image Armor = TypeImag.ARMOR.getImage();
-        final Image Clothing = TypeImag.CLOTHING.getImage();
-        final Image Jewel = TypeImag.JEWEL.getImage();
-        final Image Weapon = TypeImag.WEAPON.getImage();
-        final Image Tool = TypeImag.TOOL.getImage();
-        Platform.runLater(() -> {
-            final var context2d = this.canvas.getGraphicsContext2D();
+    public void drawMissions(List<Item> missions){
+        Image Armor = TypeImag.ARMOR.getImage();
+        Image Clothing = TypeImag.CLOTHING.getImage();
+        Image Jewel = TypeImag.JEWEL.getImage();
+        Image Weapon = TypeImag.WEAPON.getImage();
+        Image Tool = TypeImag.TOOL.getImage();
+        Image Point = TypeImag.POINT.getImage();
+        Platform.runLater(()->{
+            var context2d = this.canvas.getGraphicsContext2D();
             context2d.save();
             this.recalculateFontSizes();
             context2d.setFill(Color.BLACK);
@@ -374,25 +379,85 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.fillText("Missions", 15, 0);
             context2d.setFont(Font.getDefault());
             for (Item item : missions) {
-                context2d.fillText(""+ item.getCategory()  + " " + "\t   " + item.getMaterial()
-                + "\t " + item.getQuantity(), 0,i * 10);
+                this.recalculateFontSizes();
+                context2d.setFont(Font.font(this.descriptionFontSize));
+                switch (item.getCategory()) {
+                    case ARMOR:
+                        context2d.drawImage(Armor, lineMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        break;
+                    case CLOTHING:
+                        context2d.drawImage(Clothing, lineMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        break;
+                    case JEWEL:
+                        context2d.drawImage(Jewel, lineMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        break;
+                    case WEAPON:
+                        context2d.drawImage(Weapon, lineMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        break;
+                    case TOOL:
+                        context2d.drawImage(Tool, lineMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        break;
+                    default:
+                        break;
+                }
+                switch (item.getMaterial()) {
+                    case COAL:
+                        context2d.drawImage(materialToImage(item.getMaterial()), lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        context2d.fillText("\t"+"x"+ item.getQuantity(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.fillText("\t"+ item.getPoints(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.drawImage(Point, lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        break;
+                    case COPPER:
+                        context2d.drawImage(materialToImage(item.getMaterial()), lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        context2d.fillText("\t"+"x"+ item.getQuantity(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.fillText("\t"+ item.getPoints(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.drawImage(Point, lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        break;
+                    case SILK:
+                        context2d.drawImage(materialToImage(item.getMaterial()), lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        context2d.fillText("\t"+"x"+ item.getQuantity(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.fillText("\t"+ item.getPoints(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.drawImage(Point, lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        break;
+                    case WOOD:
+                        context2d.drawImage(materialToImage(item.getMaterial()), lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        context2d.fillText("\t"+"x"+ item.getQuantity(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.fillText("\t"+ item.getPoints(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.drawImage(Point, lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        break;
+                    case DIAMOND:
+                        context2d.drawImage(materialToImage(item.getMaterial()), lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        context2d.fillText("\t"+"x"+ item.getQuantity(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.fillText("\t"+ item.getPoints(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.drawImage(Point, lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        break;
+                    case IRON:
+                        context2d.drawImage(materialToImage(item.getMaterial()), lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        context2d.fillText("\t"+"x"+ item.getQuantity(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.fillText("\t"+ item.getPoints(), lineMissionsX + spaceMissionsX, lineMissionsY);
+                        context2d.drawImage(Point, lineMissionsX + spaceMissionsX, lineMissionsY, imageDimension, imageDimension);
+                        break;
+                    default:
+                        break;
+                }
                 i++;
             }
-            i = 3;
+            context2d.setFont(Font.getDefault());
+            i=2;
 
             context2d.setFont(Font.font(this.headerFontSize));
             context2d.fillText(" LEGEND ", (labyrinthRegionX / 2) - (labyrinthRegionX / 5), this.canvas.getHeight() - 170, 200);
             context2d.setFont(Font.getDefault());
-            context2d.drawImage(Armor, 10, this.canvas.getHeight() - 130,  25 , 25);
-            context2d.fillText(" -> Type Armor", 36 , this.canvas.getHeight() - 126);
-            context2d.drawImage(Clothing, 7, this.canvas.getHeight() - 108, 30 , 30);
-            context2d.fillText(" -> Type Clothing", 36 , this.canvas.getHeight() - 103);
-            context2d.drawImage(Weapon, 10, this.canvas.getHeight() - 82, 25 , 25);
-            context2d.fillText(" -> Type Weapon", 36 , this.canvas.getHeight() - 80);
-            context2d.drawImage(Tool, 10, this.canvas.getHeight() - 56, 19 , 19);
-            context2d.fillText(" -> Type Tool", 36 , this.canvas.getHeight() - 57);
-            context2d.drawImage(Jewel, 10, this.canvas.getHeight() - 34, 20 , 20);
-            context2d.fillText(" -> Type Jewel", 36 , this.canvas.getHeight() - 34);
+            context2d.drawImage(Armor,10, this.canvas.getHeight() -130,imageDimension , imageDimension);
+            context2d.fillText(" -> Type Armor", 36 ,this.canvas.getHeight() -125);
+            context2d.drawImage(Clothing,10, this.canvas.getHeight() -105, imageDimension , imageDimension);
+            context2d.fillText(" -> Type Clothing", 36 ,this.canvas.getHeight() -100);
+            context2d.drawImage(Weapon,10, this.canvas.getHeight() -80, imageDimension , imageDimension);
+            context2d.fillText(" -> Type Weapon", 36 ,this.canvas.getHeight() -75);
+            context2d.drawImage(Tool,10, this.canvas.getHeight() -55, imageDimension , imageDimension);
+            context2d.fillText(" -> Type Tool", 36 ,this.canvas.getHeight() -50);
+            context2d.drawImage(Jewel,10, this.canvas.getHeight() -30, imageDimension , imageDimension);
+            context2d.fillText(" -> Type Jewel", 36 ,this.canvas.getHeight() -25);
             context2d.restore();
         });
     }
@@ -472,6 +537,10 @@ public final class GameJFXView implements GameView, JFXInputSource {
         final double baseFontSize = referenceHeight / 10;
         this.headerFontSize = baseFontSize;
         this.descriptionFontSize = baseFontSize * 2 / 3;
+        this.lineMissionsX = (baseFontSize * 2 / 3 ) *2;
+        this.lineMissionsY = (lineMissionsX / 2) * i * 3 / 2;
+        this.imageDimension = baseFontSize * 30/29;
+        this.spaceMissionsX = lineMissionsX * 5 / 2;
     }
 
     private void recalculateLayout() {

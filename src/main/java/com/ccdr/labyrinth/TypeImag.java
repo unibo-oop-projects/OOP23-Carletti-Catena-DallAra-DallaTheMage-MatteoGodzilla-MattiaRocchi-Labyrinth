@@ -15,6 +15,7 @@ public enum TypeImag {
     PATH_CENTRAL("/game/PathCentral.png"),
     PATH("/game/Path.png"),
     GUILD("/game/Guild.png"),
+    POINT("/game/Point.png"),
     //MATERIALS
     COAL("/game/materials/Coal.png"),
     COPPER("/game/materials/Copper.png"),

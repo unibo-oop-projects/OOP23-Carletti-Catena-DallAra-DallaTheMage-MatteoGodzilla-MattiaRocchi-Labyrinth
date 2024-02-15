@@ -3,6 +3,7 @@ package com.ccdr.labyrinth.game;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
+import com.ccdr.labyrinth.game.loader.GameBoard;
 import com.ccdr.labyrinth.game.loader.generators.TilesGenerator;
 
 import java.util.HashSet;
@@ -33,12 +34,12 @@ public final class GameController implements Executor, GameInputs {
     }
 
     public void init(final GameConfig config) {
-        board = new TilesGenerator(config).generateTiles();
+        this.guildContext = new GuildContext(config.getPlayerCount());
+        board = new TilesGenerator(config, guildContext.returnListOfMissions() ,guildContext.getMaterialPresents()).generateTiles();
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
         //set up contexts
         this.updateBoardContext = new UpdateBoardContext(this.board);
-        this.guildContext = new GuildContext(config.getPlayerCount());
         this.playerManager = new PlayersManager(config.getPlayerCount(), this.board,
         this.updateBoardContext, this.guildContext);
         this.labyrinthContext = new LabyrinthContext(this.board, playerManager.getActivePlayer().getCoord());

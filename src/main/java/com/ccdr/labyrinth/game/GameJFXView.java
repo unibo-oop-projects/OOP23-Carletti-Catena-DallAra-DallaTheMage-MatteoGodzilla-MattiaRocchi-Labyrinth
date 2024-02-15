@@ -14,6 +14,7 @@ import com.ccdr.labyrinth.game.loader.tiles.StandardTile;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
+import com.ccdr.labyrinth.game.player.PlayersManager.Subphase;
 import com.ccdr.labyrinth.jfx.ExpandCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
@@ -499,6 +500,30 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     context2d.setStroke(Color.WHITESMOKE);
                     context2d.strokeRect(labyrinthTopLeftX + tileWidth*t.column(), labyrinthTopLeftY + tileHeight*t.row(), tileWidth, tileHeight);
                 }
+            }
+            if (context instanceof PlayersManager
+                && ((PlayersManager)context).getTurnSubphase() == Subphase.DICE) {
+
+                context2d.setStroke(Color.WHITESMOKE);
+                context2d.setFill(BASE_COLOR);
+                final double popupWidth = this.labyrinthSize / 2;
+                final double popupHeight = this.headerFontSize + this.descriptionFontSize * 3;
+                final double x = (this.canvas.getWidth() - popupWidth) / 2;
+                final double y = (this.canvas.getHeight() - popupHeight) / 2;
+                context2d.fillRect(x, y, popupWidth, popupHeight);
+                context2d.strokeRect(x, y, popupWidth, popupHeight);
+                context2d.setFill(Color.WHITESMOKE);
+                context2d.setTextAlign(TextAlignment.CENTER);
+                context2d.setTextBaseline(VPos.TOP);
+                context2d.setFont(Font.font(this.headerFontSize));
+                context2d.fillText("Press ENTER/SPACE to roll the dice", this.canvas.getWidth() / 2, y);
+
+                //footer
+                context2d.setFont(Font.font(this.descriptionFontSize));
+                context2d.setTextBaseline(VPos.BOTTOM);
+                context2d.setFill(Color.BLACK);
+                context2d.fillText("Press Enter/Space to dismiss",
+                this.canvas.getWidth() / 2, y + popupHeight);
             }
             if(context instanceof GuildContext){
                 GuildContext guild = (GuildContext) context;

@@ -4,6 +4,7 @@ import com.ccdr.labyrinth.game.loader.Direction;
 import com.ccdr.labyrinth.game.player.Player;
 
 import java.util.Map;
+import java.util.function.Function;
 
 public interface Tile {
 
@@ -18,7 +19,7 @@ public interface Tile {
 
     void onExit(Player player);
 
-    void rotate();
+    void rotate(Function<Direction, Direction> rotation);
 
     void setPattern(Map<Direction, Boolean> readedPattern);
 

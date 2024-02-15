@@ -34,16 +34,15 @@ public final class GameController implements Executor, GameInputs {
     }
 
     public void init(final GameConfig config){
-        board = new GameBoard();
+        board = new TilesGenerator(config).generateTiles();
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
-        board.setMap(new TilesGenerator(config).generateTiles());
         //set up contexts
         this.updateBoardContext = new UpdateBoardContext(this.board);
-        this.labyrinthContext = new LabyrinthContext();
         this.guildContext = new GuildContext(config.getPlayerCount());
         this.playerManager = new PlayersManager(config.getPlayerCount(), this.board,
         this.updateBoardContext, this.guildContext);
+        this.labyrinthContext = new LabyrinthContext(this.board, playerManager.getActivePlayer().getCoord());
 
         this.updateBoardContext.bindNextContext(this.labyrinthContext);
         this.updateBoardContext.bindPlayerManager(this.playerManager);

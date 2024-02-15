@@ -3,6 +3,7 @@ import com.ccdr.labyrinth.game.loader.Direction;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.function.Function;
 
 public abstract class GenericTile implements Tile {
     private Map<Direction, Boolean> pattern = new HashMap<>();
@@ -35,10 +36,10 @@ public abstract class GenericTile implements Tile {
     }
 
     @Override
-    public void rotate() {
+    public void rotate(Function<Direction, Direction> rotation) {
         Map<Direction, Boolean> rotated = new HashMap<>();
         for (Direction e : pattern.keySet()) {
-            rotated.put(e, pattern.get(e.next()));
+            rotated.put(e, pattern.get(rotation.apply(e)));
         }
         this.setPattern(rotated);
     }

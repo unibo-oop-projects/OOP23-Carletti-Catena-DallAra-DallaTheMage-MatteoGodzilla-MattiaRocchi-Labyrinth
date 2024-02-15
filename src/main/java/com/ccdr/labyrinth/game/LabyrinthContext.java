@@ -1,53 +1,57 @@
 package com.ccdr.labyrinth.game;
 
-public class LabyrinthContext implements Context{
+import com.ccdr.labyrinth.game.loader.Coordinate;
+
+public class LabyrinthContext implements Context {
+    private Context activeContext, shifter, rotator;
+    private boolean switcher;
+
+    public LabyrinthContext(Board board, Coordinate playerLocation) {
+        this.switcher = true;
+        this.shifter = new ShifterContext(board);
+        this.rotator = new RotationContext(board, playerLocation);
+        this.activeContext = shifter;
+    }
 
     @Override
     public void up() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'up'");
+        this.activeContext.up();
     }
 
     @Override
     public void down() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'down'");
+        this.activeContext.down();
     }
 
     @Override
     public void left() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'left'");
+        this.activeContext.left();
     }
 
     @Override
     public void right() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'right'");
+        this.activeContext.right();
     }
 
     @Override
     public void primary() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'primary'");
+        this.activeContext.primary();
     }
 
     @Override
     public void secondary() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'secondary'");
+        this.activeContext = switcher ? shifter : rotator;
+        switcher = !switcher;
     }
 
     @Override
     public void back() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'back'");
+        this.activeContext.back();
     }
 
     @Override
     public boolean done() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'done'");
+        return this.activeContext.done();
     }
 
     @Override

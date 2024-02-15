@@ -1,14 +1,19 @@
 package com.ccdr.labyrinth.game.loader;
 
 import com.ccdr.labyrinth.game.Board;
-import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
+import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.function.BiFunction;
 
 public final class GameBoard implements Board {
-    private Map<Coordinate, Tile> map = new HashMap<>();
+    private final Map<Coordinate, Tile> map = new HashMap<>();
+    private final Set<Integer> blockedRows = new HashSet<>();
+    private final Set<Integer> blockedColumns = new HashSet<>();
     private int height, width;
 
     @Override
@@ -32,13 +37,24 @@ public final class GameBoard implements Board {
     }
 
     @Override
-    public void setMap(Map<Coordinate, Tile> map) {
-        this.map = map;
+    public Map<Coordinate, Tile> getMap() {
+        return Map.copyOf(this.map);
     }
 
     @Override
-    public Map<Coordinate, Tile> getMap() {
-        return Map.copyOf(this.map);
+    public Set<Integer> getBlockedColumns() {
+        return Set.copyOf(blockedColumns);
+    }
+
+    @Override
+    public void addBlocked(Coordinate blocked) {
+        this.blockedRows.add(blocked.row());
+        this.blockedColumns.add(blocked.column());
+    }
+
+    @Override
+    public Set<Integer> getBlockedRows() {
+        return Set.copyOf(blockedRows);
     }
 
     @Override
@@ -54,39 +70,45 @@ public final class GameBoard implements Board {
         }
     }
 
-    @Override
-    public void shiftRow(int row, int movement) {
-        Map<Coordinate, Tile> shifted = new HashMap<>();
-        Coordinate pointer, shiftedPointer;
-        int index;
-        while (movement-- > 0) {
-            for (index = 0; index < this.width; index++) {
-                pointer = new Coordinate(row, index);
-                shiftedPointer = new Coordinate(row, getNext(index, this.width));
-                shifted.put(shiftedPointer, this.map.get(pointer));
-            }
-            for (index = 0; index < this.width; index++) {
-                pointer = new Coordinate(row, index);
-                this.map.replace(pointer, shifted.get(pointer));
-            }
+    private int getPrev(int actual, int size) {
+        if (actual < 0) {
+             return size-1;
+        } else {
+             return --actual;
         }
     }
 
     @Override
-    public void shiftColumn(int column, int movement) {
+    public void shiftRow(int row, boolean forward) {
+        BiFunction<Integer, Integer, Integer> operation = forward ? (i, size) -> getNext(i, size) : (i, size) -> getPrev(i, size);
         Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
-        while (movement-- > 0) {
-            for (index = 0; index < this.width; index++) {
-                pointer = new Coordinate(index, column);
-                shiftedPointer = new Coordinate(getNext(index, this.height), column);
-                shifted.put(shiftedPointer, this.map.get(pointer));
-            }
-            for (index = 0; index < this.width; index++) {
-                pointer = new Coordinate(index, column);
-                this.map.replace(pointer, shifted.get(pointer));
-            }
+        for (index = 0; index < this.width; index++) {
+            pointer = new Coordinate(row, index);
+            shiftedPointer = new Coordinate(row, operation.apply(index, this.width));
+            shifted.put(shiftedPointer, this.map.get(pointer));
+        }
+        for (index = 0; index < this.width; index++) {
+            pointer = new Coordinate(row, index);
+            this.map.replace(pointer, shifted.get(pointer));
+        }
+    }
+
+    @Override
+    public void shiftColumn(int column, boolean forward) {
+        BiFunction<Integer, Integer, Integer> operation = forward ? (i, size) -> getNext(i, size) : (i, size) -> getPrev(i, size);
+        Map<Coordinate, Tile> shifted = new HashMap<>();
+        Coordinate pointer, shiftedPointer;
+        int index;
+        for (index = 0; index < this.width; index++) {
+            pointer = new Coordinate(index, column);
+            shiftedPointer = new Coordinate(operation.apply(index, this.height), column);
+            shifted.put(shiftedPointer, this.map.get(pointer));
+        }
+        for (index = 0; index < this.width; index++) {
+            pointer = new Coordinate(index, column);
+            this.map.replace(pointer, shifted.get(pointer));
         }
     }
 

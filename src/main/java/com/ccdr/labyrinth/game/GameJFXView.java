@@ -631,13 +631,13 @@ public final class GameJFXView implements GameView, JFXInputSource {
         this.playerStatsRegionWidth = canvasWidth * PLAYER_STATS_REGION_WIDTH;
         this.objectiveRegionX = 0;
         this.labyrinthRegionX = this.objectiveRegionWidth;
-        this.playerStatsRegionX = this.objectiveRegionWidth + this.labyrinthRegionWidth;
 
         //the available region of space is labyrinthRegionWidth*canvas.getHeight
         //the labyrinth must fit inside the allocated region
         this.labyrinthSize = Math.min(labyrinthRegionWidth, this.canvas.getHeight());
         this.labyrinthTopLeftX = (labyrinthRegionWidth - labyrinthSize) / 2 + labyrinthRegionX;
         this.labyrinthTopLeftY = (this.canvas.getHeight() - labyrinthSize) / 2;
+        this.playerStatsRegionX = this.labyrinthTopLeftX + this.labyrinthSize;
     }
 
     @Override

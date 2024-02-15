@@ -1,6 +1,7 @@
 package com.ccdr.labyrinth.game.player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -83,7 +84,7 @@ public class PlayersManager implements Context {
      * @return an unmodifiable list of players
      */
     public List<Player> getPlayers() {
-        return List.copyOf(this.players);
+        return Collections.unmodifiableList(this.players);
     }
 
     /**
@@ -135,54 +136,6 @@ public class PlayersManager implements Context {
     public void setTurnSubphase(final Subphase subphase) {
         this.subphase = subphase;
     }
-
-    /*
-    /**
-     * method to check if a row of the board is moved.
-     * @param rowIndex the index of the row that is moved
-
-    public void tryMoveRow(final int rowIndex) {
-        if (this.turnSubphase == 0 && rowIndex >= 0 && rowIndex < this.board.getHeight()) {
-            this.board.shiftRow(rowIndex, 1);
-            this.setTurnSubphase(this.turnSubphase + 1);
-            //In base alla direzione del movimento si deve spostare insieme alla tile anche il/i player
-        }
-    }
-
-    /**
-     * method to check if a column of the board is moved.
-     * @param columnIndex the index of the column that is moved.
-
-    public void tryMoveColumn(final int columnIndex) {
-        if (this.turnSubphase == 0 && columnIndex >= 0 && columnIndex < this.board.getWidth()) {
-            this.board.shiftColumn(columnIndex, 1);
-            this.setTurnSubphase(this.turnSubphase + 1);
-            //In base alla direzione del movimento si deve spostare insieme alla tile anche il/i player
-        }
-    }
-
-    /**
-     * method to check if a tile of the board is rotated.
-     * @param tileCoord the coordinate of the tile that is rotated
-
-    public void tryTileRotate(final Coordinate tileCoord) {
-        if (this.turnSubphase == 0 && this.neighbours(this.getActivePlayer().getCoord(), tileCoord)) {
-            this.board.getMap().get(tileCoord).rotate();
-            this.setTurnSubphase(this.turnSubphase + 1);
-        }
-    }
-
-    /**
-     * checks that two tiles are adjacent in the eight directions.
-     * @param coord1 the coordinate of the first tile
-     * @param coord2 the coordinate of the second tile
-     * @return true if the two tiles are adjacent, otherwise false
-
-    private boolean neighbours(final Coordinate coord1, final Coordinate coord2) {
-        return Math.abs(coord1.row() - coord2.row()) <= 1
-        && Math.abs(coord1.column() - coord2.column()) <= 1 && !coord1.equals(coord2);
-    }
-    */
 
     /**
      * method that checks if upward movement is allowed.

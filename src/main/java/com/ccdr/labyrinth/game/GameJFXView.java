@@ -275,7 +275,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     //Player1
                     context2d.setFill(Color.RED);
                     context2d.fillOval(this.playerStatsRegionX + border, border + step,
-                    tileMiddleSize, tileMiddleSize);
+                    this.descriptionFontSize, this.descriptionFontSize);
                     if (i != playersManager.getActivePlayerIndex()) {
                         context2d.setFill(Color.BLACK);
                     }
@@ -295,7 +295,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     final double newStartPosY = border + step * 7;
                     context2d.setFill(Color.BLUE);
                     context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
-                    tileMiddleSize, tileMiddleSize);
+                    this.descriptionFontSize, this.descriptionFontSize);
                     if (i != playersManager.getActivePlayerIndex()) {
                         context2d.setFill(Color.BLACK);
                     }
@@ -315,7 +315,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     final double newStartPosY = border + step * 13;
                     context2d.setFill(Color.GREEN);
                     context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
-                    tileMiddleSize, tileMiddleSize);
+                    this.descriptionFontSize, this.descriptionFontSize);
                     if (i != playersManager.getActivePlayerIndex()) {
                         context2d.setFill(Color.BLACK);
                     }
@@ -335,7 +335,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     final double newStartPosY = border + step * 19;
                     context2d.setFill(Color.YELLOW);
                     context2d.fillOval(this.playerStatsRegionX + border, newStartPosY,
-                    tileMiddleSize, tileMiddleSize);
+                    this.descriptionFontSize, this.descriptionFontSize);
                     if (i != playersManager.getActivePlayerIndex()) {
                         context2d.setFill(Color.BLACK);
                     }

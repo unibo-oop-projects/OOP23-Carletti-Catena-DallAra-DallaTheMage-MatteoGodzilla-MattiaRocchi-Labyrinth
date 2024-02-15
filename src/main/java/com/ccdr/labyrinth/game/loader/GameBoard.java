@@ -5,6 +5,8 @@ import com.ccdr.labyrinth.game.loader.tiles.Tile;
 import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 
 import java.util.Map;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
@@ -13,8 +15,8 @@ import java.util.function.BiFunction;
 /**
  * A class that implements the interface Board, and represents the implementation of a board.
  */
-public final class GameBoard implements Board {
-    private final Map<Coordinate, Tile> map = new HashMap<>();
+public final class GameBoard implements Board { 
+    private Map<Coordinate, Tile> map = new HashMap<>();
     private final Set<Integer> blockedRows = new HashSet<>();
     private final Set<Integer> blockedColumns = new HashSet<>();
     private int height, width;
@@ -41,7 +43,7 @@ public final class GameBoard implements Board {
 
     @Override
     public Map<Coordinate, Tile> getMap() {
-        return Map.copyOf(this.map);
+        return Collections.unmodifiableMap(this.map);
     }
 
     @Override
@@ -69,7 +71,7 @@ public final class GameBoard implements Board {
         if (actual >= size) {
              return 0;
         } else {
-             return ++actual;
+             return actual+1;
         }
     }
 
@@ -77,7 +79,7 @@ public final class GameBoard implements Board {
         if (actual < 0) {
              return size - 1;
         } else {
-             return --actual;
+             return actual-1;
         }
     }
 

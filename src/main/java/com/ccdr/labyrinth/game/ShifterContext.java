@@ -51,22 +51,30 @@ public class ShifterContext implements Context {
 
     @Override
     public void up() {
-        this.selectRow(this.calculateCorrectIndex((index) -> index < 0 ? this.board.getHeight()-1 : index, --this.selectedRow));   
+        do {
+            this.selectRow(this.calculateCorrectIndex((index) -> index < 0 ? this.board.getHeight()-1 : index, --this.selectedRow));
+        } while (this.board.getBlockedRows().contains(selectedRow));
     }
 
     @Override
     public void down() {
-        this.selectRow(this.calculateCorrectIndex((index) -> index > this.board.getHeight()-1 ? 0 : index, ++this.selectedRow));   
+        do {
+            this.selectRow(this.calculateCorrectIndex((index) -> index > this.board.getHeight()-1 ? 0 : index, ++this.selectedRow));  
+        } while (this.board.getBlockedRows().contains(selectedRow));
     }
 
     @Override
     public void left() {
-        this.selectColumn(this.calculateCorrectIndex((index) -> index < 0 ?  this.board.getWidth()-1 : index, --this.selectedColumn));   
+        do {
+            this.selectColumn(this.calculateCorrectIndex((index) -> index < 0 ?  this.board.getWidth()-1 : index, --this.selectedColumn));   
+        } while (this.board.getBlockedColumns().contains(selectedColumn));
     }
 
     @Override
     public void right() {
-        this.selectColumn(this.calculateCorrectIndex((index) -> index > this.board.getWidth()-1 ? 0  : index, ++this.selectedColumn));   
+        do {
+            this.selectColumn(this.calculateCorrectIndex((index) -> index > this.board.getWidth()-1 ? 0  : index, ++this.selectedColumn));   
+        } while (this.board.getBlockedColumns().contains(selectedColumn));
     }
 
     @Override

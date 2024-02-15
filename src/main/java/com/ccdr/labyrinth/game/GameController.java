@@ -41,7 +41,7 @@ public final class GameController implements Executor, GameInputs {
         this.guildContext = new GuildContext(config.getPlayerCount());
         this.playerManager = new PlayersManager(config.getPlayerCount(), this.board,
         this.updateBoardContext, this.guildContext);
-        this.labyrinthContext = new LabyrinthContext(this.board, playerManager.getActivePlayer().getCoord());
+        this.labyrinthContext = new LabyrinthContext(this.board, playerManager.getActivePlayer().getCoord(), this.playerManager);
 
         this.updateBoardContext.bindNextContext(this.labyrinthContext);
         this.updateBoardContext.bindPlayerManager(this.playerManager);

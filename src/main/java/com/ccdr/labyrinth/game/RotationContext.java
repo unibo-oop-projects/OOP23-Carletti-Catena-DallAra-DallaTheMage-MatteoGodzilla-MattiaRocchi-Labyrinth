@@ -19,8 +19,8 @@ public class RotationContext implements Context {
         this.board = board;
         this.player = player;
         this.selected = selected;
-        for(int x = player.column()-1; x <= player.column()+1; x++) {
-            for(int y = player.row()-1; y <= player.row()+1; y++) {
+        for(int x = player.column() - 1; x <= player.column() + 1; x++) {
+            for(int y = player.row() - 1; y <= player.row() + 1; y++) {
                 Coordinate target = new Coordinate(y, x);
                 if(board.getMap().containsKey(target)) {
                     inRange.add(target);

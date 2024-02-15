@@ -426,6 +426,11 @@ public final class GameJFXView implements GameView, JFXInputSource {
                 context2d.setFill(Color.BLACK);
                 context2d.fillText("Press Enter/Space to dismiss", this.canvas.getWidth() / 2, y + popupHeight);
             }
+            if(context instanceof LabyrinthContext) {
+                for(Coordinate t : ((LabyrinthContext)context).getSelected()) {
+                    
+                }
+            }
             context2d.restore();
         });
     }

@@ -6,11 +6,13 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class LabyrinthContext implements Context {
+    private final Context next; 
     private Set<Coordinate> selected = new HashSet<>();
     private Context activeContext, shifter, rotator;
     private boolean switcher;
 
-    public LabyrinthContext(final Board board, final Coordinate playerLocation) {
+    public LabyrinthContext(final Board board, final Coordinate playerLocation, final Context next) {
+        this.next = next;
         this.switcher = true;
         this.shifter = new ShifterContext(board, selected);
         this.rotator = new RotationContext(board, playerLocation, selected);
@@ -45,6 +47,12 @@ public class LabyrinthContext implements Context {
     @Override
     public void secondary() {
         this.activeContext = switcher ? shifter : rotator;
+        if(switcher) {
+            System.out.println("SHIFTER");
+        }
+        else {
+            System.out.println("ROTATOR");
+        }
         switcher = !switcher;
     }
 
@@ -60,8 +68,7 @@ public class LabyrinthContext implements Context {
 
     @Override
     public Context getNextContext() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getNextContext'");
+        return next;
     }
 
     public Set<Coordinate> getSelected() {

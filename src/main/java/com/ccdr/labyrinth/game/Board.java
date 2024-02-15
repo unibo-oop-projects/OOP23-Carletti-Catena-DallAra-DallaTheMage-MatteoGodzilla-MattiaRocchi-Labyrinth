@@ -34,4 +34,8 @@ public interface Board {
     void discoverNearBy(Coordinate playerLocation, int radius);
 
     void addBlocked(Coordinate blocked);
+
+    void rotateClockWiseTile(Coordinate actual);
+
+    void rotateCounterClockWiseTile(Coordinate actual);
 }

@@ -2,14 +2,18 @@ package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.game.loader.Coordinate;
 
+import java.util.Set;
+import java.util.HashSet;
+
 public class LabyrinthContext implements Context {
+    private Set<Coordinate> selected = new HashSet<>();
     private Context activeContext, shifter, rotator;
     private boolean switcher;
 
-    public LabyrinthContext(Board board, Coordinate playerLocation) {
+    public LabyrinthContext(final Board board, final Coordinate playerLocation) {
         this.switcher = true;
-        this.shifter = new ShifterContext(board);
-        this.rotator = new RotationContext(board, playerLocation);
+        this.shifter = new ShifterContext(board, selected);
+        this.rotator = new RotationContext(board, playerLocation, selected);
         this.activeContext = shifter;
     }
 
@@ -58,6 +62,10 @@ public class LabyrinthContext implements Context {
     public Context getNextContext() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getNextContext'");
+    }
+
+    public Set<Coordinate> getSelected() {
+        return Set.copyOf(this.selected);
     }
 
 }

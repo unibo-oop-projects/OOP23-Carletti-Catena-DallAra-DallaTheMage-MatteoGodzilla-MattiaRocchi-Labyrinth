@@ -134,4 +134,14 @@ public final class GameBoard implements Board {
             }
         }
     }
+
+    @Override
+    public void rotateClockWiseTile(Coordinate actual) {
+        this.map.get(actual).rotate((e) -> e.next());
+    }
+
+    @Override
+    public void rotateCounterClockWiseTile(Coordinate actual) {
+        this.map.get(actual).rotate((e) -> e.prev());
+    }
 }

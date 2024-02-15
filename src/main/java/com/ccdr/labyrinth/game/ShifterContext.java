@@ -7,6 +7,7 @@ import com.ccdr.labyrinth.game.player.PlayersManager;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.function.Function;
+import java.util.Collections;
 
 public class ShifterContext implements Context {
     private final Board board;
@@ -18,10 +19,10 @@ public class ShifterContext implements Context {
     private boolean done;
     private boolean isRow;
 
-    public ShifterContext(Board board, List<Coordinate> selected, Context players) {
+    public ShifterContext(Board board, Context players) {
         this.board = board;
         this.players = players;
-        this.selected = selected;
+        this.selected = new ArrayList<>();
         this.selected.clear();
         this.selectRow(selectedRow);
         this.isRow = true;
@@ -126,4 +127,7 @@ public class ShifterContext implements Context {
         return this;    
     }
 
+    public List<Coordinate> selectedTiles() {
+        return Collections.unmodifiableList(selected);
+    }
 }

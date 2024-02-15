@@ -2,20 +2,21 @@ package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.game.loader.Coordinate;
 
-import java.util.Set;
-import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class LabyrinthContext implements Context {
     private final Context playersManager; 
-    private Set<Coordinate> selected = new HashSet<>();
+    private List<Coordinate> selected = new ArrayList<>();
     private Context activeContext, shifter, rotator;
     private boolean switcher;
 
-    public LabyrinthContext(final Board board, final Coordinate playerLocation, final Context next) {
+    public LabyrinthContext(final Board board, final Context next) {
         this.playersManager = next;
         this.switcher = true;
         this.shifter = new ShifterContext(board, this.selected, this.playersManager);
-        this.rotator = new RotationContext(board, playerLocation, selected);
+        this.rotator = new RotationContext(board, this.playersManager, this.selected);
         this.activeContext = shifter;
     }
 
@@ -46,13 +47,11 @@ public class LabyrinthContext implements Context {
 
     @Override
     public void secondary() {
-        this.activeContext = switcher ? shifter : rotator;
         if(switcher) {
-            System.out.println("SHIFTER");
+            rotator.getNextContext();
         }
-        else {
-            System.out.println("ROTATOR");
-        }
+        this.activeContext = switcher ? rotator : shifter;
+        this.selected.clear();
         switcher = !switcher;
     }
 
@@ -71,8 +70,8 @@ public class LabyrinthContext implements Context {
         return playersManager;
     }
 
-    public Set<Coordinate> getSelected() {
-        return Set.copyOf(this.selected);
+    public List<Coordinate> getSelected() {
+        return Collections.unmodifiableList(this.selected);
     }
 
 }

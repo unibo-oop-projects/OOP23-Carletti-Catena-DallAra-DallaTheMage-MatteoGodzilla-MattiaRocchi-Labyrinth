@@ -4,21 +4,21 @@ import com.ccdr.labyrinth.game.loader.Coordinate;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
 
-import java.util.Set;
-import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.function.Function;
 
 public class ShifterContext implements Context {
     private final Board board;
     private final Context players;
-    private Set<Coordinate> selected = new HashSet<>();
+    private List<Coordinate> selected = new ArrayList<>();
     private int selectedRow;
     private int selectedColumn;
     private int indexSelected;
     private boolean done;
     private boolean isRow;
 
-    public ShifterContext(Board board, Set<Coordinate> selected, Context players) {
+    public ShifterContext(Board board, List<Coordinate> selected, Context players) {
         this.board = board;
         this.players = players;
         this.selected = selected;
@@ -116,7 +116,9 @@ public class ShifterContext implements Context {
 
     @Override
     public boolean done() {
-        return this.done;
+        boolean exitCondition = done;
+        this.done = false;
+        return exitCondition;
     }
 
     @Override

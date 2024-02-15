@@ -496,7 +496,8 @@ public final class GameJFXView implements GameView, JFXInputSource {
             }
             if(context instanceof LabyrinthContext) {
                 for(Coordinate t : ((LabyrinthContext)context).getSelected()) {
-                    
+                    context2d.setStroke(Color.WHITESMOKE);
+                    context2d.strokeRect(labyrinthTopLeftX + tileWidth*t.column(), labyrinthTopLeftY + tileHeight*t.row(), tileWidth, tileHeight);
                 }
             }
             if(context instanceof GuildContext){

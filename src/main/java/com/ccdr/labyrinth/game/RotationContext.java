@@ -1,37 +1,44 @@
 package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.game.loader.Coordinate;
+import com.ccdr.labyrinth.game.player.PlayersManager;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.function.Function;
 
 public class RotationContext implements Context {
     private final Board board;
     private final Coordinate player;
-    private final Set<Coordinate> selected;
+    private final List<Coordinate> selected;
     private final List<Coordinate> inRange = new ArrayList<>();
     private boolean done;
     private Coordinate actual;
-
-    public RotationContext(Board board, Coordinate player, Set<Coordinate> selected) {
+    private int minColumn, minRow, maxColumn, maxRow;
+    
+    public RotationContext(Board board, Context playerManager, List<Coordinate> selected) {
         this.board = board;
-        this.player = player;
+        this.player = ((PlayersManager)playerManager).getActivePlayer().getCoord();
         this.selected = selected;
-        for(int x = player.column() - 1; x <= player.column() + 1; x++) {
-            for(int y = player.row() - 1; y <= player.row() + 1; y++) {
-                Coordinate target = new Coordinate(y, x);
-                if(board.getMap().containsKey(target)) {
-                    inRange.add(target);
-                }
-            }
-        }
+        this.setRange();
         this.actual = inRange.get(0);
     }
 
-    private int calculateCorrectIndex(Function<Integer, Integer> rule, int i) {    
-        return rule.apply(i);
+    private void setRange() {
+        minRow = Math.max(0, this.player.row() - 1);
+        minColumn = Math.max(0, this.player.column()-1);
+        maxRow = Math.min(this.player.row()+1, this.board.getHeight()-1);
+        maxColumn = Math.min(this.player.column()+1, this.board.getWidth()-1);
+
+        for(int x = minColumn; x <= maxColumn; x++) {
+            for(int y = minRow; y <= maxRow; y++) {
+                Coordinate target = new Coordinate(y, x);
+                if(board.getMap().containsKey(target)) {
+                    inRange.add(target);
+                    System.out.println(target);
+                }
+            }
+        }
     }
 
     private void replaceSelected(Coordinate nextSelected) {
@@ -43,32 +50,32 @@ public class RotationContext implements Context {
     @Override
     public void up() {
         int actualRow = this.actual.row();
-        int newIndex = this.calculateCorrectIndex((i) -> i < player.row() - 1 ?  player.row() + 1 : i, --actualRow);
-        Coordinate nextSelected = new Coordinate(newIndex, this.actual.column());
+        actualRow = Math.max(minRow, actualRow-1);
+        Coordinate nextSelected = new Coordinate(actualRow, this.actual.column());
         this.replaceSelected(nextSelected);
     }
 
     @Override
     public void down() {
         int actualRow = this.actual.row();
-        int newIndex = this.calculateCorrectIndex((i) -> i > player.row() + 1 ?  player.row() - 1 : i, ++actualRow);
-        Coordinate nextSelected = new Coordinate(newIndex, this.actual.column());
+        actualRow = Math.min(maxRow, actualRow+1);
+        Coordinate nextSelected = new Coordinate(actualRow, this.actual.column());
         this.replaceSelected(nextSelected);
     }
 
     @Override
     public void left() {
         int actualColumn = this.actual.column();
-        int newIndex = this.calculateCorrectIndex((i) -> i < player.column() - 1 ?  player.column() + 1 : i, --actualColumn);
-        Coordinate nextSelected = new Coordinate(this.actual.row(), newIndex);
+        actualColumn = Math.max(minColumn, actualColumn-1);
+        Coordinate nextSelected = new Coordinate(this.actual.row(), actualColumn);
         this.replaceSelected(nextSelected);
     }
 
     @Override
     public void right() {
         int actualColumn = this.actual.column();
-        int newIndex =  this.calculateCorrectIndex((i) -> i > player.column() + 1 ?  player.column() - 1 : i, ++actualColumn);
-        Coordinate nextSelected = new Coordinate(this.actual.row(), newIndex);
+        actualColumn = Math.min(maxColumn, actualColumn+1);
+        Coordinate nextSelected = new Coordinate(this.actual.row(), actualColumn);
         this.replaceSelected(nextSelected);
     }
 
@@ -91,12 +98,14 @@ public class RotationContext implements Context {
 
     @Override
     public boolean done() {
-        return done;
+        boolean exitCondition = done;
+        this.done = false;
+        return exitCondition;
     }
 
     @Override
     public Context getNextContext() {
-        // TODO: FOR NOW DO NOTHING
+        this.setRange();
         return this;
     }
 

@@ -5,7 +5,6 @@ import com.ccdr.labyrinth.game.loader.tiles.Tile;
 import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 
 import java.util.Map;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;

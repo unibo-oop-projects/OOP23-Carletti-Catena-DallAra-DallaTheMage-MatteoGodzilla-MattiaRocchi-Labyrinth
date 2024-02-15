@@ -63,6 +63,9 @@ public final class GameController implements Executor, GameInputs {
             gameView.drawPlayersStats(this.playerManager, guildContext.getMaterialPresents());
             gameView.drawContext(this.activeContext);
         }
+        if(this.guildContext.returnListOfMissions().isEmpty()) {
+            this.gameover.accept(this.playerManager.getPlayers());
+        }
     }
 
     /**

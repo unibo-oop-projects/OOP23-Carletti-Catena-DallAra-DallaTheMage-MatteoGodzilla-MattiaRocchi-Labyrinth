@@ -57,13 +57,13 @@ public final class UpdateBoardContext implements Context {
             this.playerManager.setActivePlayer((this.playerManager.getActivePlayerIndex() + 1) % this.playerManager.getPlayers().size());
             this.playerManager.setTurnSubphase(Subphase.DICE);
         }
-        this.advancePlayer = true;
         for (final Tile tile : this.board.getMap().values()) {
             if (tile instanceof SourceTile) {
                 ((SourceTile) tile).updateTile();
-                this.enter = true;
             }
         }
+        this.advancePlayer = true;
+        this.enter = true;
     }
 
     @Override
@@ -74,7 +74,7 @@ public final class UpdateBoardContext implements Context {
 
     @Override
     public boolean done() {
-        return enter;
+        return this.enter;
     }
 
     @Override

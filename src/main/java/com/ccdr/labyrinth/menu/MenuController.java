@@ -29,7 +29,6 @@ public final class MenuController implements Executor, MenuInputs {
     private static final List<Integer> PLAYER_COUNT = List.of(2, 3, 4);
     private static final List<Integer> LABYRINTH_SIZE = List.of(15, 31, 45);
     private static final List<Integer> SOURCE_OPTIONS = List.of(4, 8, 12, 16);
-    private static final List<Integer> OBJECTIVE_COUNT = List.of(4, 8, 12);
 
     @Override
     public void onEnable() {
@@ -134,7 +133,24 @@ public final class MenuController implements Executor, MenuInputs {
                     .action(count -> this.config.setSourceTiles(count))
             ),
             new MenuTextElement("How to play", new StringBuilder()
-                .append("")
+                .append("Every turn is structured as following:\n\n")
+                .append(" - PHASE 1: MODIFY THE BOARD - \n")
+                .append("In a single turn the player can choose to either shift rows/columns or rotate tiles around it.\n")
+                .append("Press Tab to change between the two possible modes\n")
+                .append("- 1.1: Shifting mode - \n")
+                .append("A/D or Left/Right arrow selects a column to shift. W/S or Up/Down select a row to shift.\n")
+                .append("If a column is selected, press Enter/Space to move it down or Escape/Backspace to move it up\n")
+                .append("If a row is selected, press Enter/Space to move it right or Escape/Backspace to move it left\n")
+                .append("- 1.2: Rotating mode - \n")
+                .append("W/A/S/D/ or Up/Left/Down/Right to select any neighboring tile around the player.\n")
+                .append("Once selected, press Enter/Space to rotate clockwise or Escape/Backscape to rotate counterclockwise\n\n")
+                .append(" - PHASE 2: PLAYER MOVEMENT - \n")
+                .append("Press Enter/Space to roll the dice, then W/A/S/D or Up/Down/Left/Right arrow to move.\n")
+                .append("Press Tab/Control to discard any extra moves and skip to the next phase.\n\n")
+                .append(" - PHASE 3: GUILD INTERACTION - \n")
+                .append("This phase is active only if the player is over the guild tile.\n")
+                .append("Up/Left to move the cursor up, Down/Right to move the cursor down.\n")
+                .append("Enter/Space to redeem a mission, Escape/Backspace to close the menu and end the turn.\n")
                 .toString()
             ),
             new MenuTextElement("Credits", new StringBuilder()
@@ -145,7 +161,11 @@ public final class MenuController implements Executor, MenuInputs {
                 .append("Lorenzo Dall'Ara\n")
                 .append("Mattia Rocchi\n")
                 .append("Art by Matteo Catena & Mattia Rocchi\n")
-                .append(" ♥ ")
+                .append("__  __\n")
+                .append("/   \\/   \\\n")
+                .append("\\       /\n")
+                .append("\\   /\n")
+                .append("\\/\n")
                 .toString()
             ),
             new MenuTextElement("Exit", "Are you sure you want to close the game?")

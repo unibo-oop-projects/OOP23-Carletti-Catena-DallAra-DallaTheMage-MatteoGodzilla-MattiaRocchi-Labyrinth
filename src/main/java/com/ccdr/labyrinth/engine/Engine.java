@@ -63,7 +63,7 @@ public final class Engine {
      * Switches the currently running executor to the one associated with the id provided.
      * @param id id of the new executor to run
      */
-    public void changeExecutor(final Executor.ID id) {
+    public synchronized void changeExecutor(final Executor.ID id) {
         this.activeExecutor = id;
         if (this.activeExecutor != null) {
             executors.get(this.activeExecutor).onEnable();

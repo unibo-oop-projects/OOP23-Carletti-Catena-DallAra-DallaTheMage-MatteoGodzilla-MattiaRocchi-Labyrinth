@@ -48,9 +48,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
 
-    // https://mvnrepository.com/artifact/org.json/json
-    implementation("org.json:json:20231013")
-
 }
 
 tasks.withType<Test> {

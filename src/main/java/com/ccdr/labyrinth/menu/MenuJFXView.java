@@ -136,11 +136,11 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
     private void recalculateFontSizes() {
         //aspect ratio of the menu is in 4/3
         final double referenceHeight = Math.min(this.canvas.getHeight(), this.canvas.getWidth() * 3 / 4);
-        final double baseFontSize = referenceHeight / 10;
+        final double baseFontSize = referenceHeight / 12;
         this.logoSize = baseFontSize * 2;
         this.headerFontSize = baseFontSize;
         this.listFontSize = baseFontSize * 2 / 3;
-        this.descriptionFontSize = baseFontSize / 2;
+        this.descriptionFontSize = baseFontSize / 3;
         this.hintFontSize = baseFontSize / 3;
         this.padding = baseFontSize / 10;
     }
@@ -202,7 +202,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
         context.setTextBaseline(VPos.TOP);
         context.setFont(Font.font(descriptionFontSize));
         context.setFill(TEXT_FILL);
-        context.fillText(textElement.getDescription(), this.canvas.getWidth() / 2, this.headerFontSize + this.padding);
+        context.fillText(textElement.getDescription(), this.canvas.getWidth() / 2, this.headerFontSize + this.padding * 2);
         context.restore();
 }
 

@@ -115,4 +115,15 @@ final class PlayerTest {
         player1.decreaseQuantityMaterial(Material.IRON, 3);
         assertEquals(1, player1.getQuantityMaterial(Material.IRON));
     }
+
+    /**
+     * Test the Coordinate methods.
+     */
+    @Test
+    void testCoord() {
+        final var player1 = this.player;
+        assertEquals(new Coordinate(0, 0), player1.getCoord());
+        player1.setCoord(4, 2);
+        assertEquals(new Coordinate(4, 2), player1.getCoord());
+    }
 }

@@ -1,5 +1,6 @@
 package com.ccdr.labyrinth.game;
 
+import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
@@ -56,7 +57,7 @@ public final class GameController implements Executor, GameInputs {
         //game loop
         for (final GameView gameView : views) {
             gameView.clear();
-            gameView.drawMissions(guildContext.returnListOfMissions());
+            gameView.drawGuildinfo(guildContext.returnListOfMissions(), guildContext.getMissionCompl());
             gameView.drawBoard(this.board);
             gameView.drawPlayersOnBoard(this.playerManager.getPlayers());
             gameView.drawPlayersStats(this.playerManager, guildContext.getMaterialPresents());

@@ -18,13 +18,13 @@ import com.ccdr.labyrinth.game.loader.Direction;
  */
 public class PlayersManager implements Context {
 
-    private static final int MAX_DICEVAL = 12;
     private static final Random RANDOM = new Random();
 
     private final List<Player> players = new ArrayList<>();
     private int activePlayer;
     private int diceVal;
     private final Board board;
+    private int maxDiceVal;
     /**
      * An enum to indicate the two subphase that the Playersmanager has to manage.
      */
@@ -116,7 +116,20 @@ public class PlayersManager implements Context {
      */
     public void generateDiceValue() {
         if (this.subphase == Subphase.DICE) {
-            this.diceVal = RANDOM.nextInt(MAX_DICEVAL) + 1;
+            switch (this.board.getHeight()) {
+                case 15:
+                    this.maxDiceVal = 6;
+                    break;
+                case 31:
+                    this.maxDiceVal = 12;
+                    break;
+                case 45:
+                    this.maxDiceVal = 24;
+                    break;
+                default:
+                    break;
+            }
+            this.diceVal = RANDOM.nextInt(this.maxDiceVal) + 1;
             this.subphase = Subphase.MOVEMENT;
         }
     }
@@ -135,6 +148,14 @@ public class PlayersManager implements Context {
      */
     public void setTurnSubphase(final Subphase subphase) {
         this.subphase = subphase;
+    }
+
+    /**
+     * gets the value of turn subphase.
+     * @return the value of turn subphase
+     */
+    public Subphase getTurnSubphase() {
+        return this.subphase;
     }
 
     /**

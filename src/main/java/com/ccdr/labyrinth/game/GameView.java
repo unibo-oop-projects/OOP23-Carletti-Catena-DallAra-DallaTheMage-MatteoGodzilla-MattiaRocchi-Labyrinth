@@ -44,8 +44,9 @@ public interface GameView {
     /**
      * Draw the objectives showing what the player needs to do to get points.
      * @param missions list of objectives to show
+     * @param completed list of objectives already completed
      */
-    void drawMissions(List<Item> missions);
+    void drawGuildinfo(List<Item> missions, List<Item> completed);
 
     /**
      * Draw an overlay to the screen, based on what context should be shown to the user.

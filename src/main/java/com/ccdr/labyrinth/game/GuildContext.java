@@ -45,6 +45,10 @@ public class GuildContext implements Context {
         return this.menuIndex;
     }
 
+    public List<Item> getMissionCompl() {
+        return missionsCom;
+    }
+
     public void setNextContext(Context next){
         this.following = next;
     }

@@ -7,14 +7,12 @@ import com.ccdr.labyrinth.game.loader.Direction;
 import com.ccdr.labyrinth.game.loader.GameBoard;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 import com.ccdr.labyrinth.game.loader.Coordinate;
-import com.ccdr.labyrinth.game.loader.Direction;
 import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
 import com.ccdr.labyrinth.game.loader.tiles.StandardTile;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,18 +24,16 @@ public class TilesGenerator {
     private final CoordinatesGenerator placer;
     private final int MIN_PATTERNS = 1, MAX_PATTERNS = 5;
     private final int MIN_ROTATIONS = 0, MAX_ROTATIONS = 4;
-    private Map<Coordinate, Tile> tiles;
-    private List<Item> missions;
-    private List<Material> bonuses;
+    private List<Material> materials;
+    private List<Optional<Material>> bonuses;
 
 
-    public TilesGenerator (GameConfig configuration, List<Item> missions, List<Material> bonuses) {
+    public TilesGenerator (GameConfig configuration, List<Item> missions, List<Material> materials) {
         this.configuration = configuration;
         this.placer = new CoordinatesGenerator(configuration);
         this.seed = new Random();
-        this.tiles = new HashMap<>();
-        this.missions = missions;
-        this.bonuses = bonuses;
+        this.materials = setupMaterialsList(materials);
+        this.bonuses = this.setupBonusList(materials);
     }
 
     public Board generateTiles() {
@@ -54,12 +50,10 @@ public class TilesGenerator {
         tiles.insertTile(CENTER, guild);
         tiles.addBlocked(CENTER);
         //Source Tiles
-        final List<Optional<Material>> bonuses = new ArrayList<>(this.setupBonusList(guild.getMaterialPresents()));
-        final List<Coordinate> sourceCoordinates = new ArrayList<>(
-            this.placer.calculateSourcesCoordinates(CENTER, tiles.getMap()));
+        final List<Coordinate> sourceCoordinates = new ArrayList<>(this.placer.calculateSourcesCoordinates(CENTER, tiles.getMap()));
         int index = sourceCoordinates.size() - 1;
         Coordinate sourceGeneratedCoordinate;
-        for (Material m : setupMaterialsList(guild.getMaterialPresents())) {
+        for (Material m : this.materials) {
             sourceGeneratedCoordinate = sourceCoordinates.remove(index--);
             tiles.addBlocked(sourceGeneratedCoordinate);
             tiles.insertTile(sourceGeneratedCoordinate, generateSource(m, this.configuration.getPlayerCount()));
@@ -67,9 +61,8 @@ public class TilesGenerator {
         //Normal and bonus tiles
         while (normalQuantity-- > 0) {
             Coordinate generatedCoordinate = this.placer.generateRandomCoordinate(tiles.getMap());
-            Optional<Material> sourcesMaterial = this.pickMaterial(bonuses);
-            Tile generatedTile = sourcesMaterial.isEmpty() ? new StandardTile() :
-                new StandardTile(sourcesMaterial.get(), 1);
+            Optional<Material> sourcesMaterial = this.pickMaterial(this.bonuses);
+            Tile generatedTile = sourcesMaterial.isEmpty() ? new StandardTile() : new StandardTile(sourcesMaterial.get(), 1);
             generatedTile.setPattern(generateRandomPattern().getPattern());
             tiles.insertTile(generatedCoordinate, generatedTile);
         }
@@ -83,7 +76,7 @@ public class TilesGenerator {
     private List<Optional<Material>> setupBonusList(final List<Material> materialPresents) {
         List<Optional<Material>> bonuses = new ArrayList<>();
         if (materialPresents.size() > 0) {
-            int percentage = materialPresents.size() * 2;
+            int percentage = materialPresents.size() * 4;
             for (Material m : materialPresents) {
                 bonuses.add(Optional.of(m));
             }

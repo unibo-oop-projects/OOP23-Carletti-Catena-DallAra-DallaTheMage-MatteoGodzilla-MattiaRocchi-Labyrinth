@@ -38,7 +38,6 @@ public class RotationContext implements Context {
                 Coordinate target = new Coordinate(y, x);
                 if(board.getMap().containsKey(target)) {
                     inRange.add(target);
-                    System.out.println(target);
                 }
             }
         }

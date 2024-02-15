@@ -24,12 +24,19 @@ public class TilesGenerator {
     private final CoordinatesGenerator placer;
     private final int MIN_PATTERNS = 1, MAX_PATTERNS = 5;
     private final int MIN_ROTATIONS = 0, MAX_ROTATIONS = 4;
+    private final List<Coordinate> playerLocations;
+    private final Coordinate player1, player2, player3, player4;
     private List<Material> materials;
     private List<Optional<Material>> bonuses;
 
 
     public TilesGenerator (GameConfig configuration, List<Item> missions, List<Material> materials) {
         this.configuration = configuration;
+        this.player1 = new Coordinate(0, 0);
+        this.player2 = new Coordinate(0, this.configuration.getLabyrinthWidth()-1);
+        this.player3 = new Coordinate(this.configuration.getLabyrinthHeight()-1, 0);
+        this.player4 =  new Coordinate(this.configuration.getLabyrinthHeight()-1, this.configuration.getLabyrinthWidth()-1);
+        this.playerLocations = List.of(player1, player2, player3, player4 );
         this.placer = new CoordinatesGenerator(configuration);
         this.seed = new Random();
         this.materials = setupMaterialsList(materials);
@@ -62,7 +69,7 @@ public class TilesGenerator {
         while (normalQuantity-- > 0) {
             Coordinate generatedCoordinate = this.placer.generateRandomCoordinate(tiles.getMap());
             Optional<Material> sourcesMaterial = this.pickMaterial(this.bonuses);
-            Tile generatedTile = sourcesMaterial.isEmpty() ? new StandardTile() : new StandardTile(sourcesMaterial.get(), 1);
+            Tile generatedTile = sourcesMaterial.isEmpty() || this.playerLocations.contains(generatedCoordinate) ? new StandardTile() : new StandardTile(sourcesMaterial.get(), 1);
             generatedTile.setPattern(generateRandomPattern().getPattern());
             tiles.insertTile(generatedCoordinate, generatedTile);
         }

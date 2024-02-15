@@ -8,7 +8,24 @@ import java.util.function.Function;
 public abstract class GenericTile implements Tile {
     private Map<Direction, Boolean> pattern = new HashMap<>();
     private boolean discovered;
+    private boolean selected;
 
+    @Override
+    public void select() {
+        this.selected = true;
+    }
+
+    @Override
+    public void deselect() {
+        this.selected = false;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return this.selected;
+    }
+
+    @Override
     public void discover() {
         this.discovered = true;
     }

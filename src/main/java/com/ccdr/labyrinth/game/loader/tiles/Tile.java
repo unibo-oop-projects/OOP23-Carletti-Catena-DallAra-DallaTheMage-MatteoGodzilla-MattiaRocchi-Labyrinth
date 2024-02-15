@@ -15,6 +15,8 @@ public interface Tile {
      */
     boolean isDiscovered();
 
+    boolean isSelected();
+
     void onEnter(Player player);
 
     void onExit(Player player);
@@ -23,10 +25,14 @@ public interface Tile {
 
     void setPattern(Map<Direction, Boolean> readedPattern);
 
-    Map<Direction, Boolean> getPattern();
-
     /**
      * Tile that want to always be visible should call this instead of overriding isDiscovered.
      */
     void discover();
+
+    void select();
+
+    void deselect();
+
+    Map<Direction, Boolean> getPattern();
 }

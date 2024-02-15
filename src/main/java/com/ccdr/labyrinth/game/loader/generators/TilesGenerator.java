@@ -7,11 +7,14 @@ import com.ccdr.labyrinth.game.loader.Direction;
 import com.ccdr.labyrinth.game.loader.GameBoard;
 import com.ccdr.labyrinth.game.loader.tiles.Tile;
 import com.ccdr.labyrinth.game.loader.Coordinate;
+import com.ccdr.labyrinth.game.loader.Direction;
+import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
 import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
 import com.ccdr.labyrinth.game.loader.tiles.StandardTile;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,11 +26,18 @@ public class TilesGenerator {
     private final CoordinatesGenerator placer;
     private final int MIN_PATTERNS = 1, MAX_PATTERNS = 5;
     private final int MIN_ROTATIONS = 0, MAX_ROTATIONS = 4;
+    private Map<Coordinate, Tile> tiles;
+    private List<Item> missions;
+    private List<Material> bonuses;
 
-    public TilesGenerator(final GameConfig configuration) {
+
+    public TilesGenerator (GameConfig configuration, List<Item> missions, List<Material> bonuses) {
         this.configuration = configuration;
         this.placer = new CoordinatesGenerator(configuration);
         this.seed = new Random();
+        this.tiles = new HashMap<>();
+        this.missions = missions;
+        this.bonuses = bonuses;
     }
 
     public Board generateTiles() {

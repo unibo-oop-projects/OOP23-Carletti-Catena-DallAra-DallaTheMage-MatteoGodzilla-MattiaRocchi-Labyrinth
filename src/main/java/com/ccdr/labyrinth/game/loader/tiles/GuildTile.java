@@ -1,36 +1,28 @@
 package com.ccdr.labyrinth.game.loader.tiles;
-
-import com.ccdr.labyrinth.game.loader.GetMissions;
-import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.player.Player;
-import com.ccdr.labyrinth.Material;
-
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Class for the implementation of the guildtile.
+ */
 public class GuildTile extends GenericTile {
 
     private boolean state;
     private int maxPoints;
-    private List<Item> missions = new ArrayList<>();
-    private List<Material> materialpresents = new ArrayList<>();
-
-    public GuildTile(final int nPlayer, int maxPoints) {
+    /**
+     * 
+     * @param nPlayer
+     * @param maxPoints
+     */
+    public GuildTile(final int nPlayer, final int maxPoints) {
         this.maxPoints = maxPoints;
         this.discover();
     }
 
-    public List<Material> getMaterialPresents() {
-        return materialpresents;
-    }
-
-    public List<Item> returnListOfMissions() {
-        return missions;
-    }
-
+    /**
+     * 
+     */
     @Override
     public void onEnter(final Player player) {
-        if (state == false) {
+        if (!state) {
             player.increasePoints(maxPoints / 2);
         }
 

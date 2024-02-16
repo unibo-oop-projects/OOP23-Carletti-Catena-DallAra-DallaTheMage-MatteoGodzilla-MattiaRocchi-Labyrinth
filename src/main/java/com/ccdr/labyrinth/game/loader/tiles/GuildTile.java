@@ -9,7 +9,6 @@ public class GuildTile extends GenericTile {
     private final int maxPoints;
     /**
      * 
-     * @param nPlayer
      * @param maxPoints
      */
     public GuildTile(final int maxPoints) {

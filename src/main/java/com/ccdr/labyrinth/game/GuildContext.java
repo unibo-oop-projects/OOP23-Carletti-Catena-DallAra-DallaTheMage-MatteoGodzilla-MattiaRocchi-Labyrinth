@@ -20,7 +20,6 @@ public class GuildContext implements Context {
     private final GetMissions getM = new GetMissions();
     private int menuIndex;
     private PlayersManager players;
-    Player player;
     private boolean done;
     private Context following;
 
@@ -110,7 +109,7 @@ public class GuildContext implements Context {
     }
     @Override
     public final void primary() {
-        player = players.getActivePlayer();
+        final Player player = players.getActivePlayer();
         if (player.getQuantityMaterial(missions.get(menuIndex).getMaterial()) >= missions.get(menuIndex).getQuantity()) {
             player.decreaseQuantityMaterial(missions.get(menuIndex).getMaterial(), 
             missions.get(menuIndex).getQuantity());

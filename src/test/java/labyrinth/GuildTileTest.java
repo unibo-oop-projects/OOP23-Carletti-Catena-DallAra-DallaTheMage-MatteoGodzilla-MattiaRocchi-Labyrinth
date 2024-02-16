@@ -2,7 +2,6 @@ package labyrinth;
 
 import org.junit.jupiter.api.Test;
 
-<<<<<<< Updated upstream
 import com.ccdr.labyrinth.game.tiles.GuildTile;
 import com.ccdr.labyrinth.game.util.Item;
 import com.ccdr.labyrinth.game.util.Material;
@@ -14,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 class GuildTileTest {
-    
+
     GuildContext guildContext = new GuildContext(2);
 
     @Test
@@ -29,6 +28,6 @@ class GuildTileTest {
 
     @Test
     void testImage() {
-        
+
     }
 }

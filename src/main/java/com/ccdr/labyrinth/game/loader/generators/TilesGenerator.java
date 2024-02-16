@@ -28,7 +28,7 @@ public class TilesGenerator {
     private final Coordinate player1, player2, player3, player4;
     private List<Material> materials;
     private List<Optional<Material>> bonuses;
- 
+
 
     public TilesGenerator (GameConfig configuration, List<Item> missions, List<Material> materials) {
         this.CONFIGURATION = configuration;
@@ -63,7 +63,7 @@ public class TilesGenerator {
         for (Material m : this.materials) {
             sourceGeneratedCoordinate = sourceCoordinates.remove(index--);
             tiles.addBlocked(sourceGeneratedCoordinate);
-            tiles.insertTile(sourceGeneratedCoordinate, generateSource(m, this.CONFIGURATION.getPlayerCount()));
+            tiles.insertTile(sourceGeneratedCoordinate, generateSource(m, this.CONFIGURATION.getPlayerCountOptions()));
         }
         //Normal and bonus tiles
         while (normalQuantity-- > 0) {

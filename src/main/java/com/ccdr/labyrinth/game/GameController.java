@@ -35,14 +35,14 @@ public final class GameController implements Executor, GameInputs {
      * @param config config object containing the parameters to initialize the game
      */
     public void init(final GameConfig config) {
-        this.guildContext = new GuildContext(config.getPlayerCount());
+        this.guildContext = new GuildContext(config.getPlayerCountOptions());
         board = new TilesGenerator(config, guildContext.getListOfMissions(), guildContext.getMaterialPresents())
             .generateTiles(guildContext.getMissions().getMaxPoints());
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
         //set up contexts
         this.updateBoardContext = new UpdateBoardContext(this.board);
-        this.playerManager = new PlayersManager(config.getPlayerCount(), this.board,
+        this.playerManager = new PlayersManager(config.getPlayerCountOptions(), this.board,
         this.updateBoardContext, this.guildContext);
         this.labyrinthContext = new LabyrinthContext(this.board, this.playerManager);
 

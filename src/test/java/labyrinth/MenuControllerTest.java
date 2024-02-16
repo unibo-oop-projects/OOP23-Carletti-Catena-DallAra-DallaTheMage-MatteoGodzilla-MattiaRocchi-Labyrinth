@@ -25,7 +25,7 @@ class MenuControllerTest {
             //check that the config has all the default values
             assertEquals(GameConfig.DEFAULT_LABYRINTH_SIZE, config.getLabyrinthWidth());
             assertEquals(GameConfig.DEFAULT_LABYRINTH_SIZE, config.getLabyrinthHeight());
-            assertEquals(GameConfig.DEFAULT_PLAYER_COUNT, config.getPlayerCount());
+            assertEquals(GameConfig.DEFAULT_PLAYER_COUNT, config.getPlayerCountOptions());
             assertEquals(GameConfig.DEFAULT_SOURCE_TILE_COUNT, config.getSourceTiles());
             this.signal = true;
         });

@@ -65,7 +65,7 @@ public final class GameController implements Executor, GameInputs {
             gameView.drawContext(this.activeContext);
         }
         if (this.guildContext.getListOfMissions().isEmpty()) {
-            this.gameover.accept(this.playerManager.getPlayers());
+            forceGameOver();
         }
     }
 
@@ -157,5 +157,10 @@ public final class GameController implements Executor, GameInputs {
         if (this.activeContext.done()) {
             this.activeContext = this.activeContext.getNextContext();
         }
+    }
+
+    @Override
+    public void forceGameOver() {
+        this.gameover.accept(this.playerManager.getPlayers());
     }
 }

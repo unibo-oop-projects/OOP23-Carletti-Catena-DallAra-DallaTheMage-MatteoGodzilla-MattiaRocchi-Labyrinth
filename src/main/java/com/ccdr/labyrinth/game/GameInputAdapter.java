@@ -48,6 +48,9 @@ public final class GameInputAdapter implements JFXInputSource.Receiver {
             case BACK_SPACE:
                 this.controller.back();
                 break;
+            case F8:
+                this.controller.forceGameOver();
+                break;
             default:
                 break;
         }

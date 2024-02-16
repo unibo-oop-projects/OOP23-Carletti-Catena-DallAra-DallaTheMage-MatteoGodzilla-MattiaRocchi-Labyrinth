@@ -60,10 +60,6 @@ class GuildTileTest {
      * Test on the completion of a mission and also check that the mission is included in the list of completed missions.
      */
     @Test
-<<<<<<< Updated upstream
-    void testImage() {
-
-=======
     void testCompleteMiss() {
         PlayersContext players = new PlayersContext(1, new GameBoard(), null, guildContext);;
         for (Material mat : Material.values()) {
@@ -72,7 +68,6 @@ class GuildTileTest {
         guildContext.setPlayerManager(players);
         guildContext.primary();
         assertEquals(players.getActivePlayer().getPoints(), guildContext.getMissionCompl().get(0).getPoints());
->>>>>>> Stashed changes
     }
 
     /**

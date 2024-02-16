@@ -54,7 +54,7 @@ public final class UpdateBoardContext implements Context {
     public void primary() {
         //advance to the next player
         if (this.advancePlayer) {
-            int nextPlayerIndex = this.playerManager.getActivePlayerIndex() + 1;
+            final int nextPlayerIndex = this.playerManager.getActivePlayerIndex() + 1;
             this.playerManager.setActivePlayer(nextPlayerIndex % this.playerManager.getPlayers().size());
             this.playerManager.setTurnSubphase(Subphase.DICE);
         }

@@ -5,8 +5,11 @@ import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.util.Item;
 import com.ccdr.labyrinth.game.util.Material;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Class for the context of the guild and the implements of the menu missions.
@@ -37,6 +40,7 @@ public class GuildContext implements Context {
      * Set the PlayerManager.
      * @param pm
      */
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public final void setPlayerManager(final PlayersContext pm) {
         this.players = pm;
     }
@@ -45,14 +49,14 @@ public class GuildContext implements Context {
      * @return List of missions
      */
     public final List<Item> getListOfMissions() {
-        return missions;
+        return Collections.unmodifiableList(this.missions);
     }
     /**
      *
      * @return materials presents in game
      */
     public final List<Material> getMaterialPresents() {
-        return materialpresents;
+        return Collections.unmodifiableList(this.materialpresents);
     }
     /**
      *
@@ -66,7 +70,7 @@ public class GuildContext implements Context {
      * @return Missions completed
      */
     public final List<Item> getMissionCompl() {
-        return missionsCom;
+        return Collections.unmodifiableList(this.missionsCom);
     }
     /**
      *
@@ -108,14 +112,17 @@ public class GuildContext implements Context {
     }
     @Override
     public final void primary() {
-        final Player player = players.getActivePlayer();
-        if (player.getQuantityMaterial(missions.get(menuIndex).getMaterial()) >= missions.get(menuIndex).getQuantity()) {
-            player.decreaseQuantityMaterial(missions.get(menuIndex).getMaterial(),
-            missions.get(menuIndex).getQuantity());
-            player.increasePoints(missions.get(menuIndex).getPoints());
-            missionsCom.add(missions.get(menuIndex));
-            missions.remove(menuIndex);
+        if (players != null) {
+            final Player player = players.getActivePlayer();
+            if (player.getQuantityMaterial(missions.get(menuIndex).getMaterial()) >= missions.get(menuIndex).getQuantity()) {
+                player.decreaseQuantityMaterial(missions.get(menuIndex).getMaterial(),
+                missions.get(menuIndex).getQuantity());
+                player.increasePoints(missions.get(menuIndex).getPoints());
+                missionsCom.add(missions.get(menuIndex));
+                missions.remove(menuIndex);
+            }
         }
+        
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.ccdr.labyrinth.menu;
 
-import com.ccdr.labyrinth.TypeImag;
+import com.ccdr.labyrinth.ImageLoader;
 import com.ccdr.labyrinth.jfx.JFXExpandCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
@@ -147,7 +147,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
 
     private void drawLogo(final GraphicsContext context) {
         context.save();
-        final Image image = TypeImag.LOGO.getImage();
+        final Image image = ImageLoader.LOGO.getImage();
         final double logoWidth = this.logoSize * image.getWidth() / image.getHeight();
         final double xPos = this.canvas.getWidth() / 2 - logoWidth / 2;
         context.drawImage(image, xPos, this.padding, logoWidth, this.logoSize);

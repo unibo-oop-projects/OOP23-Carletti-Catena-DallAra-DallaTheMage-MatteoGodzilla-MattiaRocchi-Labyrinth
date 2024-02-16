@@ -2,7 +2,7 @@ package com.ccdr.labyrinth.game;
 
 import java.util.List;
 
-import com.ccdr.labyrinth.TypeImag;
+import com.ccdr.labyrinth.ImageLoader;
 import com.ccdr.labyrinth.game.context.Context;
 import com.ccdr.labyrinth.game.context.GuildContext;
 import com.ccdr.labyrinth.game.context.LabyrinthContext;
@@ -67,11 +67,11 @@ public final class GameJFXView implements GameView, JFXInputSource {
 
 
     //Images
-    private static final Image WALL = TypeImag.WALL.getImage();
-    private static final Image PATH_CENTER = TypeImag.PATH.getImage();
-    private static final Image PATH_VERTICAL = TypeImag.PATH.getImage();
-    private static final Image PATH_HORIZONTAL = TypeImag.PATH.getImage();
-    private static final Image PATH_GUILD = TypeImag.GUILD.getImage();
+    private static final Image WALL = ImageLoader.WALL.getImage();
+    private static final Image PATH_CENTER = ImageLoader.PATH.getImage();
+    private static final Image PATH_VERTICAL = ImageLoader.PATH.getImage();
+    private static final Image PATH_HORIZONTAL = ImageLoader.PATH.getImage();
+    private static final Image PATH_GUILD = ImageLoader.GUILD.getImage();
     private static final Color BASE_COLOR = Color.gray(0.3);
 
     private final Scene scene;
@@ -378,7 +378,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
      */
     @Override
     public void drawGuildinfo(final List<Item> missions, final List<Item> missionsCompleted) {
-        final Image point = TypeImag.POINT.getImage();
+        final Image point = ImageLoader.POINT.getImage();
         Platform.runLater(() -> {
             final var context2d = this.canvas.getGraphicsContext2D();
             context2d.save();
@@ -437,66 +437,12 @@ public final class GameJFXView implements GameView, JFXInputSource {
         for (final Item item : list) {
             this.recalculateFontSizes();
             context2d.setFont(Font.font(this.desFontSize));
-            switch (item.getCategory()) {
-                case ARMOR:
-                    context2d.drawImage(categoryToImage(item.getCategory()), lineMissionsX, lineMissionsY, imageDim, imageDim);
-                    break;
-                case CLOTHING:
-                    context2d.drawImage(categoryToImage(item.getCategory()), lineMissionsX, lineMissionsY, imageDim, imageDim);
-                    break;
-                case JEWEL:
-                    context2d.drawImage(categoryToImage(item.getCategory()), lineMissionsX, lineMissionsY, imageDim, imageDim);
-                    break;
-                case WEAPON:
-                    context2d.drawImage(categoryToImage(item.getCategory()), lineMissionsX, lineMissionsY, imageDim, imageDim);
-                    break;
-                case TOOL:
-                    context2d.drawImage(categoryToImage(item.getCategory()), lineMissionsX, lineMissionsY, imageDim, imageDim);
-                    break;
-                default:
-                    break;
-            }
+            context2d.drawImage(categoryToImage(item.getCategory()), lineMissionsX, lineMissionsY, imageDim, imageDim);
             final double x = lineMissionsX + spaceMissionsX;
-            switch (item.getMaterial()) {
-                case COAL:
-                    context2d.drawImage(materialToImage(item.getMaterial()), x, lineMissionsY, imageDim, imageDim);
-                    context2d.fillText("\t" + "x" + item.getQuantity(), x, lineMissionsY);
-                    context2d.fillText(" " + item.getPoints(), lineMissionsX + spacePointX, lineMissionsY);
-                    context2d.drawImage(point, lineMissionsX + spacePointX + desFontSize, lineMissionsY, imageDim, imageDim);
-                    break;
-                case COPPER:
-                    context2d.drawImage(materialToImage(item.getMaterial()), x, lineMissionsY, imageDim, imageDim);
-                    context2d.fillText("\t" + "x" + item.getQuantity(), x, lineMissionsY);
-                    context2d.fillText(" " + item.getPoints(), lineMissionsX + spacePointX, lineMissionsY);
-                    context2d.drawImage(point, lineMissionsX + spacePointX + desFontSize, lineMissionsY, imageDim, imageDim);
-                    break;
-                case SILK:
-                    context2d.drawImage(materialToImage(item.getMaterial()), x, lineMissionsY, imageDim, imageDim);
-                    context2d.fillText("\t" + "x" + item.getQuantity(), x, lineMissionsY);
-                    context2d.fillText(" " + item.getPoints(), lineMissionsX + spacePointX, lineMissionsY);
-                    context2d.drawImage(point, lineMissionsX + spacePointX + desFontSize, lineMissionsY, imageDim, imageDim);
-                    break;
-                case WOOD:
-                    context2d.drawImage(materialToImage(item.getMaterial()), x, lineMissionsY, imageDim, imageDim);
-                    context2d.fillText("\t" + "x" + item.getQuantity(), x, lineMissionsY);
-                    context2d.fillText(" " + item.getPoints(), lineMissionsX + spacePointX, lineMissionsY);
-                    context2d.drawImage(point, lineMissionsX + spacePointX + desFontSize, lineMissionsY, imageDim, imageDim);
-                    break;
-                case DIAMOND:
-                    context2d.drawImage(materialToImage(item.getMaterial()), x, lineMissionsY, imageDim, imageDim);
-                    context2d.fillText("\t" + "x" + item.getQuantity(), x, lineMissionsY);
-                    context2d.fillText(" " + item.getPoints(), lineMissionsX + spacePointX, lineMissionsY);
-                    context2d.drawImage(point, lineMissionsX + spacePointX + desFontSize, lineMissionsY, imageDim, imageDim);
-                    break;
-                case IRON:
-                    context2d.drawImage(materialToImage(item.getMaterial()), x, lineMissionsY, imageDim, imageDim);
-                    context2d.fillText("\t" + "x" + item.getQuantity(), x, lineMissionsY);
-                    context2d.fillText(" " + item.getPoints(), lineMissionsX + spacePointX, lineMissionsY);
-                    context2d.drawImage(point, lineMissionsX + spacePointX + desFontSize, lineMissionsY, imageDim, imageDim);
-                    break;
-                default:
-                    break;
-            }
+            context2d.drawImage(materialToImage(item.getMaterial()), x, lineMissionsY, imageDim, imageDim);
+            context2d.fillText("\t" + "x" + item.getQuantity(), x, lineMissionsY);
+            context2d.fillText(" " + item.getPoints(), lineMissionsX + spacePointX, lineMissionsY);
+            context2d.drawImage(point, lineMissionsX + spacePointX + desFontSize + imageDim / (2 * 2), lineMissionsY, imageDim, imageDim);
             i++;
         }
         context2d.setFont(Font.getDefault());
@@ -577,17 +523,17 @@ public final class GameJFXView implements GameView, JFXInputSource {
     private Image materialToImage(final Material material) {
         switch (material) {
             case COAL:
-                return TypeImag.COAL.getImage();
+                return ImageLoader.COAL.getImage();
             case COPPER:
-                return TypeImag.COPPER.getImage();
+                return ImageLoader.COPPER.getImage();
             case DIAMOND:
-                return TypeImag.DIAMOND.getImage();
+                return ImageLoader.DIAMOND.getImage();
             case IRON:
-                return TypeImag.IRON.getImage();
+                return ImageLoader.IRON.getImage();
             case SILK:
-                return TypeImag.SILK.getImage();
+                return ImageLoader.SILK.getImage();
             case WOOD:
-                return TypeImag.WOOD.getImage();
+                return ImageLoader.WOOD.getImage();
             default:
                 return null;
         }
@@ -596,15 +542,15 @@ public final class GameJFXView implements GameView, JFXInputSource {
     private Image categoryToImage(final Category category) {
         switch (category) {
             case ARMOR:
-                return TypeImag.ARMOR.getImage();
+                return ImageLoader.ARMOR.getImage();
             case CLOTHING:
-                return TypeImag.CLOTHING.getImage();
+                return ImageLoader.CLOTHING.getImage();
             case JEWEL:
-                return TypeImag.JEWEL.getImage();
+                return ImageLoader.JEWEL.getImage();
             case WEAPON:
-                return TypeImag.WEAPON.getImage();
+                return ImageLoader.WEAPON.getImage();
             case TOOL:
-                return TypeImag.TOOL.getImage();
+                return ImageLoader.TOOL.getImage();
             default:
                 return null;
         }

@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.ccdr.labyrinth.TypeImag;
+import com.ccdr.labyrinth.ImageLoader;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -28,18 +28,18 @@ public final class MenuParticleSystem {
     private Set<Particle> particles = new HashSet<>();
     private final List<Image> sourceImages = List.of(
         //Materials
-        TypeImag.COAL.getImage(),
-        TypeImag.COPPER.getImage(),
-        TypeImag.DIAMOND.getImage(),
-        TypeImag.IRON.getImage(),
-        TypeImag.SILK.getImage(),
-        TypeImag.WOOD.getImage(),
+        ImageLoader.COAL.getImage(),
+        ImageLoader.COPPER.getImage(),
+        ImageLoader.DIAMOND.getImage(),
+        ImageLoader.IRON.getImage(),
+        ImageLoader.SILK.getImage(),
+        ImageLoader.WOOD.getImage(),
         //Categories
-        TypeImag.ARMOR.getImage(),
-        TypeImag.CLOTHING.getImage(),
-        TypeImag.JEWEL.getImage(),
-        TypeImag.TOOL.getImage(),
-        TypeImag.WEAPON.getImage()
+        ImageLoader.ARMOR.getImage(),
+        ImageLoader.CLOTHING.getImage(),
+        ImageLoader.JEWEL.getImage(),
+        ImageLoader.TOOL.getImage(),
+        ImageLoader.WEAPON.getImage()
     );
 
     /**

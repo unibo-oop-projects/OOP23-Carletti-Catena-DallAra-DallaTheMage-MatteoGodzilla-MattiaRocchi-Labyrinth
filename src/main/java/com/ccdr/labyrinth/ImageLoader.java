@@ -1,10 +1,11 @@
 package com.ccdr.labyrinth;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.scene.image.Image;
 /**
  * Enum for loading from file path and getting images.
  */
-public enum TypeImag {
+public enum ImageLoader {
     /**path is redirected through src/main/resources.
     *if the file could not be found, jfx will throw an exception
     *(it doesn't do that when you use the 'file:' protocol)
@@ -91,13 +92,15 @@ public enum TypeImag {
      * 
      * @param path
      */
-    TypeImag(final String path) {
+    ImageLoader(final String path) {
         this.picture = new Image(path, 0, 0, true, true);
     }
     /**
      * 
      * @return image
+     * 
      */
+    @SuppressFBWarnings
     public Image getImage() {
         return picture;
     }

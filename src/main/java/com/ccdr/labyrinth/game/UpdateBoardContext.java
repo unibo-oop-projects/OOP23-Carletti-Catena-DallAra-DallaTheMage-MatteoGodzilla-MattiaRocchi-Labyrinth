@@ -27,14 +27,14 @@ public final class UpdateBoardContext implements Context {
     /**
      * @param following reference to context object that should activate after this one
      */
-    public void bindNextContext(final Context following) {
+    public void setNextContext(final Context following) {
         this.following = following;
     }
 
     /**
      * @param pm reference to the PlayersManager instance that actually contains the players for the game
      */
-    public void bindPlayerManager(final PlayersManager pm) {
+    public void setPlayerManager(final PlayersManager pm) {
         this.playerManager = pm;
     }
 

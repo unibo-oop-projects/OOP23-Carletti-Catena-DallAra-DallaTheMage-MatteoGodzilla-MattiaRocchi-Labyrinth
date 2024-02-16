@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.engine.Executor;
@@ -14,7 +16,7 @@ import com.ccdr.labyrinth.game.player.Player;
  */
 public final class ResultController implements Executor, ResultInputs {
 
-    private final List<ResultView> views = new ArrayList<>();
+    private final Set<ResultView> views = new HashSet<>();
     private List<Player> players;
     private Map<Player, Integer> playerToIndex;
     private Runnable closeAction = () -> { };

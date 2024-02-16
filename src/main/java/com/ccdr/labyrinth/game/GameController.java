@@ -48,8 +48,8 @@ public final class GameController implements Executor, GameInputs {
 
         this.guildContext.setPlayerManager(this.playerManager);
         this.guildContext.setNextContext(this.updateBoardContext);
-        this.updateBoardContext.bindNextContext(this.labyrinthContext);
-        this.updateBoardContext.bindPlayerManager(this.playerManager);
+        this.updateBoardContext.setNextContext(this.labyrinthContext);
+        this.updateBoardContext.setPlayerManager(this.playerManager);
         this.activeContext = this.updateBoardContext;
     }
 

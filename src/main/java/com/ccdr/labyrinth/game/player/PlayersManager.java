@@ -7,10 +7,13 @@ import java.util.Random;
 
 import com.ccdr.labyrinth.game.Board;
 import com.ccdr.labyrinth.game.Context;
+import com.ccdr.labyrinth.game.GameConfig;
 import com.ccdr.labyrinth.game.GuildContext;
 import com.ccdr.labyrinth.game.UpdateBoardContext;
 import com.ccdr.labyrinth.game.loader.Coordinate;
 import com.ccdr.labyrinth.game.loader.Direction;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A class that implements a manager of players, with a reference of all players in the game.
@@ -19,6 +22,7 @@ import com.ccdr.labyrinth.game.loader.Direction;
 public class PlayersManager implements Context {
 
     private static final Random RANDOM = new Random();
+    private static final int DICEVAL = 6;
 
     private final List<Player> players = new ArrayList<>();
     private int activePlayer;
@@ -49,10 +53,13 @@ public class PlayersManager implements Context {
      * @param board the board of the game
      * @param updateContext the context that update the active player
      * @param guildContext the context of the guild
+     * SuppressFBWarnings because the builder of PlayersManager needs the board, updateContext and guildContext
+     * created by the GameController and it cannot make an internal copy.
      */
+    @SuppressFBWarnings
     public PlayersManager(final int numPlayers, final Board board,
         final UpdateBoardContext updateContext, final GuildContext guildContext
-    ) {
+        ) {
         this.board = board;
         this.updateBoard = updateContext;
         this.guildContext = guildContext;
@@ -116,15 +123,15 @@ public class PlayersManager implements Context {
      */
     public void generateDiceValue() {
         if (this.subphase == Subphase.DICE) {
-            switch (this.board.getHeight()) {
-                case 15:
-                    this.maxDiceVal = 6;
+            switch (GameConfig.LABYRINTH_SIZE_OPTIONS.indexOf(this.board.getWidth())) {
+                case 0:
+                    this.maxDiceVal = DICEVAL;
                     break;
-                case 31:
-                    this.maxDiceVal = 12;
+                case 1:
+                    this.maxDiceVal = DICEVAL * 2;
                     break;
-                case 45:
-                    this.maxDiceVal = 24;
+                case 2:
+                    this.maxDiceVal = DICEVAL * 4;
                     break;
                 default:
                     break;
@@ -268,7 +275,11 @@ public class PlayersManager implements Context {
     /**
      * method that executes the end of the turn, passing to the new active context.
      * @return the next active context
+     * SuppressFBWarnings because this method cannot return a copy of this.guildContext
+     * or this.updateBoardContext,
+     * as I have to return the contexts created by the GameController passed to the builder.
      */
+    @SuppressFBWarnings
     @Override
     public Context getNextContext() {
         final Coordinate guildTile = new Coordinate(this.board.getHeight() / 2, this.board.getWidth() / 2);

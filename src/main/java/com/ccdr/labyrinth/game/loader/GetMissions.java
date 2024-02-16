@@ -13,23 +13,23 @@ import com.ccdr.labyrinth.Material;
  * Class for creating missions belonging to the guild.
  */
 public class GetMissions {
-    private final int minRequired = 5;
-    private final int maxRequired = 10;
-    private int materialtemp = 0;
-    private int idCat = 0;
-    private int idMat = 0;
-    private Set<Category> category = new HashSet<>(Set.of(Category.values()));
-    private List<Material> materialpresents = new ArrayList<>();
-    private Set<Material> material = new HashSet<>(Set.of(Material.values()));
-    private Random quantityGenerator = new Random();
+    private static final int MIN_REQUIRED = 5;
+    private static final int MAX_REQUIRED = 10;
+    private int materialtemp;
+    private int idCat;
+    private int idMat;
+    private final Set<Category> category = new HashSet<>(Set.of(Category.values()));
+    private final List<Material> materialpresents = new ArrayList<>();
+    private final Set<Material> material = new HashSet<>(Set.of(Material.values()));
+    private final Random quantityGenerator = new Random();
 
     /**
-     * method for generating a mission considering that there must not be 
+     * method for generating a mission considering that there must not be
      * identical missions and that there must be two missions per material.
      * @return one item tha is a mission
      */
     public final Item generateMission() {
-        Item item = new Item(); /**creation of the new Item to be able to generate a list. */
+        final Item item = new Item(); /**creation of the new Item to be able to generate a list. */
 
         /**Condition used to not repeat the same category with the same material. */
         if (materialtemp == 1 || materialtemp == 0) {
@@ -62,7 +62,7 @@ public class GetMissions {
             materialpresents.add(item.getMaterial());
         }
         /**Set quantity of materials. */
-        item.setQuantity(quantityGenerator.nextInt(minRequired, maxRequired));
+        item.setQuantity(quantityGenerator.nextInt(MIN_REQUIRED, MAX_REQUIRED));
         /**Set quantity of points. */
         item.setPoints(quantityGenerator.nextInt(2 * 3, 10 + 1));
 
@@ -70,14 +70,14 @@ public class GetMissions {
 
     }
     /**
-     * 
+     *
      * @return max point
      */
     public final int getMaxPoints() {
-        return this.maxRequired;
+        return MAX_REQUIRED;
     }
     /**
-     * 
+     *
      * @return materials presents in game
      */
     public final List<Material> materialPresents() {

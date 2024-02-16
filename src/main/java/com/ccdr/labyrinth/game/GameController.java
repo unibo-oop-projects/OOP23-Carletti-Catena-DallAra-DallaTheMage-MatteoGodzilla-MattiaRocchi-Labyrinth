@@ -35,21 +35,21 @@ public final class GameController implements Executor, GameInputs {
      * @param config config object containing the parameters to initialize the game
      */
     public void init(final GameConfig config) {
-        this.guildContext = new GuildContext(config.getPlayerCount());
+        this.guildContext = new GuildContext(config.getPlayerCountOptions());
         board = new TilesGenerator(config, guildContext.getListOfMissions(), guildContext.getMaterialPresents())
             .generateTiles(guildContext.getMissions().getMaxPoints());
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
         //set up contexts
         this.updateBoardContext = new UpdateBoardContext(this.board);
-        this.playerManager = new PlayersManager(config.getPlayerCount(), this.board,
+        this.playerManager = new PlayersManager(config.getPlayerCountOptions(), this.board,
         this.updateBoardContext, this.guildContext);
         this.labyrinthContext = new LabyrinthContext(this.board, this.playerManager);
 
         this.guildContext.setPlayerManager(this.playerManager);
         this.guildContext.setNextContext(this.updateBoardContext);
-        this.updateBoardContext.bindNextContext(this.labyrinthContext);
-        this.updateBoardContext.bindPlayerManager(this.playerManager);
+        this.updateBoardContext.setNextContext(this.labyrinthContext);
+        this.updateBoardContext.setPlayerManager(this.playerManager);
         this.activeContext = this.updateBoardContext;
     }
 
@@ -65,7 +65,7 @@ public final class GameController implements Executor, GameInputs {
             gameView.drawContext(this.activeContext);
         }
         if (this.guildContext.getListOfMissions().isEmpty()) {
-            this.gameover.accept(this.playerManager.getPlayers());
+            forceGameOver();
         }
     }
 
@@ -157,5 +157,10 @@ public final class GameController implements Executor, GameInputs {
         if (this.activeContext.done()) {
             this.activeContext = this.activeContext.getNextContext();
         }
+    }
+
+    @Override
+    public void forceGameOver() {
+        this.gameover.accept(this.playerManager.getPlayers());
     }
 }

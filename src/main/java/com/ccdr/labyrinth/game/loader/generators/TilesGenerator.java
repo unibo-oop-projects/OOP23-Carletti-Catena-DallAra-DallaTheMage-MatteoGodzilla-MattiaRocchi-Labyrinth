@@ -28,7 +28,7 @@ public final class TilesGenerator {
     private final Set<Coordinate> playersLocation;
     private List<Material> materials;
     private List<Optional<Material>> bonuses;
- 
+
 
     public TilesGenerator(final GameConfig configuration, final List<Item> missions, final List<Material> materials) {
         this.configuration = configuration;
@@ -51,7 +51,7 @@ public final class TilesGenerator {
         final Coordinate center = new Coordinate(height / 2, width / 2);
         int normalQuantity = height * width - this.configuration.getSourceTiles() - 1;
         //Guild tile generation
-        GuildTile guild = new GuildTile(this.configuration.getPlayerCount(), maxPoints);
+        GuildTile guild = new GuildTile(maxPoints);
         guild.setPattern(selectPattern(4));
         tiles.insertTile(center, guild);
         tiles.addBlocked(center);
@@ -63,7 +63,7 @@ public final class TilesGenerator {
         for (Material m : this.materials) {
             sourceGeneratedCoordinate = sourceCoordinates.remove(index--);
             tiles.addBlocked(sourceGeneratedCoordinate);
-            tiles.insertTile(sourceGeneratedCoordinate, generateSource(m, this.configuration.getPlayerCount()));
+            tiles.insertTile(sourceGeneratedCoordinate, generateSource(m, this.configuration.getPlayerCountOptions()));
         }
         //Normal and bonus tiles generation
         while (normalQuantity-- > 0) {

@@ -10,36 +10,43 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CoordinatesGenerator {
-    private final GameConfig configuration;
+public final class CoordinatesGenerator {
     private final Random randomGenerator;
-    private final int CENTER_WIDTH_RADIUS, CENTER_HEIGHT_RADIUS;
-    private final int CENTER_WIDTH, CENTER_HEIGHT;
+    private final GameConfig configuration;
+    private final int centerWidth, centerHeight;
+    private final int centerWidthRadius, centerHeightRadius;
+    private static final int PARTIAL = 3;
+    private static final int ENTIRE = 5;
 
-
-    public CoordinatesGenerator(GameConfig configuration) {
+    public CoordinatesGenerator(final GameConfig configuration) {
         this.configuration = configuration;
         this.randomGenerator = new Random();
-        this.CENTER_WIDTH = Math.round(this.configuration.getLabyrinthWidth() * 3 / 5);
-        this.CENTER_HEIGHT = Math.round(this.configuration.getLabyrinthHeight() * 3 / 5);
-        this.CENTER_WIDTH_RADIUS = Math.floorDiv(CENTER_WIDTH, 2);
-        this.CENTER_HEIGHT_RADIUS = Math.floorDiv(CENTER_HEIGHT, 2);
+        this.centerWidth = Math.round(this.configuration.getLabyrinthWidth() * PARTIAL / ENTIRE);
+        this.centerHeight = Math.round(this.configuration.getLabyrinthHeight() * PARTIAL / ENTIRE);
+        this.centerWidthRadius = Math.floorDiv(centerWidth, 2);
+        this.centerHeightRadius = Math.floorDiv(centerHeight, 2);
     }
 
     public Coordinate generateRandomCoordinate(final Map<Coordinate, Tile> board) {
-        final int START = 0;
-        return getValidRandomCoordinate(board, START, START, this.configuration.getLabyrinthHeight(),
-        this.configuration.getLabyrinthWidth());
+        final int start = 0;
+        Coordinate coordinate;
+        int row, column;
+        do {
+            row = randomGenerator.nextInt(start, this.configuration.getLabyrinthHeight());
+            column = randomGenerator.nextInt(start, this.configuration.getLabyrinthWidth());
+            coordinate = new Coordinate(row, column);
+        } while (board.containsKey(coordinate));
+        return coordinate;
     }
 
-    public List<Coordinate> calculateSourcesCoordinates(final Coordinate CENTER, final Map<Coordinate, Tile> board) {
+    public List<Coordinate> calculateSourcesCoordinates(final Coordinate center, final Map<Coordinate, Tile> board) {
         double toPlace = this.configuration.getSourceTiles();
         List<Coordinate> valids = new ArrayList<>();
-        final double SLICE = Math.PI * 2 / toPlace;
-        double angle = SLICE;
+        final double slice = Math.PI * 2 / toPlace;
+        double angle = slice;
         while (toPlace-- > 0) {
-            valids.add(calculateCirclePoint(Math.min(CENTER_HEIGHT_RADIUS,CENTER_WIDTH_RADIUS), angle, CENTER));
-            angle += SLICE;
+            valids.add(calculateCirclePoint(Math.min(centerHeightRadius, centerWidthRadius), angle, center));
+            angle += slice;
         }
 
         return valids;
@@ -47,20 +54,7 @@ public class CoordinatesGenerator {
 
     private Coordinate calculateCirclePoint(final int radius, final double angle, final Coordinate center) {
         double rowCoord = Math.round(center.row() + radius * Math.sin(angle));
-        double columnCoord = Math.round(center.column() + radius*Math.cos(angle));
-        return new Coordinate((int)rowCoord, (int)columnCoord);
-    }
-
-    private Coordinate getValidRandomCoordinate(final Map<Coordinate, Tile> board,
-        final int minRow, final int minColumn, final int maxRow, final int maxColumn
-    ) {
-        Coordinate coordinate;
-        int row, column;
-        do {
-            row = randomGenerator.nextInt(minRow, maxRow);
-            column = randomGenerator.nextInt(minColumn, maxColumn);
-            coordinate = new Coordinate(row , column);
-        } while (board.containsKey(coordinate));
-        return coordinate;
+        double columnCoord = Math.round(center.column() + radius * Math.cos(angle));
+        return new Coordinate((int) rowCoord, (int) columnCoord);
     }
 }

@@ -7,34 +7,34 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class RotationContext implements Context {
+public final class RotationContext implements Context {
     private final Board board;
     private final List<Coordinate> selected;
-    private final Context playerManager;
+    private final PlayersManager playerManager;
     private boolean done;
     private boolean generatedRange;
     private Coordinate actual;
     private int minColumn, minRow, maxColumn, maxRow;
-    
-    public RotationContext(Board board, Context playerManager) {
+
+    public RotationContext(final Board board, final PlayersManager playerManager) {
         this.board = board;
         this.selected = new ArrayList<>();
         this.playerManager = playerManager;
-        this.setRange(((PlayersManager)this.playerManager).getActivePlayer().getCoord());
+        this.setRange(this.playerManager.getActivePlayer().getCoord());
         this.actual = new Coordinate(minRow, minColumn);
         this.selected.add(this.actual);
     }
 
-    private void setRange(Coordinate player) {
+    private void setRange(final Coordinate player) {
         minRow = Math.max(0, player.row() - 1);
-        minColumn = Math.max(0, player.column()-1);
-        maxRow = Math.min(player.row()+1, this.board.getHeight()-1);
-        maxColumn = Math.min(player.column()+1, this.board.getWidth()-1);
+        minColumn = Math.max(0, player.column() - 1);
+        maxRow = Math.min(player.row() + 1, this.board.getHeight() - 1);
+        maxColumn = Math.min(player.column() + 1, this.board.getWidth() - 1);
         this.actual = new Coordinate(minRow, minColumn);
         this.generatedRange = true;
     }
 
-    private void replaceSelected(Coordinate nextSelected) {
+    private void replaceSelected(final Coordinate nextSelected) {
         this.actual = nextSelected;
         this.selected.add(actual);
     }
@@ -42,11 +42,11 @@ public class RotationContext implements Context {
     @Override
     public void up() {
         this.selected.clear();
-        if(!generatedRange) {
-            this.setRange(((PlayersManager)this.playerManager).getActivePlayer().getCoord());
+        if (!generatedRange) {
+            this.setRange(this.playerManager.getActivePlayer().getCoord());
         }
         int actualRow = this.actual.row();
-        actualRow = Math.max(minRow, actualRow-1);
+        actualRow = Math.max(minRow, actualRow - 1);
         Coordinate nextSelected = new Coordinate(actualRow, this.actual.column());
         this.replaceSelected(nextSelected);
     }
@@ -54,11 +54,11 @@ public class RotationContext implements Context {
     @Override
     public void down() {
         this.selected.clear();
-        if(!generatedRange) {
-            this.setRange(((PlayersManager)this.playerManager).getActivePlayer().getCoord());
+        if (!generatedRange) {
+            this.setRange(this.playerManager.getActivePlayer().getCoord());
         }
         int actualRow = this.actual.row();
-        actualRow = Math.min(maxRow, actualRow+1);
+        actualRow = Math.min(maxRow, actualRow + 1);
         Coordinate nextSelected = new Coordinate(actualRow, this.actual.column());
         this.replaceSelected(nextSelected);
     }
@@ -66,11 +66,11 @@ public class RotationContext implements Context {
     @Override
     public void left() {
         this.selected.clear();
-        if(!generatedRange) {
-            this.setRange(((PlayersManager)this.playerManager).getActivePlayer().getCoord());
+        if (!generatedRange) {
+            this.setRange(this.playerManager.getActivePlayer().getCoord());
         }
         int actualColumn = this.actual.column();
-        actualColumn = Math.max(minColumn, actualColumn-1);
+        actualColumn = Math.max(minColumn, actualColumn - 1);
         Coordinate nextSelected = new Coordinate(this.actual.row(), actualColumn);
         this.replaceSelected(nextSelected);
     }
@@ -78,11 +78,11 @@ public class RotationContext implements Context {
     @Override
     public void right() {
         this.selected.clear();
-        if(!generatedRange) {
-            this.setRange(((PlayersManager)this.playerManager).getActivePlayer().getCoord());
+        if (!generatedRange) {
+            this.setRange(this.playerManager.getActivePlayer().getCoord());
         }
         int actualColumn = this.actual.column();
-        actualColumn = Math.min(maxColumn, actualColumn+1);
+        actualColumn = Math.min(maxColumn, actualColumn + 1);
         Coordinate nextSelected = new Coordinate(this.actual.row(), actualColumn);
         this.replaceSelected(nextSelected);
     }
@@ -109,7 +109,7 @@ public class RotationContext implements Context {
     public boolean done() {
         return done;
     }
-    
+  
     @Override
     public Context getNextContext() {
         this.generatedRange = false;

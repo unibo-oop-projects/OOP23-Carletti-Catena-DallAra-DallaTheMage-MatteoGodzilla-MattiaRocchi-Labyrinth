@@ -6,12 +6,11 @@ import com.ccdr.labyrinth.game.player.PlayersManager;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.function.Function;
 import java.util.Collections;
 
-public class ShifterContext implements Context {
+public final class ShifterContext implements Context {
     private final Board board;
-    private final Context players;
+    private final PlayersManager players;
     private List<Coordinate> selected = new ArrayList<>();
     private int selectedRow;
     private int selectedColumn;
@@ -19,7 +18,7 @@ public class ShifterContext implements Context {
     private boolean done;
     private boolean isRow;
 
-    public ShifterContext(Board board, Context players) {
+    public ShifterContext(final Board board, final PlayersManager players) {
         this.board = board;
         this.players = players;
         this.selected = new ArrayList<>();
@@ -27,77 +26,77 @@ public class ShifterContext implements Context {
         this.selectRow(selectedRow);
         this.isRow = true;
     }
-    
-    private void selectRow(int i) {
+
+    private void selectRow(final int i) {
         isRow = true;
         selected.clear();
         indexSelected = i;
-        for(Coordinate c : this.board.getMap().keySet()) {
-            if(c.row() == i) {
+        for (Coordinate c : this.board.getMap().keySet()) {
+            if (c.row() == i) {
                 selected.add(c);
             }
         }
         this.selectedRow = i;
     }
 
-    private void selectColumn(int i) {
+    private void selectColumn(final int i) {
         isRow = false;
         selected.clear();
         indexSelected = i;
-        for(Coordinate c : this.board.getMap().keySet()) {
-            if(c.column() == i) {
+        for (Coordinate c : this.board.getMap().keySet()) {
+            if (c.column() == i) {
                 selected.add(c);
             }
         } 
         this.selectedColumn = i;
     }
 
-    private int calculateCorrectIndex(Function<Integer, Integer> rule, int i) {    
-        return rule.apply(i);
+    private int calculateCorrectIndex(final int i, final int size) {    
+        return (i + size) % size;
     }
 
     @Override
     public void up() {
         do {
-            this.selectRow(this.calculateCorrectIndex((index) -> index < 0 ? this.board.getHeight()-1 : index, --this.selectedRow));
+            this.selectRow(this.calculateCorrectIndex(--this.selectedRow, this.board.getHeight()));
         } while (this.board.getBlockedRows().contains(selectedRow));
     }
 
     @Override
     public void down() {
         do {
-            this.selectRow(this.calculateCorrectIndex((index) -> index > this.board.getHeight()-1 ? 0 : index, ++this.selectedRow));  
+            this.selectRow(this.calculateCorrectIndex(++this.selectedRow, this.board.getHeight()));  
         } while (this.board.getBlockedRows().contains(selectedRow));
     }
 
     @Override
     public void left() {
         do {
-            this.selectColumn(this.calculateCorrectIndex((index) -> index < 0 ?  this.board.getWidth()-1 : index, --this.selectedColumn));   
+            this.selectColumn(this.calculateCorrectIndex(--this.selectedColumn, this.board.getWidth()));   
         } while (this.board.getBlockedColumns().contains(selectedColumn));
     }
 
     @Override
     public void right() {
         do {
-            this.selectColumn(this.calculateCorrectIndex((index) -> index > this.board.getWidth()-1 ? 0  : index, ++this.selectedColumn));   
+            this.selectColumn(this.calculateCorrectIndex(++this.selectedColumn, this.board.getWidth()));   
         } while (this.board.getBlockedColumns().contains(selectedColumn));
     }
 
     @Override
     public void primary() {
-        final boolean FORWARD = true;
+        final boolean forward = true;
         this.done = true;
-        if(isRow) {
-            this.board.shiftRow(this.indexSelected, FORWARD);
+        if (isRow) {
+            this.board.shiftRow(this.indexSelected, forward);
         } else {
-            this.board.shiftColumn(this.indexSelected, FORWARD);
+            this.board.shiftColumn(this.indexSelected, forward);
         }
         this.discoverNearPlayers();
     }
 
     private void discoverNearPlayers() {
-        for(Player p : ((PlayersManager)this.players).getPlayers()) {
+        for (Player p : this.players.getPlayers()) {
             this.board.discoverNearBy(p.getCoord(), 2);
         }
     }
@@ -107,12 +106,12 @@ public class ShifterContext implements Context {
 
     @Override
     public void back() {
-        final boolean FORWARD = false;
+        final boolean forward = false;
         this.done = true;
-        if(isRow) {
-            this.board.shiftRow(this.indexSelected, FORWARD);
+        if (isRow) {
+            this.board.shiftRow(this.indexSelected, forward);
         } else {
-            this.board.shiftColumn(this.indexSelected, FORWARD);
+            this.board.shiftColumn(this.indexSelected, forward);
         }       
         this.discoverNearPlayers();
     }

@@ -1,6 +1,7 @@
 package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.game.loader.Coordinate;
+import com.ccdr.labyrinth.game.player.PlayersManager;
 
 import java.util.List;
 
@@ -10,13 +11,13 @@ public class LabyrinthContext implements Context {
         ROTATOR
     }
 
-    private final Context playersManager; 
+    private final PlayersManager playersManager; 
     private final ShifterContext shifter;
     private final RotationContext rotator;
     private boolean switcher;
     private Subcontext active;
 
-    public LabyrinthContext(final Board board, final Context next) {
+    public LabyrinthContext(final Board board, final PlayersManager next) {
         this.playersManager = next;
         this.switcher = true;
         this.shifter = new ShifterContext(board, this.playersManager);

@@ -5,9 +5,9 @@ package com.ccdr.labyrinth.game;
  * It is used as a transition class between the menu and the game.
  */
 public final class GameConfig {
-    private static final int DEFAULT_PLAYER_COUNT = 2;
-    private static final int DEFAULT_LABYRINTH_SIZE = 31;
-    private static final int DEFAULT_SOURCE_TILE_COUNT = 8;
+    public static final int DEFAULT_PLAYER_COUNT = 2;
+    public static final int DEFAULT_LABYRINTH_SIZE = 31;
+    public static final int DEFAULT_SOURCE_TILE_COUNT = 8;
 
     private int playerCount = DEFAULT_PLAYER_COUNT;
     private int labyrinthHeight = DEFAULT_LABYRINTH_SIZE;

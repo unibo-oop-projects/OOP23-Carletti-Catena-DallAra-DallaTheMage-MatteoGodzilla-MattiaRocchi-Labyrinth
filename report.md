@@ -9,16 +9,17 @@
 ### 2.2 Design Dettagliato
 #### 2.2.1 Carletti Lorenzo
 #### 2.2.2 Catena Matteo
-- **Problema:** Il game loop principale responsabile per l'esecuzione del codice deve poter eseguire in momenti separati la classe comtroller del menu, la classe controller del gameplay e quella controller dei risultati.
+- **Problema:** Il game loop principale responsabile per l'esecuzione del codice deve poter eseguire in momenti separati la classe controller del menu, la classe controller del gameplay e quella controller dei risultati.
 La classe che gestisce il game loop principale non dovrebbe definire al suo interno quali classi vengono eseguite, perchè ciò limita notevolmente la riusabilità del codice.
 Inoltre lo scambio tra i controller dovrebbe essere possibile anche se le classi non hanno riferimenti diretti agli altri controller che devono essere eseguiti.
 **Soluzione:** Design della classe `Engine` e dell'interfaccia `Executor`.
-Il game loop principale è contenuto internamente nella classe `Engine`, che permette successivamente di eseguire i metodi definiti dall'interfaccia `Executor`.
-La classe `Engine` può eseguire un solo oggetto `Executor` alla volta, ma attraverso il metodo `changeExecutor` si può ordinare alla classe `Engine` di cambiare *quale* oggetto `Executor` deve essere eseguito da quel momento.
+Il game loop principale è contenuto internamente nella classe `Engine`, che successivamente richiama i metodi definiti dall'interfaccia `Executor`.
+La classe `Engine` può eseguire un solo oggetto `Executor` alla volta, ma attraverso il metodo `changeExecutor` si può ordinare alla classe `Engine` di cambiare *quale* oggetto `Executor` deve essere eseguito da quel momento in poi.
 
-- **Problema:** Quando il controller che deve essere eseguito cambia, questo richiede anche un trasferimento di informazioni dalla precedente alla successiva, come per esempio la configurazione del gioco dal menu al controller del gioco.
-**Soluzione:** è stato utilizzato il pattern observer, in modo tale percui il trasferimento delle informazioni viene fatto attraverso funzioni lambda.
-In questo modo le classi controller hanno codice concettualmente separato, senza nessun riferimento esterno, rendendo possibile fare uno scambio tra i controller attivi in modo circolare.
+- **Problema:** Quando si passa da un controller al successivo, questo richiede anche un trasferimento di informazioni. Un esempio di ciò è la configurazione del gioco, che deve andare dal menu al controller di gioco.
+Dato che gli scambi tra controller sono di tipo circolare (da menu a gioco, da gioco a risultati, da risultati a menu), non si può mantenere nel controller di partenza il riferimento al controller successivo passandolo come parametro del costruttore
+**Soluzione:** è stato utilizzato il pattern observer, definendo degli "eventi" quando è richiesto il passaggio da un controller al successivo.
+In questo modo le classi controller hanno codice concettualmente separato, senza nessun riferimento diretto al controller successivo, rendendo possibile fare uno scambio tra i controller in modo circolare e poter testare individualmente le classi in modo automatico.
 
 #### 2.2.3 Dall'Ara Lorenzo
 #### 2.2.4 Rocchi Mattia

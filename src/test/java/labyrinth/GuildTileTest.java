@@ -10,7 +10,6 @@ import com.ccdr.labyrinth.game.context.GuildContext;
 import com.ccdr.labyrinth.game.context.PlayersContext;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayerImpl;
-import com.ccdr.labyrinth.ImageLoader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -43,12 +42,12 @@ class GuildTileTest {
      */
     @Test
     void testMenu() {
-        for (Item mission : missions) {
+        for (int i = 0; i < missions.size(); i++) {
             final Material matMenu = guildContext.getListOfMissions().get(guildContext.getMenuIndex()).getMaterial();
             assertEquals(missions.get(guildContext.getMenuIndex()).getMaterial(), matMenu);
             guildContext.down();
         }
-        for (Item mission : missions) {
+        for (int i = 0; i < missions.size(); i++) {
             final Material matMenu = guildContext.getListOfMissions().get(guildContext.getMenuIndex()).getMaterial();
             assertEquals(missions.get(guildContext.getMenuIndex()).getMaterial(), matMenu);
             guildContext.up();
@@ -80,7 +79,7 @@ class GuildTileTest {
 
         guild.onEnter(player);
         //The value of points that are given is equal of maxPoint / 2
-        //In this case 10 / 2 = 5 
+        //In this case 10 / 2 = 5
         assertEquals(5, player.getPoints());
     }
 

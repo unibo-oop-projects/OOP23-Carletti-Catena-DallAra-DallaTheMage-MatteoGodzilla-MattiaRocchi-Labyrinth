@@ -5,15 +5,23 @@ import com.ccdr.labyrinth.game.tiles.Board;
 import com.ccdr.labyrinth.game.tiles.SourceTile;
 import com.ccdr.labyrinth.game.tiles.Tile;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * This context has the only purpose of updating the source tiles in the board.
  * This update action is written as a context in order to set when it becomes active through the player's turn
  */
 public final class UpdateBoardContext implements Context {
 
+    /**
+     * Board and PlayersContext must point to the objects created inside GameController.
+     * There can only be one instance of these, but using singletons is discouraged
+     */
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     private final Board board;
     private Context following;
     private boolean enter;
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     private PlayersContext playerManager;
     private boolean advancePlayer;
 
@@ -53,18 +61,20 @@ public final class UpdateBoardContext implements Context {
     @Override
     public void primary() {
         //advance to the next player
-        if (this.advancePlayer) {
-            final int nextPlayerIndex = this.playerManager.getActivePlayerIndex() + 1;
-            this.playerManager.setActivePlayer(nextPlayerIndex % this.playerManager.getPlayers().size());
-            this.playerManager.setTurnSubphase(Subphase.DICE);
-        }
-        for (final Tile tile : this.board.getMap().values()) {
-            if (tile instanceof SourceTile) {
-                ((SourceTile) tile).updateTile();
+        if (this.playerManager != null) {
+            if (this.advancePlayer) {
+                final int nextPlayerIndex = this.playerManager.getActivePlayerIndex() + 1;
+                this.playerManager.setActivePlayer(nextPlayerIndex % this.playerManager.getPlayers().size());
+                this.playerManager.setTurnSubphase(Subphase.DICE);
             }
+            for (final Tile tile : this.board.getMap().values()) {
+                if (tile instanceof SourceTile) {
+                    ((SourceTile) tile).updateTile();
+                }
+            }
+            this.advancePlayer = true;
+            this.enter = true;
         }
-        this.advancePlayer = true;
-        this.enter = true;
     }
 
     @Override
@@ -89,10 +99,13 @@ public final class UpdateBoardContext implements Context {
      * @return index of the active player
      */
     public int getVisualPlayerIndex() {
-        if (this.advancePlayer) {
-            return (this.playerManager.getActivePlayerIndex() + 1) % this.playerManager.getPlayers().size();
-        } else {
-            return this.playerManager.getActivePlayerIndex();
+        if (this.playerManager != null) {
+            if (this.advancePlayer) {
+                return (this.playerManager.getActivePlayerIndex() + 1) % this.playerManager.getPlayers().size();
+            } else {
+                return this.playerManager.getActivePlayerIndex();
+            }
         }
+        return 0;
     }
 }

@@ -5,58 +5,52 @@ import java.util.function.Function;
 
 import com.ccdr.labyrinth.game.util.Direction;
 
+/**
+ * A GenericTile is an abstract implementation of the Tile interface that implements all common methods
+ * and represents the super class of all tile variants.
+ */
 public abstract class GenericTile implements Tile {
     private Map<Direction, Boolean> pattern = new HashMap<>();
     private boolean discovered;
-    private boolean selected;
 
     @Override
-    public void select() {
-        this.selected = true;
-    }
-
-    @Override
-    public void deselect() {
-        this.selected = false;
-    }
-
-    @Override
-    public boolean isSelected() {
-        return this.selected;
-    }
-
-    @Override
-    public void discover() {
+    public final void discover() {
         this.discovered = true;
     }
 
     @Override
-    public boolean isDiscovered() {
+    public final boolean isDiscovered() {
         return discovered;
     }
 
     @Override
-    public boolean isOpen(final Direction access) {
+    public final boolean isOpen(final Direction access) {
         return pattern.get(access);
     }
 
     @Override
-    public void setPattern(final Map<Direction, Boolean> readedPattern) {
+    public final void setPattern(final Map<Direction, Boolean> readedPattern) {
         for (Direction dir : readedPattern.keySet()) {
             pattern.put(dir, readedPattern.get(dir));
         }
     }
 
     @Override
-    public Map<Direction, Boolean> getPattern() {
+    public final Map<Direction, Boolean> getPattern() {
         return Map.copyOf(pattern);
     }
 
     @Override
-    public void rotate(final Function<Direction, Direction> rotation) {
+    public final void rotate(final boolean clockwise) {
+        Function<Direction, Direction> action;
         Map<Direction, Boolean> rotated = new HashMap<>();
+        if (clockwise) {
+            action = (e) -> e.prev();
+        } else {
+            action = (e) -> e.next();
+        }
         for (Direction e : pattern.keySet()) {
-            rotated.put(e, pattern.get(rotation.apply(e)));
+            rotated.put(e, pattern.get(action.apply(e)));
         }
         this.setPattern(rotated);
     }

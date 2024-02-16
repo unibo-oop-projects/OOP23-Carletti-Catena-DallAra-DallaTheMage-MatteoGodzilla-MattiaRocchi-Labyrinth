@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.function.BiFunction;
 
 import com.ccdr.labyrinth.game.tiles.Board;
-import com.ccdr.labyrinth.game.tiles.GuildTile;
 import com.ccdr.labyrinth.game.tiles.Tile;
 import com.ccdr.labyrinth.game.util.Coordinate;
 
@@ -48,7 +47,7 @@ public final class GameBoard implements Board {
 
     @Override
     public Set<Integer> getBlockedColumns() {
-        return Set.copyOf(blockedColumns);
+        return Collections.unmodifiableSet(blockedColumns);
     }
 
     @Override
@@ -59,39 +58,47 @@ public final class GameBoard implements Board {
 
     @Override
     public Set<Integer> getBlockedRows() {
-        return Set.copyOf(blockedRows);
+        return Collections.unmodifiableSet(blockedRows);
     }
 
     @Override
-    public void insertTile(final Coordinate coordinate, Tile tile) {
+    public void insertTile(final Coordinate coordinate, final Tile tile) {
         map.put(coordinate, tile);
     }
 
-    private int getNext(int actual, final int size) {
+    private int getNext(final int actual, final int size) {
         if (actual >= size) {
              return 0;
         } else {
-             return actual+1;
+             return actual + 1;
         }
     }
 
-    private int getPrev(int actual, int size) {
+    private int getPrev(final int actual, final int size) {
         if (actual <= 0) {
              return size;
         } else {
-             return actual-1;
+             return actual - 1;
+        }
+    }
+
+    private BiFunction<Integer, Integer, Integer> setOperation(final boolean rule) {
+        if (rule) {
+            return (i, size) -> getNext(i, size);
+        } else {
+            return (i, size) -> getPrev(i, size);
         }
     }
 
     @Override
     public void shiftRow(final int row, final boolean forward) {
-        final BiFunction<Integer, Integer, Integer> operation = forward ? (i, size) -> getNext(i, size) : (i, size) -> getPrev(i, size);
+        final BiFunction<Integer, Integer, Integer> operation = this.setOperation(forward);
         final Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
         for (index = 0; index < this.width; index++) {
             pointer = new Coordinate(row, index);
-            shiftedPointer = new Coordinate(row, operation.apply(index, this.width-1));
+            shiftedPointer = new Coordinate(row, operation.apply(index, this.width - 1));
             shifted.put(shiftedPointer, this.map.get(pointer));
         }
         for (index = 0; index < this.width; index++) {
@@ -102,29 +109,18 @@ public final class GameBoard implements Board {
 
     @Override
     public void shiftColumn(final int column, final boolean forward) {
-        final BiFunction<Integer, Integer, Integer> operation = forward ? (i, size) -> getNext(i, size) : (i, size) -> getPrev(i, size);
+        final BiFunction<Integer, Integer, Integer> operation = setOperation(forward);
         final Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
         for (index = 0; index < this.width; index++) {
             pointer = new Coordinate(index, column);
-            shiftedPointer = new Coordinate(operation.apply(index, this.height-1), column);
+            shiftedPointer = new Coordinate(operation.apply(index, this.height - 1), column);
             shifted.put(shiftedPointer, this.map.get(pointer));
         }
         for (index = 0; index < this.width; index++) {
             pointer = new Coordinate(index, column);
             this.map.replace(pointer, shifted.get(pointer));
-        }
-    }
-
-    @Override
-    public GuildTile getGuildTile() {
-        final Coordinate center = new Coordinate(width / 2, height / 2);
-        if (map.containsKey(center)) {
-            return (GuildTile) map.get(center);
-        }
-        else {
-            throw new IllegalStateException();
         }
     }
 
@@ -141,12 +137,12 @@ public final class GameBoard implements Board {
     }
 
     @Override
-    public void rotateClockWiseTile(Coordinate actual) {
-        this.map.get(actual).rotate((e) -> e.prev());
+    public void rotateClockWiseTile(final Coordinate actual) {
+        this.map.get(actual).rotate(true);
     }
 
     @Override
-    public void rotateCounterClockWiseTile(Coordinate actual) {
-        this.map.get(actual).rotate((e) -> e.next());
+    public void rotateCounterClockWiseTile(final Coordinate actual) {
+        this.map.get(actual).rotate(false);
     }
 }

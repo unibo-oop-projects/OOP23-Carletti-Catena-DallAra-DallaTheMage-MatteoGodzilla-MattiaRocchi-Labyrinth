@@ -20,8 +20,8 @@ import java.util.Random;
 import java.util.Optional;
 
 public final class BoardGenerator {
-    private static final int MIN_PATTERNS = 1, MAX_PATTERNS = 5;
-    private static final int MIN_ROTATIONS = 0, MAX_ROTATIONS = 4;
+    private static final int MIN_PATTERN_SELECTOR = 0, MAX_PATTERN_SELECTOR = 4;
+    private final int height, width;
     private final Random seed;
     private final GameConfig configuration;
     private final CoordinateGenerator placer;
@@ -32,11 +32,14 @@ public final class BoardGenerator {
 
     public BoardGenerator(final GameConfig configuration, final List<Item> missions, final List<Material> materials) {
         this.configuration = configuration;
+        this.height = this.configuration.getLabyrinthHeight();
+        this.width = this.configuration.getLabyrinthWidth();
         this.playersLocation = Set.of(
             new Coordinate(0, 0),
-            new Coordinate(0, this.configuration.getLabyrinthWidth() - 1),
-            new Coordinate(this.configuration.getLabyrinthHeight() - 1, 0),
-            new Coordinate(this.configuration.getLabyrinthHeight() - 1, this.configuration.getLabyrinthWidth() - 1));
+            new Coordinate(0, this.width - 1),
+            new Coordinate(this.height - 1, 0),
+            new Coordinate(this.height - 1, this.width - 1)
+        );
         this.placer = new CoordinateGenerator(configuration);
         this.seed = new Random();
         this.materials = setupMaterialsList(materials);
@@ -46,8 +49,6 @@ public final class BoardGenerator {
     public Board generate(final int maxPoints) {
         //Parameters that depend on the config
         final Board tiles = new GameBoard();
-        final int height = this.configuration.getLabyrinthHeight();
-        final int width = this.configuration.getLabyrinthWidth();
         final Coordinate center = new Coordinate(height / 2, width / 2);
         int normalQuantity = height * width - this.configuration.getSourceTiles() - 1;
         //Guild tile generation
@@ -115,12 +116,13 @@ public final class BoardGenerator {
     }
 
     private Tile generateRandomPattern() {
-        int rotations = seed.nextInt(MIN_ROTATIONS, MAX_ROTATIONS);
+        int rotations = seed.nextInt(MIN_PATTERN_SELECTOR, MAX_PATTERN_SELECTOR);
+        int patternSelector = seed.nextInt(MIN_PATTERN_SELECTOR, MAX_PATTERN_SELECTOR);
         Tile pattern = new StandardTile();
-        pattern.setPattern(selectPattern(seed.nextInt(MIN_PATTERNS, MAX_PATTERNS)));
+        pattern.setPattern(selectPattern(patternSelector));
         /* the random number of rotations allows to have all possible tile patterns given the predetermined ones */
         while (rotations-- > 0) {
-            pattern.rotate((e) -> e.next());
+            pattern.rotate(true);
         }
         return pattern;
     }
@@ -129,28 +131,44 @@ public final class BoardGenerator {
         /* PREDETERMINED TILE PATTERNS SELECTOR */
         switch (selected) {
             /* straight two-way pattern */
-            case 1:
-                return Map.of(Direction.UP, true, Direction.RIGHT, false,
-                Direction.DOWN, true, Direction.LEFT, false);
+            case 0:
+                return Map.of(
+                    Direction.UP, true,
+                    Direction.RIGHT, false,
+                    Direction.DOWN, true,
+                    Direction.LEFT, false
+                );
             /* 90 degree two way pattern */
-            case 2:
-                return Map.of(Direction.UP, true, Direction.RIGHT, true,
-                Direction.DOWN, false, Direction.LEFT, false);
+            case 1:
+                return Map.of(
+                    Direction.UP, true,
+                    Direction.RIGHT, true,
+                    Direction.DOWN, false,
+                    Direction.LEFT, false
+                );
             /* three-way pattern */
-            case 3:
-                return Map.of(Direction.UP, true, Direction.RIGHT, true,
-                Direction.DOWN, true, Direction.LEFT, false);
+            case 2:
+                return Map.of(
+                    Direction.UP, true,
+                    Direction.RIGHT, true,
+                    Direction.DOWN, true,
+                    Direction.LEFT, false
+                );
             /* four-way pattern */
-            case 4:
-                return Map.of(Direction.UP, true, Direction.RIGHT, true,
-                Direction.DOWN, true, Direction.LEFT, true);
+            case 3:
+                return Map.of(
+                    Direction.UP, true,
+                    Direction.RIGHT, true,
+                    Direction.DOWN, true,
+                    Direction.LEFT, true
+                );
             default:
-                throw new IllegalArgumentException();
+                return this.selectPattern(0);
         }
     }
 
     /**
-     * Generates a list of materials that will be used to place the source tiles in the map
+     * Generates a list of materials that will be used to place the source tiles in the map.
      * @param presents list of mission related materials.
      * @return redundant list of materials repeated n times where n is the number of sources per material.
      */

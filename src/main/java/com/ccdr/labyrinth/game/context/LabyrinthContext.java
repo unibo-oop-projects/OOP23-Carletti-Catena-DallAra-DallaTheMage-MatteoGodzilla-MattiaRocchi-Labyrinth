@@ -6,7 +6,7 @@ import com.ccdr.labyrinth.game.tiles.Board;
 import com.ccdr.labyrinth.game.util.Coordinate;
 
 public class LabyrinthContext implements Context {
-    private enum Subcontext{
+    private enum Subcontext {
         SHIFTER,
         ROTATOR
     }
@@ -52,7 +52,7 @@ public class LabyrinthContext implements Context {
 
     @Override
     public void secondary() {
-        switch(active){
+        switch (active) {
             case ROTATOR:
                 active = Subcontext.SHIFTER;
                 break;
@@ -60,7 +60,7 @@ public class LabyrinthContext implements Context {
                 active = Subcontext.ROTATOR;
                 break;
         }
-        if(switcher) {
+        if (switcher) {
             rotator.getNextContext();
         }
         this.getSubcontext();
@@ -92,7 +92,7 @@ public class LabyrinthContext implements Context {
         }
     }
 
-    private Context getSubcontext(){
+    private Context getSubcontext() {
         switch (active) {
             case ROTATOR:
                 return rotator;

@@ -2,42 +2,69 @@ package com.ccdr.labyrinth.game.loader;
 
 import com.ccdr.labyrinth.Category;
 import com.ccdr.labyrinth.Material;
-
+/**
+ * Class Item that rappresent one mission item to do.
+ */
 public class Item {
     private Category category;
     private Material material;
     private int quantity;
     private int points;
 
-    public void setCategory(final Category category) {
+    /**
+     * 
+     * @param category
+     */
+    public final void setCategory(final Category category) {
         this.category = category;
     }
-
-    public void setMaterial(final Material material) {
+    /**
+     * 
+     * @param material
+     */
+    public final void setMaterial(final Material material) {
         this.material = material;
     }
-
-    public void setQuantity(final int quantity) {
+    /**
+     * 
+     * @param quantity
+     */
+    public final void setQuantity(final int quantity) {
         this.quantity = quantity;
     }
-
-    public void setPoints(final int points) {
+    /**
+     * 
+     * @param points
+     */
+    public final void setPoints(final int points) {
         this.points = points;
     }
-
-    public Category getCategory() {
+    /**
+     * 
+     * @return item category
+     */
+    public final Category getCategory() {
         return this.category;
     }
-
-    public Material getMaterial() {
+    /**
+     * 
+     * @return item material
+     */
+    public final Material getMaterial() {
         return this.material;
     }
-
-    public int getQuantity() {
+    /**
+     * 
+     * @return item material quantity
+     */
+    public final int getQuantity() {
         return this.quantity;
     }
-
-    public int getPoints() {
+    /**
+     * 
+     * @return item value points
+     */
+    public final int getPoints() {
         return this.points;
     }
 }

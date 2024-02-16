@@ -25,10 +25,7 @@ public final class MenuController implements Executor, MenuInputs {
     // multiple callbacks are activated.
     private Consumer<GameConfig> onPlay = config -> { };
     private Runnable onExit = () -> { };
-    //Possible options for configuring the game
-    private static final List<Integer> PLAYER_COUNT = List.of(2, 3, 4);
-    private static final List<Integer> LABYRINTH_SIZE = List.of(15, 31, 45);
-    private static final List<Integer> SOURCE_OPTIONS = List.of(4, 8, 12, 16);
+
 
     @Override
     public void onEnable() {
@@ -119,16 +116,16 @@ public final class MenuController implements Executor, MenuInputs {
         return new MenuListElement("",
             new MenuButtonElement("Play", () -> onPlay.accept(config)),
             new MenuListElement("Configuration",
-                new MenuChoiceElement<>("Players", PLAYER_COUNT)
+                new MenuChoiceElement<>("Players", GameConfig.PLAYER_COUNT_OPTIONS)
                     .defaultIndex(0)
                     .action(playerCount -> this.config.setPlayerCount(playerCount)),
-                new MenuChoiceElement<>("Labyrinth Size", LABYRINTH_SIZE)
+                new MenuChoiceElement<>("Labyrinth Size", GameConfig.LABYRINTH_SIZE_OPTIONS)
                     .defaultIndex(1)
                     .action(size -> {
                         this.config.setLabyrinthWidth(size);
                         this.config.setLabyrinthHeight(size);
                     }),
-                new MenuChoiceElement<>("Source Tiles", SOURCE_OPTIONS)
+                new MenuChoiceElement<>("Source Tiles", GameConfig.SOURCE_OPTIONS)
                     .defaultIndex(1)
                     .action(count -> this.config.setSourceTiles(count))
             ),

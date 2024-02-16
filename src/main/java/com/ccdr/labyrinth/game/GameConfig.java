@@ -1,5 +1,7 @@
 package com.ccdr.labyrinth.game;
 
+import java.util.List;
+
 /**
  * This class is used to contain all the configuration necessary to create a game.
  * It is used as a transition class between the menu and the game.
@@ -8,6 +10,11 @@ public final class GameConfig {
     public static final int DEFAULT_PLAYER_COUNT = 2;
     public static final int DEFAULT_LABYRINTH_SIZE = 31;
     public static final int DEFAULT_SOURCE_TILE_COUNT = 8;
+
+    //Possible options for configuring the game
+    public static final List<Integer> PLAYER_COUNT_OPTIONS = List.of(2, 3, 4);
+    public static final List<Integer> LABYRINTH_SIZE_OPTIONS = List.of(15, 31, 45);
+    public static final List<Integer> SOURCE_OPTIONS = List.of(4, 8, 12, 16);
 
     private int playerCount = DEFAULT_PLAYER_COUNT;
     private int labyrinthHeight = DEFAULT_LABYRINTH_SIZE;
@@ -41,7 +48,7 @@ public final class GameConfig {
     /**
      * @return number of players that want to play
      */
-    public int getPlayerCount() {
+    public int getPlayerCountOptions() {
         return playerCount;
     }
 

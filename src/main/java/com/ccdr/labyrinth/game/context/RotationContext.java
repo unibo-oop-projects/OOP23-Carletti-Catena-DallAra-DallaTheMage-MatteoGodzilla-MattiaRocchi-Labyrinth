@@ -5,6 +5,8 @@ import java.util.List;
 import com.ccdr.labyrinth.game.tiles.Board;
 import com.ccdr.labyrinth.game.util.Coordinate;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -17,6 +19,7 @@ public final class RotationContext implements Context {
     private Coordinate actual;
     private int minColumn, minRow, maxColumn, maxRow;
 
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public RotationContext(final Board board, final PlayersContext playerManager) {
         this.board = board;
         this.selected = new ArrayList<>();
@@ -48,7 +51,7 @@ public final class RotationContext implements Context {
         }
         int actualRow = this.actual.row();
         actualRow = Math.max(minRow, actualRow - 1);
-        Coordinate nextSelected = new Coordinate(actualRow, this.actual.column());
+        final Coordinate nextSelected = new Coordinate(actualRow, this.actual.column());
         this.replaceSelected(nextSelected);
     }
 
@@ -60,7 +63,7 @@ public final class RotationContext implements Context {
         }
         int actualRow = this.actual.row();
         actualRow = Math.min(maxRow, actualRow + 1);
-        Coordinate nextSelected = new Coordinate(actualRow, this.actual.column());
+        final Coordinate nextSelected = new Coordinate(actualRow, this.actual.column());
         this.replaceSelected(nextSelected);
     }
 
@@ -72,7 +75,7 @@ public final class RotationContext implements Context {
         }
         int actualColumn = this.actual.column();
         actualColumn = Math.max(minColumn, actualColumn - 1);
-        Coordinate nextSelected = new Coordinate(this.actual.row(), actualColumn);
+        final Coordinate nextSelected = new Coordinate(this.actual.row(), actualColumn);
         this.replaceSelected(nextSelected);
     }
 
@@ -84,7 +87,7 @@ public final class RotationContext implements Context {
         }
         int actualColumn = this.actual.column();
         actualColumn = Math.min(maxColumn, actualColumn + 1);
-        Coordinate nextSelected = new Coordinate(this.actual.row(), actualColumn);
+        final Coordinate nextSelected = new Coordinate(this.actual.row(), actualColumn);
         this.replaceSelected(nextSelected);
     }
 

@@ -5,12 +5,15 @@ import java.util.List;
 import com.ccdr.labyrinth.game.tiles.Board;
 import com.ccdr.labyrinth.game.util.Coordinate;
 
-public class LabyrinthContext implements Context {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public final class LabyrinthContext implements Context {
     private enum Subcontext {
         SHIFTER,
         ROTATOR
     }
 
+    @SuppressFBWarnings("EI_EXPOSE_REP")
     private final PlayersContext playersManager;
     private final ShifterContext shifter;
     private final RotationContext rotator;
@@ -63,7 +66,6 @@ public class LabyrinthContext implements Context {
         if (switcher) {
             rotator.getNextContext();
         }
-        this.getSubcontext();
         switcher = !switcher;
     }
 

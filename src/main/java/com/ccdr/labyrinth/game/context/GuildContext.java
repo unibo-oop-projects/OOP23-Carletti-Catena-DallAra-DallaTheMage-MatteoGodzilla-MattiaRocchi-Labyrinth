@@ -122,7 +122,6 @@ public class GuildContext implements Context {
                 missions.remove(menuIndex);
             }
         }
-        
     }
 
     @Override

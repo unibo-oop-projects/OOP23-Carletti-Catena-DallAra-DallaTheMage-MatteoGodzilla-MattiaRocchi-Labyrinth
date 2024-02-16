@@ -1,15 +1,13 @@
 package com.ccdr.labyrinth.game.generator;
 
 import com.ccdr.labyrinth.game.GameBoard;
-import com.ccdr.labyrinth.game.GameConfig;
 import com.ccdr.labyrinth.game.tiles.Board;
+import com.ccdr.labyrinth.game.tiles.Tile;
 import com.ccdr.labyrinth.game.tiles.GuildTile;
 import com.ccdr.labyrinth.game.tiles.SourceTile;
 import com.ccdr.labyrinth.game.tiles.StandardTile;
-import com.ccdr.labyrinth.game.tiles.Tile;
 import com.ccdr.labyrinth.game.util.Coordinate;
 import com.ccdr.labyrinth.game.util.Direction;
-import com.ccdr.labyrinth.game.util.Item;
 import com.ccdr.labyrinth.game.util.Material;
 
 import java.util.Map;
@@ -19,28 +17,34 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Optional;
 
+/**
+ * BoardGenerator contains all the logic to generate a randomic board following some preconcepts:
+ * -> The guild tile is always placed at the center of the labyrinth.
+ * -> The source tiles are placed circular around the guild tile.
+ * -> The normal tiles are placed randomically and with a probability to contain a bonus material inside.
+ */
 public final class BoardGenerator {
     private static final int MIN_PATTERN_SELECTOR = 0, MAX_PATTERN_SELECTOR = 4;
-    private final int height, width;
+    private final int height, width, sourceNumber, playerNum;
     private final Random seed;
-    private final GameConfig configuration;
     private final CoordinateGenerator placer;
     private final Set<Coordinate> playersLocation;
-    private List<Material> materials;
-    private List<Optional<Material>> bonuses;
+    private final List<Material> materials;
+    private final List<Optional<Material>> bonuses;
 
 
-    public BoardGenerator(final GameConfig configuration, final List<Item> missions, final List<Material> materials) {
-        this.configuration = configuration;
-        this.height = this.configuration.getLabyrinthHeight();
-        this.width = this.configuration.getLabyrinthWidth();
+    public BoardGenerator(final int h, final int w, final int sources, final int players, final List<Material> materials) {
+        this.sourceNumber = sources;
+        this.playerNum = players;
+        this.height = h;
+        this.width = w;
         this.playersLocation = Set.of(
             new Coordinate(0, 0),
             new Coordinate(0, this.width - 1),
             new Coordinate(this.height - 1, 0),
             new Coordinate(this.height - 1, this.width - 1)
         );
-        this.placer = new CoordinateGenerator(configuration);
+        this.placer = new CoordinateGenerator(this.height, this.width, this.sourceNumber);
         this.seed = new Random();
         this.materials = setupMaterialsList(materials);
         this.bonuses = this.setupBonusList(materials);
@@ -50,9 +54,9 @@ public final class BoardGenerator {
         //Parameters that depend on the config
         final Board tiles = new GameBoard();
         final Coordinate center = new Coordinate(height / 2, width / 2);
-        int normalQuantity = height * width - this.configuration.getSourceTiles() - 1;
+        int normalQuantity = height * width - this.sourceNumber - 1;
         //Guild tile generation
-        GuildTile guild = new GuildTile(maxPoints);
+        final GuildTile guild = new GuildTile(maxPoints);
         guild.setPattern(selectPattern(4));
         tiles.insertTile(center, guild);
         tiles.addBlocked(center);
@@ -61,18 +65,22 @@ public final class BoardGenerator {
         sourceCoordinates.addAll(this.placer.calculateSourcesCoordinates(center, tiles.getMap()));
         int index = sourceCoordinates.size() - 1;
         Coordinate sourceGeneratedCoordinate;
-        for (Material m : this.materials) {
+        for (final Material m : this.materials) {
             sourceGeneratedCoordinate = sourceCoordinates.remove(index--);
             tiles.addBlocked(sourceGeneratedCoordinate);
-            tiles.insertTile(sourceGeneratedCoordinate, generateSource(m, this.configuration.getPlayerCountOptions()));
+            tiles.insertTile(sourceGeneratedCoordinate, generateSource(m, this.playerNum));
         }
         //Normal and bonus tiles generation
-        while (normalQuantity-- > 0) {
-            Coordinate generatedCoordinate = this.placer.generateRandomCoordinate(tiles.getMap());
-            Optional<Material> sourcesMaterial = this.pickMaterial(this.bonuses);
-            Tile generatedTile = this.generateStandardTile(sourcesMaterial, generatedCoordinate);
+        while (normalQuantity > 0) {
+            final Tile generatedTile;
+            Coordinate generatedCoordinate;
+            Optional<Material> sourcesMaterial;
+            generatedCoordinate = this.placer.generateRandomCoordinate(tiles.getMap());
+            sourcesMaterial = this.pickMaterial(this.bonuses);
+            generatedTile = this.generateStandardTile(sourcesMaterial, generatedCoordinate);
             generatedTile.setPattern(generateRandomPattern().getPattern());
             tiles.insertTile(generatedCoordinate, generatedTile);
+            normalQuantity--; 
         }
         return tiles;
     }
@@ -86,7 +94,7 @@ public final class BoardGenerator {
     }
 
     private Optional<Material> pickMaterial(final List<Optional<Material>> bonuses) {
-        if (bonuses.size() > 0) {
+        if (!bonuses.isEmpty()) {
             return bonuses.get(seed.nextInt(0, bonuses.size()));
         } else {
             return Optional.empty();
@@ -94,14 +102,16 @@ public final class BoardGenerator {
     }
 
     private List<Optional<Material>> setupBonusList(final List<Material> materialPresents) {
-        List<Optional<Material>> bonuses = new ArrayList<>();
-        if (materialPresents.size() > 0) {
-            int percentage = materialPresents.size() * 4;
-            for (Material m : materialPresents) {
+        final List<Optional<Material>> bonuses = new ArrayList<>();
+        int percentage;
+        if (!materialPresents.isEmpty()) {
+            percentage = materialPresents.size() * 4;
+            for (final Material m : materialPresents) {
                 bonuses.add(Optional.of(m));
             }
-            while (percentage-- > 0) {
+            while (percentage > 0) {
                 bonuses.add(Optional.empty());
+                percentage--;
             }
             return bonuses;
         } else {
@@ -110,19 +120,21 @@ public final class BoardGenerator {
     }
 
     private Tile generateSource(final Material material, final int playerCount) {
-        Tile generatedTile = new SourceTile(material, playerCount);
+        final Tile generatedTile = new SourceTile(material, playerCount);
         generatedTile.setPattern(generateRandomPattern().getPattern());
         return generatedTile;
     }
 
     private Tile generateRandomPattern() {
-        int rotations = seed.nextInt(MIN_PATTERN_SELECTOR, MAX_PATTERN_SELECTOR);
-        int patternSelector = seed.nextInt(MIN_PATTERN_SELECTOR, MAX_PATTERN_SELECTOR);
-        Tile pattern = new StandardTile();
+        final Tile pattern = new StandardTile();
+        final int patternSelector = seed.nextInt(MIN_PATTERN_SELECTOR, MAX_PATTERN_SELECTOR);
+        int rotations;
+        rotations = seed.nextInt(MIN_PATTERN_SELECTOR, MAX_PATTERN_SELECTOR);
         pattern.setPattern(selectPattern(patternSelector));
         /* the random number of rotations allows to have all possible tile patterns given the predetermined ones */
-        while (rotations-- > 0) {
+        while (rotations > 0) {
             pattern.rotate(true);
+            rotations--;
         }
         return pattern;
     }
@@ -173,11 +185,12 @@ public final class BoardGenerator {
      * @return redundant list of materials repeated n times where n is the number of sources per material.
      */
     public List<Material> setupMaterialsList(final List<Material> presents) {
-        List<Material> materials = new ArrayList<>();
-        if (presents.size() > 0) {
-            int sourceEach = this.configuration.getSourceTiles() / presents.size();
+        final List<Material> materials = new ArrayList<>();
+        if (!presents.isEmpty()) {
+            final int sourceEach;
+            sourceEach = this.sourceNumber / presents.size();
             for (int i = sourceEach; i > 0; i--) {
-                for (Material m : presents) {
+                for (final Material m : presents) {
                     materials.add(m);
                 }
             }

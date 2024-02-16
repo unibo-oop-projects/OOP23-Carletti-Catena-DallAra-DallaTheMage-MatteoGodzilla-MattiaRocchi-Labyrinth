@@ -1,4 +1,5 @@
 package com.ccdr.labyrinth.game.tiles;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.function.Function;
@@ -10,7 +11,7 @@ import com.ccdr.labyrinth.game.util.Direction;
  * and represents the super class of all tile variants.
  */
 public abstract class GenericTile implements Tile {
-    private Map<Direction, Boolean> pattern = new HashMap<>();
+    private final Map<Direction, Boolean> pattern = new HashMap<>();
     private boolean discovered;
 
     @Override
@@ -30,8 +31,8 @@ public abstract class GenericTile implements Tile {
 
     @Override
     public final void setPattern(final Map<Direction, Boolean> readedPattern) {
-        for (Direction dir : readedPattern.keySet()) {
-            pattern.put(dir, readedPattern.get(dir));
+        for (final var e : readedPattern.entrySet()) {
+            pattern.put(e.getKey(), e.getValue());
         }
     }
 
@@ -42,14 +43,14 @@ public abstract class GenericTile implements Tile {
 
     @Override
     public final void rotate(final boolean clockwise) {
+        final Map<Direction, Boolean> rotated = new HashMap<>();
         Function<Direction, Direction> action;
-        Map<Direction, Boolean> rotated = new HashMap<>();
         if (clockwise) {
             action = (e) -> e.prev();
         } else {
             action = (e) -> e.next();
         }
-        for (Direction e : pattern.keySet()) {
+        for (final Direction e : pattern.keySet()) {
             rotated.put(e, pattern.get(action.apply(e)));
         }
         this.setPattern(rotated);

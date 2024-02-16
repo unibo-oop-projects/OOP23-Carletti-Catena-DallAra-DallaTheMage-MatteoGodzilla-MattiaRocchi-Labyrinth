@@ -39,8 +39,13 @@ public final class GameController implements Executor, GameInputs {
      */
     public void init(final GameConfig config) {
         this.guildContext = new GuildContext(config.getPlayerCountOptions());
-        board = new BoardGenerator(config, guildContext.getListOfMissions(), guildContext.getMaterialPresents())
-            .generate(guildContext.getMissions().getMaxPoints());
+        board = new BoardGenerator(
+            config.getLabyrinthHeight(),
+            config.getLabyrinthWidth(),
+            config.getSourceTiles(),
+            config.getPlayerCountOptions(),
+            guildContext.getMaterialPresents()
+        ).generate(guildContext.getMissions().getMaxPoints());
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
         //set up contexts

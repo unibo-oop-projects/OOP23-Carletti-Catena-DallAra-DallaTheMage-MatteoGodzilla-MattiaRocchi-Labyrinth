@@ -6,25 +6,28 @@ import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.tiles.Board;
 import com.ccdr.labyrinth.game.util.Coordinate;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public final class ShifterContext implements Context {
     private final Board board;
     private final PlayersContext players;
-    private List<Coordinate> selected = new ArrayList<>();
+    private final List<Coordinate> selected;
     private int selectedRow;
     private int selectedColumn;
     private int indexSelected;
     private boolean done;
     private boolean isRow;
 
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public ShifterContext(final Board board, final PlayersContext players) {
         this.board = board;
         this.players = players;
         this.selected = new ArrayList<>();
         this.selected.clear();
-        this.selectRow(selectedRow);
+        this.selectRow(0);
         this.isRow = true;
     }
 
@@ -32,7 +35,7 @@ public final class ShifterContext implements Context {
         isRow = true;
         selected.clear();
         indexSelected = i;
-        for (Coordinate c : this.board.getMap().keySet()) {
+        for (final Coordinate c : this.board.getMap().keySet()) {
             if (c.row() == i) {
                 selected.add(c);
             }
@@ -44,7 +47,7 @@ public final class ShifterContext implements Context {
         isRow = false;
         selected.clear();
         indexSelected = i;
-        for (Coordinate c : this.board.getMap().keySet()) {
+        for (final Coordinate c : this.board.getMap().keySet()) {
             if (c.column() == i) {
                 selected.add(c);
             }
@@ -97,7 +100,7 @@ public final class ShifterContext implements Context {
     }
 
     private void discoverNearPlayers() {
-        for (Player p : this.players.getPlayers()) {
+        for (final Player p : this.players.getPlayers()) {
             this.board.discoverNearBy(p.getCoord(), 2);
         }
     }
@@ -119,7 +122,7 @@ public final class ShifterContext implements Context {
 
     @Override
     public boolean done() {
-        boolean exitCondition = done;
+        final boolean exitCondition = done;
         this.done = false;
         return exitCondition;
     }

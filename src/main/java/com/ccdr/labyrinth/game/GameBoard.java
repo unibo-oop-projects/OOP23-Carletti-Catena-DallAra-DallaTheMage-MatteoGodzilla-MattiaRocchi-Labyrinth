@@ -15,7 +15,7 @@ import com.ccdr.labyrinth.game.util.Coordinate;
  * A class that implements the interface Board, and represents the implementation of a board.
  */
 public final class GameBoard implements Board {
-    private Map<Coordinate, Tile> map = new HashMap<>();
+    private final Map<Coordinate, Tile> map = new HashMap<>();
     private final Set<Integer> blockedRows = new HashSet<>();
     private final Set<Integer> blockedColumns = new HashSet<>();
     private int height, width;
@@ -82,20 +82,17 @@ public final class GameBoard implements Board {
         }
     }
 
-    private BiFunction<Integer, Integer, Integer> setOperation(final boolean rule) {
-        if (rule) {
-            return (i, size) -> getNext(i, size);
-        } else {
-            return (i, size) -> getPrev(i, size);
-        }
-    }
-
     @Override
     public void shiftRow(final int row, final boolean forward) {
-        final BiFunction<Integer, Integer, Integer> operation = this.setOperation(forward);
+        final BiFunction<Integer, Integer, Integer> operation;
         final Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
+        if (forward) {
+            operation = (i, size) -> getNext(i, size);
+        } else {
+            operation = (i, size) -> getPrev(i, size);
+        }
         for (index = 0; index < this.width; index++) {
             pointer = new Coordinate(row, index);
             shiftedPointer = new Coordinate(row, operation.apply(index, this.width - 1));
@@ -109,10 +106,15 @@ public final class GameBoard implements Board {
 
     @Override
     public void shiftColumn(final int column, final boolean forward) {
-        final BiFunction<Integer, Integer, Integer> operation = setOperation(forward);
+        final BiFunction<Integer, Integer, Integer> operation;
         final Map<Coordinate, Tile> shifted = new HashMap<>();
         Coordinate pointer, shiftedPointer;
         int index;
+        if (forward) {
+            operation = (i, size) -> getNext(i, size);
+        } else {
+            operation = (i, size) -> getPrev(i, size);
+        }
         for (index = 0; index < this.width; index++) {
             pointer = new Coordinate(index, column);
             shiftedPointer = new Coordinate(operation.apply(index, this.height - 1), column);
@@ -126,9 +128,10 @@ public final class GameBoard implements Board {
 
     @Override
     public void discoverNearBy(final Coordinate playerLocation, final int radius) {
+        Coordinate target;
         for (int x = playerLocation.column() - radius; x <= playerLocation.column() + radius; x++) {
             for (int y = playerLocation.row() - radius; y <= playerLocation.row() + radius; y++) {
-                Coordinate target = new Coordinate(y, x);
+                target = new Coordinate(y, x);
                 if (map.containsKey(target) && !map.get(target).isDiscovered()) {
                     map.get(target).discover();
                 }

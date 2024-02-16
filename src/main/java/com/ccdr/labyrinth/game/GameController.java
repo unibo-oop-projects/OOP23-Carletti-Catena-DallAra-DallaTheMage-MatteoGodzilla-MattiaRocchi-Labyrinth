@@ -5,6 +5,7 @@ import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
 import com.ccdr.labyrinth.game.loader.GameBoard;
+import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.loader.generators.TilesGenerator;
 
 import java.util.HashSet;

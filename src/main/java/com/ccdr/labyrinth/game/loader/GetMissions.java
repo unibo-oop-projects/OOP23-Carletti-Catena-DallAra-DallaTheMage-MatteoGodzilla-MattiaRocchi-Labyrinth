@@ -24,7 +24,7 @@ public class GetMissions {
     private final Random quantityGenerator = new Random();
 
     /**
-     * method for generating a mission considering that there must not be 
+     * method for generating a mission considering that there must not be
      * identical missions and that there must be two missions per material.
      * @return one item tha is a mission
      */
@@ -70,14 +70,14 @@ public class GetMissions {
 
     }
     /**
-     * 
+     *
      * @return max point
      */
     public final int getMaxPoints() {
-        return this.MAX_REQUIRED;
+        return MAX_REQUIRED;
     }
     /**
-     * 
+     *
      * @return materials presents in game
      */
     public final List<Material> materialPresents() {

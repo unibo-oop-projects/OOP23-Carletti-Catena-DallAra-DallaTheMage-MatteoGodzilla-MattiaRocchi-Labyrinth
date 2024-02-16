@@ -2,7 +2,6 @@ package com.ccdr.labyrinth.menu;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
 import java.util.function.Consumer;
 
 import com.ccdr.labyrinth.engine.Executor;

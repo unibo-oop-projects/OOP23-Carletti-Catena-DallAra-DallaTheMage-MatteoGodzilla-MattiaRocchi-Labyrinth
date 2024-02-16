@@ -1,6 +1,5 @@
 package labyrinth;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,7 @@ class ImageLoaderTest {
      * Test of loading all imeges correctly
      */
     @Test
-    void TestImageLoading(){
+    void testImageLoading(){
 
         Platform.startup(null);
         for (ImageLoader image : ImageLoader.values()) {

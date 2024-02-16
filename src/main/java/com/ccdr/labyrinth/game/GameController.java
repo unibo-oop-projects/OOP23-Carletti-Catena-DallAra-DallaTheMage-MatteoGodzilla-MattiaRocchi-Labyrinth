@@ -169,6 +169,8 @@ public final class GameController implements Executor, GameInputs {
 
     @Override
     public void forceGameOver() {
-        this.gameover.accept(this.playerManager.getPlayers());
+        if (this.gameover != null) {
+            this.gameover.accept(this.playerManager.getPlayers());
+        }
     }
 }

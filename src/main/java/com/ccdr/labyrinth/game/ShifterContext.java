@@ -36,7 +36,8 @@ public class ShifterContext implements Context {
             if(c.row() == i) {
                 selected.add(c);
             }
-        } 
+        }
+        this.selectedRow = i;
     }
 
     private void selectColumn(int i) {
@@ -48,6 +49,7 @@ public class ShifterContext implements Context {
                 selected.add(c);
             }
         } 
+        this.selectedColumn = i;
     }
 
     private int calculateCorrectIndex(Function<Integer, Integer> rule, int i) {    

@@ -41,16 +41,12 @@ Permalink:
 
 ## Appendice B: Esercitazioni di laboratorio
 ### B.01 lorenzo.carletti3@studio.unibo.it
-- Laboratorio 07:
-- Laboratorio 08:
-- Laboratorio 09:
-- Laboratorio 10:
-- Laboratorio 11:
+- Laboratorio 09: https://virtuale.unibo.it/mod/forum/discuss.php?d=149231#p211384
+- Laboratorio 10: https://virtuale.unibo.it/mod/forum/discuss.php?d=150252#p212708
+- Laboratorio 11: https://virtuale.unibo.it/mod/forum/discuss.php?d=151542#p213918
 ### B.02 matteo.catena3@studio.unibo.it
 - Laboratorio 07: https://virtuale.unibo.it/mod/forum/discuss.php?d=147598#p209276
 - Laboratorio 08: https://virtuale.unibo.it/mod/forum/discuss.php?d=148025#p209762
 - Laboratorio 09: https://virtuale.unibo.it/mod/forum/discuss.php?d=149231#p211482
 - Laboratorio 10: https://virtuale.unibo.it/mod/forum/discuss.php?d=150252#p212700
 - Laboratorio 11: https://virtuale.unibo.it/mod/forum/discuss.php?d=151542#p213921
-
-

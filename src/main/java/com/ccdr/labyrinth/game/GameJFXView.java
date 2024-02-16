@@ -365,7 +365,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
 
             //Mostro il diceVal
             final double newStartPosY = this.canvas.getHeight() - step;
-            context2d.fillText("Number of moves remaining: " + playersManager.getDiceValue(),
+            context2d.fillText("Moves remaining: " + playersManager.getDiceValue(),
             this.playerStatsRegionX + border, newStartPosY);
             context2d.setFont(Font.getDefault());
             context2d.restore();

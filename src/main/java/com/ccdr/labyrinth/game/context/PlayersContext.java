@@ -26,7 +26,14 @@ public class PlayersContext implements Context {
     private final List<Player> players = new ArrayList<>();
     private int activePlayer;
     private int diceVal;
+
+    /**
+     * SuppressFBWarnings because the builder of PlayersManager needs the board
+     * created by the GameController and it cannot make an internal copy.
+     */
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     private final Board board;
+
     private int maxDiceVal;
     /**
      * An enum to indicate the two subphase that the Playersmanager has to manage.
@@ -42,7 +49,19 @@ public class PlayersContext implements Context {
         MOVEMENT
     }
     private Subphase subphase;
+
+    /**
+     * SuppressFBWarnings because the builder of PlayersManager needs the updateBoardContext
+     * created by the GameController and it cannot make an internal copy.
+     */
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     private final UpdateBoardContext updateBoard;
+
+    /**
+     * SuppressFBWarnings because the builder of PlayersManager needs the GuildContext
+     * created by the GameController and it cannot make an internal copy.
+     */
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     private final GuildContext guildContext;
 
     /**
@@ -52,10 +71,7 @@ public class PlayersContext implements Context {
      * @param board the board of the game
      * @param updateContext the context that update the active player
      * @param guildContext the context of the guild
-     * SuppressFBWarnings because the builder of PlayersManager needs the board, updateContext and guildContext
-     * created by the GameController and it cannot make an internal copy.
      */
-    @SuppressFBWarnings
     public PlayersContext(final int numPlayers, final Board board,
         final UpdateBoardContext updateContext, final GuildContext guildContext
         ) {
@@ -278,7 +294,7 @@ public class PlayersContext implements Context {
      * or this.updateBoardContext,
      * as I have to return the contexts created by the GameController passed to the builder.
      */
-    @SuppressFBWarnings
+    @SuppressFBWarnings("EI_EXPOSE_REP")
     @Override
     public Context getNextContext() {
         final Coordinate guildTile = new Coordinate(this.board.getHeight() / 2, this.board.getWidth() / 2);

@@ -53,8 +53,9 @@ public final class UpdateBoardContext implements Context {
     @Override
     public void primary() {
         //advance to the next player
-        if(this.advancePlayer){
-            this.playerManager.setActivePlayer((this.playerManager.getActivePlayerIndex() + 1) % this.playerManager.getPlayers().size());
+        if (this.advancePlayer) {
+            int nextPlayerIndex = this.playerManager.getActivePlayerIndex() + 1;
+            this.playerManager.setActivePlayer(nextPlayerIndex % this.playerManager.getPlayers().size());
             this.playerManager.setTurnSubphase(Subphase.DICE);
         }
         for (final Tile tile : this.board.getMap().values()) {
@@ -88,7 +89,7 @@ public final class UpdateBoardContext implements Context {
      * @return index of the active player
      */
     public int getVisualPlayerIndex() {
-        if(this.advancePlayer){
+        if (this.advancePlayer) {
             return (this.playerManager.getActivePlayerIndex() + 1) % this.playerManager.getPlayers().size();
         } else {
             return this.playerManager.getActivePlayerIndex();

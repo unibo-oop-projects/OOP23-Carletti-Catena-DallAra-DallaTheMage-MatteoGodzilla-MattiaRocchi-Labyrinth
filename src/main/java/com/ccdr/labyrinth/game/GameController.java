@@ -1,11 +1,8 @@
 package com.ccdr.labyrinth.game;
 
-import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayersManager;
-import com.ccdr.labyrinth.game.loader.GameBoard;
-import com.ccdr.labyrinth.game.loader.Item;
 import com.ccdr.labyrinth.game.loader.generators.TilesGenerator;
 
 import java.util.HashSet;
@@ -19,7 +16,6 @@ import java.util.function.Consumer;
 public final class GameController implements Executor, GameInputs {
     private final Set<GameView> views = new HashSet<>();
     private Board board;
-    private boolean menuGuild = false;
     private Consumer<List<Player>> gameover;
     //Contexts
     private Context activeContext;
@@ -35,9 +31,13 @@ public final class GameController implements Executor, GameInputs {
         }
     }
 
+    /**
+     * @param config config object containing the parameters to initialize the game
+     */
     public void init(final GameConfig config) {
         this.guildContext = new GuildContext(config.getPlayerCount());
-        board = new TilesGenerator(config, guildContext.getListOfMissions() ,guildContext.getMaterialPresents()).generateTiles(guildContext.getMissions().getMaxPoints());
+        board = new TilesGenerator(config, guildContext.getListOfMissions(), guildContext.getMaterialPresents())
+            .generateTiles(guildContext.getMissions().getMaxPoints());
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
         //set up contexts
@@ -64,7 +64,7 @@ public final class GameController implements Executor, GameInputs {
             gameView.drawPlayersStats(this.playerManager, guildContext.getMaterialPresents());
             gameView.drawContext(this.activeContext);
         }
-        if(this.guildContext.getListOfMissions().isEmpty()) {
+        if (this.guildContext.getListOfMissions().isEmpty()) {
             this.gameover.accept(this.playerManager.getPlayers());
         }
     }
@@ -91,9 +91,6 @@ public final class GameController implements Executor, GameInputs {
      */
     @Override
     public void up() {
-        //TEMPORARY
-        //this.gameover.accept(this.playerManager.getPlayers());
-
         this.activeContext.up();
         switchContextIfNecessary();
     }

@@ -38,13 +38,11 @@ public final class GameJFXView implements GameView, JFXInputSource {
     //Reference constants that are used to set the layout of the game
     private static final double OBJECTIVE_REGION_WIDTH = 1.0 / 6;
     private static final double LABYRINTH_REGION_WIDTH = 4.0 / 6;
-    private static final double PLAYER_STATS_REGION_WIDTH = 1.0 / 6;
+    // private static final double PLAYER_STATS_REGION_WIDTH = 1.0 / 6;
 
     //Runtime calculated values with dimentions in pixels
     private double objectiveRegionWidth;
     private double labyrinthRegionWidth;
-    private double playerStatsRegionWidth;
-    private double objectiveRegionX;
     private double labyrinthRegionX;
     private double playerStatsRegionX;
     private double step;
@@ -642,8 +640,6 @@ public final class GameJFXView implements GameView, JFXInputSource {
         final double canvasWidth = this.canvas.getWidth();
         this.objectiveRegionWidth = canvasWidth * OBJECTIVE_REGION_WIDTH;
         this.labyrinthRegionWidth = canvasWidth * LABYRINTH_REGION_WIDTH;
-        this.playerStatsRegionWidth = canvasWidth * PLAYER_STATS_REGION_WIDTH;
-        this.objectiveRegionX = 0;
         this.labyrinthRegionX = this.objectiveRegionWidth;
 
         //the available region of space is labyrinthRegionWidth*canvas.getHeight

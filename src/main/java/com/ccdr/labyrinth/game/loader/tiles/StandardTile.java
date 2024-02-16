@@ -10,13 +10,16 @@ import com.ccdr.labyrinth.game.player.Player;
  * It may contain a bonus inside that will be rewarded to the player.
  */
 public final class StandardTile extends GenericTile {
-    private Optional<Material> bonusMaterial = Optional.empty();
+    private Optional<Material> bonusMaterial;
     private int bonusAmount;
 
     /**
      * Creates a tile with absolutely zero bonus inside.
      */
-    public StandardTile() { }
+    public StandardTile() {
+        this.bonusMaterial = Optional.empty();
+        this.bonusAmount = 0;
+    }
 
     /**
      * Creates a tile with a bonus amount of materials inside.

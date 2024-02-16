@@ -6,8 +6,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.ccdr.labyrinth.Category;
-import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.TypeImag;
 
 import javafx.scene.canvas.Canvas;
@@ -26,8 +24,9 @@ public final class MenuParticleSystem {
     private static final double PARTICLE_MAX_SIZE = 50.0;
     private static final double PARTICLE_MAX_SPEED = 0.01;
 
+    private final Random r = new Random();
     private Set<Particle> particles = new HashSet<>();
-    private List<Image> sourceImages = List.of(
+    private final List<Image> sourceImages = List.of(
         //Materials
         TypeImag.COAL.getImage(),
         TypeImag.COPPER.getImage(),
@@ -42,9 +41,6 @@ public final class MenuParticleSystem {
         TypeImag.TOOL.getImage(),
         TypeImag.WEAPON.getImage()
     );
-    // private Set<Particle<Material>> materialParticles = new HashSet<>();
-    // private Set<Particle<Category>> categoryParticles = new HashSet<>();
-    private final Random r = new Random();
 
     /**
      *
@@ -55,8 +51,8 @@ public final class MenuParticleSystem {
         }
     }
 
-    private Particle generateParticle(){
-        Image i = sourceImages.get(r.nextInt(sourceImages.size()));
+    private Particle generateParticle() {
+        final Image i = sourceImages.get(r.nextInt(sourceImages.size()));
         //from -BOX_WIDTH/2 to BOX_WIDTH/2
         final double x = r.nextDouble() * BOX_HALF_WIDTH * 2 - BOX_HALF_WIDTH;
         //from -BOX_HEIGHT/2 to BOX_HEIGHT/2
@@ -93,26 +89,28 @@ public final class MenuParticleSystem {
         context.save();
         context.setStroke(Color.WHITESMOKE);
         for (final Particle particle : this.particles) {
+            final double x = getParticleX(width, particle);
+            final double y = getParticleY(height, particle);
             final double size = getParticleSize(particle);
-            context.drawImage(particle.image, getParticleX(width, particle) - size / 2, getParticleY(height, particle) - size / 2, size, size);
+            context.drawImage(particle.image, x - size / 2, y - size / 2, size, size);
         }
         context.stroke();
         context.restore();
     }
 
-    private double getParticleX(final double width, final Particle particle ){
+    private double getParticleX(final double width, final Particle particle) {
         return width / 2 + particle.x / BOX_HALF_WIDTH * width / 2;
     }
 
-    private double getParticleY(final double height, final Particle particle ){
+    private double getParticleY(final double height, final Particle particle) {
         return height / 2 + particle.y / BOX_HALF_HEIGHT * height / 2;
     }
 
-    private double getParticleSize(final Particle particle){
+    private double getParticleSize(final Particle particle) {
         return PARTICLE_MAX_SIZE / particle.z;
     }
 
-    private static class Particle{
+    private static class Particle {
         private final Image image;
         private final double x;
         private final double y;

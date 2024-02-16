@@ -17,7 +17,7 @@ class ResultControllerTest {
 
     @Test
     void testClose() {
-        ResultController controller = new ResultController();
+        final ResultController controller = new ResultController();
         controller.onClose(() -> {
             this.signal = true;
         });

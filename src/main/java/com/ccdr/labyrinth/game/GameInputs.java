@@ -41,7 +41,7 @@ public interface GameInputs {
     void back();
 
     /**
-     * method used to end the game prematurely 
+     * method used to end the game prematurely.
      */
     void forceGameOver();
 }

@@ -14,13 +14,13 @@ import java.util.ArrayList;
  */
 public class GuildContext implements Context {
 
-    private List<Item> missions = new ArrayList<>();
-    private List<Item> missionsCom = new ArrayList<>();
-    private List<Material> materialpresents = new ArrayList<>();
-    private GetMissions getM = new GetMissions();
-    private int menuIndex = 0;
+    private final List<Item> missions = new ArrayList<>();
+    private final List<Item> missionsCom = new ArrayList<>();
+    private final List<Material> materialpresents = new ArrayList<>();
+    private final GetMissions getM = new GetMissions();
+    private int menuIndex;
     private PlayersManager players;
-    private Player player;
+    Player player;
     private boolean done;
     private Context following;
 

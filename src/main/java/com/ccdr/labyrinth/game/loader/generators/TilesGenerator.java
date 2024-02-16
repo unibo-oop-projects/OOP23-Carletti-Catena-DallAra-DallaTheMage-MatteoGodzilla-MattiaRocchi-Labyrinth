@@ -52,7 +52,7 @@ public class TilesGenerator {
         int normalQuantity = this.CONFIGURATION.getLabyrinthHeight() *
         this.CONFIGURATION.getLabyrinthWidth() - this.CONFIGURATION.getSourceTiles() - GUILD_NUM;
         //Guild tile
-        GuildTile guild = new GuildTile(this.CONFIGURATION.getPlayerCount(), maxPoints);
+        GuildTile guild = new GuildTile(maxPoints);
         guild.setPattern(selectPattern(4));
         tiles.insertTile(CENTER, guild);
         tiles.addBlocked(CENTER);

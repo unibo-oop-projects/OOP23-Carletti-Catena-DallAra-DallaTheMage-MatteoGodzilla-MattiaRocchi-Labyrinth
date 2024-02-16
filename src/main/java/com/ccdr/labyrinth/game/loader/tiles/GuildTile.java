@@ -6,13 +6,13 @@ import com.ccdr.labyrinth.game.player.Player;
 public class GuildTile extends GenericTile {
 
     private boolean state;
-    private int maxPoints;
+    private final int maxPoints;
     /**
      * 
      * @param nPlayer
      * @param maxPoints
      */
-    public GuildTile(final int nPlayer, final int maxPoints) {
+    public GuildTile(final int maxPoints) {
         this.maxPoints = maxPoints;
         this.discover();
     }

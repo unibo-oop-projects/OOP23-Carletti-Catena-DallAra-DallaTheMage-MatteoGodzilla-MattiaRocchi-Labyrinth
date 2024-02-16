@@ -39,14 +39,13 @@ import javafx.scene.text.TextAlignment;
  */
 public final class GameJFXView implements GameView, JFXInputSource {
 
+    private static final String POINTS_PREFIX = "Points = ";
     //Reference constants that are used to set the layout of the game
     private static final double OBJECTIVE_REGION_WIDTH = 1.0 / 6;
     private static final double LABYRINTH_REGION_WIDTH = 4.0 / 6;
     // private static final double PLAYER_STATS_REGION_WIDTH = 1.0 / 6;
 
     //Runtime calculated values with dimentions in pixels
-    private double objectiveRegionWidth;
-    private double labyrinthRegionWidth;
     private double labyrinthRegionX;
     private double playerStatsRegionX;
     private double step;
@@ -292,7 +291,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     context2d.fillText("Player1", this.playerStatsRegionX + border + step, border + step);
                     context2d.setFill(Color.BLACK);
                     //draw the player's points
-                    context2d.fillText("Points = " + playersManager.getPlayers().get(i).getPoints(),
+                    context2d.fillText(POINTS_PREFIX + playersManager.getPlayers().get(i).getPoints(),
                     this.playerStatsRegionX + border, border + step * 2);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         final var material = materialPresent.get(j);
@@ -312,7 +311,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     context2d.fillText("Player2", this.playerStatsRegionX + border + step, newStartPosY);
                     context2d.setFill(Color.BLACK);
                     //draw the player's points
-                    context2d.fillText("Points = " + playersManager.getPlayers().get(i).getPoints(),
+                    context2d.fillText(POINTS_PREFIX + playersManager.getPlayers().get(i).getPoints(),
                     this.playerStatsRegionX + border, newStartPosY + step);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         final var material = materialPresent.get(j);
@@ -332,7 +331,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     context2d.fillText("Player3", this.playerStatsRegionX + border + step, newStartPosY);
                     context2d.setFill(Color.BLACK);
                     //draw the player's points
-                    context2d.fillText("Points = " + playersManager.getPlayers().get(i).getPoints(),
+                    context2d.fillText(POINTS_PREFIX + playersManager.getPlayers().get(i).getPoints(),
                     this.playerStatsRegionX + border, newStartPosY + step);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         final var material = materialPresent.get(j);
@@ -352,7 +351,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     context2d.fillText("Player4", this.playerStatsRegionX + border + step, newStartPosY);
                     context2d.setFill(Color.BLACK);
                     //draw the player's points
-                    context2d.fillText("Points = " + playersManager.getPlayers().get(i).getPoints(),
+                    context2d.fillText(POINTS_PREFIX + playersManager.getPlayers().get(i).getPoints(),
                     this.playerStatsRegionX + border, newStartPosY + step);
                     for (int j = 0; j < materialPresent.size(); j++) {
                         final var material = materialPresent.get(j);
@@ -442,7 +441,8 @@ public final class GameJFXView implements GameView, JFXInputSource {
             context2d.drawImage(materialToImage(item.getMaterial()), x, lineMissionsY, imageDim, imageDim);
             context2d.fillText("\t" + "x" + item.getQuantity(), x, lineMissionsY);
             context2d.fillText(" " + item.getPoints(), lineMissionsX + spacePointX, lineMissionsY);
-            context2d.drawImage(point, lineMissionsX + spacePointX + desFontSize + imageDim / (2 * 2), lineMissionsY, imageDim, imageDim);
+            final double pointsImageX = lineMissionsX + spacePointX + desFontSize + imageDim / (2 * 2);
+            context2d.drawImage(point, pointsImageX, lineMissionsY, imageDim, imageDim);
             i++;
         }
         context2d.setFont(Font.getDefault());
@@ -589,9 +589,9 @@ public final class GameJFXView implements GameView, JFXInputSource {
 
     private void recalculateLayout() {
         final double canvasWidth = this.canvas.getWidth();
-        this.objectiveRegionWidth = canvasWidth * OBJECTIVE_REGION_WIDTH;
-        this.labyrinthRegionWidth = canvasWidth * LABYRINTH_REGION_WIDTH;
-        this.labyrinthRegionX = this.objectiveRegionWidth;
+        final double objectiveRegionWidth = canvasWidth * OBJECTIVE_REGION_WIDTH;
+        final double labyrinthRegionWidth = canvasWidth * LABYRINTH_REGION_WIDTH;
+        this.labyrinthRegionX = objectiveRegionWidth;
 
         //the available region of space is labyrinthRegionWidth*canvas.getHeight
         //the labyrinth must fit inside the allocated region

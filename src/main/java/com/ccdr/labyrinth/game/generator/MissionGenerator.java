@@ -8,8 +8,6 @@ import com.ccdr.labyrinth.game.util.Category;
 import com.ccdr.labyrinth.game.util.Item;
 import com.ccdr.labyrinth.game.util.Material;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Collections;

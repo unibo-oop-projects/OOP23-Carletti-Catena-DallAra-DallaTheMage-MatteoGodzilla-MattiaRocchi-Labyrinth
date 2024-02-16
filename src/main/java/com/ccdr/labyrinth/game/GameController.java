@@ -24,8 +24,6 @@ public final class GameController implements Executor, GameInputs {
     private Consumer<List<Player>> gameover;
     //Contexts
     private Context activeContext;
-    private UpdateBoardContext updateBoardContext;
-    private LabyrinthContext labyrinthContext;
     private PlayersContext playerManager;
     private GuildContext guildContext;
 
@@ -46,16 +44,16 @@ public final class GameController implements Executor, GameInputs {
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
         //set up contexts
-        this.updateBoardContext = new UpdateBoardContext(this.board);
+        final UpdateBoardContext updateBoardContext = new UpdateBoardContext(this.board);
         this.playerManager = new PlayersContext(config.getPlayerCountOptions(), this.board,
-        this.updateBoardContext, this.guildContext);
-        this.labyrinthContext = new LabyrinthContext(this.board, this.playerManager);
+        updateBoardContext, this.guildContext);
+        final LabyrinthContext labyrinthContext = new LabyrinthContext(this.board, this.playerManager);
 
         this.guildContext.setPlayerManager(this.playerManager);
-        this.guildContext.setNextContext(this.updateBoardContext);
-        this.updateBoardContext.setNextContext(this.labyrinthContext);
-        this.updateBoardContext.setPlayerManager(this.playerManager);
-        this.activeContext = this.updateBoardContext;
+        this.guildContext.setNextContext(updateBoardContext);
+        updateBoardContext.setNextContext(labyrinthContext);
+        updateBoardContext.setPlayerManager(this.playerManager);
+        this.activeContext = updateBoardContext;
     }
 
     @Override

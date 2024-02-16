@@ -36,7 +36,7 @@ public final class GameController implements Executor, GameInputs {
 
     public void init(final GameConfig config) {
         this.guildContext = new GuildContext(config.getPlayerCount());
-        board = new TilesGenerator(config, guildContext.returnListOfMissions() ,guildContext.getMaterialPresents()).generateTiles(guildContext.getMissions().getMaxPoints());
+        board = new TilesGenerator(config, guildContext.getListOfMissions() ,guildContext.getMaterialPresents()).generateTiles(guildContext.getMissions().getMaxPoints());
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
         //set up contexts
@@ -57,13 +57,13 @@ public final class GameController implements Executor, GameInputs {
         //game loop
         for (final GameView gameView : views) {
             gameView.clear();
-            gameView.drawGuildinfo(guildContext.returnListOfMissions(), guildContext.getMissionCompl());
+            gameView.drawGuildinfo(guildContext.getListOfMissions(), guildContext.getMissionCompl());
             gameView.drawBoard(this.board);
             gameView.drawPlayersOnBoard(this.playerManager.getPlayers());
             gameView.drawPlayersStats(this.playerManager, guildContext.getMaterialPresents());
             gameView.drawContext(this.activeContext);
         }
-        if(this.guildContext.returnListOfMissions().isEmpty()) {
+        if(this.guildContext.getListOfMissions().isEmpty()) {
             this.gameover.accept(this.playerManager.getPlayers());
         }
     }

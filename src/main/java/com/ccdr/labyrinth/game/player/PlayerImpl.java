@@ -3,9 +3,9 @@ package com.ccdr.labyrinth.game.player;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.game.GameConfig;
-import com.ccdr.labyrinth.game.loader.Coordinate;
+import com.ccdr.labyrinth.game.util.Coordinate;
+import com.ccdr.labyrinth.game.util.Material;
 
 /**
  * A class that implements the interface Player, and represents the implementation of a player.

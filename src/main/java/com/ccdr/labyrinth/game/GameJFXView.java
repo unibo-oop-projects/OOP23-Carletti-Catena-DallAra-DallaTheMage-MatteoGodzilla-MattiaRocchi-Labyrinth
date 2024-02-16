@@ -2,21 +2,25 @@ package com.ccdr.labyrinth.game;
 
 import java.util.List;
 
-import com.ccdr.labyrinth.Category;
-import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.TypeImag;
-import com.ccdr.labyrinth.game.loader.Coordinate;
-import com.ccdr.labyrinth.game.loader.Direction;
-import com.ccdr.labyrinth.game.loader.Item;
-
-import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
-import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
-import com.ccdr.labyrinth.game.loader.tiles.StandardTile;
-import com.ccdr.labyrinth.game.loader.tiles.Tile;
+import com.ccdr.labyrinth.game.context.Context;
+import com.ccdr.labyrinth.game.context.GuildContext;
+import com.ccdr.labyrinth.game.context.LabyrinthContext;
+import com.ccdr.labyrinth.game.context.PlayersContext;
+import com.ccdr.labyrinth.game.context.UpdateBoardContext;
+import com.ccdr.labyrinth.game.context.PlayersContext.Subphase;
 import com.ccdr.labyrinth.game.player.Player;
-import com.ccdr.labyrinth.game.player.PlayersManager;
-import com.ccdr.labyrinth.game.player.PlayersManager.Subphase;
-import com.ccdr.labyrinth.jfx.ExpandCanvas;
+import com.ccdr.labyrinth.game.tiles.Board;
+import com.ccdr.labyrinth.game.tiles.GuildTile;
+import com.ccdr.labyrinth.game.tiles.SourceTile;
+import com.ccdr.labyrinth.game.tiles.StandardTile;
+import com.ccdr.labyrinth.game.tiles.Tile;
+import com.ccdr.labyrinth.game.util.Category;
+import com.ccdr.labyrinth.game.util.Coordinate;
+import com.ccdr.labyrinth.game.util.Direction;
+import com.ccdr.labyrinth.game.util.Item;
+import com.ccdr.labyrinth.game.util.Material;
+import com.ccdr.labyrinth.jfx.JFXExpandCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
 
@@ -71,7 +75,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
     private static final Color BASE_COLOR = Color.gray(0.3);
 
     private final Scene scene;
-    private final ExpandCanvas canvas;
+    private final JFXExpandCanvas canvas;
     private double i = 10;
     //Variable used for resizing header elements
     private double headerFontSize;
@@ -81,7 +85,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
      *
      */
     public GameJFXView() {
-        this.canvas = new ExpandCanvas();
+        this.canvas = new JFXExpandCanvas();
         this.scene = new Scene(new Group(this.canvas), BASE_COLOR);
         this.canvas.bind(this.scene);
     }
@@ -256,7 +260,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
     }
 
     @Override
-    public void drawPlayersStats(final PlayersManager playersManager, final List<Material> materialPresent) {
+    public void drawPlayersStats(final PlayersContext playersManager, final List<Material> materialPresent) {
         Platform.runLater(() -> {
             final var context2d = this.canvas.getGraphicsContext2D();
             this.recalculateFontSizes();
@@ -534,7 +538,7 @@ public final class GameJFXView implements GameView, JFXInputSource {
                     context2d.strokeRect(labyrinthTopLeftX + tileWidth * t.column(), y, tileWidth, tileHeight);
                 }
             }
-            if (context instanceof PlayersManager && ((PlayersManager) context).getTurnSubphase() == Subphase.DICE) {
+            if (context instanceof PlayersContext && ((PlayersContext) context).getTurnSubphase() == Subphase.DICE) {
                 context2d.setStroke(Color.WHITESMOKE);
                 context2d.setFill(BASE_COLOR);
                 final double popupWidth = this.labyrinthSize / 2;

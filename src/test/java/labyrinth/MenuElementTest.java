@@ -10,11 +10,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.ccdr.labyrinth.menu.tree.MenuButtonElement;
-import com.ccdr.labyrinth.menu.tree.MenuChoiceElement;
-import com.ccdr.labyrinth.menu.tree.MenuElement;
-import com.ccdr.labyrinth.menu.tree.MenuListElement;
-import com.ccdr.labyrinth.menu.tree.MenuTextElement;
+import com.ccdr.labyrinth.menu.element.MenuButtonElement;
+import com.ccdr.labyrinth.menu.element.MenuChoiceElement;
+import com.ccdr.labyrinth.menu.element.MenuElement;
+import com.ccdr.labyrinth.menu.element.MenuListElement;
+import com.ccdr.labyrinth.menu.element.MenuTextElement;
 
 /**
  * Class that contains all test cases for MenuElements.

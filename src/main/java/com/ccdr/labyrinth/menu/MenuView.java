@@ -1,6 +1,6 @@
 package com.ccdr.labyrinth.menu;
 
-import com.ccdr.labyrinth.menu.tree.MenuElement;
+import com.ccdr.labyrinth.menu.element.MenuElement;
 
 /**
  * Interface that describes how a view for the main menu is structured.

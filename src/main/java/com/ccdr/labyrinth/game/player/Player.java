@@ -1,7 +1,7 @@
 package com.ccdr.labyrinth.game.player;
 
-import com.ccdr.labyrinth.Material;
-import com.ccdr.labyrinth.game.loader.Coordinate;
+import com.ccdr.labyrinth.game.util.Coordinate;
+import com.ccdr.labyrinth.game.util.Material;
 
 /**
  * An interface modelling a player, that can move in the four directions,

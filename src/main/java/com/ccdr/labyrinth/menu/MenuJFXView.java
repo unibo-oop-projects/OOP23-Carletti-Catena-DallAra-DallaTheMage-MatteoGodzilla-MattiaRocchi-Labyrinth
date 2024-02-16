@@ -1,13 +1,13 @@
 package com.ccdr.labyrinth.menu;
 
 import com.ccdr.labyrinth.TypeImag;
-import com.ccdr.labyrinth.jfx.ExpandCanvas;
+import com.ccdr.labyrinth.jfx.JFXExpandCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
-import com.ccdr.labyrinth.menu.tree.MenuChoiceElement;
-import com.ccdr.labyrinth.menu.tree.MenuElement;
-import com.ccdr.labyrinth.menu.tree.MenuListElement;
-import com.ccdr.labyrinth.menu.tree.MenuTextElement;
+import com.ccdr.labyrinth.menu.element.MenuChoiceElement;
+import com.ccdr.labyrinth.menu.element.MenuElement;
+import com.ccdr.labyrinth.menu.element.MenuListElement;
+import com.ccdr.labyrinth.menu.element.MenuTextElement;
 
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
@@ -28,7 +28,7 @@ import javafx.util.Duration;
  */
 public final class MenuJFXView implements MenuView, JFXInputSource {
     private final Scene scene;
-    private final ExpandCanvas canvas;
+    private final JFXExpandCanvas canvas;
     private final MenuParticleSystem menuPS;
     private Animation indexArrow;
     // variables used for resizing text elements
@@ -51,7 +51,7 @@ public final class MenuJFXView implements MenuView, JFXInputSource {
      *
      */
     public MenuJFXView() {
-        this.canvas = new ExpandCanvas();
+        this.canvas = new JFXExpandCanvas();
         this.scene = new Scene(new Group(this.canvas), MENU_BASE_COLOR);
         this.canvas.bind(this.scene);
         this.menuPS = new MenuParticleSystem();

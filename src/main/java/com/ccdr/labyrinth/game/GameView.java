@@ -2,10 +2,12 @@ package com.ccdr.labyrinth.game;
 
 import java.util.List;
 
-import com.ccdr.labyrinth.Material;
-import com.ccdr.labyrinth.game.loader.Item;
+import com.ccdr.labyrinth.game.context.Context;
+import com.ccdr.labyrinth.game.context.PlayersContext;
 import com.ccdr.labyrinth.game.player.Player;
-import com.ccdr.labyrinth.game.player.PlayersManager;
+import com.ccdr.labyrinth.game.tiles.Board;
+import com.ccdr.labyrinth.game.util.Item;
+import com.ccdr.labyrinth.game.util.Material;
 
 /**
  * This interface describes all the draw methods that should be called in order to render the game state.
@@ -39,7 +41,7 @@ public interface GameView {
      * @param playersManager an object of type PlayersManager
      * @param materialPresent the list of the materials present in the game
      */
-    void drawPlayersStats(PlayersManager playersManager, List<Material> materialPresent);
+    void drawPlayersStats(PlayersContext playersManager, List<Material> materialPresent);
 
     /**
      * Draw the objectives showing what the player needs to do to get points.

@@ -1,9 +1,14 @@
 package com.ccdr.labyrinth.game;
 
 import com.ccdr.labyrinth.engine.Executor;
+import com.ccdr.labyrinth.game.context.Context;
+import com.ccdr.labyrinth.game.context.GuildContext;
+import com.ccdr.labyrinth.game.context.LabyrinthContext;
+import com.ccdr.labyrinth.game.context.PlayersContext;
+import com.ccdr.labyrinth.game.context.UpdateBoardContext;
+import com.ccdr.labyrinth.game.generator.BoardGenerator;
 import com.ccdr.labyrinth.game.player.Player;
-import com.ccdr.labyrinth.game.player.PlayersManager;
-import com.ccdr.labyrinth.game.loader.generators.TilesGenerator;
+import com.ccdr.labyrinth.game.tiles.Board;
 
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +26,7 @@ public final class GameController implements Executor, GameInputs {
     private Context activeContext;
     private UpdateBoardContext updateBoardContext;
     private LabyrinthContext labyrinthContext;
-    private PlayersManager playerManager;
+    private PlayersContext playerManager;
     private GuildContext guildContext;
 
     @Override
@@ -36,13 +41,13 @@ public final class GameController implements Executor, GameInputs {
      */
     public void init(final GameConfig config) {
         this.guildContext = new GuildContext(config.getPlayerCountOptions());
-        board = new TilesGenerator(config, guildContext.getListOfMissions(), guildContext.getMaterialPresents())
-            .generateTiles(guildContext.getMissions().getMaxPoints());
+        board = new BoardGenerator(config, guildContext.getListOfMissions(), guildContext.getMaterialPresents())
+            .generate(guildContext.getMissions().getMaxPoints());
         board.setHeight(config.getLabyrinthHeight());
         board.setWidth(config.getLabyrinthWidth());
         //set up contexts
         this.updateBoardContext = new UpdateBoardContext(this.board);
-        this.playerManager = new PlayersManager(config.getPlayerCountOptions(), this.board,
+        this.playerManager = new PlayersContext(config.getPlayerCountOptions(), this.board,
         this.updateBoardContext, this.guildContext);
         this.labyrinthContext = new LabyrinthContext(this.board, this.playerManager);
 

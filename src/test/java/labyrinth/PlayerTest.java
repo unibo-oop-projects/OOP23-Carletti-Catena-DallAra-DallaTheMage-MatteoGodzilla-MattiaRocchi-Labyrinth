@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.game.GameConfig;
-import com.ccdr.labyrinth.game.loader.Coordinate;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayerImpl;
+import com.ccdr.labyrinth.game.util.Coordinate;
+import com.ccdr.labyrinth.game.util.Material;
 
 /**
  * A test class for the implementation of a player.

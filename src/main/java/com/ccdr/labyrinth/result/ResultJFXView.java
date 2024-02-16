@@ -1,10 +1,10 @@
 package com.ccdr.labyrinth.result;
 
-import com.ccdr.labyrinth.jfx.ExpandCanvas;
+import com.ccdr.labyrinth.jfx.JFXExpandCanvas;
 import com.ccdr.labyrinth.jfx.JFXInputSource;
 import com.ccdr.labyrinth.jfx.JFXStage;
 import com.ccdr.labyrinth.game.player.Player;
-import com.ccdr.labyrinth.Material;
+import com.ccdr.labyrinth.game.util.Material;
 
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
     private static final Color TEXT_FILL = Color.valueOf("#bbbbbb");
 
     private final Scene scene;
-    private final ExpandCanvas canvas;
+    private final JFXExpandCanvas canvas;
     private double headerFontSize;
     private double padding;
     private double hintFontSize;
@@ -37,7 +37,7 @@ public final class ResultJFXView implements ResultView, JFXInputSource {
      *
      */
     public ResultJFXView() {
-        this.canvas = new ExpandCanvas();
+        this.canvas = new JFXExpandCanvas();
         this.scene = new Scene(new Group(this.canvas), BASE_COLOR);
         this.canvas.bind(this.scene);
     }

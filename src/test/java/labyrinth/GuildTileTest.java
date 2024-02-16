@@ -2,9 +2,9 @@ package labyrinth;
 
 import org.junit.jupiter.api.Test;
 
-import com.ccdr.labyrinth.game.loader.tiles.GuildTile;
-import com.ccdr.labyrinth.game.loader.Item;
-import com.ccdr.labyrinth.Material;
+import com.ccdr.labyrinth.game.tiles.GuildTile;
+import com.ccdr.labyrinth.game.util.Item;
+import com.ccdr.labyrinth.game.util.Material;
 
 import java.util.List;
 

@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import com.ccdr.labyrinth.Material;
-import com.ccdr.labyrinth.game.loader.tiles.SourceTile;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayerImpl;
+import com.ccdr.labyrinth.game.tiles.SourceTile;
+import com.ccdr.labyrinth.game.util.Material;
 
 /**
  * Class that contains all tests for Source tiles.

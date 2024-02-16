@@ -6,11 +6,11 @@ import java.util.function.Consumer;
 
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.GameConfig;
-import com.ccdr.labyrinth.menu.tree.MenuButtonElement;
-import com.ccdr.labyrinth.menu.tree.MenuChoiceElement;
-import com.ccdr.labyrinth.menu.tree.MenuElement;
-import com.ccdr.labyrinth.menu.tree.MenuListElement;
-import com.ccdr.labyrinth.menu.tree.MenuTextElement;
+import com.ccdr.labyrinth.menu.element.MenuButtonElement;
+import com.ccdr.labyrinth.menu.element.MenuChoiceElement;
+import com.ccdr.labyrinth.menu.element.MenuElement;
+import com.ccdr.labyrinth.menu.element.MenuListElement;
+import com.ccdr.labyrinth.menu.element.MenuTextElement;
 
 /**
  * Main class responsible for controlling the menu.

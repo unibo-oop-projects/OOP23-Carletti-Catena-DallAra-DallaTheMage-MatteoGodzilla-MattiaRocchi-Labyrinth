@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.ccdr.labyrinth.Material;
 import com.ccdr.labyrinth.engine.Executor;
 import com.ccdr.labyrinth.game.player.Player;
+import com.ccdr.labyrinth.game.util.Material;
 
 /**
  * Class responsible for managing the result screen that appears after a game has ended.

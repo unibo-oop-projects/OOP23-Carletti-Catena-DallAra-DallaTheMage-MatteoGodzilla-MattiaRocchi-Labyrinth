@@ -2,6 +2,7 @@ package com.ccdr.labyrinth.result;
 
 import java.util.List;
 import java.util.Map;
+
 import com.ccdr.labyrinth.game.player.Player;
 
 /**

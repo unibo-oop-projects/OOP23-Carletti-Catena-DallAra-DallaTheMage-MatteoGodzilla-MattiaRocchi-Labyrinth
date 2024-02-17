@@ -10,6 +10,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * RotationContext manages player interactions such as selecting and rotating a tile among those adjacent to him.
+ */
 public final class RotationContext implements Context {
     private final Board board;
     private final List<Coordinate> selected;
@@ -19,6 +22,13 @@ public final class RotationContext implements Context {
     private Coordinate actual;
     private int minColumn, minRow, maxColumn, maxRow;
 
+    /**
+     * The constructor of RotationContext.
+     * The SuppressFBWarning is necessary because to work this context 
+     * needs to directly manipulate the external passed objects.
+     * @param board
+     * @param playerManager
+     */
     @SuppressFBWarnings("EI_EXPOSE_REP2")
     public RotationContext(final Board board, final PlayersContext playerManager) {
         this.board = board;
@@ -43,6 +53,11 @@ public final class RotationContext implements Context {
         this.selected.add(actual);
     }
 
+    /**
+     * This method changes the row index of the selected tile, making it point to one tile immediately above it.
+     * If the tile above is outside the margins, the new row index will point to the last row tile index of the
+     * calculated range.
+     */
     @Override
     public void up() {
         this.selected.clear();
@@ -55,6 +70,11 @@ public final class RotationContext implements Context {
         this.replaceSelected(nextSelected);
     }
 
+    /**
+     * This method changes the row index of the selected tile, making it point to one tile immediately below it.
+     * If the tile below is outside the margins, the new row index will point to the first row tile index of the
+     * calculated range.
+     */
     @Override
     public void down() {
         this.selected.clear();
@@ -67,6 +87,11 @@ public final class RotationContext implements Context {
         this.replaceSelected(nextSelected);
     }
 
+    /**
+     * This method changes the column index of the selected tile, making it point to one tile immediately left to it.
+     * If the left tile is outside the margins, the new column index will point to the last column tile index of the
+     * calculated range.
+     */
     @Override
     public void left() {
         this.selected.clear();
@@ -79,6 +104,11 @@ public final class RotationContext implements Context {
         this.replaceSelected(nextSelected);
     }
 
+    /**
+     * This method changes the column index of the selected tile, making it point to one tile immediately right to it.
+     * If the right tile is outside the margins, the new column index will point to the first column tile index of the
+     * calculated range
+     */
     @Override
     public void right() {
         this.selected.clear();
@@ -91,6 +121,9 @@ public final class RotationContext implements Context {
         this.replaceSelected(nextSelected);
     }
 
+    /**
+     * This method starts rotation procedure of the selected tile.
+     */
     @Override
     public void primary() {
         this.done = true;
@@ -121,6 +154,10 @@ public final class RotationContext implements Context {
         return this;
     }
 
+    /**
+     * This method return the list of selected tiles.
+     * @return List of selected tiles
+     */
     public List<Coordinate> selectedTiles() {
         return Collections.unmodifiableList(selected);
     }

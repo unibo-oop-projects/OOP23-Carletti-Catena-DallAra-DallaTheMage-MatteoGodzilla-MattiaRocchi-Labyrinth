@@ -21,6 +21,11 @@ public enum Direction {
      */
     LEFT;
 
+    /**
+     * Depending on the instance of the object calling this method,
+     * this method returns the value of the next clockwise direction.
+     * @return the next direction clockwise.
+     */
     public Direction next() {
         switch (this) {
             case UP:
@@ -36,6 +41,11 @@ public enum Direction {
         }
     }
 
+    /**
+     * Depending on the instance of the object calling this method,
+     * this method returns the value of the next counterclockwise direction.
+     * @return the next direction counterclockwise.
+     */
     public Direction prev() {
         switch (this) {
             case UP:

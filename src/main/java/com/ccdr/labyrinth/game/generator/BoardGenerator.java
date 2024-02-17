@@ -32,7 +32,15 @@ public final class BoardGenerator {
     private final List<Material> materials;
     private final List<Optional<Material>> bonuses;
 
-
+    /**
+     * The constructor of BoardGenerator that sets up all necessary informations
+     * to generate the board correctly.
+     * @param h the height of the labyrinth.
+     * @param w the width of the labyrinth.
+     * @param sources sources number.
+     * @param players players number.
+     * @param materials the list of used materials.
+     */
     public BoardGenerator(final int h, final int w, final int sources, final int players, final List<Material> materials) {
         this.sourceNumber = sources;
         this.playerNum = players;
@@ -50,6 +58,12 @@ public final class BoardGenerator {
         this.bonuses = this.setupBonusList(materials);
     }
 
+    /**
+     * The main method of this class, which based on the information taken from the constructor
+     * executes all calls to internal methods used to generate all interested objects.
+     * @param maxPoints the number of max points given by missions completion. 
+     * @return fully generated labyrinth game board.
+     */
     public Board generate(final int maxPoints) {
         //Parameters that depend on the config
         final Board tiles = new GameBoard();

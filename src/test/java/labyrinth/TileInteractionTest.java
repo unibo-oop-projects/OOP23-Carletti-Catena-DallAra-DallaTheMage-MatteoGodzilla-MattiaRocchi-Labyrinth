@@ -55,9 +55,10 @@ class TileInteractionTest {
         final Board maze = new GameBoard();
         Coordinate coord;
         final Coordinate starting = new Coordinate(0, 0);
-        //final Coordinate after = new Coordinate(0, WIDTH - 1);
+        final Coordinate after = new Coordinate(0, WIDTH - 1);
         Coordinate shifted;
         Tile tile;
+        maze.setWidth(WIDTH);
         for (int y = 0; y < WIDTH; y++) {
             coord = new Coordinate(0, y);
             if (y == 0) {
@@ -68,14 +69,10 @@ class TileInteractionTest {
                 maze.insertTile(coord, tile);
             }
         }
+        maze.shiftRow(0, false);
         shifted = obtainShiftedRow(maze, 0);
-        System.out.println(shifted);
-        /*TODO: FINISH TESTING*/
+        Assertions.assertEquals(after, shifted);
         maze.shiftRow(0, true);
-        shifted = obtainShiftedRow(maze, 0);
-        System.out.println(shifted);
-       // Assertions.assertEquals(after, shifted);
-       maze.shiftRow(0, false);
         shifted = obtainShiftedRow(maze, 0);
         Assertions.assertEquals(starting, shifted);
     }
@@ -94,9 +91,10 @@ class TileInteractionTest {
         final Board maze = new GameBoard();
         Coordinate coord;
         final Coordinate starting = new Coordinate(0, 0);
-        //final Coordinate after = new Coordinate(0, WIDTH - 1);
+        final Coordinate after = new Coordinate(HEIGHT - 1, 0);
         Coordinate shifted;
         Tile tile;
+        maze.setHeight(HEIGHT);
         for (int i = 0; i < HEIGHT; i++) {
                 coord = new Coordinate(i, 0);
                 if (i == 0) {
@@ -107,14 +105,10 @@ class TileInteractionTest {
                     maze.insertTile(coord, tile);
                 }
         }
-        shifted = obtainShiftedColumn(maze, 0);
-        System.out.println(shifted);
-        /*TODO: FINISH TESTING*/
-        maze.shiftColumn(0, true);
-        shifted = obtainShiftedColumn(maze, 0);
-        System.out.println(shifted);
-       // Assertions.assertEquals(after, shifted);
         maze.shiftColumn(0, false);
+        shifted = obtainShiftedColumn(maze, 0);
+        Assertions.assertEquals(after, shifted);
+        maze.shiftColumn(0, true);
         shifted = obtainShiftedColumn(maze, 0);
         Assertions.assertEquals(starting, shifted);
     }

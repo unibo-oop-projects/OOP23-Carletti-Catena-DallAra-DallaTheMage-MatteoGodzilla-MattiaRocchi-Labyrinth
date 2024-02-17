@@ -7,6 +7,9 @@ import com.ccdr.labyrinth.game.util.Coordinate;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+/**
+ * LabyrinthContext work as proxy for ShifterContext and RotationContext classes during player interaction with the board.
+ */
 public final class LabyrinthContext implements Context {
     private enum Subcontext {
         SHIFTER,
@@ -20,6 +23,11 @@ public final class LabyrinthContext implements Context {
     private boolean switcher;
     private Subcontext active;
 
+    /**
+     * The constructor of LabyrinthContext.
+     * @param board
+     * @param next
+     */
     public LabyrinthContext(final Board board, final PlayersContext next) {
         this.playersManager = next;
         this.switcher = true;
@@ -85,6 +93,10 @@ public final class LabyrinthContext implements Context {
         return playersManager;
     }
 
+    /**
+     * This method return the list of selected tiles.
+     * @return List of selected tiles
+     */
     public List<Coordinate> getSelected() {
         switch (active) {
             case ROTATOR:

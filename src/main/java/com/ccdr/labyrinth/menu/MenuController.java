@@ -17,7 +17,7 @@ import com.ccdr.labyrinth.menu.element.MenuTextElement;
  * This class doesn't have any direct reference to the game controller
  */
 public final class MenuController implements Executor, MenuInputs {
-    private final GameConfig config = new GameConfig();
+    private GameConfig config;
     private final Set<MenuView> views = new HashSet<>();
     private MenuElement current;
     // "events" fired when the menu has completed its task. Can be expanded so
@@ -28,6 +28,7 @@ public final class MenuController implements Executor, MenuInputs {
 
     @Override
     public void onEnable() {
+        this.config = new GameConfig();
         current = createMenuStructure();
         for (final MenuView view : views) {
             view.onEnable();

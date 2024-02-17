@@ -17,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+/**
+ * Class test for guildTile funcions
+ */
 class GuildTileTest {
 
     private final GuildContext guildContext = new GuildContext(2);
@@ -50,7 +53,7 @@ class GuildTileTest {
         }
         for (final Item x : missions) {
             final Material matMenu = guildContext.getListOfMissions().get(guildContext.getMenuIndex()).getMaterial();
-            assertEquals(x.getMaterial(), matMenu);
+            assertEquals(missions.get(guildContext.getMenuIndex()).getMaterial(), matMenu);
             guildContext.up();
         }
 

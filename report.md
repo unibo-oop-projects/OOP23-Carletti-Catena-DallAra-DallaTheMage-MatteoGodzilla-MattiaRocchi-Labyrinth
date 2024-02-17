@@ -146,6 +146,12 @@ Questa non è l'unica modalità con cui i giocatori possono ottenere materiali. 
 
 ### 3.2 Note di sviluppo
 #### 3.2.1 Carletti Lorenzo
+- Utilizzo di JavaFX per la gestione della visualizzazione dei giocatori sul labirinto e della sezione delle statistiche:
+
+https://github.com/Code-Commit-Debug-Revert/Labyrinth/blob/a1332bff85fdd92baf7ad7d4fe14f3b0ac5508d9/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L216
+
+https://github.com/Code-Commit-Debug-Revert/Labyrinth/blob/a1332bff85fdd92baf7ad7d4fe14f3b0ac5508d9/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L262
+
 #### 3.2.2 Catena Matteo
 - Utilizzo di JavaFX per la gestione della parte visuale e della ricezione degli input del giocatore.
 Permalink:
@@ -160,11 +166,17 @@ Permalink:
 Permalink:
 #### 3.2.4 Rocchi Mattia
 - Utilizzo di JavaFx per la gestione grafica delle informazioni riguardanti la Gilda e per ricevere imput sull'iteranzione con le missioni.
-- 
+-
 
 ## 4. Commenti finali
 ### 4.1 Autovalutazione e lavori futuri
 #### 4.1.1 Carletti Lorenzo
+All'interno del progetto Labyrinth mi sono occupato principalmente della parte che si occupa della gestione dei giocatori, quindi il loro movimento, il sistema dei punti e dell'inventario dei materiali. Inoltre, tramite  la libreria di JavaFX, ho anche gestito la parte grafica riguardante la rappresentazione dei giocatori sul labirinto e la visualizzazione della sezione delle statistiche.
+
+Essendo consapevole di non eccellere nell'ambito della programmazione e del fatto che questo fosse il mio primo progetto, sono conscio che il codice da me prodotto non è di alta qualità, ma sono comunque contento e soddisfatto di ciò che ho realizzato.
+
+Infine, la realizzazione del progetto e la sua organizzazione le ho trovate molto utili e stimolanti per capire effettivamente come si svolge la progettazione e creazione di un'applicazione software.
+
 #### 4.1.2 Catena Matteo
 Tutto sommato, sono molto contento di come il gioco è stato finalizzato e ho capito di non sottovalutare la fase di analisi.
 

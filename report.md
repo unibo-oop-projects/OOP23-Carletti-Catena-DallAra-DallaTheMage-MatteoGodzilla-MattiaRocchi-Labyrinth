@@ -417,7 +417,7 @@ classDiagram
   Context <|-- ShifterContext
   Context <|-- RotationContext
   LabyrinthContext *-- RotationContext
-  
+
 
   class Context {
     <<interface>>
@@ -462,7 +462,7 @@ classDiagram
   class CoordinateGenerator {
     + CoordinateGenerator(int labyrinthHeight, int labyrinthWidth, int sourceNumber)
     + Coordinate generateRandomCoordinate(Map~Coordinate, Tile~ board)
-    + List~Coordinate~ calculateSourcesCoordinates(Coordinate center, Map~Coordinate, Tile~ board) 
+    + List~Coordinate~ calculateSourcesCoordinates(Coordinate center, Map~Coordinate, Tile~ board)
   }
 ```
 
@@ -700,12 +700,12 @@ Durante lo sviluppo di questa applicazione software mi sono reso veramente conto
 Ammetto che nel momento in cui sto scrivendo questo commento, mi rendo conto che magari con un pò più di riflessioni in termini di design avrei potuto produrre codice migliore.
 Soprattutto non sono molto soddisfatto di come ho strutturato la classe di generazione del labirinto, perché ripensandoci ora avrei potuto strutturare meglio il tutto, sfruttando magari una variante di factory.
 Sono molto soddisfatto invece della gestione tramite proxy dei contesti relativi al labirinto.
- 
+
 #### 4.1.4 Rocchi Mattia
 
 In questo progetto mi sono occupato della Gilda con le rispettive funzioni che permettevano di interagire tra le classi missioni<->player e il caricamento di immagini da file.
 
-Come primo progetto devo dire che sono molto soddisfatto del risultato finale, anche se non posso fare paragoni con esperienze passate.
+Come primo progetto devo dire che sono molto soddisfatto del risultato finale, anche se non posso fare paragoni con esperienze passate e, siccome non avevo mai usato Java, sicuramente il mio codice non sarà dei migliori, ma al meglio delle mie capacità attuali.
 
 Per quanto riguarda le difficolta riscontrate devo dire che usare javaFX per gestire tutte le parti grafiche è stata una missione, ma alla fine molto soddisfacente.
 La parte che mi preoccupava di più era il riuscire a gestire un gruppo che non aveva mai lavorato in passato, ma grazie a molteplici incontri siamo riusciti sempre a tirare fuori nuove idee e metodi per migliorare creando un codice che si potrà evolvere in futuro.

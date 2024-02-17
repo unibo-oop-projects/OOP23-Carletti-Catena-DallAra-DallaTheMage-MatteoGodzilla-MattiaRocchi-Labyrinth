@@ -159,6 +159,8 @@ Permalink:
 - Utilizzo di Optional
 Permalink:
 #### 3.2.4 Rocchi Mattia
+- Utilizzo di JavaFx per la gestione grafica delle informazioni riguardanti la Gilda e per ricevere imput sull'iteranzione con le missioni.
+- 
 
 ## 4. Commenti finali
 ### 4.1 Autovalutazione e lavori futuri
@@ -176,6 +178,17 @@ Sono fiero di come quella parte di routing degli eventi viene gestita dal gioco.
 
 #### 4.1.3 Dall'Ara Lorenzo
 #### 4.1.4 Rocchi Mattia
+Come primo progetto devo dire che sono molto soddisfatto del risultato finale, anche se non posso fare paragoni con esperienze passate.
+
+La cosa che mi preoccupava di più era il gruppo, in quanto primo progetto fatto insieme, ma siamo riusciti a lavorare uniti senza inttoppi e sotto l'esperienza di Catena Matteo siamo sempre riusciti a risolvere eventuali problemi nel beve tempo.
+
+Ognuno di noi ha ricoperto il propio ruolo alla perfezione, ideando sempre nuove possibili aggiunte nei molteplici incontri.
+
+Tutte le fasi del progetto hanno la propia importanza e la mancanza anche di una singola fase danneggia efficenza e coerenza.
+
+La vera difficoltà è lavorare già con l'idea che il codice deve essere a se anche se unito successivamente alle altre parti di progetto; Noi ci siamo riusciti, adattando di volta in volta il codice, a lasciare ogni ruolo indipendente da altri.
+
+Sono molto fiero di questo primo gioco e spero di ideare nuovi progetti con questo gruppo.
 
 ## Appendice A: Guida utente
 La guida utente, scritta in inglese, è inclusa all'interno del gioco, sotto la voce "How to play" nel menu principale.

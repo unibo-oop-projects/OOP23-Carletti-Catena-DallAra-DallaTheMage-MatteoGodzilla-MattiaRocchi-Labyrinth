@@ -198,7 +198,7 @@ public final class BoardGenerator {
      * @param presents list of mission related materials.
      * @return redundant list of materials repeated n times where n is the number of sources per material.
      */
-    public List<Material> setupMaterialsList(final List<Material> presents) {
+    private List<Material> setupMaterialsList(final List<Material> presents) {
         final List<Material> materials = new ArrayList<>();
         if (!presents.isEmpty()) {
             final int sourceEach;

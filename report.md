@@ -336,6 +336,120 @@ Le classi coinvolte avranno il prefisso `Menu` oppure `Result` al posto del pref
 Questa non è l'unica modalità con cui i giocatori possono ottenere materiali. Le tessere che compongono il labirinto possono contenere all'interno materiali aggiuntivi limitati, che vengono consegnati al primo giocatore che ci passa sopra.
 
 #### 2.2.3 Dall'Ara Lorenzo
+- **Problema:** Come strutturare la manipolazione delle tessere del labirinto da parte di un giocatore in modo esclusivo.
+**Soluzione:** Creazione di due sottocontesti `ShifterContext` e `RotationContext` che ricevono gli input giocatore ridirezionati dalla classe proxy `LabyrinthContext`.
+`ShifterContext` gestisce gli input del giocatore in un contesto riguardante lo spostamento di righe o colonne del labirinto.
+`RotationContext` gestisce invece gli input in un contesto di rotazione delle tessere.
+`LabyrinthContext` ha lo scopo di selezionare il sottocontesto attivo tra questi due in modo esclusivo e successivamente ridirezionare a quello attivo le chiamate di metodo.
+```mermaid
+classDiagram
+  Context <|-- LabyrinthContext
+  LabyrinthContext *-- ShifterContext
+  Context <|-- ShifterContext
+  Context <|-- RotationContext
+  LabyrinthContext *-- RotationContext
+  
+
+  class Context {
+    <<interface>>
+    + void up()
+    + void down()
+    + void left()
+    + void right()
+    + void primary()
+    + void secondary()
+    + void back()
+    + boolean done()
+  }
+
+  class LabyrinthContext {
+    + LabyrinthContext(Board board, PlayersContext next)
+    + List~Coordinate~ getSelected()
+  }
+  class ShifterContext {
+    + ShifterContext(Board board, PlayersContext players)
+    + List~Coordinate~ selectedTiles()
+  }
+
+  class RotationContext {
+    + ShifterContext(Board board, PlayersContext players)
+    + List<Coordinate> selectedTiles()
+  }
+```
+- **Problema:** Generazione casuale del labirinto contenente diversi tipi di tessere, ognuna delle quali richiede una logica di posizionamento specifica.
+**Soluzione:** Creazione della classe `BoardGenerator` contenente tutte le logiche utili per il corretto posizionamento delle tessere.
+Per generare le coordinate random delle `StandardTile` e le coordinate circolari delle `SourceTile` basate sul centro del labirinto la classe `BoardGenerator` sfrutta la classe `CoordinateGenerator`.
+Questo componente contiene i metodi e le logiche per generare sempre una coordinata valida.
+Per quanto riguarda la generazione delle coordinate di `GuildTile`, queste vengono calcolate internamente in `BoardGenerator`.
+```mermaid
+classDiagram
+  BoardGenerator *-- CoordinateGenerator
+
+  class BoardGenerator {
+    + BoardGenerator(int h, int w, int sources, int players, List~Material~ materials)
+    + generate(int maxPoints)
+  }
+
+  class CoordinateGenerator {
+    + CoordinateGenerator(int labyrinthHeight, int labyrinthWidth, int sourceNumber)
+    + Coordinate generateRandomCoordinate(Map~Coordinate, Tile~ board)
+    + List~Coordinate~ calculateSourcesCoordinates(Coordinate center, Map~Coordinate, Tile~ board) 
+  }
+```
+
+- **Problema:** Le tessere contenute nel labirinto devono essere di tipologie diverse con funzionalità uniche.
+**Soluzione:** Creazione della classe astratta `GenericTile` che implementa le funzionalità comuni a tutte le tessere, in modo da poter creare delle sottoclassi specializzate in base alle diverse tipologie di tessere presenti nel gioco.
+Le diverse specializzazioni attualmente presenti nel gioco sono: `StandardTile`, `SourceTile` e `GuildTile`.
+`StandardTile` definisce la specializzazione inerente ad una tessera base che può contenere un materiale bonus.
+`SourceTile` definisce la specializzazione per le sorgenti, tessere che rappresentano una fonte ricaricabile di materiali.
+`GuildTile` infine definisce la specializzazione inerente alla tessera gilda, che permette ai giocatori di accedere alle missioni.
+```mermaid
+classDiagram
+  Tile <|-- GenericTile
+  GenericTile <|-- StandardTile
+  GenericTile <|-- SourceTile
+  GenericTile <|-- GuildTile
+
+  class Tile {
+    <<interface>>
+    + boolean isOpen(Direction access);
+    + boolean isDiscovered()
+    + void onEnter(Player player)
+    + void onExit(Player player)
+    + void rotate(boolean clockwise)
+    + void setPattern(Map~Direction, Boolean~ readedPattern)
+    + void discover()
+    + Map~Direction, Boolean~ getPattern()
+  }
+
+  class GenericTile {
+    <<abstract>>
+    + void discover()
+    + boolean isDiscovered()
+    + void rotate(boolean clockwise)
+    + boolean isOpen(Direction access);
+    + Map~Direction, Boolean~ getPattern()
+    + void setPattern(Map~Direction, Boolean~ readedPattern)
+  }
+
+  class StandardTile {
+    + StandardTile()
+    + StandardTile(Material bonusMaterial, int amount)
+    + Optional~Material~ getBonusMaterial()
+  }
+
+  class SourceTile {
+    + SourceTile(Material assignedMaterial, int waitingTurns)
+    + void updateTile()
+    + int getQuantity()
+    + Material getMaterialType()
+    + boolean isActive()
+  }
+
+  class GuildTile {
+    + GuildTile(int maxPoints)
+  }
+```
 #### 2.2.4 Rocchi Mattia
 **Problema:** Completamento di una missione da parte di un giocatore.
 **Soluzione:** Per rendere il gioco piu dinamico, il giocatore deve trovarsi nella `GuildTile` per poter completare una missione.
@@ -472,8 +586,14 @@ Permalink:
 - Utilizzo di classi generiche
 Permalink:
 #### 3.2.3 Dall'Ara Lorenzo
-- Utilizzo di Optional
-Permalink:
+- Utilizzo di JavaFX per disegnare le tessere selezionate durante l'esecuzione di LabyrinthContext.
+Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/d264903fae55bc03c3a84b93a76fa607ea7ccacd/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L480-L485
+- Utilizzo di Optional per l'assegnazione random di bonus alle StandardTile.
+Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/d264903fae55bc03c3a84b93a76fa607ea7ccacd/src/main/java/com/ccdr/labyrinth/game/generator/BoardGenerator.java#L118-L134
+- Utilizzo di lambda function per decidere il senso di rotazione di una tessera.
+Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/d264903fae55bc03c3a84b93a76fa607ea7ccacd/src/main/java/com/ccdr/labyrinth/game/tiles/GenericTile.java#L45-L57
+- Utilizzo di stream nell'esecuzione dei test automatici inerenti alle interazioni con il labirinto.
+Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/d264903fae55bc03c3a84b93a76fa607ea7ccacd/src/test/java/labyrinth/TileInteractionTest.java#L44-L51
 #### 3.2.4 Rocchi Mattia
 - Utilizzo di JavaFx per la gestione grafica delle informazioni riguardanti le missioni.
 Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/d264903fae55bc03c3a84b93a76fa607ea7ccacd/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L382-L402
@@ -502,6 +622,13 @@ Un esempio di ciò è stato come gestire gli input da JavaFX, problema che all'i
 Sono fiero di come quella parte di routing degli eventi viene gestita dal gioco.
 
 #### 4.1.3 Dall'Ara Lorenzo
+Sicuramente è risultata essere una esperienza istruttiva essendo questo il mio primo progetto software basato sul paradigma OOP.
+Durante lo sviluppo di questa applicazione software mi sono reso veramente conto di quanto una buona fase di analisi e soprattutto di design possa risultare vitale per creare del codice di qualità.
+
+Ammetto che nel momento in cui sto scrivendo questo commento, mi rendo conto che magari con un pò più di riflessioni in termini di design avrei potuto produrre codice migliore.
+Soprattutto non sono molto soddisfatto di come ho strutturato la classe di generazione del labirinto, perché ripensandoci ora avrei potuto strutturare meglio il tutto, sfruttando magari una variante di factory.
+Sono molto soddisfatto invece della gestione tramite proxy dei contesti relativi al labirinto.
+ 
 #### 4.1.4 Rocchi Mattia
 
 In questo progetto mi sono occupato della Gilda con le rispettive funzioni che permettevano di interagire tra le classi missioni<->player e il caricamento di immagini da file.

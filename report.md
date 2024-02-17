@@ -263,6 +263,74 @@ classDiagram
 
 ### 2.2 Design Dettagliato
 #### 2.2.1 Carletti Lorenzo
+- **Problema:** Il sistema deve supportare da 2 a 4 giocatori, con possibilità di estensione futura di diverse implementazioni dell'interfaccia `Player`.
+**Soluzione:** Per il momento, nel progetto esiste una sola specializzazione dell'interfaccia `Player`, implementata nella classe `PlayerImpl`. Questa identifica un giocatore "classico", le cui decisioni vengono prese da una persona reale.
+L'insieme dei giocatori, viene gestito dalla classe `PlayersContext` che si occupa di immagazzinare al suo interno tutti i giocatori in una Lista. Ho scelto questo particolare tipo di collezione perchè mi permette di dare un ordine ai giocatori e di accedere facilmente al giocatore che mi interessa, tramite il suo indice corrispondente. Questo indice viene utilizzato anche per identificare l' `active player`, ossia il giocatore attivo in quel momento nel gioco, perciò ho implementato un metodo `getActivePlayer` che me lo restituisce.
+
+```mermaid
+classDiagram
+  Player --* PlayerContext
+  Player <|-- PlayerImpl
+
+  class Player {
+    <<interface>>
+    + void moveUp()
+    + void moveDown()
+    + void moveLeft()
+    + void moveRight()
+    + Coordinate getCoord()
+    + void setCoord()
+    + void increaseQuantityMaterial(Material material, int amount)
+    + void decreaseQuantityMaterial(Material material, int amount)
+    + int getQuantityMaterial(Material material)
+    + void increasePoints(int amount)
+    + int getPoints()
+  }
+  class PlayerImpl {
+
+  }
+  class PlayerContext {
+    - List~Player~ players
+    - int activePlayer
+    + List~Player~ getPlayers()
+    + Player getActivePlayer()
+  }
+```
+
+- **Problema:** Stabilire di quante posizioni i giocatori si possono spostare nel labirinto.
+**Soluzione:** Per rendere il gioco più dinamico, è stato deciso di rendere casuale il numero di mosse. Per generare il numero casuale di spostamenti di un giocatore viene simulato il lancio di un dado, la cui logica è implementata nel metodo `generateDiceValue` in `PlayersContext`. Il movimento dei giocatori e il lancio del dado sono entrambi implementati all'interno della classe `PlayersContext` e insieme costituiscono la fase di movimento del giocatore. Per differenziarli correttamente ho utilizzato una `enum`, con i valori `DICE` e `MOVEMENT` per indicare quale sottofase è attiva. Il primo identifica il momento del turno in cui deve essere lanciato il dado, mentre il secondo fa riferimento alla sottofase in cui il giocatore si può muovere, fino al numero massimo di mosse stabilito dalla sottofase precedente.
+
+```mermaid
+classDiagram
+  Context <|-- PlayerContext
+  PlayerContext -- Subphase
+
+  class Context {
+    <<interface>>
+    + void up()
+    + void down()
+    + void left()
+    + void right()
+    + void primary()
+    + void secondary()
+    + void back()
+    + boolean done()
+    + Context getNextContext()
+  }
+  class PlayerContext {
+    - Subphase subphase
+    - int diceVal
+    + void generateDiceValue()
+    + int getDiceValue()
+    + void setTurnSubphase(final Subphase subphase)
+    + Subphase getTurnSubphase()
+  }
+  class Subphase {
+    <<enumeration>>
+    DICE,
+    MOVEMENT
+  }
+```
 
 #### 2.2.2 Catena Matteo
 - **Problema:** Il game loop principale responsabile per l'esecuzione del codice deve poter eseguire in momenti separati la classe controller del menu, la classe controller del gameplay e quella controller dei risultati.
@@ -572,9 +640,11 @@ Le classi di test realizzate sono le seguenti:
 #### 3.2.1 Carletti Lorenzo
 - Utilizzo di JavaFX per visualizzare le informazioni dei giocatori:
 
-https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/a7fb0ab2697a99431b1e937be47ad1634cd23661/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L216C5-L260C1
+https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/f17bfa921d1e666364fe9d28fa14a5426985de3b/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L216-L259
 
-https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/a7fb0ab2697a99431b1e937be47ad1634cd23661/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L262-L372
+- Utilizzo di lambda functions:
+
+https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/d264903fae55bc03c3a84b93a76fa607ea7ccacd/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L263
 
 #### 3.2.2 Catena Matteo
 - Utilizzo di JavaFX per la gestione della parte visuale e della ricezione degli input del giocatore.
@@ -604,11 +674,12 @@ Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/d264
 ## 4. Commenti finali
 ### 4.1 Autovalutazione e lavori futuri
 #### 4.1.1 Carletti Lorenzo
-All'interno del progetto Labyrinth mi sono occupato principalmente della parte che si occupa della gestione dei giocatori, quindi il loro movimento, il sistema dei punti e dell'inventario dei materiali. Inoltre, tramite  la libreria di JavaFX, ho anche gestito la parte grafica riguardante la rappresentazione dei giocatori sul labirinto e la visualizzazione della sezione delle statistiche.
+All'interno del progetto Labyrinth mi sono occupato principalmente della parte che si occupa della gestione dei giocatori, quindi del loro movimento, del sistema dei punti e dell'inventario dei materiali. Inoltre, tramite la libreria di JavaFX, ho anche gestito la parte grafica riguardante la rappresentazione dei giocatori sul labirinto e la visualizzazione della sezione delle statistiche.
 
 Essendo consapevole di non eccellere nell'ambito della programmazione e del fatto che questo fosse il mio primo progetto, sono conscio che il codice da me prodotto non è di alta qualità, ma sono comunque contento e soddisfatto di ciò che ho realizzato.
+La realizzazione del progetto e la sua organizzazione le ho trovate molto utili e stimolanti per capire effettivamente come si svolge la progettazione e la creazione di un'applicazione software.
 
-Infine, la realizzazione del progetto e la sua organizzazione le ho trovate molto utili e stimolanti per capire effettivamente come si svolge la progettazione e creazione di un'applicazione software.
+Ho intenzione di continuare a sviluppare questo progetto in futuro, una delle prime cose che voglio fare è quella di implementare più specializzazioni dell'interfaccia `Player`, in modo tale da poter creare più tipi diversi di giocatori.
 
 #### 4.1.2 Catena Matteo
 Tutto sommato, sono molto contento di come il gioco è stato finalizzato e ho capito di non sottovalutare la fase di analisi.

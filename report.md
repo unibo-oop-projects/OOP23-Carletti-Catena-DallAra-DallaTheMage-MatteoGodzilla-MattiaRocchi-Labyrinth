@@ -199,9 +199,6 @@ classDiagram
   Executor <|-- ResultController
 
   class Engine {
-    - activeExecutor : Executor
-    - executors: Map~ID, Executor~
-    - running: boolean
     + Engine(double targetFramerate)
     + void start()
     + void stop()
@@ -243,10 +240,7 @@ classDiagram
     + void back()
     + void forceGameover()
   }
-  class GameController {
-    - Context activeContext
-    - void switchContextIfNecessary()
-  }
+  class GameController { }
   class Context {
     <<interface>>
     + void up()
@@ -333,17 +327,28 @@ classDiagram
 ```
 
 #### 2.2.2 Catena Matteo
-- **Problema:** Il game loop principale responsabile per l'esecuzione del codice deve poter eseguire in momenti separati la classe controller del menu, la classe controller del gameplay e quella controller dei risultati.
-La classe che gestisce il game loop principale non dovrebbe definire al suo interno quali classi vengono eseguite, perchè ciò limita notevolmente la riusabilità del codice.
-Inoltre lo scambio tra i controller dovrebbe essere possibile anche se le classi non hanno riferimenti diretti agli altri controller che devono essere eseguiti.
-**Soluzione:** Design della classe `Engine` e della classe `Executor`.
-
-La classe `Engine` può eseguire un solo oggetto `Executor` alla volta, ma attraverso il metodo `changeExecutor` si può ordinare alla classe `Engine` di cambiare *quale* oggetto `Executor` deve essere eseguito da quel momento in poi.
-
 - **Problema:** Quando si passa da un controller al successivo, questo richiede anche un trasferimento di informazioni. Un esempio di ciò è la configurazione del gioco, che deve andare dal menu al controller di gioco.
 Dato che gli scambi tra controller sono di tipo circolare (da menu a gioco, da gioco a risultati, da risultati a menu), non si può mantenere nel controller di partenza il riferimento al controller successivo passandolo come parametro del costruttore
 **Soluzione:** è stato utilizzato il pattern observer, definendo degli "eventi" quando è richiesto il passaggio da un controller al successivo.
+```mermaid
+classDiagram
+  class MenuController{
+    - Consumer~GameConfig~ onPlay
+    - Runnable onExit
+    + void onPlay(Consumer~GameConfig~ callback)
+    + void onExit(Runnable callback)
+  }
+  class GameController{
+    - Consumer~List~Player~~ onGameOver
+    + void onGameOver(Consumer~List~Player~~ callback)
+  }
+  class ResultController{
+    - Runnable onClose
+    + void onClose(Runnable callback)
+  }
+```
 In questo modo le classi controller hanno codice concettualmente separato, senza nessun riferimento diretto al controller successivo, rendendo possibile fare uno scambio tra i controller in modo circolare e poter testare individualmente le classi in modo automatico.
+Le funzioni effettive che si occupano del trasferimento dati si trovano all'interno della classe `Labyrint`, classe che definisce il metodo main dove inizia tutto il programma.
 
 - **Problema:** Come ricevere gli input della tastiera, che vengono generati da JavaFX, per poi eseguire delle funzioni nei vari controller in modo tale da mantenere netta la separazione tra view e controller nel pattern MVC.
 **Soluzione:** interfaccia `JFXInputSource` e la sua interfaccia interna `Receiver`.
@@ -398,10 +403,6 @@ In questo modo `GameController` può definire attraverso l'interfaccia `GameInpu
 
 La gestione degli input per le scene `Menu` e `Result` seguono una struttura e utilizzo analoga a quella descritta per la scena `Game`.
 Le classi coinvolte avranno il prefisso `Menu` oppure `Result` al posto del prefisso `Game`, ma i ruoli delle classi sono gli stessi per tutte e tre le scene.
-
-- **Problema:** sorgenti nel labirinto
-**Soluzione:** All'interno del labirinto ci sono delle tessere speciali con lo scopo di generare un materiale specifico in maggiore quantità, durante lo svolgimento della partita. Con il termine "Sorgente" ci si riferisce a una di queste tessere speciali.
-Questa non è l'unica modalità con cui i giocatori possono ottenere materiali. Le tessere che compongono il labirinto possono contenere all'interno materiali aggiuntivi limitati, che vengono consegnati al primo giocatore che ci passa sopra.
 
 #### 2.2.3 Dall'Ara Lorenzo
 - **Problema:** Come strutturare la manipolazione delle tessere del labirinto da parte di un giocatore in modo esclusivo.
@@ -647,14 +648,14 @@ https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/f17bfa921d1e666
 https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/d264903fae55bc03c3a84b93a76fa607ea7ccacd/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L263
 
 #### 3.2.2 Catena Matteo
-- Utilizzo di JavaFX per la gestione della parte visuale e della ricezione degli input del giocatore.
-Permalink:
+- Utilizzo di JavaFX per la gestione del rendering della board.
+Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/62a6eabb2097f136bd67356d7a97dfc31ef6979d/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L116-L132
 - Utilizzo di lambda functions, per esempio nel collegamento tra i diversi controller
-Permalink:
+Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/62a6eabb2097f136bd67356d7a97dfc31ef6979d/src/main/java/com/ccdr/labyrinth/Labyrinth.java#L56-L59
 - Utilizzo di stream sulle collezioni
-Permalink:
-- Utilizzo di classi generiche
-Permalink:
+Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/62a6eabb2097f136bd67356d7a97dfc31ef6979d/src/main/java/com/ccdr/labyrinth/menu/MenuParticleSystem.java#L73-L75
+- Utilizzo di classi generiche nuove
+Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/62a6eabb2097f136bd67356d7a97dfc31ef6979d/src/main/java/com/ccdr/labyrinth/menu/element/MenuChoiceElement.java#L13-L99
 #### 3.2.3 Dall'Ara Lorenzo
 - Utilizzo di JavaFX per disegnare le tessere selezionate durante l'esecuzione di LabyrinthContext.
 Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/d264903fae55bc03c3a84b93a76fa607ea7ccacd/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L480-L485

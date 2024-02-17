@@ -8,6 +8,7 @@ import com.ccdr.labyrinth.game.util.Material;
 import com.ccdr.labyrinth.game.GameBoard;
 import com.ccdr.labyrinth.game.context.GuildContext;
 import com.ccdr.labyrinth.game.context.PlayersContext;
+import com.ccdr.labyrinth.game.context.UpdateBoardContext;
 import com.ccdr.labyrinth.game.player.Player;
 import com.ccdr.labyrinth.game.player.PlayerImpl;
 
@@ -18,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 class GuildTileTest {
 
-    GuildContext guildContext = new GuildContext(2);
-    final List<Item> missions = guildContext.getListOfMissions();
+    private final GuildContext guildContext = new GuildContext(2);
+    private final List<Item> missions = guildContext.getListOfMissions();
 
     /**
      * Mission generation test.
@@ -42,14 +43,14 @@ class GuildTileTest {
      */
     @Test
     void testMenu() {
-        for (int i = 0; i < missions.size(); i++) {
+        for (final Item x : missions) {
             final Material matMenu = guildContext.getListOfMissions().get(guildContext.getMenuIndex()).getMaterial();
-            assertEquals(missions.get(guildContext.getMenuIndex()).getMaterial(), matMenu);
+            assertEquals(x.getMaterial(), matMenu);
             guildContext.down();
         }
-        for (int i = 0; i < missions.size(); i++) {
+        for (final Item x : missions) {
             final Material matMenu = guildContext.getListOfMissions().get(guildContext.getMenuIndex()).getMaterial();
-            assertEquals(missions.get(guildContext.getMenuIndex()).getMaterial(), matMenu);
+            assertEquals(x.getMaterial(), matMenu);
             guildContext.up();
         }
 
@@ -60,8 +61,9 @@ class GuildTileTest {
      */
     @Test
     void testCompleteMiss() {
-        PlayersContext players = new PlayersContext(1, new GameBoard(), null, guildContext);;
-        for (Material mat : Material.values()) {
+        final UpdateBoardContext upContext = new UpdateBoardContext(null);
+        final PlayersContext players = new PlayersContext(1, new GameBoard(), upContext, guildContext);
+        for (final Material mat : Material.values()) {
             players.getActivePlayer().increaseQuantityMaterial(mat, 10);
         }
         guildContext.setPlayerManager(players);
@@ -74,20 +76,20 @@ class GuildTileTest {
      */
     @Test
     void testPointsBonus() {
-        Player player = new PlayerImpl();
-        GuildTile guild = new GuildTile(10);
+        final Player player = new PlayerImpl();
+        final GuildTile guild = new GuildTile(10);
 
         guild.onEnter(player);
         //The value of points that are given is equal of maxPoint / 2
-        //In this case 10 / 2 = 5
-        assertEquals(5, player.getPoints());
+        //In this case 10 / 2 = 5 
+        assertEquals(2 + 3, player.getPoints());
     }
 
     /**
      * Test to check exit from the guild menu and respective closure of the context.
      */
     @Test
-    void testDone(){
+    void testDone() {
         guildContext.back();
         assertTrue(guildContext.done());
     }

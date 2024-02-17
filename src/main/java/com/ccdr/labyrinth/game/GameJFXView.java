@@ -440,9 +440,9 @@ public final class GameJFXView implements GameView, JFXInputSource {
             final double x = lineMissionsX + spaceMissionsX;
             context2d.drawImage(materialToImage(item.getMaterial()), x, lineMissionsY, imageDim, imageDim);
             context2d.fillText("\t" + "x" + item.getQuantity(), x, lineMissionsY);
+            final double xPoint = lineMissionsX + spacePointX;
             context2d.fillText(" " + item.getPoints(), lineMissionsX + spacePointX, lineMissionsY);
-            final double pointsImageX = lineMissionsX + spacePointX + desFontSize + imageDim / (2 * 2);
-            context2d.drawImage(point, pointsImageX, lineMissionsY, imageDim, imageDim);
+            context2d.drawImage(point, xPoint + desFontSize + imageDim / (2 * 2), lineMissionsY, imageDim, imageDim);
             i++;
         }
         context2d.setFont(Font.getDefault());

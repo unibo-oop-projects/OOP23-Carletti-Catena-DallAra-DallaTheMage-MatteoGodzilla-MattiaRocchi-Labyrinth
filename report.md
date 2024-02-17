@@ -49,7 +49,7 @@ Progetto realizzato da
 
 
 ## 1. Analisi
-Il software proposto da questo gruppo si pone come obiettivo quello di realizzare un gioco ispirato al gioco da tavolo "Labirinto Magico", pubblicato da Ravensburger nel 1986, modificando alcune caratteristiche fondamentali di gioco per crearne una versione originale.
+Il software proposto da questo gruppo si pone come obiettivo quello di realizzare un gioco ispirato a "Labirinto Magico", pubblicato da Ravensburger nel 1986, modificando alcune caratteristiche fondamentali di gioco per crearne una versione originale.
 
 ### 1.1 Requisiti
 #### 1.1.1 Requisiti funzionali
@@ -74,55 +74,202 @@ In una partita di Labyrinth le entità principali che interagiscono tra loro son
 - Materiali.
 - Oggetti missione.
 
-Il labirinto rappresenta l'insieme delle tessere, dove queste sono posizionate in una griglia.
-I giocatori possono interagire con il labirinto, modificandolo tramite spostamento o rotazione di tessere.
-Nel caso il giocatore desideri di spostare le tessere, lo potrà fare scegliendo una riga o una colonna e la direzione di spostamento.
-Nel caso in cui il giocatore desideri di ruotare delle tessere, è limitato alla rotazione di una sola tessera tra quelle adiacenti a dove si trova il giocatore, incluse le tessere diagonali.
+Il labirinto è l'insieme delle tessere, posizionate in una griglia.
+Queste possono essere aperte nelle quattro direzioni cardinali.
+Un giocatore può spostarsi tra le due tessere solo se entrambe le tessere permettono il passaggio nella direzione d'interesse.
 
-Le tessere del labirinto sono aperte nelle quattro direzioni cardinali, un giocatore può spostarsi tra le due tessere solo se entrambe le tessere coinvolte sono aperte nella direzione d'interesse.
+I giocatori possono interagire con il labirinto, modificandolo tramite spostamento o rotazione di tessere.
+Nel caso il giocatore desideri spostare le tessere, potrà scegliere una riga o una colonna e la direzione di spostamento.
+Nel caso in cui il giocatore desideri di ruotare delle tessere, è limitato alla rotazione di una sola tessera tra quelle adiacenti a dove si trova il giocatore, incluse le tessere diagonali.
 
 I giocatori, oltre al punteggio di gioco, possono collezionare più tipologie di materiali alla volta, che vengono salvati concettualmente in un inventario.
 
-Ogni oggetto missione è caratterizzato da due parametri, che sono la tipologia di materiale richiesto e la quantità richiesta per essere completata.
+Ogni oggetto missione è caratterizzato da tre parametri, che sono la categoria di oggetto, la tipologia di materiale richiesto e la quantità richiesta di quest'ultimo per essere completata.
 Il giocatore che vuole completare la missione deve avere il materiale specificato in una quantità pari o superiore alla richiesta dall'oggetto.
-
-[UML DEDICATO AL MODEL DEL GIOCO]
-Labirinto = Interfaccia Board
-Tessere = Interfaccia Tile
-Giocatori = Interfaccia Player
-Materiale = Enum Material
-Missione = Interfaccia Item
 
 ```mermaid
 classDiagram
-  UML <-- HERE
+  Board *-- Tile
+  Board -- Coordinate
+  Item -- Material
+  Item -- Category
+  Tile -- Player
+  Tile -- Direction
+  Player -- Material
+
+  class Board {
+    + Map~Coordinate,Tile~ getMap()
+    + void insertTile(Coordinate coordinate, Tile tile)
+    + void shiftRow(int row, boolean right)
+    + void shiftColumn(int column, boolean down)
+    + void rotateClockWiseTile(Coordinate actual)
+    + void rotateCounterClockWiseTile(Coordinate actual)
+    + void discoverNearBy(Coordinate location, int radius)
+    + int getWidth()
+    + int getHeight()
+    + void setWidth(int width)
+    + void setHeight(int height)
+  }
+
+  class Tile {
+    + void onEnter(Player player)
+    + void onExit(Player Player)
+    + boolean isOpen(Direction access)
+    + void rotate(boolean clockwise)
+    + void discover()
+    + boolean isDiscovered()
+    + void setPattern(Map~Direction,Boolean~ availableSides)
+    + Map~Direction,Boolean~ getPattern()
+  }
+
+  class Player {
+    + void moveUp()
+    + void moveDown()
+    + void moveLeft()
+    + void moveRight()
+    + Coordinate getCoord()
+    + void setCoord()
+    + void increaseQuantityMaterial(Material material, int amount)
+    + void decreaseQuantityMaterial(Material material, int amount)
+    + int getQuantityMaterial(Material material)
+    + void increasePoints(int amount)
+    + int getPoints()
+  }
+
+  namespace Enums {
+    class Material{
+      <<enumeration>>
+      WOOD,
+      COAL,
+      IRON,
+      COPOPER,
+      DIAMOND,
+      SILK
+    }
+
+    class Category{
+      <<enumeration>>
+      CLOTHING,
+      WEAPON,
+      ARMOR,
+      JEWEL,
+      TOOL
+    }
+
+    class Direction {
+      <<enumeration>>
+      UP,
+      RIGHT,
+      DOWN,
+      LEFT
+    }
+  }
+
+  class Coordinate{
+    + int getRow()
+    + int getColumn()
+    + void setRow(int row)
+    + void setColumn(int column)
+  }
+
+  class Item{
+    + void setCategory(Category category)
+    + void setMaterial(Material material)
+    + void setQuantity(int quantity)
+    + void setPoints(int points)
+    + Category getCategory()
+    + Material getMaterial()
+    + int getQuantity()
+    + int getPoints()
+  }
 ```
 
 ## 2. Design
 ### 2.1 Architettura
-Il gioco è suddiviso concettualmente in scene, una per il menu iniziale, una per la fase di gioco e una terza per i risultati alla fine della partita. Ognuna di queste scene segue il pattern architetturale MVC (Model-View-Controller).
+Il gioco è suddiviso concettualmente in scene, una per il menu iniziale, una per la fase di gioco e una terza per i risultati alla fine della partita. Ognuna di queste scene segue il pattern architetturale MVC (`Model-View-Controller`).
 Ogni scena si compone astrattamente di una classe controller, una classe view e una terza classe che gestisce gli input da tastiera. Queste tre tipologie di classi vengono implementate individualmente per ogni scena effettivamente presente nel gioco.
-La coordinazione tra le scene viene gestita da una classe esterna chiamata `Engine` e grazie all'interfaccia `Executor`, che viene implementata dalle classi controller delle tre scene.
-
-[UML DEDICATO A VISUALIZZARE LA STRUTTURA DELLA SCENA GAME]
+La coordinazione tra le scene viene gestita da una classe esterna chiamata `Engine` e dall'interfaccia `Executor`, che viene implementata dalle classi controller delle tre scene.
 ```mermaid
 classDiagram
-  UML <-- HERE
+  Engine -- Executor
+  Engine -- ID
+
+  Executor <|-- GameController
+  Executor <|-- MenuController
+  Executor <|-- ResultController
+
+  class Engine {
+    - activeExecutor : Executor
+    - executors: Map~ID, Executor~
+    - running: boolean
+    + Engine(double targetFramerate)
+    + void start()
+    + void stop()
+    + void changeExecutor(ID id)
+    + void bindExecutor(ID id, Executor)
+  }
+
+  class Executor {
+    <<interface>>
+    + void onEnable()
+    + void update(double deltaTimeInSeconds)
+  }
+  class ID {
+    <<enumeration>>
+    MENU,
+    GAME,
+    RESULT
+  }
 ```
 
-[UML DEDICATO A VISUALIZZARE LA RELAZIONE TRA ENGINE, EXECUTOR E CONTROLLER]
+`GameController` internamente implementa le varie fasi possibili di un giocatore attraverso l'interfaccia `Context`
 ```mermaid
 classDiagram
-  UML <-- HERE3
+  GameInputs <|-- GameController
+  Context --* GameController
+  Context <|-- PlayerContext
+  Context <|-- LabyrinthContext
+  Context <|-- GuildContext
+  Context <|-- UpdateBoardContext
+
+  class GameInputs {
+    <<interface>>
+    + void up()
+    + void down()
+    + void left()
+    + void right()
+    + void primary()
+    + void secondary()
+    + void back()
+    + void forceGameover()
+  }
+  class GameController {
+    - Context activeContext
+    - void switchContextIfNecessary()
+  }
+  class Context {
+    <<interface>>
+    + void up()
+    + void down()
+    + void left()
+    + void right()
+    + void primary()
+    + void secondary()
+    + void back()
+    + boolean done()
+    + Context getNextContext()
+  }
 ```
 
 ### 2.2 Design Dettagliato
 #### 2.2.1 Carletti Lorenzo
+
 #### 2.2.2 Catena Matteo
 - **Problema:** Il game loop principale responsabile per l'esecuzione del codice deve poter eseguire in momenti separati la classe controller del menu, la classe controller del gameplay e quella controller dei risultati.
 La classe che gestisce il game loop principale non dovrebbe definire al suo interno quali classi vengono eseguite, perchè ciò limita notevolmente la riusabilità del codice.
 Inoltre lo scambio tra i controller dovrebbe essere possibile anche se le classi non hanno riferimenti diretti agli altri controller che devono essere eseguiti.
-**Soluzione:** Design della classcom.ccdr.labyrinth.game.tiles.GuildTile`Executor`.
+**Soluzione:** Design della classe `Engine` e della classe `Executor`.
+
 La classe `Engine` può eseguire un solo oggetto `Executor` alla volta, ma attraverso il metodo `changeExecutor` si può ordinare alla classe `Engine` di cambiare *quale* oggetto `Executor` deve essere eseguito da quel momento in poi.
 
 - **Problema:** Quando si passa da un controller al successivo, questo richiede anche un trasferimento di informazioni. Un esempio di ciò è la configurazione del gioco, che deve andare dal menu al controller di gioco.
@@ -140,16 +287,12 @@ classDiagram
 
   JFXInputSource <|-- GameJFXView
   Receiver <|-- GameInputAdapter
-  GameInputs <|-- GameController
 
   class KeyEvent { }
   note for KeyEvent "defined by the JavaFX library"
 
   namespace GameScene {
     class GameJFXView { }
-    class GameInputAdapter {
-      + GameInputAdapter(GameInputs destination)
-    }
     class GameInputs {
       <<interface>>
       + void up()
@@ -161,7 +304,9 @@ classDiagram
       + void back()
       + void forceGameOver()
     }
-    class GameController { }
+    class GameInputAdapter {
+      + GameInputAdapter(GameInputs destination)
+    }
   }
 
   class JFXInputSource {

@@ -337,6 +337,107 @@ Questa non è l'unica modalità con cui i giocatori possono ottenere materiali. 
 
 #### 2.2.3 Dall'Ara Lorenzo
 #### 2.2.4 Rocchi Mattia
+**Problema:** Completamento di una missione da parte di un giocatore.
+**Soluzione:** Per rendere il gioco piu dinamico, il giocatore deve trovarsi nella `GuildTile` per poter completare una missione.
+`GuildContext` è il contesto che nasce proprio per la gestione delle missioni, che vengono trattate come una lista.
+Infine in base alla missione selezionata viene successivamente fatto un controllo sui materiali richiesti e in possesso dal giocatore.
+```mermaid
+classDiagram
+  Context <|-- GuildContext
+  Tile <|-- GuildTile
+
+  class GuildTile {
+    + GuildTile(final int maxPoints)
+    + void onEnter(final Player player)
+    + onExit(final Player player)
+  }
+
+  class Tile {
+    + void onEnter(Player player)
+    + void onExit(Player Player)
+    + boolean isOpen(Direction access)
+    + void rotate(boolean clockwise)
+    + void discover()
+    + boolean isDiscovered()
+    + void setPattern(Map~Direction,Boolean~ availableSides)
+    + Map~Direction,Boolean~ getPattern()
+  }
+
+  class GuildContext {
+    + GuildContext(final int nPlayer)
+    + List~Item~ getListOfMissions()
+    + List~Item~ getMissionCompl()
+  }
+
+  class Context {
+    <<interface>>
+    + void up()
+    + void down()
+    + void left()
+    + void right()
+    + void primary()
+    + void secondary()
+    + void back()
+    + boolean done()
+    + Context getNextContext()
+  }
+```
+
+- **Problema:**  Generare missioni che soddisfano i requisiti dinamici, basati sui parametri utilizzati per generare la partita.
+**Soluzione:** Suddivisione del problema nelle due classi `MissionGenerator` e `GuildContext`
+`MissionGenerator` si occupa della generazione di una singola missione, ovvero un `Item`, attraverso i parametri passati da `GuildContext`.
+`GuildContext` successivamente comunica con gli altri contesti presenti all'interno del game, riuscendo in questo modo a recuperare i parametri necessari per i requisiti delle missioni.
+```mermaid
+classDiagram
+  GuildContext --> MissionGenerator
+
+  class MissionGenerator {
+    + generateMission()
+  }
+
+  class GuildContext {
+    + GuildContext(int nPlayer)
+    + List~Item~ getListOfMissions()
+    + List~Item~ getMissionCompl()
+  }
+```
+**Problema:** Gestione del caricamento di immagini da file, in modo che esse vengano caricate una sola volta e che possano essere riutilizzate in tutti i contesti all'interno del gioco.
+**Soluzione:** Definizione della classe enum `ImageLoader`.
+Questa classe contiene al suo interno tutti i valori identificativi di ogni immagine utilizzata.
+Se una classe richiede l'utilizzo di un'immagine può ricavarla dal valore dell'enum `ImageLoader`.
+```mermaid
+classDiagram
+  MissionGenerator <|-- GameJFXView
+  MissionGenerator <|-- MenuJFXView
+
+  class MissionGenerator {
+    <<enumeration>>
+    + LOGO
+    + WALL
+    + PATH_VERTICAL
+    + PATH_HORIZONTAL
+    + PATH_CENTRAL
+    + PATH
+    + GUILD
+    + POINT
+    + COAL
+    + COPPER
+    + DIAMOND
+    + IRON
+    + SILK
+    + WOOD
+    + ARMOR
+    + CLOTHING
+    + JEWEL
+    + TOOL
+    + WEAPON
+
+    + ImageLoader(final String path)
+    + Image getImage()
+
+  }
+
+```
 
 ## 3. Sviluppo
 ### 3.1 Testing automatico
@@ -374,8 +475,11 @@ Permalink:
 - Utilizzo di Optional
 Permalink:
 #### 3.2.4 Rocchi Mattia
-- Utilizzo di JavaFx per la gestione grafica delle informazioni riguardanti la Gilda e per ricevere imput sull'iteranzione con le missioni.
--
+- Utilizzo di JavaFx per la gestione grafica delle informazioni riguardanti le missioni.
+Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/d264903fae55bc03c3a84b93a76fa607ea7ccacd/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L382-L402
+- Utilizzo di lambda functions
+Permalink: https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/d264903fae55bc03c3a84b93a76fa607ea7ccacd/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L381
+
 
 ## 4. Commenti finali
 ### 4.1 Autovalutazione e lavori futuri
@@ -399,15 +503,15 @@ Sono fiero di come quella parte di routing degli eventi viene gestita dal gioco.
 
 #### 4.1.3 Dall'Ara Lorenzo
 #### 4.1.4 Rocchi Mattia
+
+In questo progetto mi sono occupato della Gilda con le rispettive funzioni che permettevano di interagire tra le classi missioni<->player e il caricamento di immagini da file.
+
 Come primo progetto devo dire che sono molto soddisfatto del risultato finale, anche se non posso fare paragoni con esperienze passate.
 
-La cosa che mi preoccupava di più era il gruppo, in quanto primo progetto fatto insieme, ma siamo riusciti a lavorare uniti senza inttoppi e sotto l'esperienza di Catena Matteo siamo sempre riusciti a risolvere eventuali problemi nel beve tempo.
+Per quanto riguarda le difficolta riscontrate devo dire che usare javaFX per gestire tutte le parti grafiche è stata una missione, ma alla fine molto soddisfacente.
+La parte che mi preoccupava di più era il riuscire a gestire un gruppo che non aveva mai lavorato in passato, ma grazie a molteplici incontri siamo riusciti sempre a tirare fuori nuove idee e metodi per migliorare creando un codice che si potrà evolvere in futuro.
 
-Ognuno di noi ha ricoperto il propio ruolo alla perfezione, ideando sempre nuove possibili aggiunte nei molteplici incontri.
-
-Tutte le fasi del progetto hanno la propia importanza e la mancanza anche di una singola fase danneggia efficenza e coerenza.
-
-La vera difficoltà è lavorare già con l'idea che il codice deve essere a se anche se unito successivamente alle altre parti di progetto; Noi ci siamo riusciti, adattando di volta in volta il codice, a lasciare ogni ruolo indipendente da altri.
+Svolgere questo progetto mi ha fatto comprendere l'importanza di ogni fase della creazione di un Software dall'analisi alla conclusione.
 
 Sono molto fiero di questo primo gioco e spero di ideare nuovi progetti con questo gruppo.
 

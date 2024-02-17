@@ -115,12 +115,12 @@ public final class GameBoard implements Board {
         } else {
             operation = (i, size) -> getPrev(i, size);
         }
-        for (index = 0; index < this.width; index++) {
+        for (index = 0; index < this.height; index++) {
             pointer = new Coordinate(index, column);
             shiftedPointer = new Coordinate(operation.apply(index, this.height - 1), column);
             shifted.put(shiftedPointer, this.map.get(pointer));
         }
-        for (index = 0; index < this.width; index++) {
+        for (index = 0; index < this.height; index++) {
             pointer = new Coordinate(index, column);
             this.map.replace(pointer, shifted.get(pointer));
         }

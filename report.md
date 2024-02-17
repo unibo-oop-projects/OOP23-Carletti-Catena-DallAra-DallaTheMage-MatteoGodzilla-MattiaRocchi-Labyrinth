@@ -35,14 +35,17 @@ Progetto realizzato da
       - [4.1.3 Dall'Ara Lorenzo](#413-dallara-lorenzo)
       - [4.1.4 Rocchi Mattia](#414-rocchi-mattia)
   - [Appendice A: Guida utente](#appendice-a-guida-utente)
-    - [Fase 1: Modifica del Labirinto](#fase-1-modifica-del-labirinto)
-      - [1.1 Modalità spostamento](#11-modalità-spostamento)
-      - [1.2 Modalità di rotazione](#12-modalità-di-rotazione)
-    - [Fase 2: Movimento dei giocatori](#fase-2-movimento-dei-giocatori)
-    - [Fase 3: Interazione con la gilda](#fase-3-interazione-con-la-gilda)
+    - [A.1 Scena del menu](#a1-scena-del-menu)
+    - [A.2 Scena di gioco](#a2-scena-di-gioco)
+      - [Fase 1: Modifica del Labirinto](#fase-1-modifica-del-labirinto)
+        - [1.1 Modalità spostamento](#11-modalità-spostamento)
+        - [1.2 Modalità di rotazione](#12-modalità-di-rotazione)
+      - [Fase 2: Movimento dei giocatori](#fase-2-movimento-dei-giocatori)
+      - [Fase 3: Interazione con la gilda](#fase-3-interazione-con-la-gilda)
+    - [A.3 Scena dei risultati](#a3-scena-dei-risultati)
   - [Appendice B: Esercitazioni di laboratorio](#appendice-b-esercitazioni-di-laboratorio)
-    - [B.01 lorenzo.carletti3@studio.unibo.it](#b01-lorenzocarletti3studiouniboit)
-    - [B.02 matteo.catena3@studio.unibo.it](#b02-matteocatena3studiouniboit)
+    - [B.1 lorenzo.carletti3@studio.unibo.it](#b1-lorenzocarletti3studiouniboit)
+    - [B.2 matteo.catena3@studio.unibo.it](#b2-matteocatena3studiouniboit)
 
 
 ## 1. Analisi
@@ -128,11 +131,60 @@ Dato che gli scambi tra controller sono di tipo circolare (da menu a gioco, da g
 In questo modo le classi controller hanno codice concettualmente separato, senza nessun riferimento diretto al controller successivo, rendendo possibile fare uno scambio tra i controller in modo circolare e poter testare individualmente le classi in modo automatico.
 
 - **Problema:** Come ricevere gli input della tastiera, che vengono generati da JavaFX, per poi eseguire delle funzioni nei vari controller in modo tale da mantenere netta la separazione tra view e controller nel pattern MVC.
-**Soluzione:** interfaccia `JFXInputSource`, la sua interfaccia interna `Receiver` e le interfacce `*Inputs`.
+**Soluzione:** interfaccia `JFXInputSource` e la sua interfaccia interna `Receiver`.
 ```mermaid
-(grafico uml con esempio soltanto per come vengono gestiti gli input per il menu)
+classDiagram
+  JFXInputSource -- Receiver
+  Receiver -- KeyEvent
+  GameInputAdapter -- GameInputs
+
+  JFXInputSource <|-- GameJFXView
+  Receiver <|-- GameInputAdapter
+  GameInputs <|-- GameController
+
+  class KeyEvent { }
+  note for KeyEvent "defined by the JavaFX library"
+
+  namespace GameScene {
+    class GameJFXView { }
+    class GameInputAdapter {
+      + GameInputAdapter(GameInputs destination)
+    }
+    class GameInputs {
+      <<interface>>
+      + void up()
+      + void down()
+      + void left()
+      + void right()
+      + void primary()
+      + void secondary()
+      + void back()
+      + void forceGameOver()
+    }
+    class GameController { }
+  }
+
+  class JFXInputSource {
+    <<interface>>
+    + void routeKeyboardEvents(Receiver receiver)
+  }
+
+  class Receiver {
+    <<interface>>
+    + void onKeyPressed(KeyEvent event)
+  }
 ```
-Il flusso degli input del giocatore*
+Nel caso in cui la scena attiva sia quella di gioco, gli eventi seguono un percorso, attraverso classi concrete, di questo tipo:
+```mermaid
+flowchart LR
+S([JavaFX]) --> GameJFXView --> GameInputAdapter --> E([GameController])
+```
+`GameJFXView` si occupa di configurare il necessario per JavaFX in modo tale da poter spedire gli eventi della tastiera alla classe `GameInputAdapter`, passata attraverso il metodo `routeKeyboardEvents`
+`GameInputAdapter` si occupa nella funzione `onKeyPressed` di ricevere gli eventi di tipo `KeyInput` e mappare i tasti necessari in chiamate di funzioni di `GameController`.
+In questo modo `GameController` può definire attraverso l'interfaccia `GameInputs` le funzioni necessarie per il suo funzionamento, senza doversi preoccupare di *come* le funzioni vengono chiamate dall'esterno.
+
+La gestione degli input per le scene `Menu` e `Result` seguono una struttura e utilizzo analoga a quella descritta per la scena `Game`.
+Le classi coinvolte avranno il prefisso `Menu` oppure `Result` al posto del prefisso `Game`, ma i ruoli delle classi sono gli stessi per tutte e tre le scene.
 
 - **Problema:** sorgenti nel labirinto
 **Soluzione:** All'interno del labirinto ci sono delle tessere speciali con lo scopo di generare un materiale specifico in maggiore quantità, durante lo svolgimento della partita. Con il termine "Sorgente" ci si riferisce a una di queste tessere speciali.
@@ -203,37 +255,49 @@ La vera difficoltà è lavorare già con l'idea che il codice deve essere a se a
 Sono molto fiero di questo primo gioco e spero di ideare nuovi progetti con questo gruppo.
 
 ## Appendice A: Guida utente
-La guida utente, scritta in inglese, è inclusa all'interno del gioco, sotto la voce "How to play" nel menu principale.
+### A.1 Scena del menu
+Il menu è la prima scena visibile all'apertura di gioco, ed è impostato come una lista di opzioni che il giocatore può selezionare.
+Premere `Freccia Su` per spostare il cursore verso l'alto
+Premere `Freccia Giù` per spostare il cursore verso il basso
+Premere `Invio` per scegliere la voce selezionata attualmente dal cursore
+Premere `Escape/Backspace` per tornare indietro nel menu.
+
+### A.2 Scena di gioco
+La guida utente riguardante la fase di gioco, scritta in inglese, è inclusa all'interno del gioco, sotto la voce "How to play" nel menu principale.
 La riportiamo anche qui, tradotta in italiano.
 
 Ogni turno è strutturato nel seguente modo:
-### Fase 1: Modifica del Labirinto
+#### Fase 1: Modifica del Labirinto
 In un singolo turno il giocatore può decidere di spostare righe/colonne oppure di ruotare tessere attorno a lui.
 Premendo `TAB/Ctrl` si cambia tra le due possibili modalità.
-#### 1.1 Modalità spostamento
+##### 1.1 Modalità spostamento
 `A/D` oppure `Freccia Sinistra/Destra` selezionano una colonna da muovere. `W/S` oppure `Freccia Su/Giù` selezionano una riga da muovere.
 Se è stata selezionata una colonna, premere `Invio/Spazio` per muoverla verso il basso, oppure premere `Escape/Backspace` per muoverla verso l'alto
 Se è stata selezionata una riga, premere `Invio/Spazio` per muoverla verso destra, oppure premere `Escape/Backspace` per muoverla verso sinistra.
-#### 1.2 Modalità di rotazione
+##### 1.2 Modalità di rotazione
 Utilizzare `W/A/S/D` oppure `Freccia Su/Sinistra/Giù/Destra` per selezionare una cella qualsiasi attorno al giocatore.
 Una volta selezionata, premere `Invio/Spazio` per ruotarla in senso orario, oppure premere `Escape/Backspace` per ruotarla in senso antiorario.
 
-### Fase 2: Movimento dei giocatori
+#### Fase 2: Movimento dei giocatori
 Premere `Invio/Spazio` per lanciare il dado, poi usare `W/A/S/D` oppure `Freccia Su/Sinistra/Giù/Destra` per spostare il giocatore.
 Premere `Tab/Ctrl` per scartare le mosse rimanenti e passare alla fase successiva.
 
-### Fase 3: Interazione con la gilda
+#### Fase 3: Interazione con la gilda
 Questa fase si attiva soltanto se il giocatore si trova sopra alla tessera della gilda.
 Premere `W/A` oppure `Freccia Su/Sinistra` per spostare il cursore verso l'alto.
 Premere `S/D` oppure `Freccia Giù/Destra` per spostare il cursore verso il basso.
 Premere `Invio/Spazio` per completare una missione, `Escape/Backspace` per chiudere il menu e passare al turno successivo
 
+### A.3 Scena dei risultati
+La scena dei risultati mostra una classifica dei giocatori in base ai loro punteggi.
+Premere `Invio/Spazio` per ritornare alla scena di menu.
+
 ## Appendice B: Esercitazioni di laboratorio
-### B.01 lorenzo.carletti3@studio.unibo.it
+### B.1 lorenzo.carletti3@studio.unibo.it
 - Laboratorio 09: https://virtuale.unibo.it/mod/forum/discuss.php?d=149231#p211384
 - Laboratorio 10: https://virtuale.unibo.it/mod/forum/discuss.php?d=150252#p212708
 - Laboratorio 11: https://virtuale.unibo.it/mod/forum/discuss.php?d=151542#p213918
-### B.02 matteo.catena3@studio.unibo.it
+### B.2 matteo.catena3@studio.unibo.it
 - Laboratorio 07: https://virtuale.unibo.it/mod/forum/discuss.php?d=147598#p209276
 - Laboratorio 08: https://virtuale.unibo.it/mod/forum/discuss.php?d=148025#p209762
 - Laboratorio 09: https://virtuale.unibo.it/mod/forum/discuss.php?d=149231#p211482

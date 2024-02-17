@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 /**
- * Class test for guildTile funcions
+ * Class test for guildTile funcions.
  */
 class GuildTileTest {
 
@@ -51,9 +51,9 @@ class GuildTileTest {
             assertEquals(x.getMaterial(), matMenu);
             guildContext.down();
         }
-        for (final Item x : missions) {
+        for (int i = this.missions.size() - 1; i >= 0; i--) {
             final Material matMenu = guildContext.getListOfMissions().get(guildContext.getMenuIndex()).getMaterial();
-            assertEquals(missions.get(guildContext.getMenuIndex()).getMaterial(), matMenu);
+            assertEquals(missions.get(i).getMaterial(), matMenu);
             guildContext.up();
         }
 
@@ -84,7 +84,7 @@ class GuildTileTest {
 
         guild.onEnter(player);
         //The value of points that are given is equal of maxPoint / 2
-        //In this case 10 / 2 = 5 
+        //In this case 10 / 2 = 5
         assertEquals(2 + 3, player.getPoints());
     }
 

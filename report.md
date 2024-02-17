@@ -195,14 +195,26 @@ Questa non è l'unica modalità con cui i giocatori possono ottenere materiali. 
 
 ## 3. Sviluppo
 ### 3.1 Testing automatico
+Per implementare le classi di test è stata utilizzata la suite JUnit 5. I test, tutti automatici, sono stati utilizzati per verificare il corretto funzionamento delle classi principali.
+Le classi di test realizzate sono le seguenti:
+- `BoardGenerationTest`: verifica la corretta generazione del labirinto e delle tessere.
+- `EngineTest`: verifica il corretto funzionamento della classe Engine.
+- `GuildTileTest`: verifica la generazione delle missioni, i controlli sul menu della gilda e l'attribuzione dei punti bonus.
+- `ImageLoaderTest`: verifica il corretto caricamento delle immagini.
+- `MenuControllerTest`: verifica il corretto funzionamento degli eventi interni alla classe MenuController.
+- `MenuElementTest`: verifica il corretto funzionamento della struttura interna al menu principale.
+- `PlayerTest`: verifica il movimento, l'inventario e l'attribuzione dei punti di un singolo giocatore.
+- `ResultControllerTest`: verifica il passaggio di scena dai risultati al menu principale.
+- `SourceTileTest`: verifica il corretto funzionamento delle sorgenti e l'attribuzione dei materiali ai giocatori.
+- `TileInteractionTest`: verifica la corretta manipolazione del labirinto e delle singole tessere.
 
 ### 3.2 Note di sviluppo
 #### 3.2.1 Carletti Lorenzo
-- Utilizzo di JavaFX per la gestione della visualizzazione dei giocatori sul labirinto e della sezione delle statistiche:
+- Utilizzo di JavaFX per visualizzare le informazioni dei giocatori:
 
-https://github.com/Code-Commit-Debug-Revert/Labyrinth/blob/a1332bff85fdd92baf7ad7d4fe14f3b0ac5508d9/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L216
+https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/a7fb0ab2697a99431b1e937be47ad1634cd23661/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L216C5-L260C1
 
-https://github.com/Code-Commit-Debug-Revert/Labyrinth/blob/a1332bff85fdd92baf7ad7d4fe14f3b0ac5508d9/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L262
+https://github.com/Code-Commit-Debug-Revert/OOP23-Labyrinth/blob/a7fb0ab2697a99431b1e937be47ad1634cd23661/src/main/java/com/ccdr/labyrinth/game/GameJFXView.java#L262-L372
 
 #### 3.2.2 Catena Matteo
 - Utilizzo di JavaFX per la gestione della parte visuale e della ricezione degli input del giocatore.

@@ -30,8 +30,16 @@ Progetto realizzato da
       - [3.2.4 Rocchi Mattia](#324-rocchi-mattia)
   - [4. Commenti finali](#4-commenti-finali)
     - [4.1 Autovalutazione e lavori futuri](#41-autovalutazione-e-lavori-futuri)
-      - [4.1.2 Carletti Lorenzo](#412-carletti-lorenzo)
+      - [4.1.1 Carletti Lorenzo](#411-carletti-lorenzo)
+      - [4.1.2 Catena Matteo](#412-catena-matteo)
+      - [4.1.3 Dall'Ara Lorenzo](#413-dallara-lorenzo)
+      - [4.1.4 Rocchi Mattia](#414-rocchi-mattia)
   - [Appendice A: Guida utente](#appendice-a-guida-utente)
+    - [Fase 1: Modifica del Labirinto](#fase-1-modifica-del-labirinto)
+      - [1.1 Modalità spostamento](#11-modalità-spostamento)
+      - [1.2 Modalità di rotazione](#12-modalità-di-rotazione)
+    - [Fase 2: Movimento dei giocatori](#fase-2-movimento-dei-giocatori)
+    - [Fase 3: Interazione con la gilda](#fase-3-interazione-con-la-gilda)
   - [Appendice B: Esercitazioni di laboratorio](#appendice-b-esercitazioni-di-laboratorio)
     - [B.01 lorenzo.carletti3@studio.unibo.it](#b01-lorenzocarletti3studiouniboit)
     - [B.02 matteo.catena3@studio.unibo.it](#b02-matteocatena3studiouniboit)
@@ -154,9 +162,46 @@ Permalink:
 
 ## 4. Commenti finali
 ### 4.1 Autovalutazione e lavori futuri
-#### 4.1.2 Carletti Lorenzo
+#### 4.1.1 Carletti Lorenzo
+#### 4.1.2 Catena Matteo
+Tutto sommato, sono molto contento di come il gioco è stato finalizzato e ho capito di non sottovalutare la fase di analisi.
+
+Prima di questo progetto nei vari progetti personali per risolvere efficentemente un problema partivo dall'implementazione, da lì capivo quali erano i punti critici di questa prima implementazione.
+Poi questi punti venivano sistemati in un secondo modo, che molto spesso era più semplice sia concettualmente che da implementare.
+Ripetendo questo ciclo fino a che non trovavo più sezioni gravemente difficili, alla fine convergevo in una soluzione del problema.
+
+Labyrinth è stato il primo vero progetto in cui non sono partito direttamente ad implementare, ma ho cercato effettivamente di analizzare varie soluzioni, i loro pregi e difetti e come si relazionano con il resto del progetto.
+Un esempio di ciò è stato come gestire gli input da JavaFX, problema che all'inizio avevo sottovalutato gravemente e che non è stato per niente banale risolvere.
+Sono fiero di come quella parte di routing degli eventi viene gestita dal gioco.
+
+#### 4.1.3 Dall'Ara Lorenzo
+#### 4.1.4 Rocchi Mattia
 
 ## Appendice A: Guida utente
+La guida utente, scritta in inglese, è inclusa all'interno del gioco, sotto la voce "How to play" nel menu principale.
+La riportiamo anche qui, tradotta in italiano.
+
+Ogni turno è strutturato nel seguente modo:
+### Fase 1: Modifica del Labirinto
+In un singolo turno il giocatore può decidere di spostare righe/colonne oppure di ruotare tessere attorno a lui.
+Premendo `TAB/Ctrl` si cambia tra le due possibili modalità.
+#### 1.1 Modalità spostamento
+`A/D` oppure `Freccia Sinistra/Destra` selezionano una colonna da muovere. `W/S` oppure `Freccia Su/Giù` selezionano una riga da muovere.
+Se è stata selezionata una colonna, premere `Invio/Spazio` per muoverla verso il basso, oppure premere `Escape/Backspace` per muoverla verso l'alto
+Se è stata selezionata una riga, premere `Invio/Spazio` per muoverla verso destra, oppure premere `Escape/Backspace` per muoverla verso sinistra.
+#### 1.2 Modalità di rotazione
+Utilizzare `W/A/S/D` oppure `Freccia Su/Sinistra/Giù/Destra` per selezionare una cella qualsiasi attorno al giocatore.
+Una volta selezionata, premere `Invio/Spazio` per ruotarla in senso orario, oppure premere `Escape/Backspace` per ruotarla in senso antiorario.
+
+### Fase 2: Movimento dei giocatori
+Premere `Invio/Spazio` per lanciare il dado, poi usare `W/A/S/D` oppure `Freccia Su/Sinistra/Giù/Destra` per spostare il giocatore.
+Premere `Tab/Ctrl` per scartare le mosse rimanenti e passare alla fase successiva.
+
+### Fase 3: Interazione con la gilda
+Questa fase si attiva soltanto se il giocatore si trova sopra alla tessera della gilda.
+Premere `W/A` oppure `Freccia Su/Sinistra` per spostare il cursore verso l'alto.
+Premere `S/D` oppure `Freccia Giù/Destra` per spostare il cursore verso il basso.
+Premere `Invio/Spazio` per completare una missione, `Escape/Backspace` per chiudere il menu e passare al turno successivo
 
 ## Appendice B: Esercitazioni di laboratorio
 ### B.01 lorenzo.carletti3@studio.unibo.it
